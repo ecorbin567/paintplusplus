@@ -1,5 +1,7 @@
 package entity;
 
+import java.awt.*;
+
 public class Paintbrush implements DrawableElement{
     private double width;
     private String colour;
@@ -26,7 +28,7 @@ public class Paintbrush implements DrawableElement{
     }
 
     @Override
-    public void draw(DrawingCanvas drawingCanvas) {
-//        TODO: implement draw
+    public Image renderAsImage() {
+//        TODO: implement render
     }
 }
