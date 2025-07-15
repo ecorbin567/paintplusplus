@@ -1,27 +1,29 @@
 package entity;
 
-public class Paintbrush implements DrawableElement{
-    private double width;
-    private String colour;
+import java.awt.*;
 
-    public Paintbrush(double width, String colour) {
+public class Paintbrush implements DrawableElement{
+    private float width;
+    private Color colour;
+
+    public Paintbrush(float width, Color colour) {
         this.width = width;
         this.colour = colour;
     }
 
-    public double getWidth() {
+    public float getWidth() {
         return width;
     }
 
-    public void setWidth(double width) {
+    public void setWidth(float width) {
         this.width = width;
     }
 
-    public String getColour() {
+    public Color getColour() {
         return colour;
     }
 
-    public void setColour(String colour) {
+    public void setColour(Color colour) {
         this.colour = colour;
     }
 

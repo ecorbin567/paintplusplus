@@ -9,9 +9,14 @@ import java.util.ArrayList;
 
 public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionListener {
     private ArrayList<Point> points = new ArrayList<>();
-
+    private Paintbrush paintbrush;
+    private Eraser eraser;
+    private Color backgroundColor;
     public DrawingCanvas() {
         setBackground(Color.WHITE);
+        this.backgroundColor = Color.WHITE;
+        this.paintbrush = new Paintbrush(3f, Color.BLACK);
+        this.eraser = new Eraser(3f, false);
         addMouseListener(this);
         addMouseMotionListener(this);
     }
@@ -20,12 +25,24 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.setColor(Color.BLACK);
+        Graphics2D g2d = (Graphics2D) g;
+        if (this.eraser.isErasing()) {
+            float width = this.eraser.getWidth();
+            BasicStroke stroke = new BasicStroke(width);
+            g2d.setStroke(stroke);
+            g2d.setColor(backgroundColor);
+        }
+        else {
+            float width = this.paintbrush.getWidth();
+            BasicStroke stroke = new BasicStroke(width);
+            g2d.setStroke(stroke);
+            g2d.setColor(this.paintbrush.getColour());
+        }
         for (int i = 1; i < points.size(); i++) {
             Point p1 = points.get(i - 1);
             Point p2 = points.get(i);
             if (p1 != null && p2 != null) {
-                g.drawLine(p1.x, p1.y, p2.x, p2.y);
+                g2d.drawLine(p1.x, p1.y, p2.x, p2.y);
             }
         }
     }
@@ -40,6 +57,14 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     public void mouseDragged(MouseEvent e) {
         points.add(e.getPoint());  // keep adding points as we drag
         repaint();
+    }
+
+    public void erase() {
+        this.eraser.setErasing(true);
+    }
+
+    public void paint() {
+        this.eraser.setErasing(false);
     }
 
     // We don't need these, but must include them:
