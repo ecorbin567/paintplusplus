@@ -1,9 +1,13 @@
 package entity;
 
+import java.awt.*;
+
 public interface DrawableElement {
 
     /**
-     * Draws on the canvas.
+     * Returns element representation as an image.
+     *
+     * @return an Image object.
      */
-    void draw(DrawingCanvas drawingCanvas);
+    Image renderAsImage();
 }

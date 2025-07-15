@@ -1,5 +1,7 @@
 package entity;
 
+import java.awt.*;
+
 public class Eraser implements DrawableElement{
 
     private float width;
@@ -27,7 +29,7 @@ public class Eraser implements DrawableElement{
     }
 
     @Override
-    public void draw(DrawingCanvas drawingCanvas) {
-//        TODO
+    public Image renderAsImage() {
+//        TODO: implement render
     }
 }
