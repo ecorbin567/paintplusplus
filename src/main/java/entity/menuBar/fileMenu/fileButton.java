@@ -4,50 +4,31 @@ import javax.swing.*;
 import java.awt.event.KeyEvent;
 
 public class fileButton{
-    private final saveButton saveButton;
-    private final openButton openButton;
-    private final saveAsButton saveAsButton;
-    private final joinLinkButton joinLinkButton;
-    JMenu fileMenu;
+
+    JMenu menu;
 
     public fileButton(){
-        saveButton = new saveButton();
-        openButton = new openButton();
-        saveAsButton = new saveAsButton();
-        joinLinkButton = new joinLinkButton();
+        saveButton saveButton = new saveButton();
+        openButton openButton = new openButton();
+        saveAsButton saveAsButton = new saveAsButton();
+        joinLinkButton joinLinkButton = new joinLinkButton();
 
         JMenuItem saveMenu = saveButton.getMenuItem();
         JMenuItem openMenu = openButton.getMenuItem();
         JMenuItem saveAsMenu = saveAsButton.getMenuItem();
         JMenuItem joinLinkMenu = joinLinkButton.getMenuItem();
 
-        fileMenu = new JMenu("File");
-        fileMenu.add(saveMenu);
-        fileMenu.add(openMenu);
-        fileMenu.add(saveAsMenu);
-        fileMenu.add(joinLinkMenu);
+        menu = new JMenu("File");
+        menu.add(saveMenu);
+        menu.add(openMenu);
+        menu.add(saveAsMenu);
+        menu.add(joinLinkMenu);
 
-        fileMenu.setMnemonic(KeyEvent.VK_F);
+        menu.setMnemonic(KeyEvent.VK_F);
     }
 
-    public saveButton getSaveButton(){
-        return saveButton;
-    }
-
-    public openButton getOpenButton(){
-        return openButton;
-    }
-
-    public saveAsButton getSaveAsButton(){
-        return saveAsButton;
-    }
-
-    public joinLinkButton getJoinLinkButton(){
-        return joinLinkButton;
-    }
-
-    public JMenu getFileMenu(){
-        return fileMenu;
+    public JMenu getMenu(){
+        return menu;
     }
 
 

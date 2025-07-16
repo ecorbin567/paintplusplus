@@ -1,10 +1,10 @@
 package entity;
 
+import entity.menuBar.editMenu.*;
 import entity.menuBar.fileMenu.*;
+import entity.menuBar.viewMenu.*;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class menuBarBuilder{
     fileButton fileButton;
@@ -15,7 +15,7 @@ public class menuBarBuilder{
     public menuBarBuilder() {
         menuBar = new JMenuBar();
         fileButton = new fileButton();
-        JMenu fileMenu = fileButton.getFileMenu();
+        JMenu fileMenu = fileButton.getMenu();
         menuBar.add(fileMenu);
 
         editButton = new editButton();
@@ -29,6 +29,15 @@ public class menuBarBuilder{
 
     public JMenuBar getMenuBar() {
         return menuBar;
+    }
+
+    public static void main (String[] args) {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        menuBarBuilder menuBarBuilder = new menuBarBuilder();
+        frame.add(menuBarBuilder.getMenuBar());
+        frame.pack();
+        frame.setVisible(true);
     }
 }
 

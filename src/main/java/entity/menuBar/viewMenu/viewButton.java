@@ -1,16 +1,21 @@
 package entity.menuBar.viewMenu;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 public class viewButton {
-    JMenu fileMenu;
+    JMenu menu;
     public viewButton(){
-        fileMenu = new JMenu("View");
-        fileMenu.setMnemonic(KeyEvent.VK_V);
-        fileMenu.setActionCommand("view");
+        resizeButton resizeButton = new resizeButton();
+        JMenuItem resizeItem = resizeButton.getMenuItem();
 
+        menu = new JMenu("View");
+        menu.setMnemonic(KeyEvent.VK_V);
+        menu.setActionCommand("view");
+        menu.add(resizeItem);
+    }
 
+    public JMenu getViewMenu() {
+        return menu;
     }
 }
