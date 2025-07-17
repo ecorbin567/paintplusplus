@@ -1,1 +1,2 @@
 2025-07-14: Added Java classes and interfaces for Draw and Erase use cases according to clean architecture
+2025-07-15: Implemented drawing canvas, eraser, and paintbrush in a minimal working example that DOES NOT follow clean architecture
