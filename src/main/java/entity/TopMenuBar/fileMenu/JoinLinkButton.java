@@ -1,14 +1,14 @@
-package entity.menuBar.fileMenu;
+package entity.TopMenuBar.fileMenu;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
-public class joinLinkButton implements ActionListener {
+public class JoinLinkButton implements ActionListener {
     JMenuItem menuItem;
 
-    public joinLinkButton() {
+    public JoinLinkButton() {
         menuItem = new JMenuItem("Join Link");
         menuItem.setActionCommand("joinLink");
         menuItem.setMnemonic(KeyEvent.VK_J);
@@ -21,7 +21,7 @@ public class joinLinkButton implements ActionListener {
     }
 
     public void handleAction() {
-        
+
     }
 
     public void actionPerformed(ActionEvent e) {

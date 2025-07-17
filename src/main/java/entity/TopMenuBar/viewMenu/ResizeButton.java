@@ -1,18 +1,17 @@
-package entity.menuBar.editMenu;
+package entity.TopMenuBar.viewMenu;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
-public class undoButton implements ActionListener {
+public class ResizeButton implements ActionListener {
     JMenuItem menuItem;
-
-    public undoButton() {
-        menuItem = new JMenuItem("Undo");
-        menuItem.setMnemonic(KeyEvent.VK_Z);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.ALT_DOWN_MASK));
-        menuItem.setActionCommand("Undo");
+    public ResizeButton() {
+        menuItem = new JMenuItem("Resize View");
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.CTRL_MASK));
+        menuItem.setMnemonic(KeyEvent.VK_R);
+        menuItem.setActionCommand("resize");
         menuItem.addActionListener(this);
     }
 
@@ -20,7 +19,7 @@ public class undoButton implements ActionListener {
         handleAction();
     }
 
-    public void handleAction(){
+    public void handleAction() {
         System.out.println(menuItem.getText());
     }
 

@@ -1,14 +1,14 @@
-package entity.menuBar.editMenu;
+package entity.TopMenuBar.editMenu;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 
-public class editButton {
+public class EditButton {
     JMenu menu;
 
-    public editButton() {
-        redoButton redoButton = new redoButton();
-        undoButton undoButton = new undoButton();
+    public EditButton() {
+        RedoButton redoButton = new RedoButton();
+        UndoButton undoButton = new UndoButton();
 
         JMenuItem undoMenuItem = undoButton.getMenuItem();
         JMenuItem redoMenuItem = redoButton.getMenuItem();

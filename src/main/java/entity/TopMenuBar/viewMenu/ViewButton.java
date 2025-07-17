@@ -1,12 +1,12 @@
-package entity.menuBar.viewMenu;
+package entity.TopMenuBar.viewMenu;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 
-public class viewButton {
+public class ViewButton {
     JMenu menu;
-    public viewButton(){
-        resizeButton resizeButton = new resizeButton();
+    public ViewButton(){
+        ResizeButton resizeButton = new ResizeButton();
         JMenuItem resizeItem = resizeButton.getMenuItem();
 
         menu = new JMenu("View");

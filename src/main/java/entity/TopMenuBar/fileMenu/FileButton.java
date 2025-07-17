@@ -1,17 +1,17 @@
-package entity.menuBar.fileMenu;
+package entity.TopMenuBar.fileMenu;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 
-public class fileButton{
+public class FileButton {
 
     JMenu menu;
 
-    public fileButton(){
-        saveButton saveButton = new saveButton();
-        openButton openButton = new openButton();
-        saveAsButton saveAsButton = new saveAsButton();
-        joinLinkButton joinLinkButton = new joinLinkButton();
+    public FileButton(){
+        SaveButton saveButton = new SaveButton();
+        OpenButton openButton = new OpenButton();
+        SaveAsButton saveAsButton = new SaveAsButton();
+        JoinLinkButton joinLinkButton = new JoinLinkButton();
 
         JMenuItem saveMenu = saveButton.getMenuItem();
         JMenuItem openMenu = openButton.getMenuItem();
