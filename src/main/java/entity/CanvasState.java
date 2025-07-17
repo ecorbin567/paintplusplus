@@ -13,5 +13,6 @@ public class CanvasState {
      */
     public Image renderCanvas() {
         // TODO: implement
-    };
+        return null;
+    }
 }
