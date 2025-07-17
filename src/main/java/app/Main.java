@@ -20,6 +20,12 @@ public class Main {
         JButton paint = new JButton("Paint");
         paint.addActionListener(evt -> canvas.paint());
         buttons.add(paint);
+        JButton undo = new JButton("Undo");
+        undo.addActionListener(evt -> canvas.undo());
+        buttons.add(undo);
+        JButton redo = new JButton("Redo");
+        redo.addActionListener(evt -> canvas.redo());
+        buttons.add(redo);
 
         frame.add(buttons, BorderLayout.NORTH);
         frame.add(canvas);

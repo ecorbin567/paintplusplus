@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.Stack;
 
 public class CanvasState {
-    Stack<DrawableElement> actions;
+    Stack<Tool> actions;
 
     /**
      * Returns canvas representation as an image.
