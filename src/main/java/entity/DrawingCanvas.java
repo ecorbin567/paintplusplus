@@ -69,15 +69,6 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         currentStroke = null;          // finished; ready for a fresh stroke
     }
 
-
-    public void erase() {
-        this.eraser.setErasing(true);
-    }
-
-    public void paint() {
-        this.eraser.setErasing(false);
-    }
-
     public void erase() {
         this.eraser.setErasing(true);
     }
