@@ -29,6 +29,7 @@ public class Paintbrush implements DrawableElement{
 
     @Override
     public Image renderAsImage() {
-//        TODO: implement render
+        // TODO
+        return null;
     }
 }

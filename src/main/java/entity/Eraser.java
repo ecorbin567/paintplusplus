@@ -30,6 +30,6 @@ public class Eraser implements DrawableElement{
 
     @Override
     public Image renderAsImage() {
-//        TODO: implement render
+        return null;
     }
 }

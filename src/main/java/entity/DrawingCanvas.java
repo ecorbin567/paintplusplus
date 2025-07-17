@@ -13,7 +13,6 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     private Color backgroundColor;
     private final ArrayList<StrokeRecord> strokes = new ArrayList<>();
     private StrokeRecord currentStroke;
-
     public DrawingCanvas() {
         setBackground(Color.WHITE);
         this.backgroundColor = Color.WHITE;
@@ -70,6 +69,14 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         currentStroke = null;          // finished; ready for a fresh stroke
     }
 
+
+    public void erase() {
+        this.eraser.setErasing(true);
+    }
+
+    public void paint() {
+        this.eraser.setErasing(false);
+    }
 
     public void erase() {
         this.eraser.setErasing(true);
