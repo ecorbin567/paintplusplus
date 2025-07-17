@@ -1,4 +1,34 @@
 package entity;
 
-public class Image {
+import java.awt.image.BufferedImage;
+
+public class Image implements DrawableElement {
+
+    private BufferedImage image;
+    private int x, y;
+    private int width, height;
+    private double rotation = 0.0;
+
+    public Image(BufferedImage image) {
+        this.image = image;
+        this.width = image.getWidth();
+        this.height = image.getHeight();
+        this.x = 0;
+        this.y = 0;
+    }
+
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void resize(int newWidth, int newHeight) {
+
+    }
+
+    public void rotate(double degrees) {
+        this.rotation += degrees;
+    }
+
+    public void crop(int cropX, int cropY, int cropWidth, int cropHeight) {}
 }
