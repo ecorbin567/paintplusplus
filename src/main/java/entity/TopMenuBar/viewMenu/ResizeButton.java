@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
+import entity.CanvasState;
+
 public class ResizeButton implements ActionListener {
     JMenuItem menuItem;
     public ResizeButton() {
@@ -20,7 +22,7 @@ public class ResizeButton implements ActionListener {
     }
 
     public void handleAction() {
-        System.out.println(menuItem.getText());
+
     }
 
     public JMenuItem getMenuItem() {

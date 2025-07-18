@@ -10,14 +10,17 @@ import java.util.ArrayList;
 public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionListener {
     private Paintbrush paintbrush;
     private Eraser eraser;
+    private SelectionTool selectionTool;
     private Color backgroundColor;
     private final ArrayList<StrokeRecord> strokes = new ArrayList<>();
     private StrokeRecord currentStroke;
+
     public DrawingCanvas() {
         setBackground(Color.WHITE);
         this.backgroundColor = Color.WHITE;
         this.paintbrush = new Paintbrush(3f, Color.BLACK);
         this.eraser = new Eraser(3f, false);
+        this.selectionTool = new SelectionTool(); // not sure if selection tool belongs here now
         addMouseListener(this);
         addMouseMotionListener(this);
     }
@@ -75,6 +78,12 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 
     public void paint() {
         this.eraser.setErasing(false);
+    }
+
+    public int[] getDrawingCanvasDimensions(){
+        int width = getWidth();
+        int height = getHeight();
+
     }
 
     // We don't need these, but must include them:

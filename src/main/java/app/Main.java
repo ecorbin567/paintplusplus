@@ -24,6 +24,8 @@ public class Main {
         frame.add(buttons, BorderLayout.NORTH);
         frame.add(canvas);
 
+        canvas.setPreferredSize(new Dimension(200, 100));
+
         frame.setVisible(true);
     }
 }
