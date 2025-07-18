@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -23,7 +24,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         setBackground(Color.WHITE);
         this.backgroundColor = Color.WHITE;
         this.paintbrush = new Paintbrush(3f, Color.BLACK);
-        this.eraser = new Eraser(3f);
+        this.eraser = new Eraser(3f, this.backgroundColor);
         addMouseListener(this);
         addMouseMotionListener(this);
     }
@@ -83,16 +84,30 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 
     public void undo() {
         if (!(this.strokes.isEmpty())) {
-            this.undoneStrokes.add(this.strokes.removeLast());
+            this.undoneStrokes.add(this.strokes.remove(strokes.size() - 1));
             repaint();
         }
     }
 
     public void redo() {
         if (!(this.undoneStrokes.isEmpty())) {
-            this.strokes.add(this.undoneStrokes.removeLast());
+            this.strokes.add(this.undoneStrokes.remove(strokes.size() - 1));
             repaint();
         }
+    }
+
+    public BufferedImage getImage() {
+        // Create a BufferedImage the same size as the panel
+        BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+        // Get the graphics context of the image
+        Graphics2D g2d = image.createGraphics();
+
+        // Render this panel onto the image
+        this.paint(g2d); // or paintComponent(g2d) if you want to skip painting child components
+
+        g2d.dispose(); // Clean up
+        return image;
     }
 
     // We don't need these, but must include them:
