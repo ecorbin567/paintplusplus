@@ -1,4 +1,4 @@
-package entity.TopMenuBar.viewMenu;
+package view.TopMenuBar.ViewMenu;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;

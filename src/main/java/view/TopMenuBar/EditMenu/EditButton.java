@@ -1,14 +1,18 @@
-package entity.TopMenuBar.editMenu;
+package view.TopMenuBar.EditMenu;
+
+import entity.DrawingCanvas;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 
 public class EditButton {
     JMenu menu;
+    DrawingCanvas canvas;
 
-    public EditButton() {
-        RedoButton redoButton = new RedoButton();
-        UndoButton undoButton = new UndoButton();
+    public EditButton(DrawingCanvas canvas) {
+        this.canvas = canvas;
+        RedoButton redoButton = new RedoButton(this.canvas);
+        UndoButton undoButton = new UndoButton(this.canvas);
 
         JMenuItem undoMenuItem = undoButton.getMenuItem();
         JMenuItem redoMenuItem = redoButton.getMenuItem();

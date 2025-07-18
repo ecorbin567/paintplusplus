@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.util.Objects;
 
 public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionListener {
@@ -93,6 +94,15 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     public void redo() {
         actionHistory.redo();
         repaint();
+    }
+  
+    public BufferedImage getImage() {
+        //Used for Saving Image as PNG File
+        BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = image.createGraphics();
+        this.paint(g2d);
+        g2d.dispose();
+        return image;
     }
 
     // We don't need these, but must include them:

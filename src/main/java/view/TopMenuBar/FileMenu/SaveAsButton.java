@@ -1,4 +1,4 @@
-package entity.TopMenuBar.fileMenu;
+package view.TopMenuBar.FileMenu;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -16,7 +16,7 @@ public class SaveAsButton implements ActionListener {
         menuItem = new JMenuItem("Save As");
         menuItem.setMnemonic(KeyEvent.VK_A);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
-                KeyEvent.ALT_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK));
+                KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK));
         menuItem.setActionCommand("saveAs");
         menuItem.addActionListener(this);
 
