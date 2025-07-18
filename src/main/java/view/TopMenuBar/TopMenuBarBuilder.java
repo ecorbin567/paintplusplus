@@ -22,7 +22,7 @@ public class TopMenuBarBuilder {
         JMenu fileMenu = FileButton.getMenu();
         menuBar.add(fileMenu);
 
-        EditButton = new EditButton();
+        EditButton = new EditButton(this.drawingCanvas);
         JMenu editMenu = EditButton.getEditMenu();
         menuBar.add(editMenu);
 
