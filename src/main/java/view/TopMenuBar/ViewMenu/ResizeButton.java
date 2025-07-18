@@ -1,19 +1,18 @@
-package entity.TopMenuBar.editMenu;
+package view.TopMenuBar.ViewMenu;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
-public class RedoButton implements ActionListener {
+public class ResizeButton implements ActionListener {
     JMenuItem menuItem;
-
-    public RedoButton(){
-        menuItem = new JMenuItem("Redo");
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z,
-                KeyEvent.SHIFT_DOWN_MASK | KeyEvent.CTRL_DOWN_MASK));
+    public ResizeButton() {
+        menuItem = new JMenuItem("Resize View");
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.CTRL_MASK));
+        menuItem.setMnemonic(KeyEvent.VK_R);
+        menuItem.setActionCommand("resize");
         menuItem.addActionListener(this);
-        menuItem.setActionCommand("redo");
     }
 
     public void actionPerformed(ActionEvent e) {
