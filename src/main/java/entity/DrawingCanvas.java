@@ -5,18 +5,15 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionListener {
     private String selectedTool;
 
-    private Paintbrush paintbrush;
-    private Eraser eraser;
-    private Color backgroundColor;
-    private final ArrayList<StrokeRecord> strokes = new ArrayList<>();
-    private ArrayList<StrokeRecord> undoneStrokes = new ArrayList<>();
-    private StrokeRecord currentStroke;
+    private final Paintbrush paintbrush;
+    private final Eraser eraser;
+    private final Color backgroundColor;
+    private final ActionHistory actionHistory = new ActionHistory();
 
     public DrawingCanvas() {
         setBackground(Color.WHITE);
@@ -31,16 +28,20 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+        if (!(actionHistory.getUndoStack().isEmpty())) {
+            for (Drawable d : actionHistory.getUndoStack()) {
+                if (d instanceof StrokeRecord s) {
+                    g2.setColor(s.colour);
+                    g2.setStroke(new BasicStroke(s.width,
+                            BasicStroke.CAP_ROUND,
+                            BasicStroke.JOIN_ROUND));
+                    for (int i = 1; i < s.pts.size(); i++) {
+                        Point p1 = s.pts.get(i - 1);
+                        Point p2 = s.pts.get(i);
+                        g2.drawLine(p1.x, p1.y, p2.x, p2.y);
 
-        for (StrokeRecord s : strokes) {
-            g2.setColor(s.colour);
-            g2.setStroke(new BasicStroke(s.width,
-                    BasicStroke.CAP_ROUND,
-                    BasicStroke.JOIN_ROUND));
-            for (int i = 1; i < s.pts.size(); i++) {
-                Point p1 = s.pts.get(i - 1);
-                Point p2 = s.pts.get(i);
-                g2.drawLine(p1.x, p1.y, p2.x, p2.y);
+                    }
+                }
             }
         }
     }
@@ -53,23 +54,27 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             float w = Objects.equals(this.selectedTool, "Eraser") ? eraser.getWidth()
                     : paintbrush.getWidth();
 
-            currentStroke = new StrokeRecord(c, w);
+            StrokeRecord currentStroke = new StrokeRecord(c, w);
             currentStroke.pts.add(e.getPoint());
-            strokes.add(currentStroke);
+            actionHistory.push(currentStroke);
         }
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if (currentStroke != null) {
-            currentStroke.pts.add(e.getPoint());
+        Drawable curr = actionHistory.getCurrentState();
+        if (curr != null) {
+            if (curr instanceof StrokeRecord strokeRecord) {
+                strokeRecord.pts.add(e.getPoint());
+                actionHistory.setCurrentState(strokeRecord);
+            }
             repaint();                 // ask Swing to invoke paintComponent()
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        currentStroke = null;          // finished; ready for a fresh stroke
+//        actionHistory.setCurrentState(null);         // finished; ready for a fresh stroke
     }
 
     public void erase() {
@@ -81,17 +86,13 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     }
 
     public void undo() {
-        if (!(this.strokes.isEmpty())) {
-            this.undoneStrokes.add(this.strokes.removeLast());
-            repaint();
-        }
+        actionHistory.undo();
+        repaint();
     }
 
     public void redo() {
-        if (!(this.undoneStrokes.isEmpty())) {
-            this.strokes.add(this.undoneStrokes.removeLast());
-            repaint();
-        }
+        actionHistory.redo();
+        repaint();
     }
 
     // We don't need these, but must include them:
