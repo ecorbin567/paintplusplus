@@ -1,35 +1,19 @@
 package entity;
 
-import java.awt.*;
-
-public class Eraser implements DrawableElement{
+public class Eraser implements Tool{
 
     private float width;
-    private boolean isErasing;
 
-    public Eraser(float width, boolean isErasing) {
+    public Eraser(float width) {
         this.width = width;
-        this.isErasing = isErasing;
     }
 
+    @Override
     public float getWidth() {
         return width;
     }
 
     public void setWidth(float width) {
         this.width = width;
-    }
-
-    public boolean isErasing() {
-        return isErasing;
-    }
-
-    public void setErasing(boolean erasing) {
-        this.isErasing = erasing;
-    }
-
-    @Override
-    public Image renderAsImage() {
-        return null;
     }
 }
