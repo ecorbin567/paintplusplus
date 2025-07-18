@@ -4,10 +4,8 @@ import entity.DrawingCanvas;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class PencilButton implements ActionListener{
+public class PencilButton{
     JButton button;
     ImageIcon imageIcon;
     DrawingCanvas canvas;
@@ -20,6 +18,7 @@ public class PencilButton implements ActionListener{
             Image image = imageIcon.getImage();
             Image newImage = image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
             imageIcon = new ImageIcon(newImage);
+            button.addActionListener(evt -> canvas.paint());
         }
         catch( Exception e ){
             e.printStackTrace();
@@ -33,10 +32,4 @@ public class PencilButton implements ActionListener{
     public JButton getButton() {
         return button;
     }
-
-    public void actionPerformed(ActionEvent e) {
-        button.addActionListener(evt -> canvas.paint());
-    }
-
-
 }
