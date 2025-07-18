@@ -18,11 +18,9 @@ public class Main {
         TopMenuBarBuilder topMenuBarBuilder = new TopMenuBarBuilder(canvas);
         JMenuBar menuBar = topMenuBarBuilder.getMenuBar();
         frame.setJMenuBar(menuBar);
-
         MidMenuBarBuilder midMenuBarBuilder = new MidMenuBarBuilder(canvas);
         JPanel panel = midMenuBarBuilder.getPanel();
         frame.add(panel, BorderLayout.NORTH);
-
         frame.add(canvas);
         frame.setVisible(true);
     }

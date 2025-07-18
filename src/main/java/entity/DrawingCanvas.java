@@ -1,3 +1,4 @@
+
 package entity;
 
 import javax.swing.*;
@@ -5,20 +6,24 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionListener {
+    private String selectedTool;
+
     private Paintbrush paintbrush;
     private Eraser eraser;
     private Color backgroundColor;
     private final ArrayList<StrokeRecord> strokes = new ArrayList<>();
+    private ArrayList<StrokeRecord> undoneStrokes = new ArrayList<>();
     private StrokeRecord currentStroke;
+
     public DrawingCanvas() {
         setBackground(Color.WHITE);
         this.backgroundColor = Color.WHITE;
         this.paintbrush = new Paintbrush(3f, Color.BLACK);
-        this.eraser = new Eraser(3f, false);
+        this.eraser = new Eraser(3f);
         addMouseListener(this);
         addMouseMotionListener(this);
     }
@@ -41,13 +46,12 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         }
     }
 
-
     @Override
     public void mousePressed(MouseEvent e) {
         if (SwingUtilities.isLeftMouseButton(e)) {
-            Color c = eraser.isErasing() ? backgroundColor
+            Color c = Objects.equals(this.selectedTool, "Eraser") ? backgroundColor
                     : paintbrush.getColour();
-            float w = eraser.isErasing() ? eraser.getWidth()
+            float w = Objects.equals(this.selectedTool, "Eraser") ? eraser.getWidth()
                     : paintbrush.getWidth();
 
             currentStroke = new StrokeRecord(c, w);
@@ -55,7 +59,6 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             strokes.add(currentStroke);
         }
     }
-
 
     @Override
     public void mouseDragged(MouseEvent e) {
@@ -71,11 +74,25 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     }
 
     public void erase() {
-        this.eraser.setErasing(true);
+        this.selectedTool = "Eraser";
     }
 
     public void paint() {
-        this.eraser.setErasing(false);
+        this.selectedTool = "Paintbrush";
+    }
+
+    public void undo() {
+        if (!(this.strokes.isEmpty())) {
+            this.undoneStrokes.add(this.strokes.removeLast());
+            repaint();
+        }
+    }
+
+    public void redo() {
+        if (!(this.undoneStrokes.isEmpty())) {
+            this.strokes.add(this.undoneStrokes.removeLast());
+            repaint();
+        }
     }
 
     // We don't need these, but must include them:
@@ -83,12 +100,4 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     @Override public void mouseEntered(MouseEvent e) {}
     @Override public void mouseExited(MouseEvent e) {}
     @Override public void mouseMoved(MouseEvent e) {}
-
-    public BufferedImage getImage() {
-        BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = image.createGraphics();
-        this.paint(g);
-        g.dispose();
-        return image;
-    }
 }
