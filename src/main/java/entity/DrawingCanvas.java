@@ -24,7 +24,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         setBackground(Color.WHITE);
         this.backgroundColor = Color.WHITE;
         this.paintbrush = new Paintbrush(3f, Color.BLACK);
-        this.eraser = new Eraser(3f, this.backgroundColor);
+        this.eraser = new Eraser(3f, backgroundColor);
         addMouseListener(this);
         addMouseMotionListener(this);
     }
@@ -97,16 +97,11 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     }
 
     public BufferedImage getImage() {
-        // Create a BufferedImage the same size as the panel
+        //Used for Saving Image as PNG File
         BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
-
-        // Get the graphics context of the image
         Graphics2D g2d = image.createGraphics();
-
-        // Render this panel onto the image
-        this.paint(g2d); // or paintComponent(g2d) if you want to skip painting child components
-
-        g2d.dispose(); // Clean up
+        this.paint(g2d);
+        g2d.dispose();
         return image;
     }
 
