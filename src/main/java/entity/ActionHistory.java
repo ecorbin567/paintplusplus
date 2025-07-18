@@ -3,17 +3,16 @@ package entity;
 import java.util.*;
 
 public class ActionHistory {
-    private final Stack<CanvasState> undoStack;
-    private final Stack<CanvasState> redoStack;
-    private CanvasState currentState = null;
+    private final Stack<Drawable> undoStack;
+    private final Stack<Drawable> redoStack;
+    private Drawable currentState = null;
 
-    public ActionHistory(CanvasState initialState) {
+    public ActionHistory() {
         this.undoStack = new Stack<>();
         this.redoStack = new Stack<>();
-        this.currentState = initialState;
     }
 
-    public void push(CanvasState newState) {
+    public void push(Drawable newState) {
         if (currentState != null) {
             undoStack.push(currentState);
         }
@@ -22,7 +21,7 @@ public class ActionHistory {
     }
 
 
-    public CanvasState undo() {
+    public Drawable undo() {
         if (undoStack.isEmpty()) return null;
         redoStack.push(currentState);
         currentState = undoStack.pop();
@@ -30,14 +29,26 @@ public class ActionHistory {
     }
 
 
-    public CanvasState redo() {
+    public Drawable redo() {
         if (redoStack.isEmpty()) return null;
         undoStack.push(currentState);
         currentState = redoStack.pop();
         return currentState;
     }
 
-    public CanvasState getCurrentState() {
+    public Drawable getCurrentState() {
         return currentState;
+    }
+
+    public void setCurrentState(Drawable currentState) {
+        this.currentState = currentState;
+        if (!(undoStack.isEmpty())) {
+            undoStack.pop();
+        }
+        push(currentState);
+    }
+
+    public Stack<Drawable> getUndoStack() {
+        return undoStack;
     }
 }
