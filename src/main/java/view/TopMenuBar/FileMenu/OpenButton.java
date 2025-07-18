@@ -1,4 +1,4 @@
-package entity.TopMenuBar.fileMenu;
+package view.TopMenuBar.FileMenu;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -12,7 +12,7 @@ public class OpenButton implements ActionListener{
     public OpenButton() {
         menuItem = new JMenuItem("Open");
         menuItem.setMnemonic(KeyEvent.VK_O);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.ALT_DOWN_MASK));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK));
         menuItem.setActionCommand("open");
         menuItem.addActionListener(this);
     }

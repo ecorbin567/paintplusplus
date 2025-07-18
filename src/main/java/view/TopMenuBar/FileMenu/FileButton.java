@@ -1,4 +1,6 @@
-package entity.TopMenuBar.fileMenu;
+package view.TopMenuBar.FileMenu;
+
+import entity.DrawingCanvas;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -7,8 +9,8 @@ public class FileButton {
 
     JMenu menu;
 
-    public FileButton(){
-        SaveButton saveButton = new SaveButton();
+    public FileButton(DrawingCanvas canvas){
+        SaveButton saveButton = new SaveButton(canvas);
         OpenButton openButton = new OpenButton();
         SaveAsButton saveAsButton = new SaveAsButton();
         JoinLinkButton joinLinkButton = new JoinLinkButton();

@@ -1,4 +1,6 @@
-package entity.TopMenuBar.fileMenu;
+package view.TopMenuBar.FileMenu;
+
+import entity.DrawingCanvas;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -12,10 +14,12 @@ import java.io.IOException;
 public class SaveButton implements ActionListener {
 
     JMenuItem menuItem;
-    public SaveButton(){
+    DrawingCanvas canvas;
+    public SaveButton(DrawingCanvas drawingCanvas) {
+        canvas = drawingCanvas;
         menuItem = new JMenuItem("Save");
         menuItem.setMnemonic(KeyEvent.VK_S);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.ALT_DOWN_MASK));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK));
         menuItem.setActionCommand("save");
         menuItem.addActionListener(this);
     }
@@ -54,12 +58,9 @@ public void actionPerformed(ActionEvent e) {
     handleAction(getImage());
 }
 
-private static BufferedImage getImage() {
-    BufferedImage img = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
-    java.awt.Graphics2D g = img.createGraphics();
-    g.fillRect(0, 0, 200, 200); // solid color
-    g.dispose();
-    return img;
+private BufferedImage getImage() {
+        return canvas.getImage();
 }
+
 }
 

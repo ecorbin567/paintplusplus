@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionListener {
@@ -82,4 +83,12 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     @Override public void mouseEntered(MouseEvent e) {}
     @Override public void mouseExited(MouseEvent e) {}
     @Override public void mouseMoved(MouseEvent e) {}
+
+    public BufferedImage getImage() {
+        BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = image.createGraphics();
+        this.paint(g);
+        g.dispose();
+        return image;
+    }
 }
