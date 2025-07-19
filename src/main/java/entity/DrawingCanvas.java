@@ -9,11 +9,12 @@ import java.awt.image.BufferedImage;
 import java.util.Objects;
 
 public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionListener {
+    private CanvasState canvasState;
     private String selectedTool;
-
     private final Paintbrush paintbrush;
     private final Eraser eraser;
     private final Color backgroundColor;
+    private final SelectionTool selectionTool;
     private final ActionHistory actionHistory = new ActionHistory();
 
     public DrawingCanvas() {
@@ -21,14 +22,22 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         this.backgroundColor = Color.WHITE;
         this.paintbrush = new Paintbrush(3f, Color.BLACK);
         this.eraser = new Eraser(3f);
+        this.selectionTool = new SelectionTool();
         addMouseListener(this);
         addMouseMotionListener(this);
+    }
+    // setter to set for canvas state
+    public void setCanvasState(CanvasState canvasState) {
+        this.canvasState = canvasState;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
+        // handle the resizing of canvas
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.scale(canvasState.getScale(), canvasState.getScale());
+        //
         if (!(actionHistory.getUndoStack().isEmpty())) {
             for (Drawable d : actionHistory.getUndoStack()) {
                 if (d instanceof StrokeRecord s) {
