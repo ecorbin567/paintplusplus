@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class EraseButton implements ActionListener {
+public class EraseButton {
     JButton button;
     ImageIcon imageIcon;
     DrawingCanvas canvas;
@@ -21,16 +21,11 @@ public class EraseButton implements ActionListener {
         imageIcon = new ImageIcon(newimage);
         button.setIcon(imageIcon);
         button.setPreferredSize(new Dimension(60, 60));
+        button.addActionListener(evt -> canvas.erase());
     }
 
     public JButton getButton() {
         return button;
     }
-
-    public void actionPerformed(ActionEvent e) {
-        button.addActionListener(evt -> canvas.erase());
-    }
-
-
 }
 

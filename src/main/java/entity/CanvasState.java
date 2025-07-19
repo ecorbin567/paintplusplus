@@ -5,6 +5,7 @@ import java.util.Stack;
 
 public class CanvasState {
     Stack<Drawable> actions;
+  
     private double scale = 1.0;
 
     public double getScale() {

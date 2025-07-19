@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
-public class RedoButton implements ActionListener {
+public class RedoButton{
     JMenuItem menuItem;
     DrawingCanvas canvas;
 
@@ -16,12 +16,8 @@ public class RedoButton implements ActionListener {
         menuItem = new JMenuItem("Redo");
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z,
                 KeyEvent.SHIFT_DOWN_MASK | KeyEvent.CTRL_DOWN_MASK));
-        menuItem.addActionListener(this);
-        menuItem.setActionCommand("redo");
-    }
-
-    public void actionPerformed(ActionEvent e) {
         menuItem.addActionListener(evt -> canvas.redo());
+        menuItem.setActionCommand("redo");
     }
 
     public JMenuItem getMenuItem() {
