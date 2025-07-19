@@ -2,7 +2,7 @@ package entity;
 
 import java.awt.image.BufferedImage;
 
-public class Image implements DrawableElement {
+public abstract class Image implements DrawableElement {
 
     private BufferedImage image;
     private int x, y;
