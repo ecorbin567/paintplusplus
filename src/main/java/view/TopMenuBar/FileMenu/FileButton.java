@@ -21,6 +21,7 @@ public class FileButton {
         JMenuItem joinLinkMenu = joinLinkButton.getMenuItem();
 
         menu = new JMenu("File");
+
         menu.add(saveMenu);
         menu.add(openMenu);
         menu.add(saveAsMenu);
@@ -32,7 +33,4 @@ public class FileButton {
     public JMenu getMenu(){
         return menu;
     }
-
-
-
 }
