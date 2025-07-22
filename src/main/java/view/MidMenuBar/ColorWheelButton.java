@@ -6,14 +6,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ColorWheelButton {
-    private final JButton button;
-    private final ImageIcon imageIcon;
+    JButton button;
+    ImageIcon imageIcon;
 
     public ColorWheelButton(){
         button = new JButton();
-        imageIcon = new ImageIcon();
-
-
+        imageIcon = new ImageIcon(SelectButton.class.getResource("/images/ColorWheelIcon.png"));
+        Image image = imageIcon.getImage();
+        Image newImage = image.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(newImage);
+        button.setIcon(imageIcon);
+        button.setPreferredSize(new Dimension(20, 20));
 
     }
 
