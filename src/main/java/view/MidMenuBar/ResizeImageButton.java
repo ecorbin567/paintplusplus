@@ -3,12 +3,12 @@ package view.MidMenuBar;
 import javax.swing.*;
 import java.awt.*;
 
-public class CropButton {
+public class ResizeImageButton {
     JButton button;
 
-    public CropButton() {
+    public ResizeImageButton() {
         button = new JButton();
-        ImageIcon icon = new ImageIcon(CropButton.class.getResource("/images/CropIcon.png"));
+        ImageIcon icon = new ImageIcon(ResizeImageButton.class.getResource("/images/ResizeIcon.png"));
         Image image = icon.getImage();
         Image newImage = image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         icon = new ImageIcon(newImage);
