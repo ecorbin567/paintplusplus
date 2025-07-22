@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.util.Objects;
 
 public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionListener {
-    private CanvasState canvasState;
+    private double scale = 1.0;
     private String selectedTool;
     private final Paintbrush paintbrush;
     private final Eraser eraser;
@@ -26,9 +26,13 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         addMouseListener(this);
         addMouseMotionListener(this);
     }
-    // setter to set for canvas state
-    public void setCanvasState(CanvasState canvasState) {
-        this.canvasState = canvasState;
+
+    public double getScale() {
+        return this.scale;
+    }
+
+    public void setScale(double scale) {
+        this.scale = scale;
     }
 
     @Override
@@ -36,7 +40,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         super.paintComponent(g);
         // handle the resizing of canvas
         Graphics2D g2 = (Graphics2D) g.create();
-        g2.scale(canvasState.getScale(), canvasState.getScale());
+        g2.scale(this.scale, this.scale);
         //
         if (!(actionHistory.getUndoStack().isEmpty())) {
             for (Drawable d : actionHistory.getUndoStack()) {
