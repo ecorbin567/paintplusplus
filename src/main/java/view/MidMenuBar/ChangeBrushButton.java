@@ -1,4 +1,4 @@
-package entity.MidMenuBar;
+package view.MidMenuBar;
 
 public class ChangeBrushButton {
 }

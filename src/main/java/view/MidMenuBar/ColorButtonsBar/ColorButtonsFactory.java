@@ -1,4 +1,4 @@
-package view.MidMenuBar;
+package view.MidMenuBar.ColorButtonsBar;
 
 public interface ColorButtonsFactory {
 }

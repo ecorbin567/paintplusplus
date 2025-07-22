@@ -1,9 +1,9 @@
 package view.MidMenuBar;
 
 import entity.DrawingCanvas;
+import view.MidMenuBar.ImageBar.ImageButton;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class MidMenuBarBuilder {
 
