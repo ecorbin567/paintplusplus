@@ -1,1 +1,5 @@
 2025-07-11: added src, main, and java path to store project files
+
+2025-07-18: added brush button, selection tool, other required files
+2023-07-18: finished implementation of ViewMenu Items, Resize button -> zoomin or zoomout buttons
+updated some logic to canvasState and Drawing canvas as needed.

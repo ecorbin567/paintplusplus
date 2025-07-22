@@ -1,24 +1,54 @@
 package entity;
 
-import java.util.Stack;
+import java.util.*;
 
 public class ActionHistory {
-    private Stack<CanvasState> history;
+    private final Stack<Drawable> undoStack;
+    private final Stack<Drawable> redoStack;
+    private Drawable currentState = null;
 
     public ActionHistory() {
-        this.history = new Stack<>();
+        this.undoStack = new Stack<>();
+        this.redoStack = new Stack<>();
     }
 
-    // TODO: implement
-    public void push(CanvasState state) {
-
+    public void push(Drawable newState) {
+        if (currentState != null) {
+            undoStack.push(currentState);
+        }
+        currentState = newState;
+        redoStack.clear();
     }
 
-    public CanvasState undo(CanvasState state) {
-        return null;
+
+    public Drawable undo() {
+        if (undoStack.isEmpty()) return null;
+        redoStack.push(currentState);
+        currentState = undoStack.pop();
+        return currentState;
     }
 
-    public CanvasState redo(CanvasState state) {
-        return null;
+
+    public Drawable redo() {
+        if (redoStack.isEmpty()) return null;
+        undoStack.push(currentState);
+        currentState = redoStack.pop();
+        return currentState;
+    }
+
+    public Drawable getCurrentState() {
+        return currentState;
+    }
+
+    public void setCurrentState(Drawable currentState) {
+        this.currentState = currentState;
+        if (!(undoStack.isEmpty())) {
+            undoStack.pop();
+        }
+        push(currentState);
+    }
+
+    public Stack<Drawable> getUndoStack() {
+        return undoStack;
     }
 }

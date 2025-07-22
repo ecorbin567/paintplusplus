@@ -1,1 +1,5 @@
 2025-07-14: Added Buttons for Edit, View and File, Added MenuBar for Edit, View and File, Added File Button and menuItems Save, Save As, Open and Join Link, Added ActionListener Functionality to Save Button.
+2025-07-17: Added a Resources file. Added Buttons for the toolbar. Shaping toolbar looks like.
+2025-07-17: Added ViewManager. Refactored action handling into buttons inside view.
+2025-07-17: Added Action Handling to Redo/Undo Buttons
+2025-07-18: Fixed Erase Button
