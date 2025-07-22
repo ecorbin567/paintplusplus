@@ -1,16 +1,13 @@
 package view.TopMenuBar;
 
-import entity.CanvasState;
 import entity.DrawingCanvas;
 import view.TopMenuBar.EditMenu.EditButton;
 import view.TopMenuBar.FileMenu.FileButton;
 import view.TopMenuBar.ViewMenu.ViewButton;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class TopMenuBarBuilder {
-    CanvasState canvasState;
     DrawingCanvas drawingCanvas;
 
     FileButton FileButton;
@@ -29,7 +26,7 @@ public class TopMenuBarBuilder {
         JMenu editMenu = EditButton.getEditMenu();
         menuBar.add(editMenu);
 
-        ViewButton = new ViewButton(this.canvasState, this.drawingCanvas);
+        ViewButton = new ViewButton(this.drawingCanvas);
         JMenu viewMenu = ViewButton.getViewMenu();
         menuBar.add(viewMenu);
     }
