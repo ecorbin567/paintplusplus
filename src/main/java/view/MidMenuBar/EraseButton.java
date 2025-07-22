@@ -4,8 +4,6 @@ import entity.DrawingCanvas;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class EraseButton {
     JButton button;
@@ -27,5 +25,6 @@ public class EraseButton {
     public JButton getButton() {
         return button;
     }
+
 }
 

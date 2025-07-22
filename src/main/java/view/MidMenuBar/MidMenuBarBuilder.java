@@ -3,7 +3,6 @@ package view.MidMenuBar;
 import entity.DrawingCanvas;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class MidMenuBarBuilder {
 

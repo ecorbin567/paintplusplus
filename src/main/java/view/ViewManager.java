@@ -23,7 +23,7 @@ public class ViewManager {
         JPanel panel = midMenuBarBuilder.getPanel();
         frame.add(panel, BorderLayout.NORTH);
 
-        frame.add(canvas);
+        frame.add(canvas, BorderLayout.CENTER);
         frame.setVisible(true);
     }
 //    Testing Area:
