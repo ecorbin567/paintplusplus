@@ -20,9 +20,8 @@ public class Main {
         frame.setJMenuBar(menuBar);
         MidMenuBarBuilder midMenuBarBuilder = new MidMenuBarBuilder(canvas);
         JPanel panel = midMenuBarBuilder.getPanel();
-
         frame.add(panel, BorderLayout.NORTH);
-        frame.add(canvas);
+        frame.add(canvas, BorderLayout.CENTER);
         frame.setVisible(true);
     }
 }
