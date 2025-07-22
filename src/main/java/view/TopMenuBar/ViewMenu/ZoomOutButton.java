@@ -1,8 +1,10 @@
 package view.TopMenuBar.ViewMenu;
 
+import entity.CanvasState;
 import entity.DrawingCanvas;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 public class ZoomOutButton {
