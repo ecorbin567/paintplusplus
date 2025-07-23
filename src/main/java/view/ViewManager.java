@@ -1,7 +1,6 @@
 package view;
 
 import entity.DrawingCanvas;
-import view.MidMenuBar.EraseButton;
 import view.MidMenuBar.MidMenuBarBuilder;
 import view.TopMenuBar.TopMenuBarBuilder;
 

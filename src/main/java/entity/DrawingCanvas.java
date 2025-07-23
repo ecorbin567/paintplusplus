@@ -53,7 +53,6 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
                         Point p1 = s.pts.get(i - 1);
                         Point p2 = s.pts.get(i);
                         g2.drawLine(p1.x, p1.y, p2.x, p2.y);
-
                     }
                 }
             }
@@ -117,6 +116,19 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         g2d.dispose();
         return image;
     }
+
+    public void setPaintBrushSize(float size) {
+        this.paintbrush.setWidth(size);
+    }
+
+    public void setPaintBrushColor(Color color){
+        this.paintbrush.setColour(color);
+    }
+
+    public void setEraserSize(float size) {
+        this.eraser.setWidth(size);
+    }
+
 
     // We don't need these, but must include them:
     @Override public void mouseClicked(MouseEvent e) {}

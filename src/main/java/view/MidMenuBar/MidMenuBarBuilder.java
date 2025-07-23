@@ -1,7 +1,9 @@
 package view.MidMenuBar;
 
 import entity.DrawingCanvas;
+import view.MidMenuBar.EraserButtonGroup.EraseButton;
 import view.MidMenuBar.ImageBar.ImageButton;
+import view.MidMenuBar.PencilButtonGroup.PencilButton;
 
 import javax.swing.*;
 

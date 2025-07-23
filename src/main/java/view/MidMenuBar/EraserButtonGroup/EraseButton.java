@@ -1,11 +1,9 @@
-package view.MidMenuBar;
+package view.MidMenuBar.EraserButtonGroup;
 
 import entity.DrawingCanvas;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class EraseButton {
     JButton button;
@@ -14,6 +12,7 @@ public class EraseButton {
 
     public EraseButton(DrawingCanvas canvas) {
         this.canvas = canvas;
+        ErasePopUp erasePopUp = new ErasePopUp(canvas);
         button = new JButton();
         imageIcon = new ImageIcon(EraseButton.class.getResource("/images/EraseIcon.png"));
         Image image = imageIcon.getImage();
@@ -22,6 +21,9 @@ public class EraseButton {
         button.setIcon(imageIcon);
         button.setPreferredSize(new Dimension(60, 60));
         button.addActionListener(evt -> canvas.erase());
+        button.addActionListener(e -> {
+            erasePopUp.getPopupMenu().show(button, button.getWidth(), button.getHeight());
+        });
     }
 
     public JButton getButton() {
