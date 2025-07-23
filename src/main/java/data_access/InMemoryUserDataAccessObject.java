@@ -1,23 +1,34 @@
 package data_access;
 
+import entity.ActionHistory;
 import entity.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /** In memory database for testing users and user information */
 public class InMemoryUserDataAccessObject implements UserDataAccessInterface {
     private Map<String, User> usersMap;
 
+    /** Map usernames to list of their action history. */
+    private Map<String, List<ActionHistory>> usersDocumentsMap;
+
     public InMemoryUserDataAccessObject() {
         this.usersMap = new HashMap<>();
+        this.usersDocumentsMap = new HashMap<>();
 
         // creating users for testing
-        createUser(new User("beabadoobee", "abcdefg123"));
+        String username = "beabadoobee";
+        String password = "abcdefg123";
+        addUser(new User(username, password));
+
+
     }
 
     /* DEPENDENCY INJECTIONS!!!! :DDDDD */
-    public boolean createUser(User user) {
+    public boolean addUser(User user) {
         if (usersMap.get(user.getUsername()) == null) {
             usersMap.put(user.getUsername(), user);
             return true;
@@ -60,4 +71,29 @@ public class InMemoryUserDataAccessObject implements UserDataAccessInterface {
             return false;
         }
     }
+
+    @Override
+    public boolean saveCanvas(User user, ActionHistory actionHistory) {
+        if (usersDocumentsMap.get(user.getUsername()) == null) {
+            usersDocumentsMap.put(user.getUsername(), new ArrayList<>());
+            usersDocumentsMap.get(user.getUsername()).add(actionHistory);
+            return true;
+        } else {
+            usersDocumentsMap.get(user.getUsername()).add(actionHistory);
+            return false;
+        }
+
+    }
+
+    @Override
+    public ActionHistory findCanvasById(User user, int id) {
+        return usersDocumentsMap.get(user.getUsername()).get(id);
+    }
+
+    @Override
+    public List<ActionHistory> getAllCanvases(User user) {
+        return usersDocumentsMap.get(user.getUsername());
+    }
+
+
 }
