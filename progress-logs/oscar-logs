@@ -3,3 +3,5 @@
 2025-07-17: Added ViewManager. Refactored action handling into buttons inside view.
 2025-07-17: Added Action Handling to Redo/Undo Buttons
 2025-07-18: Fixed Erase Button
+2025-07-23: Added Eraser and Pencil Resizing Slider
+2025-07-23: Fixing Location Mouse after Zoom In and Zoom Out View Buttons
