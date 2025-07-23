@@ -1,10 +1,9 @@
 package view.MidMenuBar;
 
 import entity.DrawingCanvas;
-import view.MidMenuBar.ImageBar.CropButton;
-import view.MidMenuBar.ImageBar.ImportButton;
-import view.MidMenuBar.ImageBar.ResizeImageButton;
-import view.MidMenuBar.ImageBar.RotateButton;
+import view.MidMenuBar.EraserButtonGroup.EraseButton;
+import view.MidMenuBar.ImageBar.ImageButton;
+import view.MidMenuBar.PencilButtonGroup.PencilButton;
 
 import javax.swing.*;
 
@@ -14,10 +13,7 @@ public class MidMenuBarBuilder {
     JButton eButton;
     JButton pButton;
     JButton sButton;
-    JButton importButton;
-    JButton cropButton;
-    JButton resizeButton;
-    JButton rotateButton;
+    JButton iButton;
     DrawingCanvas canvas;
 
     public MidMenuBarBuilder(DrawingCanvas canvas) {
@@ -31,26 +27,14 @@ public class MidMenuBarBuilder {
         SelectButton selectButton = new SelectButton();
         sButton = selectButton.getButton();
 
-        ImportButton imageButton = new ImportButton();
-        importButton = imageButton.getButton();
-
-        CropButton crop = new CropButton();
-        cropButton = crop.getButton();
-
-        ResizeImageButton resize = new ResizeImageButton();
-        resizeButton = resize.getButton();
-
-        RotateButton rotate = new RotateButton();
-        rotateButton = rotate.getButton();
+        ImageButton imageButton = new ImageButton();
+        iButton = imageButton.getButton();
 
         panel = new JPanel();
         panel.add(pButton);
         panel.add(eButton);
         panel.add(sButton);
-        panel.add(importButton);
-        panel.add(cropButton);
-        panel.add(resizeButton);
-        panel.add(rotateButton);
+        panel.add(iButton);
     }
 
     public JPanel getPanel() {
