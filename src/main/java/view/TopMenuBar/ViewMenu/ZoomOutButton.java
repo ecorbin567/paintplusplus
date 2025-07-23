@@ -1,6 +1,6 @@
 package view.TopMenuBar.ViewMenu;
 
-import entity.CanvasState;
+// import entity.CanvasState;
 import entity.DrawingCanvas;
 
 import javax.swing.*;
