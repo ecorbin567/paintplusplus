@@ -1,7 +1,10 @@
 package view.MidMenuBar;
 
 import entity.DrawingCanvas;
+import view.MidMenuBar.ImageBar.CropButton;
 import view.MidMenuBar.ImageBar.ImageButton;
+import view.MidMenuBar.ImageBar.ResizeImageButton;
+import view.MidMenuBar.ImageBar.RotateButton;
 
 import javax.swing.*;
 
@@ -11,7 +14,10 @@ public class MidMenuBarBuilder {
     JButton eButton;
     JButton pButton;
     JButton sButton;
-    JButton iButton;
+    JButton importButton;
+    JButton cropButton;
+    JButton resizeButton;
+    JButton rotateButton;
     DrawingCanvas canvas;
 
     public MidMenuBarBuilder(DrawingCanvas canvas) {
@@ -26,13 +32,25 @@ public class MidMenuBarBuilder {
         sButton = selectButton.getButton();
 
         ImageButton imageButton = new ImageButton();
-        iButton = imageButton.getButton();
+        importButton = imageButton.getButton();
+
+        CropButton crop = new CropButton();
+        cropButton = crop.getButton();
+
+        ResizeImageButton resize = new ResizeImageButton();
+        resizeButton = resize.getButton();
+
+        RotateButton rotate = new RotateButton();
+        rotateButton = rotate.getButton();
 
         panel = new JPanel();
         panel.add(pButton);
         panel.add(eButton);
         panel.add(sButton);
-        panel.add(iButton);
+        panel.add(importButton);
+        panel.add(cropButton);
+        panel.add(resizeButton);
+        panel.add(rotateButton);
     }
 
     public JPanel getPanel() {
