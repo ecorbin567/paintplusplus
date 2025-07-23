@@ -1,4 +1,4 @@
-package view.MidMenuBar;
+package view.MidMenuBar.ImageBar;
 
 import javax.swing.*;
 import java.awt.*;
