@@ -1,14 +1,15 @@
-package view.MidMenuBar;
+package view.MidMenuBar.ImageBar;
+
+import view.MidMenuBar.SelectButton;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class ResizeImageButton {
+public class ImportButton {
     JButton button;
-
-    public ResizeImageButton() {
+    public ImportButton() {
         button = new JButton();
-        ImageIcon icon = new ImageIcon(ResizeImageButton.class.getResource("/images/ResizeIcon.png"));
+        ImageIcon icon = new ImageIcon(SelectButton.class.getResource("/images/ImageIcon.png"));
         Image image = icon.getImage();
         Image newImage = image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         icon = new ImageIcon(newImage);
