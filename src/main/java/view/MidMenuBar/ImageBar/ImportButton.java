@@ -5,9 +5,9 @@ import view.MidMenuBar.SelectButton;
 import javax.swing.*;
 import java.awt.*;
 
-public class ImageButton {
+public class ImportButton {
     JButton button;
-    public ImageButton() {
+    public ImportButton() {
         button = new JButton();
         ImageIcon icon = new ImageIcon(SelectButton.class.getResource("/images/ImageIcon.png"));
         Image image = icon.getImage();

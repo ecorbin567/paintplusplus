@@ -2,7 +2,7 @@ package view.MidMenuBar;
 
 import entity.DrawingCanvas;
 import view.MidMenuBar.ImageBar.CropButton;
-import view.MidMenuBar.ImageBar.ImageButton;
+import view.MidMenuBar.ImageBar.ImportButton;
 import view.MidMenuBar.ImageBar.ResizeImageButton;
 import view.MidMenuBar.ImageBar.RotateButton;
 
@@ -31,7 +31,7 @@ public class MidMenuBarBuilder {
         SelectButton selectButton = new SelectButton();
         sButton = selectButton.getButton();
 
-        ImageButton imageButton = new ImageButton();
+        ImportButton imageButton = new ImportButton();
         importButton = imageButton.getButton();
 
         CropButton crop = new CropButton();
