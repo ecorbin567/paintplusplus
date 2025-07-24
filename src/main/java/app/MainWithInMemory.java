@@ -2,13 +2,10 @@ package app;
 
 import data_access.InMemoryUserDataAccessObject;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.canvas.CanvasState;
 import interface_adapter.canvas.CanvasViewModel;
-import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.signup.SignupViewModel;
 import view.*;
-import view.TopMenuBar.TopMenuBarBuilder;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,7 +43,6 @@ public class MainWithInMemory {
         // results from the use case. The ViewModels are "observable", and will
         // be "observed" by the Views.
         final LoginViewModel loginViewModel = new LoginViewModel();
-        final LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
         final SignupViewModel signupViewModel = new SignupViewModel();
         final CanvasViewModel canvasViewModel = new CanvasViewModel();
 
@@ -60,17 +56,9 @@ public class MainWithInMemory {
                                                                canvasViewModel, userDataAccessObject);
         views.add(loginView, loginView.getViewName());
 
-        final LoggedInView loggedInView = ChangePasswordUseCaseFactory.create(viewManagerModel,
-                                                                              loggedInViewModel, userDataAccessObject);
-        views.add(loggedInView, loggedInView.getViewName());
-
         final CanvasView canvasView = new CanvasView(canvasViewModel);
 
         views.add(canvasView, canvasView.getViewName());
-
-//        TopMenuBarBuilder topMenuBarBuilder = new TopMenuBarBuilder(canvasView.getCanvas());
-//        JMenuBar menuBar = topMenuBarBuilder.getMenuBar();
-//        application.setJMenuBar(menuBar);
 
         viewManagerModel.setState(signupView.getViewName());
         viewManagerModel.firePropertyChanged();

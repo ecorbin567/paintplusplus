@@ -20,17 +20,17 @@ public class CanvasView extends JPanel implements ActionListener, PropertyChange
     public CanvasView(CanvasViewModel canvasViewModel) {
         this.canvasViewModel = canvasViewModel;
         this.canvasViewModel.addPropertyChangeListener(this);
+        this.setLayout(new BorderLayout());
 
         this.canvas = new DrawingCanvas();
         TopMenuBarBuilder topMenuBarBuilder = new TopMenuBarBuilder(canvas);
         JMenuBar menuBar = topMenuBarBuilder.getMenuBar();
-        this.add(menuBar);
+        this.add(menuBar, BorderLayout.NORTH);
 
         MidMenuBarBuilder midMenuBarBuilder = new MidMenuBarBuilder(canvas);
         JPanel panel = midMenuBarBuilder.getPanel();
-        this.add(panel, BorderLayout.NORTH);
-
-        this.add(canvas, BorderLayout.CENTER);
+        this.add(panel, BorderLayout.CENTER);
+        this.add(canvas, BorderLayout.SOUTH);
     }
 
     public DrawingCanvas getCanvas() {
