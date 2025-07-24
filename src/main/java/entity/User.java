@@ -1,27 +1,20 @@
 package entity;
 
-public class User {
-    private String username;
-    private String password;
+/**
+ * The representation of a user in our program.
+ */
+public interface User {
 
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
+    /**
+     * Returns the username of the user.
+     * @return the username of the user.
+     */
+    String getName();
 
-    public String getUsername() {
-        return username;
-    }
+    /**
+     * Returns the password of the user.
+     * @return the password of the user.
+     */
+    String getPassword();
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

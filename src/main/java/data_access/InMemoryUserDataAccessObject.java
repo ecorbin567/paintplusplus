@@ -1,63 +1,45 @@
 package data_access;
 
 import entity.User;
+import use_case.login.LoginUserDataAccessInterface;
+import use_case.signup.SignupUserDataAccessInterface;
 
 import java.util.HashMap;
 import java.util.Map;
 
-/** In memory database for testing users and user information */
-public class InMemoryUserDataAccessObject implements UserDataAccessInterface {
-    private Map<String, User> usersMap;
+/**
+ * In-memory implementation of the DAO for storing user data. This implementation does
+ * NOT persist data between runs of the program.
+ */
+public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterface,
+                                                     LoginUserDataAccessInterface {
 
-    public InMemoryUserDataAccessObject() {
-        this.usersMap = new HashMap<>();
+    private final Map<String, User> users = new HashMap<>();
 
-        // creating users for testing
-        createUser(new User("beabadoobee", "abcdefg123"));
+    private String currentUser;
+
+    @Override
+    public boolean existsByName(String identifier) {
+        return users.containsKey(identifier);
     }
 
-    /* DEPENDENCY INJECTIONS!!!! :DDDDD */
-    public boolean createUser(User user) {
-        if (usersMap.get(user.getUsername()) == null) {
-            usersMap.put(user.getUsername(), user);
-            return true;
-        } else {
-            return false;
-        }
+    @Override
+    public void save(User user) {
+        users.put(user.getName(), user);
     }
 
-    // null case is considered in interface?
-    public User getUser(String username) {
-        return usersMap.get(username);
+    @Override
+    public User get(String username) {
+        return users.get(username);
     }
 
-
-    public boolean updateUser(User user) {
-        if (usersMap.get(user.getUsername()) != null) {
-            usersMap.remove(user.getUsername());
-            usersMap.put(user.getUsername(), user);
-            return true;
-        } else {
-            return false;
-        }
-
+    @Override
+    public void setCurrentUser(String name) {
+        this.currentUser = name;
     }
 
-    public boolean deleteUser(String username) {
-        if (usersMap.get(username) != null) {
-            usersMap.remove(username);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean verifyCredentials(String username, String password) {
-        if (usersMap.get(username) != null) {
-            User u = usersMap.get(username);
-            return password.equals(u.getPassword());
-        } else {
-            return false;
-        }
+    @Override
+    public String getCurrentUser() {
+        return this.currentUser;
     }
 }

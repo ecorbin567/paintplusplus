@@ -2,7 +2,7 @@ package entity;
 
 import java.awt.*;
 
-public class Paintbrush implements DrawableElement{
+public class Paintbrush implements Tool{
     private float width;
     private Color colour;
 
@@ -11,6 +11,7 @@ public class Paintbrush implements DrawableElement{
         this.colour = colour;
     }
 
+    @Override
     public float getWidth() {
         return width;
     }
@@ -25,11 +26,5 @@ public class Paintbrush implements DrawableElement{
 
     public void setColour(Color colour) {
         this.colour = colour;
-    }
-
-    @Override
-    public Image renderAsImage() {
-        // TODO
-        return null;
     }
 }

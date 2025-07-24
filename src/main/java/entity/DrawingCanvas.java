@@ -5,76 +5,141 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionListener {
-    private Paintbrush paintbrush;
-    private Eraser eraser;
-    private Color backgroundColor;
-    private final ArrayList<StrokeRecord> strokes = new ArrayList<>();
-    private StrokeRecord currentStroke;
+    private double scale = 1.0;
+    private String selectedTool;
+    private final Paintbrush paintbrush;
+    private final Eraser eraser;
+    private final Color backgroundColor;
+    private final SelectionTool selectionTool;
+    private final ActionHistory actionHistory = new ActionHistory();
+    private final List<Image> importedImages = new ArrayList<>();
+
     public DrawingCanvas() {
         setBackground(Color.WHITE);
         this.backgroundColor = Color.WHITE;
         this.paintbrush = new Paintbrush(3f, Color.BLACK);
-        this.eraser = new Eraser(3f, false);
+        this.eraser = new Eraser(3f);
+        this.selectionTool = new SelectionTool();
+        this.setPreferredSize(new Dimension(800, 600));
         addMouseListener(this);
         addMouseMotionListener(this);
+    }
+
+    public double getScale() {
+        return this.scale;
+    }
+
+    public void setScale(double scale) {
+        this.scale = scale;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
+        // handle the resizing of canvas
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.scale(this.scale, this.scale);
 
-        for (StrokeRecord s : strokes) {
-            g2.setColor(s.colour);
-            g2.setStroke(new BasicStroke(s.width,
-                    BasicStroke.CAP_ROUND,
-                    BasicStroke.JOIN_ROUND));
-            for (int i = 1; i < s.pts.size(); i++) {
-                Point p1 = s.pts.get(i - 1);
-                Point p2 = s.pts.get(i);
-                g2.drawLine(p1.x, p1.y, p2.x, p2.y);
+        for (Image image : importedImages) {
+            image.draw(g2);
+        }
+        //
+        if (!(actionHistory.getUndoStack().isEmpty())) {
+            for (Drawable d : actionHistory.getUndoStack()) {
+                if (d instanceof StrokeRecord s) {
+                    g2.setColor(s.colour);
+                    g2.setStroke(new BasicStroke(s.width,
+                            BasicStroke.CAP_ROUND,
+                            BasicStroke.JOIN_ROUND));
+                    for (int i = 1; i < s.pts.size(); i++) {
+                        Point p1 = s.pts.get(i - 1);
+                        Point p2 = s.pts.get(i);
+                        g2.drawLine(p1.x, p1.y, p2.x, p2.y);
+                    }
+                }
             }
         }
     }
 
-
     @Override
     public void mousePressed(MouseEvent e) {
         if (SwingUtilities.isLeftMouseButton(e)) {
-            Color c = eraser.isErasing() ? backgroundColor
+            Color c = Objects.equals(this.selectedTool, "Eraser") ? backgroundColor
                     : paintbrush.getColour();
-            float w = eraser.isErasing() ? eraser.getWidth()
+            float w = Objects.equals(this.selectedTool, "Eraser") ? eraser.getWidth()
                     : paintbrush.getWidth();
 
-            currentStroke = new StrokeRecord(c, w);
+            StrokeRecord currentStroke = new StrokeRecord(c, w);
             currentStroke.pts.add(e.getPoint());
-            strokes.add(currentStroke);
+            actionHistory.push(currentStroke);
         }
     }
 
-
     @Override
     public void mouseDragged(MouseEvent e) {
-        if (currentStroke != null) {
-            currentStroke.pts.add(e.getPoint());
+        Drawable curr = actionHistory.getCurrentState();
+        if (curr != null) {
+            if (curr instanceof StrokeRecord strokeRecord) {
+                strokeRecord.pts.add(e.getPoint());
+                actionHistory.setCurrentState(strokeRecord);
+            }
             repaint();                 // ask Swing to invoke paintComponent()
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        currentStroke = null;          // finished; ready for a fresh stroke
+//        actionHistory.setCurrentState(null);         // finished; ready for a fresh stroke
     }
 
     public void erase() {
-        this.eraser.setErasing(true);
+        this.selectedTool = "Eraser";
     }
 
     public void paint() {
-        this.eraser.setErasing(false);
+        this.selectedTool = "Paintbrush";
+    }
+
+    public void undo() {
+        actionHistory.undo();
+        repaint();
+    }
+
+    public void redo() {
+        actionHistory.redo();
+        repaint();
+    }
+  
+    public BufferedImage getImage() {
+        //Used for Saving Image as PNG File
+        BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = image.createGraphics();
+        this.paint(g2d);
+        g2d.dispose();
+        return image;
+    }
+
+    public void setPaintBrushSize(float size) {
+        this.paintbrush.setWidth(size);
+    }
+
+    public void setPaintBrushColor(Color color){
+        this.paintbrush.setColour(color);
+    }
+
+    public void setEraserSize(float size) {
+        this.eraser.setWidth(size);
+    }
+
+    public void addDrawableElement(Image importedImage) {
+        importedImages.add(importedImage);
+        repaint();
     }
 
     // We don't need these, but must include them:

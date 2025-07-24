@@ -1,1 +1,8 @@
 2025-07-11: added src, main, and java path to store project files
+
+2025-07-18: added brush button, selection tool, other required files
+2023-07-18: finished implementation of ViewMenu Items, Resize button -> zoomin or zoomout buttons
+updated some logic to canvasState and Drawing canvas as needed.
+2023-07-23: selection tool done long ago, added functionality to make a button round,
+color wheel button done awaiting implementation of menu pop up to choose new color. To be
+updated in ColorChooserButton.java
