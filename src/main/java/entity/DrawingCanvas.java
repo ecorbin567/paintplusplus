@@ -148,6 +148,14 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         }
     }
 
+    public void rotateLastImportedImage(double degrees) {
+        if (!importedImages.isEmpty()) {
+            Image lastImage = importedImages.get(importedImages.size() - 1);
+            lastImage.rotate(degrees);
+            repaint();
+        }
+    }
+
     // We don't need these, but must include them:
     @Override public void mouseClicked(MouseEvent e) {}
     @Override public void mouseEntered(MouseEvent e) {}
