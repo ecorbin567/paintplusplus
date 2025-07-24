@@ -142,6 +142,13 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         repaint();
     }
 
+    public void resizeLastImportedImage(int newWidth, int newHeight) {
+        if (!importedImages.isEmpty()) {
+            Image lastImage = importedImages.get(importedImages.size() - 1);
+            lastImage.resize(newWidth, newHeight);
+        }
+    }
+
     // We don't need these, but must include them:
     @Override public void mouseClicked(MouseEvent e) {}
     @Override public void mouseEntered(MouseEvent e) {}

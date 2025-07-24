@@ -40,6 +40,6 @@ public class Image implements Drawable {
     public void crop(int cropX, int cropY, int cropWidth, int cropHeight) {}
 
     public void draw(Graphics2D g) {
-        g.drawImage(image, x, y, width, height, null);
+        g.drawImage(this.image, x, y, width, height, null);
     }
 }
