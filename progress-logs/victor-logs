@@ -6,3 +6,5 @@ updated some logic to canvasState and Drawing canvas as needed.
 2023-07-23: selection tool done long ago, added functionality to make a button round,
 color wheel button done awaiting implementation of menu pop up to choose new color. To be
 updated in ColorChooserButton.java
+2025-07-24: completed logic and added colorwheel, able to choose and update current color selected,
+math and logic complete. added to the pop up dialog frame as a jpanel.

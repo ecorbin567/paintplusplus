@@ -5,6 +5,7 @@ import interface_adapter.image.import_image.ImportController;
 import interface_adapter.image.import_image.ImportPresenter;
 import use_case.image.import_image.*;
 import data_access.LocalImageLoader;
+import view.MidMenuBar.ColorButtonsBar.ColorWheelButton;
 import view.MidMenuBar.EraserButtonGroup.EraseButton;
 import view.MidMenuBar.ImageBar.CropButton;
 import view.MidMenuBar.ImageBar.ImportButton;
@@ -24,6 +25,7 @@ public class MidMenuBarBuilder {
     JButton cropButton;
     JButton resizeButton;
     JButton rotateButton;
+    JButton colorWheelButton;
     DrawingCanvas canvas;
 
     public MidMenuBarBuilder(DrawingCanvas canvas) {
@@ -55,6 +57,10 @@ public class MidMenuBarBuilder {
         RotateButton rotate = new RotateButton(canvas);
         rotateButton = rotate.getButton();
 
+        ColorWheelButton colorWheel = new ColorWheelButton();
+        colorWheelButton = colorWheel.getButton();
+
+        // how we add to the panel on the buttons to the midmenu worry about later on when refractoring
         panel = new JPanel();
         panel.add(pButton);
         panel.add(eButton);
@@ -63,6 +69,7 @@ public class MidMenuBarBuilder {
         panel.add(cropButton);
         panel.add(resizeButton);
         panel.add(rotateButton);
+        panel.add(colorWheelButton);
     }
 
     public JPanel getPanel() {

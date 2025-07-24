@@ -13,7 +13,7 @@ public class ZoomOutButton {
         menuItem.setMnemonic(KeyEvent.VK_F);
         menuItem.setAccelerator(
                 KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK));
-        menuItem.setActionCommand("Zoom in");
+        menuItem.setActionCommand("Zoom Out");
 
         menuItem.addActionListener(e -> {
             drawingCanvas.setScale(drawingCanvas.getScale() / 1.1);
