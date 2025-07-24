@@ -1,13 +1,13 @@
-package view.MidMenuBar;
+package view.MidMenuBar.ColorButtonsBar;
 
 import java.awt.Color;
 
 import javax.swing.JButton;
 
-public class UpperColorWheelButton extends JButton{
+public class UpperColorChooserButton extends JButton{
     private Color upperCurrentColor;
 
-    public UpperColorWheelButton(Color c){
+    public UpperColorChooserButton(Color c){
         setSelectedUpperColor(c);
 
     }

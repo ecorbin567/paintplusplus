@@ -1,4 +1,4 @@
-package view.MidMenuBar;
+package view.MidMenuBar.ColorButtonsBar;
 
 import javax.swing.border.Border;
 import java.awt.*;

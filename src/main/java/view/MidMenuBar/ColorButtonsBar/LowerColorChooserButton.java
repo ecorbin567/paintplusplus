@@ -1,7 +1,6 @@
-package view.MidMenuBar;
+package view.MidMenuBar.ColorButtonsBar;
 
 import java.awt.Color;
-import javax.swing.JButton;
 
 public class LowerColorChooserButton {
     private Color lowerCurrentColor;
