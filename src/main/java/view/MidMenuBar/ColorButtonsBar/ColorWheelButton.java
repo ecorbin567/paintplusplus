@@ -1,4 +1,6 @@
-package view.MidMenuBar;
+package view.MidMenuBar.ColorButtonsBar;
+
+import view.MidMenuBar.SelectButton;
 
 import javax.swing.*;
 import java.awt.*;
