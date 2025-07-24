@@ -6,9 +6,9 @@ import java.util.List;
 
 /** Everything needed to redraw one continuous stroke. */
 public class StrokeRecord implements Drawable{
-    final List<Point> pts = new ArrayList<>();
-    final Color colour;
-    final float width;
+    public final List<Point> pts = new ArrayList<>();
+    public final Color colour;
+    public final float width;
 
     StrokeRecord(Color colour, float width) {
         this.colour = colour;
