@@ -20,14 +20,12 @@ public class ActionHistory {
         redoStack.clear();
     }
 
-
     public Drawable undo() {
         if (undoStack.isEmpty()) return null;
         redoStack.push(currentState);
         currentState = undoStack.pop();
         return currentState;
     }
-
 
     public Drawable redo() {
         if (redoStack.isEmpty()) return null;

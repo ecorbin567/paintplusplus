@@ -2,61 +2,68 @@ package data_access;
 
 import entity.ActionHistory;
 import entity.User;
+import use_case.login.LoginUserDataAccessInterface;
+import use_case.signup.SignupUserDataAccessInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/** In memory database for testing users and user information */
-public class InMemoryUserDataAccessObject implements UserDataAccessInterface {
-    private Map<String, User> usersMap;
-
-    /** Map usernames to list of their action history. */
-    private Map<String, List<ActionHistory>> usersDocumentsMap;
+/**
+ * In-memory implementation of the DAO for storing user data. This implementation does
+ * NOT persist data between runs of the program.
+ */
+public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterface,
+                                                     LoginUserDataAccessInterface {
+    private final Map<String, User> users = new HashMap<>();
+    private final Map<String, List<ActionHistory>> usersDocumentsMap = new HashMap<>();
+    private String currentUser;
 
     public InMemoryUserDataAccessObject() {
-        this.usersMap = new HashMap<>();
-        this.usersDocumentsMap = new HashMap<>();
 
         // creating users for testing
-        String username = "beabadoobee";
-        String password = "abcdefg123";
-        addUser(new User(username, password));
-
-
+        //createUser(new User("beabadoobee", "abcdefg123"));
     }
 
     /* DEPENDENCY INJECTIONS!!!! :DDDDD */
-    public boolean addUser(User user) {
-        if (usersMap.get(user.getUsername()) == null) {
-            usersMap.put(user.getUsername(), user);
+    public boolean createUser(User user) {
+        if (users.get(user.getUsername()) == null) {
+            users.put(user.getUsername(), user);
             return true;
         } else {
             return false;
         }
     }
 
-    // null case is considered in interface?
-    public User getUser(String username) {
-        return usersMap.get(username);
+    @Override
+    public boolean existsByName(String identifier) {
+        return users.containsKey(identifier);
     }
 
+    @Override
+    public void save(User user) {
+        users.put(user.getName(), user);
+    }
 
-    public boolean updateUser(User user) {
-        if (usersMap.get(user.getUsername()) != null) {
-            usersMap.remove(user.getUsername());
-            usersMap.put(user.getUsername(), user);
-            return true;
-        } else {
-            return false;
-        }
+    @Override
+    public User get(String username) {
+        return users.get(username);
+    }
 
+    @Override
+    public void setCurrentUser(String name) {
+        this.currentUser = name;
+    }
+
+    @Override
+    public String getCurrentUser() {
+        return this.currentUser;
     }
 
     public boolean deleteUser(String username) {
-        if (usersMap.get(username) != null) {
-            usersMap.remove(username);
+        if (users.get(username) != null) {
+            users.remove(username);
             return true;
         } else {
             return false;
@@ -64,15 +71,14 @@ public class InMemoryUserDataAccessObject implements UserDataAccessInterface {
     }
 
     public boolean verifyCredentials(String username, String password) {
-        if (usersMap.get(username) != null) {
-            User u = usersMap.get(username);
+        if (users.get(username) != null) {
+            User u = users.get(username);
             return password.equals(u.getPassword());
         } else {
             return false;
         }
-    }
+        }
 
-    @Override
     public boolean saveCanvas(User user, ActionHistory actionHistory) {
         if (usersDocumentsMap.get(user.getUsername()) == null) {
             usersDocumentsMap.put(user.getUsername(), new ArrayList<>());
@@ -85,15 +91,11 @@ public class InMemoryUserDataAccessObject implements UserDataAccessInterface {
 
     }
 
-    @Override
     public ActionHistory findCanvasById(User user, int id) {
         return usersDocumentsMap.get(user.getUsername()).get(id);
     }
 
-    @Override
     public List<ActionHistory> getAllCanvases(User user) {
         return usersDocumentsMap.get(user.getUsername());
     }
-
-
 }
