@@ -1,6 +1,9 @@
 package data_access;
 
+import entity.ActionHistory;
 import entity.User;
+
+import java.util.List;
 
 public interface UserDataAccessInterface {
 
@@ -9,7 +12,7 @@ public interface UserDataAccessInterface {
      * @param user the user to save
      * @return true if successfully saved, false if user already exists
      */
-    boolean createUser(User user);
+    boolean addUser(User user);
 
     /**
      * Fetches a user by username.
@@ -39,5 +42,21 @@ public interface UserDataAccessInterface {
      * @return true if credentials are correct
      */
     boolean verifyCredentials(String username, String password);
+
+    /**
+     * Add new document to user's repository
+     * @param actionHistory
+     * @return
+     */
+    boolean saveCanvas(User user, ActionHistory actionHistory);
+
+    /**
+     * Get a certain project from user's repository.
+     * @param id
+     * @return the action history of the desired drawing
+     */
+    ActionHistory findCanvasById(User user, int id);
+
+    List<ActionHistory> getAllCanvases(User user);
 }
 

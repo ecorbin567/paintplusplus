@@ -49,10 +49,10 @@ public class MidMenuBarBuilder {
         CropButton crop = new CropButton();
         cropButton = crop.getButton();
 
-        ResizeImageButton resize = new ResizeImageButton();
+        ResizeImageButton resize = new ResizeImageButton(canvas);
         resizeButton = resize.getButton();
 
-        RotateButton rotate = new RotateButton();
+        RotateButton rotate = new RotateButton(canvas);
         rotateButton = rotate.getButton();
 
         panel = new JPanel();
