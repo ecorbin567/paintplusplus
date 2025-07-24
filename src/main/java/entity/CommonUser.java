@@ -23,4 +23,9 @@ public class CommonUser implements User {
         return password;
     }
 
+    @Override
+    public String getUsername() {
+        return "";
+    }
+
 }

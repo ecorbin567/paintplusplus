@@ -1,9 +1,6 @@
 package data_access;
 
-import entity.ActionHistory;
-import entity.Drawable;
-import entity.StrokeRecord;
-import entity.User;
+import entity.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -88,7 +85,7 @@ public class EntityToJSONConverter {
      * Example usage.
      */
     public static void main(String[] args) {
-        User user = new User("alice", "securepassword123");
+        User user = new CommonUser("alice", "securepassword123");
         JSONObject userJson = convertUserToJSON(user);
         System.out.println(userJson.toString(2)); // Pretty print with indentation
     }
