@@ -6,6 +6,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionListener {
@@ -16,6 +18,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     private final Color backgroundColor;
     private final SelectionTool selectionTool;
     private final ActionHistory actionHistory = new ActionHistory();
+    private final List<Image> importedImages = new ArrayList<>();
 
     public DrawingCanvas() {
         setBackground(Color.WHITE);
@@ -42,6 +45,10 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         // handle the resizing of canvas
         Graphics2D g2 = (Graphics2D) g.create();
         g2.scale(this.scale, this.scale);
+
+        for (Image image : importedImages) {
+            image.draw(g2);
+        }
         //
         if (!(actionHistory.getUndoStack().isEmpty())) {
             for (Drawable d : actionHistory.getUndoStack()) {
@@ -54,7 +61,6 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
                         Point p1 = s.pts.get(i - 1);
                         Point p2 = s.pts.get(i);
                         g2.drawLine(p1.x, p1.y, p2.x, p2.y);
-
                     }
                 }
             }
@@ -117,6 +123,23 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         this.paint(g2d);
         g2d.dispose();
         return image;
+    }
+
+    public void setPaintBrushSize(float size) {
+        this.paintbrush.setWidth(size);
+    }
+
+    public void setPaintBrushColor(Color color){
+        this.paintbrush.setColour(color);
+    }
+
+    public void setEraserSize(float size) {
+        this.eraser.setWidth(size);
+    }
+
+    public void addDrawableElement(Image importedImage) {
+        importedImages.add(importedImage);
+        repaint();
     }
 
     // We don't need these, but must include them:

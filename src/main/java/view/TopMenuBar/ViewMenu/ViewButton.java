@@ -9,7 +9,7 @@ public class ViewButton {
     private final JMenu menu;
     public ViewButton(DrawingCanvas drawingCanvas){
 
-        ResizeButton resizeButton = new ResizeButton(drawingCanvas);
+        ResizeCanvasButton resizeButton = new ResizeCanvasButton(drawingCanvas);
 
         menu = new JMenu("View");
         menu.setMnemonic(KeyEvent.VK_V);

@@ -1,13 +1,14 @@
-package view.MidMenuBar;
+package view.MidMenuBar.ImageBar;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class ImageButton {
+public class RotateButton {
     JButton button;
-    public ImageButton() {
+
+    public RotateButton() {
         button = new JButton();
-        ImageIcon icon = new ImageIcon(SelectButton.class.getResource("/images/ImageIcon.png"));
+        ImageIcon icon = new ImageIcon(RotateButton.class.getResource("/images/RotateIcon.png"));
         Image image = icon.getImage();
         Image newImage = image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         icon = new ImageIcon(newImage);
