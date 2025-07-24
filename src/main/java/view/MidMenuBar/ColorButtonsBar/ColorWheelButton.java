@@ -4,8 +4,12 @@ import view.MidMenuBar.SelectButton;
 
 import javax.swing.*;
 import java.awt.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class ColorWheelButton {
+public class ColorWheelButton extends JFrame{
     JButton button;
     ImageIcon imageIcon;
 
@@ -22,6 +26,15 @@ public class ColorWheelButton {
         button.setPreferredSize(new Dimension(20, 20));
         button.setBorder(new RoundedButton(10));
 
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ColorWheelPopUpWindow colorWheelPopUp = new ColorWheelPopUpWindow(ColorWheelButton.this);
+                colorWheelPopUp.setVisible(true);
+            }
+        });
+        add(button);
+        setVisible(true);
     }
 
     public JButton getButton(){
