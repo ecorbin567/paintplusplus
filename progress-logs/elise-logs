@@ -3,3 +3,5 @@
 2025-07-17: Implemented undo and redo
 2025-07-18: Refactored drawing canvas so it relies on entity ActionHistory
 2025-07-22: Fixed bugs in zoom in and out
+2025-07-22 and 2025-07-24: Implemented basic login functionality where the user navigates through the signup and login screens
+before accessing the canvas.
