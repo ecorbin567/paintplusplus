@@ -1,8 +1,10 @@
 package entity;
 
+
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-public abstract class Image implements Drawable {
+public class Image implements Drawable {
 
     private BufferedImage image;
     private int x, y;
@@ -17,13 +19,18 @@ public abstract class Image implements Drawable {
         this.y = 0;
     }
 
+    public BufferedImage getBufferedImage() {
+        return image;
+    }
+
     public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
     public void resize(int newWidth, int newHeight) {
-
+        this.width = newWidth;
+        this.height = newHeight;
     }
 
     public void rotate(double degrees) {
@@ -31,4 +38,8 @@ public abstract class Image implements Drawable {
     }
 
     public void crop(int cropX, int cropY, int cropWidth, int cropHeight) {}
+
+    public void draw(Graphics2D g) {
+        g.drawImage(image, x, y, width, height, null);
+    }
 }

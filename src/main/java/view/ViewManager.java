@@ -1,32 +1,33 @@
 package view;
 
-import entity.DrawingCanvas;
-import view.MidMenuBar.MidMenuBarBuilder;
-import view.TopMenuBar.TopMenuBarBuilder;
+import interface_adapter.ViewManagerModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-public class ViewManager {
-    public ViewManager(){
-        JFrame frame = new JFrame("Paint++");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 400);
+/**
+ * The View Manager for the program. It listens for property change events
+ * in the ViewManagerModel and updates which View should be visible.
+ */
+public class ViewManager implements PropertyChangeListener {
+    private final CardLayout cardLayout;
+    private final JPanel views;
+    private final ViewManagerModel viewManagerModel;
 
-        DrawingCanvas canvas = new DrawingCanvas();
-        TopMenuBarBuilder topMenuBarBuilder = new TopMenuBarBuilder(canvas);
-        JMenuBar menuBar = topMenuBarBuilder.getMenuBar();
-        frame.setJMenuBar(menuBar);
-
-        MidMenuBarBuilder midMenuBarBuilder = new MidMenuBarBuilder(canvas);
-        JPanel panel = midMenuBarBuilder.getPanel();
-        frame.add(panel, BorderLayout.NORTH);
-
-        frame.add(canvas);
-        frame.setVisible(true);
+    public ViewManager(JPanel views, CardLayout cardLayout, ViewManagerModel viewManagerModel) {
+        this.views = views;
+        this.cardLayout = cardLayout;
+        this.viewManagerModel = viewManagerModel;
+        this.viewManagerModel.addPropertyChangeListener(this);
     }
-//    Testing Area:
-//    public static void main(String[] args) {
-//        new ViewManager();
-//    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("state")) {
+            final String viewModelName = (String) evt.getNewValue();
+            cardLayout.show(views, viewModelName);
+        }
+    }
 }

@@ -6,6 +6,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionListener {
@@ -16,6 +18,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     private final Color backgroundColor;
     private final SelectionTool selectionTool;
     private final ActionHistory actionHistory = new ActionHistory();
+    private final List<Image> importedImages = new ArrayList<>();
 
     public DrawingCanvas() {
         setBackground(Color.WHITE);
@@ -23,6 +26,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         this.paintbrush = new Paintbrush(3f, Color.BLACK);
         this.eraser = new Eraser(3f);
         this.selectionTool = new SelectionTool();
+        this.setPreferredSize(new Dimension(800, 600));
         addMouseListener(this);
         addMouseMotionListener(this);
     }
@@ -41,6 +45,10 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         // handle the resizing of canvas
         Graphics2D g2 = (Graphics2D) g.create();
         g2.scale(this.scale, this.scale);
+
+        for (Image image : importedImages) {
+            image.draw(g2);
+        }
         //
         if (!(actionHistory.getUndoStack().isEmpty())) {
             for (Drawable d : actionHistory.getUndoStack()) {
@@ -129,6 +137,10 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         this.eraser.setWidth(size);
     }
 
+    public void addDrawableElement(Image importedImage) {
+        importedImages.add(importedImage);
+        repaint();
+    }
 
     // We don't need these, but must include them:
     @Override public void mouseClicked(MouseEvent e) {}
