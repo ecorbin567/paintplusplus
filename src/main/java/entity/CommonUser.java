@@ -25,7 +25,8 @@ public class CommonUser implements User {
 
     @Override
     public String getUsername() {
-        return "";
+        // TODO: remove this and refactor at some point. this is for compatibility with Josh's code
+        return getName();
     }
 
 }

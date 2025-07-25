@@ -17,5 +17,6 @@ public interface User {
      */
     String getPassword();
 
+    // TODO: remove this and refactor at some point. this is for compatibility with Josh's code
     String getUsername();
 }
