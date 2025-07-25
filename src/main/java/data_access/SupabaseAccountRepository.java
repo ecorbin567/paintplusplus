@@ -2,7 +2,9 @@ package data_access;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.net.HttpURLConnection;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpRequest;
 import entity.ActionHistory;
 import entity.User;
@@ -33,6 +35,10 @@ public class SupabaseAccountRepository implements UserDataAccessInterface {
     public SupabaseAccountRepository() {
         client = HttpClient.newHttpClient();
         mapper = new ObjectMapper();
+    }
+
+    private String encodeUsername(String username) {
+        return java.net.URLEncoder.encode("eq." + username, java.nio.charset.StandardCharsets.UTF_8);
     }
 
     @Override
@@ -69,7 +75,7 @@ public class SupabaseAccountRepository implements UserDataAccessInterface {
     public User getUser(String username) {
         try {
             // Supabase filter format: ?username=eq.<value>
-            String encodedUsername = java.net.URLEncoder.encode("eq." + username, java.nio.charset.StandardCharsets.UTF_8);
+            String encodedUsername = encodeUsername(username);
             String url = USER_DATABASE_URL + "?username=" + encodedUsername;
 
             HttpRequest request = HttpRequest.newBuilder()
@@ -108,7 +114,27 @@ public class SupabaseAccountRepository implements UserDataAccessInterface {
 
     @Override
     public boolean deleteUser(String username) {
-        return false;
+        try {
+            // Supabase filter format: ?username=eq.<value>
+            String encodedUsername = encodeUsername(username);
+            String url = USER_DATABASE_URL + "?username=" + encodedUsername;
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .header("apikey", API_KEY)
+                    .header("Authorization", "Bearer " + API_KEY)
+                    .header("Content-Type", "application/json")
+                    .DELETE()
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            return response.statusCode() == 204; // 204 No Content = successfully deleted
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
