@@ -6,6 +6,7 @@ import java.net.URI;
 import java.net.http.HttpRequest;
 import entity.ActionHistory;
 import entity.User;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.net.http.HttpClient;
@@ -66,7 +67,38 @@ public class SupabaseAccountRepository implements UserDataAccessInterface {
 
     @Override
     public User getUser(String username) {
-        return null;
+        try {
+            // Supabase filter format: ?username=eq.<value>
+            String encodedUsername = java.net.URLEncoder.encode("eq." + username, java.nio.charset.StandardCharsets.UTF_8);
+            String url = USER_DATABASE_URL + "?username=" + encodedUsername;
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .header("apikey", API_KEY)
+                    .header("Authorization", "Bearer " + API_KEY)
+                    .header("Accept", "application/json")
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                JSONArray results = new JSONArray(response.body());
+                if (results.length() > 0) {
+                    JSONObject userJson = results.getJSONObject(0);
+                    return EntityToJSONConverter.convertJSONToUser(userJson);
+                } else {
+                    return null; // user not found
+                }
+            } else {
+                System.err.println("Error: " + response.statusCode() + "\n" + response.body());
+                return null;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

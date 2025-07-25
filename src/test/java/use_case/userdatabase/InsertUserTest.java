@@ -16,5 +16,13 @@ public class InsertUserTest {
         User user = new CommonUser("saliva", "ilovecheetos");
         boolean result = service.addUser(user);
         assertTrue(result);
+        System.out.println("Added user " + user.getUsername() + " / " + user.getPassword());
+    }
+
+    @Test
+    public void testUserGet() {
+        User user = service.getUser("alice");
+        assertNotNull(user);
+        System.out.println("Testing user retrieval: Found: " + user.getUsername() + " / " + user.getPassword());
     }
 }

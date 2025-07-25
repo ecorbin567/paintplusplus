@@ -22,6 +22,12 @@ public class EntityToJSONConverter {
         return json;
     }
 
+    public static User convertJSONToUser(JSONObject json) {
+        String username = json.getString("username");
+        String password = json.getString("password");
+        return new CommonUser(username, password);
+    }
+
     /**
      * Converts an ActionHistory object into a JSON representation.
      *
