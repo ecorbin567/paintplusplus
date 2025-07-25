@@ -63,7 +63,7 @@ public class MidMenuBarBuilder {
         rotateButton = rotate.getButton();
 
         ColorWheelButton colorWheel = new ColorWheelButton();
-        colorWheelButton = colorWheel.getButton();
+        colorWheelButton = colorWheel.getColorWheelButton();
 
         // how we add to the panel on the buttons to the midmenu worry about later on when refractoring
         panel = new JPanel();
