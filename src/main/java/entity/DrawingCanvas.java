@@ -12,6 +12,7 @@ import java.util.Objects;
 
 public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionListener {
     private double scale = 1.0;
+    private Image currentImage;
     private String selectedTool;
     private final Paintbrush paintbrush;
     private final Eraser eraser;
@@ -136,8 +137,17 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         this.eraser.setWidth(size);
     }
 
+    public void setCurrentImage(Image image) {
+        this.currentImage = image;
+    }
+
+    public Image getCurrentImage() {
+        return this.currentImage;
+    }
+
     public void addDrawableElement(Image importedImage) {
         importedImages.add(importedImage);
+        setCurrentImage(importedImage);
         repaint();
     }
 

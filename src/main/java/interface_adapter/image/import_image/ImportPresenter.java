@@ -1,6 +1,5 @@
 package interface_adapter.image.import_image;
 
-import entity.Image;
 import use_case.image.import_image.ImportOutputBoundary;
 import use_case.image.import_image.ImportResponseModel;
 
@@ -16,9 +15,7 @@ public class ImportPresenter implements ImportOutputBoundary {
 
     @Override
     public void present(ImportResponseModel response) {
-        Image importedImage = response.getImage();
-        canvas.addDrawableElement(importedImage);
-        canvas.repaint();
+        canvas.addDrawableElement(response.getImage());
     }
 
     @Override

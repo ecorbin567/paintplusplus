@@ -1,4 +1,26 @@
 package interface_adapter.image.crop;
 
-public class CropPresenter {
+import entity.DrawingCanvas;
+import use_case.image.crop.CropOutputBoundary;
+import use_case.image.crop.CropResponseModel;
+
+import javax.swing.*;
+
+public class CropPresenter implements CropOutputBoundary {
+
+    private final DrawingCanvas canvas;
+
+    public CropPresenter(DrawingCanvas canvas) {
+        this.canvas = canvas;
+    }
+
+    @Override
+    public void present(CropResponseModel responseModel) {
+        canvas.repaint();  // Image is already updated
+    }
+
+    @Override
+    public void presentError(String error) {
+        JOptionPane.showMessageDialog(null, error,  "Crop Error", JOptionPane.ERROR_MESSAGE);
+    }
 }
