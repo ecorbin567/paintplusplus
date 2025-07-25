@@ -23,11 +23,6 @@ public class Image implements Drawable {
         return image;
     }
 
-    public void setPosition(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
     public void resize(int newWidth, int newHeight) {
         this.width = newWidth;
         this.height = newHeight;
@@ -37,7 +32,11 @@ public class Image implements Drawable {
         this.rotation += degrees;
     }
 
-    public void crop(int cropX, int cropY, int cropWidth, int cropHeight) {}
+    public void crop(int cropX, int cropY, int cropWidth, int cropHeight) {
+        image = image.getSubimage(cropX, cropY, cropWidth, cropHeight);
+        this.width = cropWidth;
+        this.height = cropHeight;
+    }
 
     public void draw(Graphics2D g) {
         Graphics2D g2d = (Graphics2D) g.create();

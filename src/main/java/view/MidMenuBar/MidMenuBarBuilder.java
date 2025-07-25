@@ -1,8 +1,9 @@
 package view.MidMenuBar;
 
 import entity.DrawingCanvas;
-import interface_adapter.image.import_image.ImportController;
-import interface_adapter.image.import_image.ImportPresenter;
+import interface_adapter.image.crop.*;
+import use_case.image.crop.*;
+import interface_adapter.image.import_image.*;
 import use_case.image.import_image.*;
 import data_access.LocalImageLoader;
 import view.MidMenuBar.ColorButtonsBar.ColorWheelButton;
@@ -31,6 +32,10 @@ public class MidMenuBarBuilder {
     public MidMenuBarBuilder(DrawingCanvas canvas) {
         this.canvas = canvas;
 
+        CropOutputBoundary cropPresenter = new CropPresenter(canvas);
+        CropInputBoundary cropInteractor = new CropInteractor(canvas, cropPresenter);
+        CropController cropController = new CropController(cropInteractor);
+
         ImportOutputBoundary presenter = new ImportPresenter(canvas);
         ImportGateway gateway = new LocalImageLoader();
         ImportInputBoundary interactor = new ImportInteractor(gateway, presenter);
@@ -48,7 +53,7 @@ public class MidMenuBarBuilder {
         ImportButton imageButton = new ImportButton(importController);
         iButton = imageButton.getButton();
 
-        CropButton crop = new CropButton();
+        CropButton crop = new CropButton(cropController);
         cropButton = crop.getButton();
 
         ResizeImageButton resize = new ResizeImageButton(canvas);
