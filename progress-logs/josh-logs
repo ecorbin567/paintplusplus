@@ -12,3 +12,14 @@
 
     Changes to InMemoryUserDataAccessObject
     - create update User password
+
+2025-07-25 created persistent (database) user signup/login functionality.
+    If you want to test the signup/login with the DB, go to Main.java
+    and uncomment the "final SupabaseAccountRepository userDataAccessObject" line then comment out
+    the "final InMemoryUserDataAccessObject userDataAccessObject" line.
+
+    Currently, the database will always have the following user/pswd pairs as valid login details:
+        user/pswd
+        beabadoobee / plaintext123
+        saliva / ilovecheetos1
+
