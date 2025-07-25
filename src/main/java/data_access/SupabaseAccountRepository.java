@@ -1,7 +1,5 @@
 package data_access;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -34,12 +32,10 @@ public class SupabaseAccountRepository implements UserDataAccessInterface,
     private final String USER_DATABASE_URL = "https://jrzhzrsourpuiflfzdgc.supabase.co/rest/v1/Users";
 
     private final HttpClient client;
-    private final ObjectMapper mapper;
     private String currentUser = "";
 
     public SupabaseAccountRepository() {
         client = HttpClient.newHttpClient();
-        mapper = new ObjectMapper();
     }
 
     private String encodeUsername(String username) {
