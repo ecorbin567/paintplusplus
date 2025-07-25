@@ -7,10 +7,7 @@ public class TestUserRepositoryMethods {
     private static final UserDataAccessInterface service = new SupabaseAccountRepository();
 
     public static void main(String[] args) {
-        TestAddUser("alice");
-        TestAddUser("Miguel");
-        TestGetUser("Miguel");
-        TestDeleteUser("alice");
+        TestUpdateUserPswd();
     }
 
     public static void TestAddUser(String username) {
@@ -42,6 +39,26 @@ public class TestUserRepositoryMethods {
             System.out.println("✅ User deleted successfully");
         } else {
             System.out.println("❌ Failed to delete user");
+        }
+    }
+
+    public static void TestUpdateUserPswd() {
+        User user = new CommonUser("abady", "plainy");
+        boolean result = service.addUser(user);
+        if (result) {
+            System.out.println("✅ User added successfully");
+        } else {
+            System.out.println("❌ Failed to add user");
+        }
+
+        String newPassword = "swaggy";
+        service.updateUserPassword(user.getName(), newPassword);
+        User retrievedUser = service.getUser(user.getName());
+
+        if (newPassword.equals(retrievedUser.getPassword())) {
+            System.out.println("✅ User password updated to: " + retrievedUser.getPassword());
+        } else {
+            System.out.println("❌ Failed to update user");
         }
     }
 

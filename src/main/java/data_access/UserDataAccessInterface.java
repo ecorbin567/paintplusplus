@@ -22,11 +22,11 @@ public interface UserDataAccessInterface {
     User getUser(String username);
 
     /**
-     * Updates an existing user’s data (e.g., password, settings).
-     * @param user the updated user object
+     * Updates an existing user’s password.
+     * @param username the updated username
      * @return true if update was successful
      */
-    boolean updateUser(User user);
+    boolean updateUserPassword(String username, String newPassword);
 
     /**
      * Deletes a user from persistent storage.

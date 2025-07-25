@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.URL;
 import java.net.http.HttpRequest;
 import entity.ActionHistory;
+import entity.CommonUser;
 import entity.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -108,8 +109,15 @@ public class SupabaseAccountRepository implements UserDataAccessInterface {
     }
 
     @Override
-    public boolean updateUser(User user) {
-        return false;
+    public boolean updateUserPassword(String username, String newPassword) {
+        try {
+            boolean status1 = deleteUser(username);
+            boolean status2 = addUser(new CommonUser(username, newPassword));
+            return status1 && status2;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
@@ -139,7 +147,8 @@ public class SupabaseAccountRepository implements UserDataAccessInterface {
 
     @Override
     public boolean verifyCredentials(String username, String password) {
-        return false;
+        User user = getUser(username);
+        return user != null && password.equals(user.getPassword());
     }
 
     @Override
