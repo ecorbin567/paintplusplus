@@ -11,6 +11,8 @@ import entity.CommonUser;
 import entity.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import use_case.login.LoginUserDataAccessInterface;
+import use_case.signup.SignupUserDataAccessInterface;
 
 import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
@@ -25,13 +27,15 @@ import java.util.Map;
 //  TODO: user get and set methods
 //  TODO: verify and stuff
 
-public class SupabaseAccountRepository implements UserDataAccessInterface {
+public class SupabaseAccountRepository implements UserDataAccessInterface,
+        LoginUserDataAccessInterface, SignupUserDataAccessInterface {
     // You should never store API keys like this. But I don't care.
     private final String API_KEY = "sb_secret_ZDGh4GSj6nne_LGHTJ162A__CFUb7sF";
     private final String USER_DATABASE_URL = "https://jrzhzrsourpuiflfzdgc.supabase.co/rest/v1/Users";
 
     private final HttpClient client;
     private final ObjectMapper mapper;
+    private String currentUser = "";
 
     public SupabaseAccountRepository() {
         client = HttpClient.newHttpClient();
@@ -42,6 +46,23 @@ public class SupabaseAccountRepository implements UserDataAccessInterface {
         return java.net.URLEncoder.encode("eq." + username, java.nio.charset.StandardCharsets.UTF_8);
     }
 
+    // the following 3 methods are from signup/login data access interfaces.
+    @Override
+    public boolean existsByName(String username) {
+        return (getUser(username) != null);
+    }
+
+    @Override
+    public void setCurrentUser(String name) {
+        currentUser = name;
+    }
+
+    @Override
+    public String getCurrentUser() {
+        return currentUser;
+    }
+
+    // primary data access interface methods
     @Override
     public boolean addUser(User user) {
         try {

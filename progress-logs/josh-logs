@@ -1,4 +1,14 @@
 2025-07-22 Created interactor to retrieve user documents (e.g. Google Docs)
 2025-07-23 Created Entity to JSON converter to start working on the database API
 2025-07-24 resolving massive conflict to do with Users and UserDataAccess things
-2025-07-25 supabase database repository functionality
+2025-07-25 supabase database repository functionality; adding, creating, updating, deleting users in external DB
+2025-07-25 reconcile conflict between Signup/LoginUserDataAccessInterface and UserDataAccessInterface. Changes below:
+
+    Changes to Signup/LoginUserDataAccessInterface
+    - signup/login interfaces now EXTEND user data access interface
+    - two similar methods have been renamed for consistency
+        - save -> addUser
+        - get -> getUser
+
+    Changes to InMemoryUserDataAccessObject
+    - create update User password

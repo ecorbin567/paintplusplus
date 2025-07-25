@@ -5,8 +5,9 @@ import entity.User;
 
 import java.util.List;
 
+/** Primary interface for accessing user information
+ */
 public interface UserDataAccessInterface {
-
     /**
      * Saves a new user to the persistent storage.
      * @param user the user to save

@@ -1,11 +1,12 @@
 package use_case.login;
 
+import data_access.UserDataAccessInterface;
 import entity.User;
 
 /**
  * DAO for the Login Use Case.
  */
-public interface LoginUserDataAccessInterface {
+public interface LoginUserDataAccessInterface extends UserDataAccessInterface {
 
     /**
      * Checks if the given username exists.
@@ -17,21 +18,23 @@ public interface LoginUserDataAccessInterface {
     /**
      * Saves the user.
      * @param user the user to save
+     * @return if add user success
      */
-    void save(User user);
+    boolean addUser(User user);
 
     /**
      * Returns the user with the given username.
      * @param username the username to look up
      * @return the user with the given username
      */
-    User get(String username);
+    User getUser(String username);
 
     /**
      * Sets the current user to a given name.
      * @param name the username to set
      */
     void setCurrentUser(String name);
+    // JOSH: why is this a String? it works tho so I'll stick with it
 
     /**
      * Returns the current user's name.
