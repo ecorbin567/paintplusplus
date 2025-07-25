@@ -1,6 +1,8 @@
 package app;
 
 import data_access.InMemoryUserDataAccessObject;
+import data_access.SupabaseAccountRepository;
+import data_access.UserDataAccessInterface;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.login.LoginViewModel;
@@ -46,6 +48,12 @@ public class Main {
         final SignupViewModel signupViewModel = new SignupViewModel();
         final CanvasViewModel canvasViewModel = new CanvasViewModel();
 
+        /* Josh: The below should be UserDataAccessInterface for generality, but it gets messy and I just want
+        to test the signup/login functionality with the database
+
+        If you want to test the signup/login with the DB, uncomment the line below and comment out
+        the InMemory version. user/pswd for testing DB: "beabadoobee" / "plaintext123" */
+        // final SupabaseAccountRepository userDataAccessObject = new SupabaseAccountRepository();
         final InMemoryUserDataAccessObject userDataAccessObject = new InMemoryUserDataAccessObject();
 
         final SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel,

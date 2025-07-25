@@ -1,6 +1,7 @@
 package data_access;
 
 import entity.ActionHistory;
+import entity.CommonUser;
 import entity.User;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
@@ -42,12 +43,24 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     }
 
     @Override
-    public void save(User user) {
+    public boolean addUser(User user) {
         users.put(user.getName(), user);
+        return true;
     }
 
     @Override
-    public User get(String username) {
+    public boolean updateUserPassword(String username, String newPassword) {
+        if (users.get(username) == null) {
+            return false;
+        } else {
+            users.remove(username);
+            users.put(username, new CommonUser(username, newPassword));
+            return true;
+        }
+    }
+
+    @Override
+    public User getUser(String username) {
         return users.get(username);
     }
 
