@@ -8,3 +8,6 @@ color wheel button done awaiting implementation of menu pop up to choose new col
 updated in ColorChooserButton.java
 2025-07-24: completed logic and added colorwheel, able to choose and update current color selected,
 math and logic complete. added to the pop up dialog frame as a jpanel.
+2025-07-26: fixed all button functionality issues, pen/brush is able to change color, icon for colorwheel updated,
+pop up dialog for colorwheel functionality finished. Going to work on finishing selection tool implementation into drawing
+canvas and colorwheel icon into colorwheelbutton.

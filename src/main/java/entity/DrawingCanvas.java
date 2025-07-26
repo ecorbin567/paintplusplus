@@ -116,6 +116,10 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         actionHistory.redo();
         repaint();
     }
+
+    public Paintbrush getPaintbrush(){
+        return this.paintbrush;
+    }
   
     public BufferedImage getImage() {
         //Used for Saving Image as PNG File

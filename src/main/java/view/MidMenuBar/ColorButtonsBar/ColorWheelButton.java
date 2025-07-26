@@ -16,7 +16,7 @@ public class ColorWheelButton extends CircularButton{
                 SelectButton.class.getResource("/images/Wheel.png"));
 
         Image image = imageIcon.getImage();
-        Image newImage = image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        Image newImage = image.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 
         imageIcon = new ImageIcon(newImage);
         setIcon(imageIcon);

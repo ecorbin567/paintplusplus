@@ -2,7 +2,9 @@ package view.MidMenuBar;
 
 import java.util.List;
 import entity.DrawingCanvas;
+import entity.Paintbrush;
 import interface_adapter.image.crop.*;
+import use_case.changecolor.*;
 import use_case.image.crop.*;
 import interface_adapter.image.import_image.*;
 import use_case.image.import_image.*;
@@ -38,6 +40,7 @@ public class MidMenuBarBuilder {
 
     public MidMenuBarBuilder(DrawingCanvas canvas) {
         this.canvas = canvas;
+        Paintbrush brush = canvas.getPaintbrush();
 
         CropOutputBoundary cropPresenter = new CropPresenter(canvas);
         CropInputBoundary cropInteractor = new CropInteractor(canvas, cropPresenter);
@@ -96,23 +99,51 @@ public class MidMenuBarBuilder {
         solidColorsPanel = new JPanel(new GridLayout(2, 4,4,4)); // panel of small solid colors
 
         // logic for color choosing driver code below
-        final boolean[] isUpperActive = {true};
+        ChangeColorOutputBoundary primaryPresenter = new ChangeColorPresenter(
+                brush, upperChooserButton, lowerChooserButton, true); // presenter driver of domain and model
+        ChangeColorInputBoundary primaryInteractor = new ChangeColorInteractor(brush, primaryPresenter); // check code below each time we change color for colorwheel or swatch
 
-        upperChooserButton.addActionListener( e -> isUpperActive[0] = true);
-        lowerChooserButton.addActionListener(e -> isUpperActive[0] = false);
+        ChangeColorOutputBoundary secondaryPresenter = new ChangeColorPresenter(
+                brush, upperChooserButton, lowerChooserButton, false);
+        ChangeColorInputBoundary secondaryInteractor = new ChangeColorInteractor(brush, secondaryPresenter);
 
+        // track which chooser (upper or lower color chooser buttons) is active
+        final boolean[] isUpperActive = { true };
+        upperChooserButton.addActionListener(e -> {
+            isUpperActive[0] = true;
+            // immediately set brush to whatever color the upper chooser is showing:
+            primaryInteractor.changeColor(
+                    new ChangeColorInputData(
+                            (upperChooserButton).getUpperCurrentColor()
+                    )
+            );
+        });
+
+        lowerChooserButton.addActionListener(e -> {
+            isUpperActive[0] = false;
+            // immediately set brush to whatever color the lower chooser is showing:
+            secondaryInteractor.changeColor(
+                    new ChangeColorInputData(
+                            (lowerChooserButton).getLowerCurrentColor()
+                    )
+            );
+        });
+
+        // color wheel logic
         colorWheelButton.addActionListener(e -> {
             ColorWheelPopUpWindow popUpWindow =
                     new ColorWheelPopUpWindow(
                             SwingUtilities.getWindowAncestor(panel)
                     );
             popUpWindow.setVisible(true);
-            Color picked = popUpWindow.getSelectedColor();
 
-            if (isUpperActive[0]) {
-                upperChooserButton.setCurrentColor(picked);
-            } else {
-                lowerChooserButton.setCurrentColor(picked);
+            if (popUpWindow.isConfirmed()) {
+                Color picked = popUpWindow.getSelectedColor();
+                if (isUpperActive[0]) {
+                    primaryInteractor.changeColor(new ChangeColorInputData(picked));
+                } else {
+                    secondaryInteractor.changeColor(new ChangeColorInputData(picked));
+                }
             }
         });
         // handle individual solid color buttons
@@ -124,10 +155,10 @@ public class MidMenuBarBuilder {
             SingleColorButton swatch = new SingleColorButton(solidColor);
             solidColorsPanel.add(swatch);
             swatch.addActionListener(e -> {
-                if (isUpperActive[0]) {
-                    upperChooserButton.setCurrentColor(solidColor);
+                if (isUpperActive[0]){
+                    primaryInteractor.changeColor(new ChangeColorInputData(solidColor));
                 } else {
-                    lowerChooserButton.setCurrentColor(solidColor);
+                    secondaryInteractor.changeColor((new ChangeColorInputData(solidColor)));
                 }
             });
         }

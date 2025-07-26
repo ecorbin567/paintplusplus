@@ -7,9 +7,12 @@ public class CircularButton extends JButton{
 
     public CircularButton(int diameter) {
         setPreferredSize(new Dimension(diameter, diameter));
+
         setOpaque(false);
         setContentAreaFilled(false);
+        setBorderPainted(false);
         setFocusPainted(false);
+        setMargin(new Insets(0,0,0,0));
     }
     @Override
     protected void paintComponent(Graphics g) {
@@ -24,6 +27,7 @@ public class CircularButton extends JButton{
         g2.drawOval(0,0,getWidth()-1, getHeight()-1);
 
         g2.dispose();
+        super.paintComponent(g);
     }
     @Override
     public boolean contains(int x, int y){
