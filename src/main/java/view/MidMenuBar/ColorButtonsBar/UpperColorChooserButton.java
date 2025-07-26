@@ -6,26 +6,26 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-public class UpperColorChooserButton extends JButton{
-    private Color upperCurrentColor;
-    private ColorWheelPanel colorWheelPanel;
+public class UpperColorChooserButton extends CircularButton{
+
+    private Color upperCurrentColor = Color.BLACK;
 
     public UpperColorChooserButton(){
-        setPreferredSize(new Dimension(30, 30));
-        setBorder(new RoundedButton(20));
-        setBackground(Color.black);
+        super(30);
+        setBackground(upperCurrentColor); // default color
 
-        addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setBackground(colorWheelPanel.getSelectedColor());
-            }
-        });
-        setVisible(true);
     }
-
 
     public Color getUpperCurrentColor(){
         return this.upperCurrentColor;
+    }
+
+    public void setCurrentColor(Color c){
+        this.upperCurrentColor = c;
+        setBackground(c);
+    }
+
+    public JButton getButton(){
+        return this;
     }
 }

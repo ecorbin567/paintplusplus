@@ -6,29 +6,21 @@ import java.awt.*;
 
 public class ColorWheelPopUpWindow extends JDialog{
 
-    public ColorWheelPopUpWindow(JFrame frame){
-        super(frame, "Choose new Color", true);
+    private final ColorWheelPanel wheel;
+
+    public ColorWheelPopUpWindow(Window window){
+        super(window, "Choose new Color", ModalityType.APPLICATION_MODAL);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setSize(300, 500);
-        setLayout(new FlowLayout());
 
-        JFrame colorWheelFrame = new JFrame("ColorWheel Frame");
-        ColorWheelPanel colorWheel = new ColorWheelPanel(300);
-        colorWheelFrame.add(colorWheel);
+        wheel = new ColorWheelPanel(300);
+        getContentPane().add(wheel, BorderLayout.CENTER);
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(frame);
-        frame.setVisible(true);
-
-
+        pack();
+        setLocationRelativeTo(window);
     }
-
-
-
-
-
-
-
-
-
+    public Color getSelectedColor(){
+        return wheel.getSelectedColor();
+    }
 
 }

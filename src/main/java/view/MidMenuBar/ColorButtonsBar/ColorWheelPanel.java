@@ -8,6 +8,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 public class ColorWheelPanel extends JPanel{
+
     private int radius;
     private Point center;
     private Color selectedColor = Color.WHITE;
