@@ -33,9 +33,9 @@ public class MidMenuBarBuilder {
     JButton cropButton;
     JButton resizeButton;
     JButton rotateButton;
-    JButton upperColorChooserButton;
-    JButton lowerColorChooserButton;
-    JButton colorWheelButton;
+    JToggleButton upperColorChooserButton;
+    JToggleButton lowerColorChooserButton;
+    JToggleButton colorWheelButton;
     DrawingCanvas canvas;
 
     public MidMenuBarBuilder(DrawingCanvas canvas) {
@@ -57,7 +57,7 @@ public class MidMenuBarBuilder {
         EraseButton eraseButton = new EraseButton(canvas);
         eButton = eraseButton.getButton();
 
-        SelectButton selectButton = new SelectButton();
+        SelectionToolButton selectButton = new SelectionToolButton();
         sButton = selectButton.getButton();
 
         ImportButton imageButton = new ImportButton(importController);
@@ -82,6 +82,8 @@ public class MidMenuBarBuilder {
 
         // how we add to the panel on the buttons to the midmenu worry about later on when refractoring
         panel = new JPanel();
+        panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+
         panel.add(pButton);
         panel.add(eButton);
         panel.add(sButton);
@@ -98,6 +100,8 @@ public class MidMenuBarBuilder {
 
         solidColorsPanel = new JPanel(new GridLayout(2, 4,4,4)); // panel of small solid colors
 
+
+
         // logic for color choosing driver code below
         ChangeColorOutputBoundary primaryPresenter = new ChangeColorPresenter(
                 brush, upperChooserButton, lowerChooserButton, true); // presenter driver of domain and model
@@ -108,23 +112,26 @@ public class MidMenuBarBuilder {
         ChangeColorInputBoundary secondaryInteractor = new ChangeColorInteractor(brush, secondaryPresenter);
 
         // track which chooser (upper or lower color chooser buttons) is active
-        final boolean[] isUpperActive = { true };
+        ButtonGroup chooserGroup = new ButtonGroup();
+        chooserGroup.add(upperColorChooserButton);
+        chooserGroup.add(lowerColorChooserButton);
+
+        upperColorChooserButton.setSelected(true);
+
         upperChooserButton.addActionListener(e -> {
-            isUpperActive[0] = true;
             // immediately set brush to whatever color the upper chooser is showing:
             primaryInteractor.changeColor(
                     new ChangeColorInputData(
-                            (upperChooserButton).getUpperCurrentColor()
+                            upperChooserButton.getUpperCurrentColor()
                     )
             );
         });
 
         lowerChooserButton.addActionListener(e -> {
-            isUpperActive[0] = false;
             // immediately set brush to whatever color the lower chooser is showing:
             secondaryInteractor.changeColor(
                     new ChangeColorInputData(
-                            (lowerChooserButton).getLowerCurrentColor()
+                            lowerChooserButton.getLowerCurrentColor()
                     )
             );
         });
@@ -139,12 +146,13 @@ public class MidMenuBarBuilder {
 
             if (popUpWindow.isConfirmed()) {
                 Color picked = popUpWindow.getSelectedColor();
-                if (isUpperActive[0]) {
+                if (upperColorChooserButton.isSelected()) {
                     primaryInteractor.changeColor(new ChangeColorInputData(picked));
                 } else {
                     secondaryInteractor.changeColor(new ChangeColorInputData(picked));
                 }
             }
+            colorWheelButton.setSelected(false); // after toggling wheel button, toggle button off
         });
         // handle individual solid color buttons
         List<Color> solidColors = List.of(
@@ -155,19 +163,20 @@ public class MidMenuBarBuilder {
             SingleColorButton swatch = new SingleColorButton(solidColor);
             solidColorsPanel.add(swatch);
             swatch.addActionListener(e -> {
-                if (isUpperActive[0]){
+                if (upperColorChooserButton.isSelected()){
                     primaryInteractor.changeColor(new ChangeColorInputData(solidColor));
                 } else {
                     secondaryInteractor.changeColor((new ChangeColorInputData(solidColor)));
                 }
+                swatch.setSelected(false); // clear toggle state so it doesn't stay
             });
         }
+
         colorPanel.add(colorChooserPanel);
         colorPanel.add(solidColorsPanel);
         colorPanel.add(colorWheelButton);
 
         panel.add(colorPanel);
-
 
 
     }

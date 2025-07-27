@@ -25,7 +25,7 @@ public class LowerColorChooserButton extends CircularButton{
         setBackground(c);
     }
 
-    public JButton getButton(){
+    public JToggleButton getButton(){
         return this;
     }
 }

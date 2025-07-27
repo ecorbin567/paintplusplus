@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
+import javax.swing.*;
 
 public class UpperColorChooserButton extends CircularButton{
 
@@ -25,7 +25,7 @@ public class UpperColorChooserButton extends CircularButton{
         setBackground(c);
     }
 
-    public JButton getButton(){
+    public JToggleButton getButton(){
         return this;
     }
 }

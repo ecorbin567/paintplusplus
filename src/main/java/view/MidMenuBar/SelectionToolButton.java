@@ -3,11 +3,11 @@ package view.MidMenuBar;
 import javax.swing.*;
 import java.awt.*;
 
-public class SelectButton {
+public class SelectionToolButton {
     JButton button;
-    public SelectButton(){
+    public SelectionToolButton(){
         button = new JButton();
-        ImageIcon icon = new ImageIcon(SelectButton.class.getResource("/images/SelectIcon.png"));
+        ImageIcon icon = new ImageIcon(SelectionToolButton.class.getResource("/images/SelectIcon.png"));
         Image image = icon.getImage();
         Image newImage = image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         icon = new ImageIcon(newImage);
