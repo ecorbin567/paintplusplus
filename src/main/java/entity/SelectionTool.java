@@ -27,16 +27,31 @@ public class SelectionTool{
     public void cancel(){
         startPoint = currentPoint = null;
     }
-    public void render(Graphics2D g){
-        if (startPoint == null || currentPoint == null) return;
+    public Rectangle getBounds() {
+        if (startPoint == null || currentPoint == null) {
+            return new Rectangle();
+        }
         int x = Math.min(startPoint.x, currentPoint.x);
         int y = Math.min(startPoint.y, currentPoint.y);
         int w = Math.abs(startPoint.x - currentPoint.x);
         int h = Math.abs(startPoint.y - currentPoint.y);
-        g.setColor(Color.lightGray);
-        g.drawRect(x,y,w,h);
-
+        return new Rectangle(x, y, w, h);
     }
+    public void render(Graphics2D g){
+        Rectangle r = getBounds();
+        if (r.width > 0 && r.height > 0){
+            // save old stroke
+            Stroke old = g.getStroke();
+            //force teh 1px stroke
+            g.setStroke(new BasicStroke(1f));
+            g.setColor(Color.LIGHT_GRAY);
+            g.drawRect(r.x, r.y, r.width, r.height);
+
+            g.setStroke(old);
+        }
+    }
+
+
 //        addMouseListener(new MouseAdapter() {
 //            @Override
 //             public void mousePressed(MouseEvent e) {

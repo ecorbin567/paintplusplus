@@ -20,6 +20,12 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     private final SelectionTool selectionTool;
     private final ActionHistory actionHistory = new ActionHistory();
     private final List<Image> importedImages = new ArrayList<>();
+    private BufferedImage selectionImage;
+    private Rectangle selectionBounds;
+    private boolean hasSelection = false;
+    private boolean draggingSelection = false;
+    private Point dragAnchor;
+    private List<Rectangle> clearRegions = new ArrayList<>();
 
     public DrawingCanvas() {
         setBackground(Color.WHITE);
@@ -30,6 +36,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         this.setPreferredSize(new Dimension(800, 600));
         addMouseListener(this);
         addMouseMotionListener(this);
+        this.selectionBounds = null;
     }
 
     public double getScale() {
@@ -66,52 +73,113 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
                 }
             }
         }
-        selectionTool.render(g2); // render the selection tool paintComponent
+        for (Rectangle r: clearRegions){
+            g2.setColor(backgroundColor);
+            g2.fillRect(r.x, r.y,r.width,r.height);
+        }
+        // selection tool rendering logic
+        if (hasSelection && selectionImage != null && selectionBounds != null){
+            g2.drawImage(
+                    selectionImage, selectionBounds.x, selectionBounds.y,
+                    selectionBounds.width, selectionBounds.height, null
+            );
+        }
+        if (!draggingSelection){
+            selectionTool.render(g2);
+        }
         g2.dispose();
     }
-
+    private void commitCut(){
+        // grabs full canvas snapshot
+        BufferedImage full = getImage();
+        Rectangle r = selectionBounds;
+        selectionImage = full.getSubimage(r.x, r.y, r.width, r.height);
+    }
     @Override
     public void mousePressed(MouseEvent e) {
-        if (!"Selection".equals(selectedTool)) {
-            if (SwingUtilities.isLeftMouseButton(e)) {
-                Color c = Objects.equals(this.selectedTool, "Eraser") ? backgroundColor
-                        : paintbrush.getColour();
-                float w = Objects.equals(this.selectedTool, "Eraser") ? eraser.getWidth()
-                        : paintbrush.getWidth();
-
-                StrokeRecord currentStroke = new StrokeRecord(c, w);
-                currentStroke.pts.add(e.getPoint());
-                actionHistory.push(currentStroke);
-                return;
+        if ("Selection".equals(selectedTool)){
+            Point p = e.getPoint();
+            // click if inside an existing selection
+            if (hasSelection && selectionBounds.contains(p)){
+                draggingSelection = true;
+                dragAnchor = new Point(p.x - selectionBounds.x, p.y - selectionBounds.y);
+            } else {
+                draggingSelection = false;
+                selectionTool.start(p);
+                if (hasSelection){
+                    hasSelection = false;
+                    clearRegions.clear();
+                    selectionImage = null;
+                    selectionBounds = null;
+                }
             }
+            repaint();
+            return;
         }
-        selectionTool.start(e.getPoint());
-        repaint();
+
+        if (SwingUtilities.isLeftMouseButton(e)) {
+            Color c = Objects.equals(this.selectedTool, "Eraser") ? backgroundColor
+                    : paintbrush.getColour();
+            float w = Objects.equals(this.selectedTool, "Eraser") ? eraser.getWidth()
+                    : paintbrush.getWidth();
+
+            StrokeRecord currentStroke = new StrokeRecord(c, w);
+            currentStroke.pts.add(e.getPoint());
+            actionHistory.push(currentStroke);
+        }
+
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if (!"Selection".equals(selectedTool)) {
-            Drawable curr = actionHistory.getCurrentState();
-            if (curr != null) {
-                if (curr instanceof StrokeRecord strokeRecord) {
-                    strokeRecord.pts.add(e.getPoint());
-                    actionHistory.setCurrentState(strokeRecord);
+        if ("Selection".equals(selectedTool)){
+            Point p = e.getPoint();
+            if (draggingSelection){
+                if (!hasSelection && selectionBounds != null){
+                    commitCut();
                 }
-                repaint();                 // ask Swing to invoke paintComponent()
+                selectionBounds.x = p.x - dragAnchor.x;
+                selectionBounds.y = p.y - dragAnchor.y;
+            } else {
+                selectionTool.drag(p);
             }
+            repaint();
             return;
         }
-        selectionTool.drag(e.getPoint());
-        repaint();
+        Drawable curr = actionHistory.getCurrentState();
+        if (curr != null) {
+            if (curr instanceof StrokeRecord strokeRecord) {
+                strokeRecord.pts.add(e.getPoint());
+                actionHistory.setCurrentState(strokeRecord);
+            }
+            repaint();                 // ask Swing to invoke paintComponent()
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
 //        actionHistory.setCurrentState(null);         // finished; ready for a fresh stroke
-        if (!"Selection".equals(selectedTool)){
-            selectionTool.finish(e.getPoint());
-            // do something, copy, cut, etc
+        if ("Selection".equals(selectedTool)){
+            Point p = e.getPoint();
+            if (!draggingSelection){
+                // user finished selecting the marked area (inside the rectangle)
+                selectionTool.finish(p);
+                Rectangle r = selectionTool.getBounds();
+                if (r.width>0 && r.height>0){
+                    // grab snapshot of the state inside the rectangle
+                    BufferedImage full = new BufferedImage(getWidth(), getHeight(),
+                            BufferedImage.TYPE_INT_ARGB);
+                    Graphics2D fg = full.createGraphics();
+
+                    super.paintComponent(fg); // white bg
+                    fg.scale(scale, scale);
+                    fg.dispose();
+
+                    selectionImage = full.getSubimage(r.x, r.y, r.width, r.height);
+                    selectionBounds = new Rectangle(r);
+                }
+            }
+            selectionTool.cancel();
             repaint();
             return;
         }
