@@ -66,37 +66,55 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
                 }
             }
         }
+        selectionTool.render(g2); // render the selection tool paintComponent
+        g2.dispose();
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (SwingUtilities.isLeftMouseButton(e)) {
-            Color c = Objects.equals(this.selectedTool, "Eraser") ? backgroundColor
-                    : paintbrush.getColour();
-            float w = Objects.equals(this.selectedTool, "Eraser") ? eraser.getWidth()
-                    : paintbrush.getWidth();
+        if (!"Selection".equals(selectedTool)) {
+            if (SwingUtilities.isLeftMouseButton(e)) {
+                Color c = Objects.equals(this.selectedTool, "Eraser") ? backgroundColor
+                        : paintbrush.getColour();
+                float w = Objects.equals(this.selectedTool, "Eraser") ? eraser.getWidth()
+                        : paintbrush.getWidth();
 
-            StrokeRecord currentStroke = new StrokeRecord(c, w);
-            currentStroke.pts.add(e.getPoint());
-            actionHistory.push(currentStroke);
+                StrokeRecord currentStroke = new StrokeRecord(c, w);
+                currentStroke.pts.add(e.getPoint());
+                actionHistory.push(currentStroke);
+                return;
+            }
         }
+        selectionTool.start(e.getPoint());
+        repaint();
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        Drawable curr = actionHistory.getCurrentState();
-        if (curr != null) {
-            if (curr instanceof StrokeRecord strokeRecord) {
-                strokeRecord.pts.add(e.getPoint());
-                actionHistory.setCurrentState(strokeRecord);
+        if (!"Selection".equals(selectedTool)) {
+            Drawable curr = actionHistory.getCurrentState();
+            if (curr != null) {
+                if (curr instanceof StrokeRecord strokeRecord) {
+                    strokeRecord.pts.add(e.getPoint());
+                    actionHistory.setCurrentState(strokeRecord);
+                }
+                repaint();                 // ask Swing to invoke paintComponent()
             }
-            repaint();                 // ask Swing to invoke paintComponent()
+            return;
         }
+        selectionTool.drag(e.getPoint());
+        repaint();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
 //        actionHistory.setCurrentState(null);         // finished; ready for a fresh stroke
+        if (!"Selection".equals(selectedTool)){
+            selectionTool.finish(e.getPoint());
+            // do something, copy, cut, etc
+            repaint();
+            return;
+        }
     }
 
     public void erase() {
@@ -119,6 +137,15 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 
     public Paintbrush getPaintbrush(){
         return this.paintbrush;
+    }
+    public void setSelectedTool(String toolname){
+        this.selectedTool = toolname;
+    }
+    public String getSelectedTool(){
+        return this.selectedTool;
+    }
+    public SelectionTool getSelectionTool(){
+        return this.selectionTool;
     }
   
     public BufferedImage getImage() {

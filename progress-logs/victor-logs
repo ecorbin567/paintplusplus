@@ -11,3 +11,7 @@ math and logic complete. added to the pop up dialog frame as a jpanel.
 2025-07-26: fixed all button functionality issues, pen/brush is able to change color, icon for colorwheel updated,
 pop up dialog for colorwheel functionality finished. Going to work on finishing selection tool implementation into drawing
 canvas and colorwheel icon into colorwheelbutton.
+2025-07-26 second: color hover buttons work, indication of which selected button/color, colorwheel icon within button works,
+everything related with button and usecase under package changecolor works (Clean architechture). Basic code for selection tool
+done under canvas. Selection tool edited for object use only. Selected area/rectangle functionality, i.e. take everything inside
+rectangle and move it.

@@ -21,6 +21,9 @@ public class SelectionTool{
     public void drag(Point p){
         currentPoint = p;
     }
+    public void finish(Point p){
+        currentPoint = p;
+    }
     public void cancel(){
         startPoint = currentPoint = null;
     }

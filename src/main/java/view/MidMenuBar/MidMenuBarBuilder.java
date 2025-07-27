@@ -84,6 +84,24 @@ public class MidMenuBarBuilder {
         panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
+        // selected tools logic to work with selectiontool code
+        pButton.addActionListener(e -> {
+            canvas.setSelectedTool("PaintBrush");
+            canvas.getSelectionTool().cancel();
+            canvas.repaint();
+        });
+        eButton.addActionListener(e -> {
+            canvas.setSelectedTool("Eraser");
+            canvas.getSelectionTool().cancel();
+            canvas.repaint();
+        });
+        sButton.addActionListener( e -> {
+            canvas.setSelectedTool("Selection");
+            // get rid of any older rectangle
+            canvas.getSelectionTool().cancel();
+            canvas.repaint();
+        });
+
         panel.add(pButton);
         panel.add(eButton);
         panel.add(sButton);
