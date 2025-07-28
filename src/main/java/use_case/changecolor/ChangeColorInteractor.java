@@ -1,4 +1,25 @@
 package use_case.changecolor;
 
-public class ChangeColorInteractor {
+import entity.Paintbrush;
+
+import java.awt.*;
+
+public class ChangeColorInteractor implements ChangeColorInputBoundary{
+
+    private final Paintbrush paintbrush;
+    private final ChangeColorOutputBoundary presenter;
+
+    public ChangeColorInteractor(Paintbrush paintbrush,
+                                 ChangeColorOutputBoundary presenter){
+        this.paintbrush = paintbrush;
+        this.presenter = presenter;
+    }
+
+    @Override
+    public void changeColor(ChangeColorInputData input){
+        // update the brush color
+        paintbrush.setColour(input.getNewColor());
+        // make presenter to give it to the UI
+        presenter.presentColorChanged(input.getNewColor());
+    }
 }

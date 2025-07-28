@@ -1,23 +1,31 @@
 package view.MidMenuBar.ColorButtonsBar;
 
-import java.awt.Color;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
+import javax.swing.*;
 
-public class UpperColorChooserButton extends JButton{
-    private Color upperCurrentColor;
+public class UpperColorChooserButton extends CircularButton{
 
-    public UpperColorChooserButton(Color c){
-        setSelectedUpperColor(c);
+    private Color upperCurrentColor = Color.BLACK;
+
+    public UpperColorChooserButton(){
+        super(30);
+        setBackground(upperCurrentColor); // default color
 
     }
 
     public Color getUpperCurrentColor(){
         return this.upperCurrentColor;
     }
-    public void setSelectedUpperColor(Color newColor){
-        setSelectedUpperColor(newColor);
+
+    public void setCurrentColor(Color c){
+        this.upperCurrentColor = c;
+        setBackground(c);
     }
 
-
+    public JToggleButton getButton(){
+        return this;
+    }
 }

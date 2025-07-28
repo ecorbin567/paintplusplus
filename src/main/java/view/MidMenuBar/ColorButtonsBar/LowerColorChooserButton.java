@@ -1,18 +1,31 @@
 package view.MidMenuBar.ColorButtonsBar;
 
-import java.awt.Color;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class LowerColorChooserButton {
-    private Color lowerCurrentColor;
+public class LowerColorChooserButton extends CircularButton{
 
-    public LowerColorChooserButton(Color c){
+    private Color lowerCurrentColor = Color.WHITE;
+
+    public LowerColorChooserButton(){
+        super(30);
+
+        setBackground(lowerCurrentColor);
 
     }
+
     public Color getLowerCurrentColor(){
         return this.lowerCurrentColor;
     }
-    public void setSelectedLowerCurrentColor(Color newColor){
-        setSelectedLowerCurrentColor(newColor);
+
+    public void setCurrentColor(Color c){
+        this.lowerCurrentColor = c;
+        setBackground(c);
     }
 
+    public JToggleButton getButton(){
+        return this;
+    }
 }
