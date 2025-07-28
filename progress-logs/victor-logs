@@ -15,3 +15,5 @@ canvas and colorwheel icon into colorwheelbutton.
 everything related with button and usecase under package changecolor works (Clean architechture). Basic code for selection tool
 done under canvas. Selection tool edited for object use only. Selected area/rectangle functionality, i.e. take everything inside
 rectangle and move it.
+2025-07-27: selection tool able to select, drag, and move colorstrokes to different areas. base funtionality completed
+forgot to mention changecolor package under usecase also done for brushstrokes.

@@ -25,7 +25,8 @@ public class SelectionTool{
         currentPoint = p;
     }
     public void cancel(){
-        startPoint = currentPoint = null;
+        startPoint = null;
+        currentPoint = null;
     }
     public Rectangle getBounds() {
         if (startPoint == null || currentPoint == null) {

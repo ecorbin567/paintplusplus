@@ -24,8 +24,11 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     private Rectangle selectionBounds;
     private boolean hasSelection = false;
     private boolean draggingSelection = false;
+    private boolean hasCutOut = false;
+    private boolean isDrawing = false;
     private Point dragAnchor;
     private List<Rectangle> clearRegions = new ArrayList<>();
+    private final List<Pair<BufferedImage, Rectangle>> commitedSelections = new ArrayList<>();
 
     public DrawingCanvas() {
         setBackground(Color.WHITE);
@@ -73,22 +76,42 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
                 }
             }
         }
-        for (Rectangle r: clearRegions){
-            g2.setColor(backgroundColor);
-            g2.fillRect(r.x, r.y,r.width,r.height);
+
+        g2.setColor(backgroundColor);
+        for (Rectangle hole: clearRegions){
+            g2.fillRect(hole.x, hole.y, hole.width, hole.height);
         }
-        // selection tool rendering logic
-        if (hasSelection && selectionImage != null && selectionBounds != null){
+
+        // always render all active selections
+        for (var p: commitedSelections){
+            g2.drawImage(p.first, p.second.x, p.second.y,
+                    p.second.width, p.second.height, null);
+        }
+        // render the moving selected region
+        if (hasSelection && selectionImage != null && selectionBounds != null) {
             g2.drawImage(
-                    selectionImage, selectionBounds.x, selectionBounds.y,
-                    selectionBounds.width, selectionBounds.height, null
+                    selectionImage,
+                    selectionBounds.x, selectionBounds.y,
+                    selectionBounds.width, selectionBounds.height,
+                    null
             );
         }
-        if (!draggingSelection){
-            selectionTool.render(g2);
+        // selection tool rendering logic
+        g2.setColor(Color.LIGHT_GRAY);
+        g2.setStroke(new BasicStroke(1));
+        if ("Selection".equals(selectedTool) && isDrawing){
+            Rectangle r = selectionTool.getBounds();
+            if (r.width>0 && r.height>0){
+                g2.drawRect(r.x,r.y,r.width-1, r.height-1);
+            }
+        } else if (hasSelection && selectionBounds != null){
+            g2.setStroke(new BasicStroke(1));
+            g2.drawRect(selectionBounds.x, selectionBounds.y,
+                    selectionBounds.width-1, selectionBounds.height-1);
         }
         g2.dispose();
     }
+
     private void commitCut(){
         // grabs full canvas snapshot
         BufferedImage full = getImage();
@@ -99,20 +122,35 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     public void mousePressed(MouseEvent e) {
         if ("Selection".equals(selectedTool)){
             Point p = e.getPoint();
-            // click if inside an existing selection
+            // 1) if click inside an existing selection, start dragging as u needed
             if (hasSelection && selectionBounds.contains(p)){
                 draggingSelection = true;
-                dragAnchor = new Point(p.x - selectionBounds.x, p.y - selectionBounds.y);
-            } else {
+                dragAnchor = new Point(p.x - selectionBounds.x,
+                                        p.y - selectionBounds.y);
+            } else if (hasSelection){ // 2) clicked outside existing selection
+                // commit current image at its last bounds
+                draggingSelection = false;
+                hasCutOut = false;
+
+                // get rid of old selection if one existed
+                commitedSelections.add(
+                        new Pair<>(selectionImage,
+                                new Rectangle(selectionBounds))
+                );
+
+                clearRegions.add(new Rectangle(selectionBounds));
+                // clear out active selection state
+                hasSelection = false;
+                selectionImage = null;
+                selectionBounds = null;
+                selectionTool.cancel();
+                isDrawing = false;
+            } else { // 3) otherwise, no selection at all, start drawing new selection rectangle
                 draggingSelection = false;
                 selectionTool.start(p);
-                if (hasSelection){
-                    hasSelection = false;
-                    clearRegions.clear();
-                    selectionImage = null;
-                    selectionBounds = null;
-                }
+                isDrawing = true;
             }
+
             repaint();
             return;
         }
@@ -135,12 +173,16 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         if ("Selection".equals(selectedTool)){
             Point p = e.getPoint();
             if (draggingSelection){
-                if (!hasSelection && selectionBounds != null){
-                    commitCut();
+                // on the first drag, blank out the original rectangle
+                if (!hasCutOut && selectionBounds != null){
+                    clearRegions.add(new Rectangle(selectionBounds));
+                    hasCutOut = true;
                 }
+                // now move it
                 selectionBounds.x = p.x - dragAnchor.x;
                 selectionBounds.y = p.y - dragAnchor.y;
             } else {
+                // update live marquee
                 selectionTool.drag(p);
             }
             repaint();
@@ -164,24 +206,20 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             if (!draggingSelection){
                 // user finished selecting the marked area (inside the rectangle)
                 selectionTool.finish(p);
+                isDrawing = false;
                 Rectangle r = selectionTool.getBounds();
                 if (r.width>0 && r.height>0){
-                    // grab snapshot of the state inside the rectangle
-                    BufferedImage full = new BufferedImage(getWidth(), getHeight(),
-                            BufferedImage.TYPE_INT_ARGB);
-                    Graphics2D fg = full.createGraphics();
-
-                    super.paintComponent(fg); // white bg
-                    fg.scale(scale, scale);
-                    fg.dispose();
-
+                    BufferedImage full = getImage();
                     selectionImage = full.getSubimage(r.x, r.y, r.width, r.height);
                     selectionBounds = new Rectangle(r);
+                    hasSelection = true;
                 }
             }
+            // reset dragging selection here
+            draggingSelection = false;
             selectionTool.cancel();
+            isDrawing = false;
             repaint();
-            return;
         }
     }
 
@@ -263,6 +301,14 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             Image lastImage = importedImages.get(importedImages.size() - 1);
             lastImage.rotate(degrees);
             repaint();
+        }
+    }
+    private static class Pair<A,B> {
+        final A first;
+        final B second;
+        Pair(A first, B second) {
+            this.first = first;
+            this.second = second;
         }
     }
 
