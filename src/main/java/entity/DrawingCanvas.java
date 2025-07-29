@@ -36,10 +36,10 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         this.paintbrush = new Paintbrush(3f, Color.BLACK);
         this.eraser = new Eraser(3f);
         this.selectionTool = new SelectionTool();
-        this.setPreferredSize(new Dimension(800, 600));
         addMouseListener(this);
         addMouseMotionListener(this);
         this.selectionBounds = null;
+        this.setPreferredSize(new Dimension(800, 500));
     }
 
     public double getScale() {
@@ -209,7 +209,11 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
                 isDrawing = false;
                 Rectangle r = selectionTool.getBounds();
                 if (r.width>0 && r.height>0){
-                    BufferedImage full = getImage();
+                    BufferedImage full = getImage(); // TODO: fix subimage implementation, capture maybe only drawables?
+                    // try to get the state of the stack, whenever you mouse release,
+                    // create new instance on the stack for easy undo and redo functionality directly built in
+                    // somehow use drawable to only capture state from the strokerecord/actionhistory,
+                    // and capture those brushstrokes/image, etc.
                     selectionImage = full.getSubimage(r.x, r.y, r.width, r.height);
                     selectionBounds = new Rectangle(r);
                     hasSelection = true;

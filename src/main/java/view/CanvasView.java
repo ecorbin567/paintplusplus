@@ -21,6 +21,7 @@ public class CanvasView extends JPanel implements ActionListener, PropertyChange
         this.canvasViewModel = canvasViewModel;
         this.canvasViewModel.addPropertyChangeListener(this);
         this.setLayout(new BorderLayout());
+        this.setPreferredSize(new Dimension(800, 600));
 
         this.canvas = new DrawingCanvas();
         TopMenuBarBuilder topMenuBarBuilder = new TopMenuBarBuilder(canvas);
@@ -29,8 +30,11 @@ public class CanvasView extends JPanel implements ActionListener, PropertyChange
 
         MidMenuBarBuilder midMenuBarBuilder = new MidMenuBarBuilder(canvas);
         JPanel panel = midMenuBarBuilder.getPanel();
-        this.add(panel, BorderLayout.CENTER);
-        this.add(canvas, BorderLayout.SOUTH);
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
+        bottomPanel.add(panel);
+        bottomPanel.add(canvas);
+        this.add(bottomPanel, BorderLayout.CENTER);
     }
 
     public DrawingCanvas getCanvas() {
