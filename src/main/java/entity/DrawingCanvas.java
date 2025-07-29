@@ -232,12 +232,24 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     }
 
     public void undo() {
-        actionHistory.undo();
+        Drawable prevState = actionHistory.undo();
+        importedImages.clear(); // 🧼 Clear canvas
+
+        if (prevState instanceof Image image) {
+            importedImages.add(image);       // restore the previous image if it's one
+            setCurrentImage(image);
+        }
         repaint();
     }
 
     public void redo() {
-        actionHistory.redo();
+        Drawable nextState = actionHistory.redo();
+        importedImages.clear();
+
+        if (nextState instanceof Image image) {
+            importedImages.add(image);
+            setCurrentImage(image);
+        }
         repaint();
     }
 
@@ -303,6 +315,11 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             repaint();
         }
     }
+
+    public ActionHistory getActionHistory() {
+        return this.actionHistory;
+    }
+
     private static class Pair<A,B> {
         final A first;
         final B second;
