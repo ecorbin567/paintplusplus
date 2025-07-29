@@ -36,10 +36,10 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         this.paintbrush = new Paintbrush(3f, Color.BLACK);
         this.eraser = new Eraser(3f);
         this.selectionTool = new SelectionTool();
-        this.setPreferredSize(new Dimension(800, 600));
         addMouseListener(this);
         addMouseMotionListener(this);
         this.selectionBounds = null;
+        this.setPreferredSize(new Dimension(800, 500));
     }
 
     public double getScale() {
