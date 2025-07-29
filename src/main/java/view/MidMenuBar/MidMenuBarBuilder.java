@@ -1,7 +1,9 @@
 package view.MidMenuBar;
 
 import java.util.List;
+
 import entity.DrawingCanvas;
+import entity.ActionHistory;
 import entity.Paintbrush;
 import interface_adapter.image.crop.*;
 import use_case.changecolor.*;
@@ -48,7 +50,8 @@ public class MidMenuBarBuilder {
 
         ImportOutputBoundary presenter = new ImportPresenter(canvas);
         ImportGateway gateway = new LocalImageLoader();
-        ImportInputBoundary interactor = new ImportInteractor(gateway, presenter);
+        ActionHistory actionHistory = canvas.getActionHistory();
+        ImportInputBoundary interactor = new ImportInteractor(gateway, presenter, actionHistory);
         ImportController importController = new ImportController(interactor);
 
         PencilButton pencilButton = new PencilButton(canvas);
