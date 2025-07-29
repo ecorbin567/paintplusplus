@@ -237,10 +237,10 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 
     public void undo() {
         Drawable prevState = actionHistory.undo();
-        importedImages.clear(); // 🧼 Clear canvas
+        importedImages.clear();
 
         if (prevState instanceof Image image) {
-            importedImages.add(image);       // restore the previous image if it's one
+            importedImages.add(image);
             setCurrentImage(image);
         }
         repaint();
