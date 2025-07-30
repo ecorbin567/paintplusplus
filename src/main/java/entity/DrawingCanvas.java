@@ -308,6 +308,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     public void resizeLastImportedImage(int newWidth, int newHeight) {
         if (!importedImages.isEmpty()) {
             Image lastImage = importedImages.get(importedImages.size() - 1);
+            actionHistory.push(lastImage.clone());
             lastImage.resize(newWidth, newHeight);
         }
     }
@@ -315,6 +316,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     public void rotateLastImportedImage(double degrees) {
         if (!importedImages.isEmpty()) {
             Image lastImage = importedImages.get(importedImages.size() - 1);
+            actionHistory.push(lastImage.clone());
             lastImage.rotate(degrees);
             repaint();
         }
