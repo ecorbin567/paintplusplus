@@ -45,12 +45,12 @@ public class MidMenuBarBuilder {
         Paintbrush brush = canvas.getPaintbrush();
 
         CropOutputBoundary cropPresenter = new CropPresenter(canvas);
-        CropInputBoundary cropInteractor = new CropInteractor(canvas, cropPresenter);
+        ActionHistory actionHistory = canvas.getActionHistory();
+        CropInputBoundary cropInteractor = new CropInteractor(canvas, cropPresenter, actionHistory);
         CropController cropController = new CropController(cropInteractor);
 
         ImportOutputBoundary presenter = new ImportPresenter(canvas);
         ImportGateway gateway = new LocalImageLoader();
-        ActionHistory actionHistory = canvas.getActionHistory();
         ImportInputBoundary interactor = new ImportInteractor(gateway, presenter, actionHistory);
         ImportController importController = new ImportController(interactor);
 

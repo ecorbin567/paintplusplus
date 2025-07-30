@@ -4,7 +4,7 @@ package entity;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-public class Image implements Drawable {
+public class Image implements Drawable, Cloneable {
 
     private BufferedImage image;
     private int x, y;
@@ -48,5 +48,27 @@ public class Image implements Drawable {
         g2d.drawImage(image, x, y, width, height, null);
 
         g2d.dispose();
+    }
+
+    @Override
+    public Image clone() {
+        BufferedImage copy = new BufferedImage(
+                image.getWidth(),
+                image.getHeight(),
+                image.getType()
+        );
+
+        Graphics2D g = copy.createGraphics();
+        g.drawImage(image, 0, 0, null);
+        g.dispose();
+
+        Image cloned = new Image(copy);
+        cloned.x = this.x;
+        cloned.y = this.y;
+        cloned.width = this.width;
+        cloned.height = this.height;
+        cloned.rotation = this.rotation;
+
+        return cloned;
     }
 }
