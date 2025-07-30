@@ -214,6 +214,8 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
                     // create new instance on the stack for easy undo and redo functionality directly built in
                     // somehow use drawable to only capture state from the strokerecord/actionhistory,
                     // and capture those brushstrokes/image, etc.
+                    // TODO: make selection tool a drawable I guess to make easy work of stack implementation of undo and redo
+
                     selectionImage = full.getSubimage(r.x, r.y, r.width, r.height);
                     selectionBounds = new Rectangle(r);
                     hasSelection = true;
