@@ -77,6 +77,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             }
         }
 
+        // paint background the background color as needed
         g2.setColor(backgroundColor);
         for (Rectangle hole: clearRegions){
             g2.fillRect(hole.x, hole.y, hole.width, hole.height);
@@ -87,6 +88,8 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             g2.drawImage(p.first, p.second.x, p.second.y,
                     p.second.width, p.second.height, null);
         }
+
+
         // render the moving selected region
         if (hasSelection && selectionImage != null && selectionBounds != null) {
             g2.drawImage(
@@ -112,12 +115,12 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         g2.dispose();
     }
 
-    private void commitCut(){
-        // grabs full canvas snapshot
-        BufferedImage full = getImage();
-        Rectangle r = selectionBounds;
-        selectionImage = full.getSubimage(r.x, r.y, r.width, r.height);
-    }
+//    private void commitCut(){
+//        // grabs full canvas snapshot
+//        BufferedImage full = getImage();
+//        Rectangle r = selectionBounds;
+//        selectionImage = full.getSubimage(r.x, r.y, r.width, r.height);
+//    }
     @Override
     public void mousePressed(MouseEvent e) {
         if ("Selection".equals(selectedTool)){
@@ -219,6 +222,9 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
                     selectionImage = full.getSubimage(r.x, r.y, r.width, r.height);
                     selectionBounds = new Rectangle(r);
                     hasSelection = true;
+
+//                  clearRegions.add(new Rectangle(r));
+                    // apparently layering issue functionality still working, bugs need fixing but managable
                 }
             }
             // reset dragging selection here
@@ -226,7 +232,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             selectionTool.cancel();
             isDrawing = false;
             repaint();
-            actionHistory.push(getSelectionTool()); //fix this later, how to push that state onto actionhistory stack
+//            actionHistory.push(getSelectionTool()); //fix this later, how to push that state onto actionhistory stack
         }
     }
 
