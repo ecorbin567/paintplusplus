@@ -2,30 +2,34 @@ package view;
 
 import entity.DrawingCanvas;
 import interface_adapter.canvas.CanvasViewModel;
+import interface_adapter.goback.GoBackController;
+import interface_adapter.goback.GoBackState;
+import interface_adapter.goback.GoBackViewModel;
 import view.MidMenuBar.MidMenuBarBuilder;
+import view.TopMenuBar.MenuActionListener;
 import view.TopMenuBar.TopMenuBarBuilder;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
-public class CanvasView extends JPanel implements ActionListener, PropertyChangeListener {
+public class CanvasView extends JPanel implements ActionListener, MenuActionListener {
     private final String viewName = "canvas";
-    private final CanvasViewModel canvasViewModel;
+    private final GoBackViewModel goBackViewModel;
+    private final GoBackController goBackController;
     private final DrawingCanvas canvas;
 
-    public CanvasView(CanvasViewModel canvasViewModel) {
-        this.canvasViewModel = canvasViewModel;
-        this.canvasViewModel.addPropertyChangeListener(this);
+    public CanvasView(GoBackViewModel goBackViewModel, GoBackController goBackController) {
+        this.goBackViewModel = goBackViewModel;
+        this.goBackController = goBackController;
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(800, 600));
 
         this.canvas = new DrawingCanvas();
         TopMenuBarBuilder topMenuBarBuilder = new TopMenuBarBuilder(canvas);
         JMenuBar menuBar = topMenuBarBuilder.getMenuBar();
+        topMenuBarBuilder.setMenuActionListener(this);
         this.add(menuBar, BorderLayout.NORTH);
 
         MidMenuBarBuilder midMenuBarBuilder = new MidMenuBarBuilder(canvas);
@@ -49,20 +53,20 @@ public class CanvasView extends JPanel implements ActionListener, PropertyChange
         System.out.println("Click " + evt.getActionCommand());
     }
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-//        if (evt.getPropertyName().equals("state")) {
-//            final LoggedInState state = (LoggedInState) evt.getNewValue();
-//            username.setText(state.getUsername());
-//        }
-//        else if (evt.getPropertyName().equals("password")) {
-//            final LoggedInState state = (LoggedInState) evt.getNewValue();
-//            JOptionPane.showMessageDialog(null, "password updated for " + state.getUsername());
-//        }
-
-    }
-
     public String getViewName() {
         return viewName;
+    }
+
+    @Override
+    public void onMenuItemSelected(String command) {
+        if ("goBack".equals(command) || "logOut".equals(command)) {
+            final GoBackState currentState = goBackViewModel.getState();
+
+            goBackController.execute(
+                    currentState.getUsername(),
+                    currentState.getPassword(),
+                    command
+            );
+        }
     }
 }

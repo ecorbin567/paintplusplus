@@ -1,4 +1,4 @@
-package interface_adapter.newCanvas;
+package interface_adapter.newcanvas;
 
 import interface_adapter.ViewModel;
 

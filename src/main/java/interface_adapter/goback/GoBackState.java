@@ -1,9 +1,9 @@
-package interface_adapter.newCanvas;
+package interface_adapter.goback;
 
 /**
  * The state for the Login View Model.
  */
-public class NewCanvasState {
+public class GoBackState {
     private String username = "";
     private String password = "";
 

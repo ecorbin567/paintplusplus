@@ -1,7 +1,7 @@
-package interface_adapter.newCanvas;
+package interface_adapter.newcanvas;
 
-import use_case.newCanvas.NewCanvasInputBoundary;
-import use_case.newCanvas.NewCanvasInputData;
+import use_case.newcanvas.NewCanvasInputBoundary;
+import use_case.newcanvas.NewCanvasInputData;
 
 /**
  * The controller for the Login Use Case.

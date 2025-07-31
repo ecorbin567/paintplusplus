@@ -1,13 +1,13 @@
-package use_case.newCanvas;
+package use_case.goback;
 
 /**
  * Output Data for the Login Use Case.
  */
-public class NewCanvasOutputData {
+public class GoBackOutputData {
 
     private final String username;
 
-    public NewCanvasOutputData(String username) {
+    public GoBackOutputData(String username) {
         this.username = username;
     }
 

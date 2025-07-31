@@ -1,7 +1,7 @@
 package app;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.newCanvas.NewCanvasViewModel;
+import interface_adapter.newcanvas.NewCanvasViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;

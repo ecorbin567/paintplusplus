@@ -1,8 +1,8 @@
 package interface_adapter.login;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.newCanvas.NewCanvasState;
-import interface_adapter.newCanvas.NewCanvasViewModel;
+import interface_adapter.newcanvas.NewCanvasState;
+import interface_adapter.newcanvas.NewCanvasViewModel;
 import use_case.login.LoginOutputBoundary;
 import use_case.login.LoginOutputData;
 

@@ -1,8 +1,8 @@
 package view;
 
-import interface_adapter.newCanvas.NewCanvasController;
-import interface_adapter.newCanvas.NewCanvasState;
-import interface_adapter.newCanvas.NewCanvasViewModel;
+import interface_adapter.newcanvas.NewCanvasController;
+import interface_adapter.newcanvas.NewCanvasState;
+import interface_adapter.newcanvas.NewCanvasViewModel;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,4 +1,4 @@
-package use_case.newCanvas;
+package use_case.newcanvas;
 
 /**
  * Input Boundary for actions which are related to logging in.
