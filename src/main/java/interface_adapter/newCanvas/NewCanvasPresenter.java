@@ -3,10 +3,8 @@ package interface_adapter.newCanvas;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.canvas.CanvasState;
 import interface_adapter.canvas.CanvasViewModel;
-import use_case.login.LoginOutputBoundary;
-import use_case.login.LoginOutputData;
+import interface_adapter.signup.SignupViewModel;
 import use_case.newCanvas.NewCanvasOutputBoundary;
-import use_case.newCanvas.NewCanvasOutputData;
 
 /**
  * The Presenter for the Login Use Case.
@@ -15,12 +13,15 @@ public class NewCanvasPresenter implements NewCanvasOutputBoundary {
 
     private final CanvasViewModel canvasViewModel;
     private final ViewManagerModel viewManagerModel;
+    private final SignupViewModel signupViewModel;
 
     public NewCanvasPresenter(ViewManagerModel viewManagerModel,
                               CanvasViewModel canvasViewModel,
-                              NewCanvasViewModel newCanvasViewModel) {
+                              NewCanvasViewModel newCanvasViewModel,
+                              SignupViewModel signupViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.canvasViewModel = canvasViewModel;
+        this.signupViewModel = signupViewModel;
     }
 
     @Override
@@ -31,5 +32,11 @@ public class NewCanvasPresenter implements NewCanvasOutputBoundary {
 
         this.viewManagerModel.setState(canvasViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToSignupView() {
+        viewManagerModel.setState(signupViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

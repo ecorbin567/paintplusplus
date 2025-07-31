@@ -10,4 +10,5 @@ public interface NewCanvasInputBoundary {
      * @param newCanvasInputData the input data
      */
     void execute(NewCanvasInputData newCanvasInputData);
+    void switchToSignupView();
 }

@@ -1,7 +1,5 @@
 package interface_adapter.newCanvas;
 
-import use_case.login.LoginInputBoundary;
-import use_case.login.LoginInputData;
 import use_case.newCanvas.NewCanvasInputBoundary;
 import use_case.newCanvas.NewCanvasInputData;
 
@@ -26,5 +24,9 @@ public class NewCanvasController {
                 username, password);
 
         newCanvasUseCaseInteractor.execute(newCanvasInputData);
+    }
+
+    public void switchToSignupView() {
+        newCanvasUseCaseInteractor.switchToSignupView();
     }
 }

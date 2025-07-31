@@ -5,4 +5,6 @@ package use_case.newCanvas;
  */
 public interface NewCanvasOutputBoundary {
     void prepareSuccessView();
+
+    void switchToSignupView();
 }

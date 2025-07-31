@@ -6,7 +6,6 @@ import data_access.UserDataAccessInterface;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.login.LoginViewModel;
-import interface_adapter.newCanvas.NewCanvasController;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.newCanvas.NewCanvasViewModel;
 import view.*;
@@ -72,7 +71,7 @@ public class Main {
         views.add(canvasView, canvasView.getViewName());
 
         final MyCanvasesView myCanvasesView = NewCanvasUseCaseFactory.create(viewManagerModel, newCanvasViewModel,
-                canvasViewModel, userDataAccessObject);
+                canvasViewModel, signupViewModel, userDataAccessObject);
 
         views.add(myCanvasesView, myCanvasesView.getViewName());
 
