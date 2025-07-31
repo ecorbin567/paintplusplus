@@ -6,7 +6,9 @@ import data_access.UserDataAccessInterface;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.newCanvas.NewCanvasController;
 import interface_adapter.signup.SignupViewModel;
+import interface_adapter.newCanvas.NewCanvasViewModel;
 import view.*;
 
 import javax.swing.*;
@@ -47,6 +49,7 @@ public class Main {
         final LoginViewModel loginViewModel = new LoginViewModel();
         final SignupViewModel signupViewModel = new SignupViewModel();
         final CanvasViewModel canvasViewModel = new CanvasViewModel();
+        final NewCanvasViewModel newCanvasViewModel = new NewCanvasViewModel();
 
         /* Josh: The below should be UserDataAccessInterface for generality, but it gets messy and I just want
         to test the signup/login functionality with the database
@@ -61,12 +64,17 @@ public class Main {
         views.add(signupView, signupView.getViewName());
 
         final LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel,
-                                                               canvasViewModel, userDataAccessObject);
+                                                               newCanvasViewModel, userDataAccessObject);
         views.add(loginView, loginView.getViewName());
 
         final CanvasView canvasView = new CanvasView(canvasViewModel);
 
         views.add(canvasView, canvasView.getViewName());
+
+        final MyCanvasesView myCanvasesView = NewCanvasUseCaseFactory.create(viewManagerModel, newCanvasViewModel,
+                canvasViewModel, userDataAccessObject);
+
+        views.add(myCanvasesView, myCanvasesView.getViewName());
 
         viewManagerModel.setState(signupView.getViewName());
         viewManagerModel.firePropertyChanged();

@@ -1,8 +1,8 @@
 package interface_adapter.login;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.canvas.CanvasState;
-import interface_adapter.canvas.CanvasViewModel;
+import interface_adapter.newCanvas.NewCanvasState;
+import interface_adapter.newCanvas.NewCanvasViewModel;
 import use_case.login.LoginOutputBoundary;
 import use_case.login.LoginOutputData;
 
@@ -12,11 +12,11 @@ import use_case.login.LoginOutputData;
 public class LoginPresenter implements LoginOutputBoundary {
 
     private final LoginViewModel loginViewModel;
-    private final CanvasViewModel canvasViewModel;
+    private final NewCanvasViewModel canvasViewModel;
     private final ViewManagerModel viewManagerModel;
 
     public LoginPresenter(ViewManagerModel viewManagerModel,
-                          CanvasViewModel canvasViewModel,
+                          NewCanvasViewModel canvasViewModel,
                           LoginViewModel loginViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.canvasViewModel = canvasViewModel;
@@ -34,7 +34,7 @@ public class LoginPresenter implements LoginOutputBoundary {
 //
 //        this.viewManagerModel.setState(loggedInViewModel.getViewName());
 //        this.viewManagerModel.firePropertyChanged();
-        final CanvasState canvasState = this.canvasViewModel.getState();
+        final NewCanvasState canvasState = this.canvasViewModel.getState();
         this.canvasViewModel.setState(canvasState);
         this.canvasViewModel.firePropertyChanged();
 
