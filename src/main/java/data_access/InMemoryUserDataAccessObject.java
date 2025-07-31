@@ -4,6 +4,7 @@ import entity.ActionHistory;
 import entity.CommonUser;
 import entity.User;
 import use_case.login.LoginUserDataAccessInterface;
+import use_case.newCanvas.NewCanvasUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
 import java.util.ArrayList;
@@ -16,7 +17,8 @@ import java.util.Map;
  * NOT persist data between runs of the program.
  */
 public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterface,
-                                                     LoginUserDataAccessInterface {
+                                                     LoginUserDataAccessInterface,
+                                                     NewCanvasUserDataAccessInterface {
     private final Map<String, User> users = new HashMap<>();
     private final Map<String, List<ActionHistory>> usersDocumentsMap = new HashMap<>();
     private String currentUser;
