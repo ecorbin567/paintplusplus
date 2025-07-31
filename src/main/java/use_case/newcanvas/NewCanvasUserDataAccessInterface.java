@@ -1,4 +1,4 @@
-package use_case.newCanvas;
+package use_case.newcanvas;
 
 import data_access.UserDataAccessInterface;
 import entity.User;

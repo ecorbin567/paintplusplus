@@ -34,6 +34,10 @@ public class TopMenuBarBuilder {
     public JMenuBar getMenuBar() {
         return menuBar;
     }
+
+    public void setMenuActionListener(MenuActionListener listener) {
+        FileButton.setMenuActionListener(listener);
+    }
 }
 
 

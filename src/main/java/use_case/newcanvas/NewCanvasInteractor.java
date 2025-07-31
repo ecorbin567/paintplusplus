@@ -1,6 +1,4 @@
-package use_case.newCanvas;
-
-import entity.User;
+package use_case.newcanvas;
 
 /**
  * The Login Interactor.

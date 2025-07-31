@@ -1,13 +1,13 @@
 package app;
 
 import data_access.InMemoryUserDataAccessObject;
-import data_access.SupabaseAccountRepository;
-import data_access.UserDataAccessInterface;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.canvas.CanvasViewModel;
+import interface_adapter.goback.GoBackViewModel;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.signup.SignupViewModel;
-import interface_adapter.newCanvas.NewCanvasViewModel;
+import interface_adapter.newcanvas.NewCanvasViewModel;
+import use_case.goback.GoBackUserDataAccessInterface;
 import view.*;
 
 import javax.swing.*;
@@ -49,6 +49,7 @@ public class Main {
         final SignupViewModel signupViewModel = new SignupViewModel();
         final CanvasViewModel canvasViewModel = new CanvasViewModel();
         final NewCanvasViewModel newCanvasViewModel = new NewCanvasViewModel();
+        final GoBackViewModel goBackViewModel = new GoBackViewModel();
 
         /* Josh: The below should be UserDataAccessInterface for generality, but it gets messy and I just want
         to test the signup/login functionality with the database
@@ -66,7 +67,9 @@ public class Main {
                                                                newCanvasViewModel, userDataAccessObject);
         views.add(loginView, loginView.getViewName());
 
-        final CanvasView canvasView = new CanvasView(canvasViewModel);
+        final CanvasView canvasView = CanvasUseCaseFactory.create(viewManagerModel, goBackViewModel,
+                                                                newCanvasViewModel, signupViewModel,
+                userDataAccessObject);
 
         views.add(canvasView, canvasView.getViewName());
 

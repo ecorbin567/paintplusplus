@@ -1,14 +1,14 @@
-package use_case.newCanvas;
+package use_case.goback;
 
 /**
  * The Input Data for the Login Use Case.
  */
-public class NewCanvasInputData {
+public class GoBackInputData {
 
     private final String username;
     private final String password;
 
-    public NewCanvasInputData(String username, String password) {
+    public GoBackInputData(String username, String password) {
         this.username = username;
         this.password = password;
     }

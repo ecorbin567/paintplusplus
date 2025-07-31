@@ -3,8 +3,9 @@ package data_access;
 import entity.ActionHistory;
 import entity.CommonUser;
 import entity.User;
+import use_case.goback.GoBackUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
-import use_case.newCanvas.NewCanvasUserDataAccessInterface;
+import use_case.newcanvas.NewCanvasUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
 import java.util.ArrayList;
@@ -18,7 +19,8 @@ import java.util.Map;
  */
 public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterface,
                                                      LoginUserDataAccessInterface,
-                                                     NewCanvasUserDataAccessInterface {
+                                                     NewCanvasUserDataAccessInterface,
+        GoBackUserDataAccessInterface {
     private final Map<String, User> users = new HashMap<>();
     private final Map<String, List<ActionHistory>> usersDocumentsMap = new HashMap<>();
     private String currentUser;

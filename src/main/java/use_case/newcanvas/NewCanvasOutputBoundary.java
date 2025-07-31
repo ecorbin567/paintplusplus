@@ -1,4 +1,4 @@
-package use_case.newCanvas;
+package use_case.newcanvas;
 
 /**
  * The output boundary for the Login Use Case.
