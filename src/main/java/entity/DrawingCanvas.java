@@ -226,6 +226,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             selectionTool.cancel();
             isDrawing = false;
             repaint();
+            actionHistory.push(getSelectionTool()); //fix this later, how to push that state onto actionhistory stack
         }
     }
 
