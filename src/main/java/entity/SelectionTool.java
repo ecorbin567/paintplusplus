@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.event.*;
 
-public class SelectionTool{
+public class SelectionTool implements Drawable{
 
     private Point startPoint; // start point of the selection on the canvas
     private Point currentPoint; // end point of the selection on the canvas
