@@ -22,4 +22,9 @@ public class NewCanvasInteractor implements NewCanvasInputBoundary {
 //        final NewCanvasOutputData loginOutputData = new NewCanvasOutputData(user.getName());
         newCanvasPresenter.prepareSuccessView();
     }
+
+    @Override
+    public void switchToSignupView() {
+        newCanvasPresenter.switchToSignupView();
+    }
 }

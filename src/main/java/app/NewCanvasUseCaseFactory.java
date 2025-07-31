@@ -1,10 +1,12 @@
 package app;
 
+import data_access.InMemoryUserDataAccessObject;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.newCanvas.NewCanvasController;
 import interface_adapter.newCanvas.NewCanvasPresenter;
 import interface_adapter.newCanvas.NewCanvasViewModel;
+import interface_adapter.signup.SignupViewModel;
 import use_case.newCanvas.NewCanvasInputBoundary;
 import use_case.newCanvas.NewCanvasInteractor;
 import use_case.newCanvas.NewCanvasOutputBoundary;
@@ -33,10 +35,11 @@ public final class NewCanvasUseCaseFactory {
             ViewManagerModel viewManagerModel,
             NewCanvasViewModel newCanvasViewModel,
             CanvasViewModel canvasViewModel,
-            NewCanvasUserDataAccessInterface userDataAccessObject) {
+            SignupViewModel signupViewModel,
+            InMemoryUserDataAccessObject userDataAccessObject) {
 
         final NewCanvasController newCanvasController = createNewCanvasUseCase(viewManagerModel, newCanvasViewModel,
-                                                                   canvasViewModel, userDataAccessObject);
+                                                                   canvasViewModel, signupViewModel, userDataAccessObject);
         return new MyCanvasesView(newCanvasViewModel, newCanvasController);
 
     }
@@ -45,11 +48,13 @@ public final class NewCanvasUseCaseFactory {
             ViewManagerModel viewManagerModel,
             NewCanvasViewModel newCanvasViewModel,
             CanvasViewModel canvasViewModel,
+            SignupViewModel signupViewModel,
             NewCanvasUserDataAccessInterface userDataAccessObject) {
 
         // Notice how we pass this method's parameters to the Presenter.
         final NewCanvasOutputBoundary newCanvasOutputBoundary = new NewCanvasPresenter(viewManagerModel,
-                                                                           canvasViewModel, newCanvasViewModel);
+                                                                           canvasViewModel, newCanvasViewModel,
+                                                                            signupViewModel);
         final NewCanvasInputBoundary newCanvasInteractor = new NewCanvasInteractor(
                 userDataAccessObject, newCanvasOutputBoundary);
 

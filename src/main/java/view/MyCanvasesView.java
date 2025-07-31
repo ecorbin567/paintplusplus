@@ -1,7 +1,5 @@
 package view;
 
-import interface_adapter.login.LoginState;
-import interface_adapter.login.LoginViewModel;
 import interface_adapter.newCanvas.NewCanvasController;
 import interface_adapter.newCanvas.NewCanvasState;
 import interface_adapter.newCanvas.NewCanvasViewModel;
@@ -51,6 +49,14 @@ public class MyCanvasesView extends JPanel implements ActionListener, PropertyCh
                                     currentState.getPassword()
                             );
                         }
+                    }
+                }
+        );
+
+        logOut.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        newCanvasController.switchToSignupView();
                     }
                 }
         );
