@@ -6,3 +6,5 @@
 2025-07-22 and 2025-07-24: Implemented basic login functionality where the user navigates through the signup and login screens
 before accessing the canvas.
 2025-07-29: Fixed bug where mid menu bar would be resized for full screen
+2025-07-31: Implemented New Canvas and Log Out buttons in My Canvases screen,
+plus Go Back to Canvases and Log Out buttons in file menu on canvas
