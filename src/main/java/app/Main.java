@@ -1,5 +1,6 @@
 package app;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import data_access.InMemoryUserDataAccessObject;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.canvas.CanvasViewModel;
@@ -25,6 +26,13 @@ public class Main {
     public static void main(String[] args) {
         // Build the main program window, the main panel containing the
         // various cards, and the layout, and stitch them together.
+
+        try {
+            // Set FlatLaf Light look and feel
+            UIManager.setLookAndFeel(new FlatLightLaf());
+        } catch (UnsupportedLookAndFeelException e) {
+            System.err.println("Failed to initialize FlatLaf Light L&F");
+        }
 
         // The main application window.
         final JFrame application = new JFrame("Paint++");
