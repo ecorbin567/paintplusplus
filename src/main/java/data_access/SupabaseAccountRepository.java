@@ -9,6 +9,7 @@ import entity.CommonUser;
 import entity.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import use_case.goback.GoBackUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
@@ -26,7 +27,7 @@ import java.util.Map;
 //  TODO: verify and stuff
 
 public class SupabaseAccountRepository implements UserDataAccessInterface,
-        LoginUserDataAccessInterface, SignupUserDataAccessInterface {
+        LoginUserDataAccessInterface, SignupUserDataAccessInterface, GoBackUserDataAccessInterface {
     // You should never store API keys like this. But I don't care.
     private final String API_KEY = "sb_secret_ZDGh4GSj6nne_LGHTJ162A__CFUb7sF";
     private final String USER_DATABASE_URL = "https://jrzhzrsourpuiflfzdgc.supabase.co/rest/v1/Users";

@@ -8,7 +8,6 @@ import interface_adapter.goback.GoBackViewModel;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.newcanvas.NewCanvasViewModel;
-import use_case.goback.GoBackUserDataAccessInterface;
 import view.*;
 
 import javax.swing.*;
