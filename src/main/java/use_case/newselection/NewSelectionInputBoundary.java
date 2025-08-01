@@ -1,4 +1,4 @@
-package use_case.selection;
+package use_case.newselection;
 
 public interface NewSelectionInputBoundary {
 }

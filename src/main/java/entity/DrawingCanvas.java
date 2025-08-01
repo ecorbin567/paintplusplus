@@ -100,7 +100,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             );
         }
         // selection tool rendering logic
-        g2.setColor(Color.LIGHT_GRAY);
+        g2.setColor(Color.DARK_GRAY);
         g2.setStroke(new BasicStroke(1));
         if ("Selection".equals(selectedTool) && isDrawing){
             Rectangle r = selectionTool.getBounds();
