@@ -3,6 +3,9 @@ package interface_adapter.image.crop;
 import use_case.image.crop.CropInputBoundary;
 import use_case.image.crop.CropRequestModel;
 
+/**
+ * The controller for the Crop Use Case.
+ */
 public class CropController {
 
     private final CropInputBoundary interactor;

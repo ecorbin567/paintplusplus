@@ -1,7 +1,7 @@
 package use_case.goback;
 
 /**
- * Output Data for the Login Use Case.
+ * Output Data for the Go Back Use Case.
  */
 public class GoBackOutputData {
 

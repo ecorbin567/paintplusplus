@@ -6,6 +6,9 @@ import use_case.image.crop.CropResponseModel;
 
 import javax.swing.*;
 
+/**
+ * The presenter for the Crop Use Case.
+ */
 public class CropPresenter implements CropOutputBoundary {
 
     private final DrawingCanvas canvas;

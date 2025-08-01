@@ -13,13 +13,10 @@ import view.*;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * The version of Main with an external database used to persist user data.
- */
 public class Main {
 
     /**
-     * The main method for starting the program with an external database used to persist user data.
+     * The main method for starting the program.
      * @param args input to main
      */
     public static void main(String[] args) {

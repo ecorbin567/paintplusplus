@@ -4,7 +4,7 @@ import data_access.UserDataAccessInterface;
 import entity.User;
 
 /**
- * DAO for the Login Use Case.
+ * DAO for the New Canvas Use Case.
  */
 public interface NewCanvasUserDataAccessInterface extends UserDataAccessInterface {
 

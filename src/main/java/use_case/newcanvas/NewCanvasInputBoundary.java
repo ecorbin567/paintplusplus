@@ -1,7 +1,7 @@
 package use_case.newcanvas;
 
 /**
- * Input Boundary for actions which are related to logging in.
+ * Input Boundary for actions which are related to creating a new canvas.
  */
 public interface NewCanvasInputBoundary {
 

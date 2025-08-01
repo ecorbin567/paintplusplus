@@ -12,7 +12,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * The View for when the user is logging into the program.
+ * The View for when the user is accessing all of their canvases.
  */
 public class MyCanvasesView extends JPanel implements ActionListener, PropertyChangeListener {
 

@@ -1,12 +1,16 @@
-package use_case.changecolor;
+package interface_adapter.changecolor;
 
 import entity.Paintbrush;
+import use_case.changecolor.ChangeColorOutputBoundary;
 import view.MidMenuBar.ColorButtonsBar.LowerColorChooserButton;
 import view.MidMenuBar.ColorButtonsBar.UpperColorChooserButton;
 
 import java.awt.*;
 
-public class ChangeColorPresenter implements ChangeColorOutputBoundary{
+/**
+ * The Presenter for the Change Colour Use Case.
+ */
+public class ChangeColorPresenter implements ChangeColorOutputBoundary {
 
     private final Paintbrush paintbrush;
     private final UpperColorChooserButton upperBtn;

@@ -1,7 +1,9 @@
 package use_case.image.crop;
 
-import entity.Image;
-
+/**
+ * Obtains information from the user about the x and y positions, and the width and height,
+ * of the cropped image.
+ */
 public class CropRequestModel {
 
     private final int x, y, width, height;

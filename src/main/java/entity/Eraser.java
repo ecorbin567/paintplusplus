@@ -1,5 +1,8 @@
 package entity;
 
+/**
+ * An eraser.
+ */
 public class Eraser implements Tool{
 
     private float width;

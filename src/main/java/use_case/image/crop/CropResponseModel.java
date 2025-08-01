@@ -2,6 +2,9 @@ package use_case.image.crop;
 
 import entity.Image;
 
+/**
+ * Represents the cropped image.
+ */
 public class CropResponseModel {
 
     private final Image croppedImage;

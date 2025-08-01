@@ -1,7 +1,7 @@
 package use_case.newcanvas;
 
 /**
- * Output Data for the Login Use Case.
+ * Output Data for the New Canvas Use Case.
  */
 public class NewCanvasOutputData {
 

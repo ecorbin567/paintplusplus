@@ -6,6 +6,9 @@ import entity.ActionHistory;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * The Import Interactor.
+ */
 public class ImportInteractor implements ImportInputBoundary {
 
     private final ImportGateway gateway;

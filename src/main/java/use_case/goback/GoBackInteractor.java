@@ -1,7 +1,7 @@
 package use_case.goback;
 
 /**
- * The Login Interactor.
+ * The Go Back Interactor.
  */
 public class GoBackInteractor implements GoBackInputBoundary {
     private final GoBackUserDataAccessInterface userDataAccessObject;

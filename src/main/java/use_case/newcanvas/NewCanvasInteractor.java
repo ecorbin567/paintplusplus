@@ -1,7 +1,7 @@
 package use_case.newcanvas;
 
 /**
- * The Login Interactor.
+ * The New Canvas Interactor.
  */
 public class NewCanvasInteractor implements NewCanvasInputBoundary {
     private final NewCanvasUserDataAccessInterface userDataAccessObject;
