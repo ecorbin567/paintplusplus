@@ -11,6 +11,11 @@ public class Paintbrush implements Tool{
         this.colour = colour;
     }
 
+    public Paintbrush(){
+        this.width = 3f;
+        this.colour = Color.BLACK;
+    }
+
     @Override
     public float getWidth() {
         return width;

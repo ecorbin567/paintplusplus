@@ -8,6 +8,10 @@ public class Eraser implements Tool{
         this.width = width;
     }
 
+    public Eraser(){
+        this.width = 3f;
+    }
+
     @Override
     public float getWidth() {
         return width;

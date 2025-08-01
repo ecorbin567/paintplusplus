@@ -1,39 +1,45 @@
 package view.MidMenuBar.PencilButtonGroup;
 
-import entity.DrawingCanvas;
+import entity.ToolEnum;
+import use_case.toolselection.ToolSelectionInputBoundary;
+import use_case.toolselection.ToolSelectionInputData;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class PencilButton{
     //ImageIcon is for Images of the PencilButton
+    ToolEnum tool = ToolEnum.PENCIL;
     JButton button;
     ImageIcon imageIcon;
-    DrawingCanvas canvas;
+    ToolSelectionInputBoundary inputBoundary;
 
-    public PencilButton(DrawingCanvas drawingCanvas) {
-        canvas = drawingCanvas;
+    public PencilButton (ToolSelectionInputBoundary inputBoundary) {
         button = new JButton();
-        PencilPopUp pencilPopUp = new PencilPopUp(drawingCanvas);
+        this.inputBoundary = inputBoundary;
+        PencilPopUp pencilPopUp = new PencilPopUp(inputBoundary);
         try{
             imageIcon = new ImageIcon(PencilButton.class.getResource("/images/PencilIcon.png"));
             Image image = imageIcon.getImage();
             Image newImage = image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
             imageIcon = new ImageIcon(newImage);
-            button.addActionListener(evt -> canvas.paint());
-            button.addActionListener(e -> {
-                pencilPopUp.getPopupMenu().show(button, button.getWidth(), button.getHeight());
-            });
-
-
+            button.setIcon(imageIcon);
+            button.setPreferredSize(new Dimension(60, 60));
         }
         catch( Exception e ){
             e.printStackTrace();
-            System.out.println("Make sure resources folder is set to default resources folder.");
-            System.out.println("You can do that but right clicking on resources and going to mark directory as");
         }
-        button.setIcon(imageIcon);
-        button.setPreferredSize(new Dimension(60, 60));
+
+        button.addActionListener(event -> {
+            ToolSelectionInputData inputData = new ToolSelectionInputData(tool);
+            inputBoundary.selectTool(tool);
+            inputBoundary.selectColor(Color.BLACK);
+        });
+
+        button.addActionListener(e -> {
+            pencilPopUp.getPopupMenu().show(button, button.getWidth(), button.getHeight());
+        });
+
     }
 
     public JButton getButton() {

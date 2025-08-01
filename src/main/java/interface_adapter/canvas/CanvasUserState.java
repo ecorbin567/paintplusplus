@@ -3,20 +3,20 @@ package interface_adapter.canvas;
 /**
  * The State information representing the logged-in user.
  */
-public class CanvasState {
+public class CanvasUserState {
     private String username = "";
 
     private String password = "";
     private String passwordError;
 
-    public CanvasState(CanvasState copy) {
+    public CanvasUserState(CanvasUserState copy) {
         username = copy.username;
         password = copy.password;
         passwordError = copy.passwordError;
     }
 
     // Because of the previous copy constructor, the default constructor must be explicit.
-    public CanvasState() {
+    public CanvasUserState() {
 
     }
 
@@ -39,4 +39,6 @@ public class CanvasState {
     public String getPassword() {
         return password;
     }
+
+
 }

@@ -1,8 +1,6 @@
 package interface_adapter.goback;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.canvas.CanvasState;
-import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.newcanvas.NewCanvasState;
 import interface_adapter.newcanvas.NewCanvasViewModel;
 import interface_adapter.signup.SignupState;

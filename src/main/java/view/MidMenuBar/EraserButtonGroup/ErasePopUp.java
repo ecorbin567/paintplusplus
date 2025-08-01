@@ -1,6 +1,6 @@
 package view.MidMenuBar.EraserButtonGroup;
 
-import entity.DrawingCanvas;
+import use_case.toolselection.ToolSelectionInputBoundary;
 
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
@@ -9,10 +9,11 @@ public class ErasePopUp {
 
     JPopupMenu popupMenu;
     JSlider slider;
-    DrawingCanvas canvas;
+    ToolSelectionInputBoundary inputBoundary;
 
-    public ErasePopUp(DrawingCanvas canvas) {
-        this.canvas = canvas;
+
+    public ErasePopUp(ToolSelectionInputBoundary inputBoundary) {
+        this.inputBoundary = inputBoundary;
         popupMenu = new JPopupMenu();
         popupMenu.setOpaque(true);
 
@@ -22,9 +23,11 @@ public class ErasePopUp {
         slider.setPaintTicks(true);
         slider.setPaintLabels(true);
         ChangeListener cl = e ->{
-            JSlider x = (JSlider) e.getSource();
-            canvas.setEraserSize(x.getValue());
+            JSlider sliderValue = (JSlider) e.getSource();
+            float value = sliderValue.getValue();
+            inputBoundary.selectSize(value);
         };
+
         slider.addChangeListener(cl);
         popupMenu.add(slider);
 

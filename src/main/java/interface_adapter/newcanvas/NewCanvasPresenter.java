@@ -1,7 +1,7 @@
 package interface_adapter.newcanvas;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.canvas.CanvasState;
+import interface_adapter.canvas.CanvasUserState;
 import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.signup.SignupViewModel;
 import use_case.newcanvas.NewCanvasOutputBoundary;
@@ -26,7 +26,7 @@ public class NewCanvasPresenter implements NewCanvasOutputBoundary {
 
     @Override
     public void prepareSuccessView() {
-        final CanvasState canvasState = this.canvasViewModel.getState();
+        final CanvasUserState canvasState = this.canvasViewModel.getState();
         this.canvasViewModel.setState(canvasState);
         this.canvasViewModel.firePropertyChanged();
 

@@ -10,7 +10,7 @@ public class StrokeRecord implements Drawable{
     public final Color colour;
     public final float width;
 
-    StrokeRecord(Color colour, float width) {
+    public StrokeRecord(Color colour, float width) {
         this.colour = colour;
         this.width  = width;
     }

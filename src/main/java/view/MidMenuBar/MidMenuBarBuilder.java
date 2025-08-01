@@ -54,10 +54,10 @@ public class MidMenuBarBuilder {
         ImportInputBoundary interactor = new ImportInteractor(gateway, presenter, actionHistory);
         ImportController importController = new ImportController(interactor);
 
-        PencilButton pencilButton = new PencilButton(canvas);
+        PencilButton pencilButton = new PencilButton();
         pButton = pencilButton.getButton();
 
-        EraseButton eraseButton = new EraseButton(canvas);
+        EraseButton eraseButton = new EraseButton();
         eButton = eraseButton.getButton();
 
         SelectionToolButton selectButton = new SelectionToolButton();
