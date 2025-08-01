@@ -51,7 +51,6 @@ public final class NewCanvasUseCaseFactory {
             SignupViewModel signupViewModel,
             NewCanvasUserDataAccessInterface userDataAccessObject) {
 
-        // Notice how we pass this method's parameters to the Presenter.
         final NewCanvasOutputBoundary newCanvasOutputBoundary = new NewCanvasPresenter(viewManagerModel,
                                                                            canvasViewModel, newCanvasViewModel,
                                                                             signupViewModel);

@@ -2,17 +2,20 @@ package entity;
 
 import java.util.*;
 
+/**
+ * Stores all past actions in stacks of done and undone actions.
+ */
 public class ActionHistory {
-    private final Stack<Drawable> undoStack;
-    private final Stack<Drawable> redoStack;
-    private Drawable currentState = null;
+    private final Stack<Editable> undoStack;
+    private final Stack<Editable> redoStack;
+    private Editable currentState = null;
 
     public ActionHistory() {
         this.undoStack = new Stack<>();
         this.redoStack = new Stack<>();
     }
 
-    public void push(Drawable newState) {
+    public void push(Editable newState) {
         if (currentState != null) {
             undoStack.push(currentState);
         }
@@ -20,25 +23,25 @@ public class ActionHistory {
         redoStack.clear();
     }
 
-    public Drawable undo() {
+    public Editable undo() {
         if (undoStack.isEmpty()) return null;
         redoStack.push(currentState);
         currentState = undoStack.pop();
         return currentState;
     }
 
-    public Drawable redo() {
+    public Editable redo() {
         if (redoStack.isEmpty()) return null;
         undoStack.push(currentState);
         currentState = redoStack.pop();
         return currentState;
     }
 
-    public Drawable getCurrentState() {
+    public Editable getCurrentState() {
         return currentState;
     }
 
-    public void setCurrentState(Drawable currentState) {
+    public void setCurrentState(Editable currentState) {
         this.currentState = currentState;
         if (!(undoStack.isEmpty())) {
             undoStack.pop();
@@ -46,7 +49,7 @@ public class ActionHistory {
         push(currentState);
     }
 
-    public Stack<Drawable> getUndoStack() {
+    public Stack<Editable> getUndoStack() {
         return undoStack;
     }
 }

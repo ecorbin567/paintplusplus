@@ -1,13 +1,8 @@
 package entity;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.*;
-import javax.swing.JPanel;
 import java.awt.*;
-import java.awt.event.*;
 
-public class SelectionTool implements Drawable{
+public class SelectionTool implements Editable {
 
     private Point startPoint; // start point of the selection on the canvas
     private Point currentPoint; // end point of the selection on the canvas

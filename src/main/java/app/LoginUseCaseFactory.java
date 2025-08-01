@@ -25,18 +25,18 @@ public final class LoginUseCaseFactory {
      * Factory function for creating the LoginView.
      * @param viewManagerModel the ViewManagerModel to inject into the LoginView
      * @param loginViewModel the LoginViewModel to inject into the LoginView
-     * @param canvasViewModel the NewCanvasViewModel to inject into the LoginView
+     * @param newCanvasViewModel the NewCanvasViewModel to inject into the LoginView
      * @param userDataAccessObject the LoginUserDataAccessInterface to inject into the LoginView
      * @return the LoginView created for the provided input classes
      */
     public static LoginView create(
             ViewManagerModel viewManagerModel,
             LoginViewModel loginViewModel,
-            NewCanvasViewModel canvasViewModel,
+            NewCanvasViewModel newCanvasViewModel,
             LoginUserDataAccessInterface userDataAccessObject) {
 
         final LoginController loginController = createLoginUseCase(viewManagerModel, loginViewModel,
-                                                                   canvasViewModel, userDataAccessObject);
+                                                                   newCanvasViewModel, userDataAccessObject);
         return new LoginView(loginViewModel, loginController);
 
     }
@@ -44,12 +44,11 @@ public final class LoginUseCaseFactory {
     private static LoginController createLoginUseCase(
             ViewManagerModel viewManagerModel,
             LoginViewModel loginViewModel,
-            NewCanvasViewModel canvasViewModel,
+            NewCanvasViewModel newCanvasViewModel,
             LoginUserDataAccessInterface userDataAccessObject) {
 
-        // Notice how we pass this method's parameters to the Presenter.
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
-                                                                           canvasViewModel, loginViewModel);
+                                                                           newCanvasViewModel, loginViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
                 userDataAccessObject, loginOutputBoundary);
 

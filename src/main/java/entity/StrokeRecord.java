@@ -4,8 +4,8 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-/** Everything needed to redraw one continuous stroke. */
-public class StrokeRecord implements Drawable{
+/** One continuous stroke of a paintbrush or eraser */
+public class StrokeRecord implements Editable {
     public final List<Point> pts = new ArrayList<>();
     public final Color colour;
     public final float width;
