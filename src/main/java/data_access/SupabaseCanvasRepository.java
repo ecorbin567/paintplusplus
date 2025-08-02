@@ -137,6 +137,7 @@ public class SupabaseCanvasRepository implements GetCanvasUserDataAccessInterfac
         return true;
     }
 
+    // TODO: unimplemented
     @Override
     public BufferedImage findCanvasById(String username, int id) {
         return null;
