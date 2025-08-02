@@ -1,7 +1,5 @@
 package use_case.getcanvas;
 
-import data_access.UserDataAccessInterface;
-import entity.ActionHistory;
 import entity.User;
 
 import java.awt.image.BufferedImage;
@@ -17,14 +15,14 @@ public interface GetCanvasUserDataAccessInterface {
      * @param image is the image to upload
      * @return
      */
-    boolean saveCanvas(User user, BufferedImage image);
+    boolean saveCanvas(String username, BufferedImage image);
 
     /**
      * Get a certain project from user's repository.
      * @param id of the canvas
      * @return the action history of the desired drawing
      */
-    BufferedImage findCanvasById(User user, int id);
+    BufferedImage findCanvasById(String username, int id);
 
-    List<BufferedImage> getAllCanvases(User user);
+    List<BufferedImage> getAllCanvases(String username);
 }

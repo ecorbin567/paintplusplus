@@ -4,21 +4,22 @@ import data_access.UserDataAccessInterface;
 import entity.ActionHistory;
 import entity.User;
 
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 /** Use case: retrieving all the documents for a certain user. **/
 public class GetCanvasInteractor implements GetCanvasInputBoundary {
-    private final UserDataAccessInterface userDataAccessObject;
+    private final GetCanvasUserDataAccessInterface canvasDataAccessObject;
     private final GetCanvasOutputBoundary getCanvasPresenter;
 
-    public GetCanvasInteractor(UserDataAccessInterface userDataAccessInterface,
+    public GetCanvasInteractor(GetCanvasUserDataAccessInterface canvasDataAccessInterface,
                                GetCanvasOutputBoundary getCanvasOutputBoundary) {
-        this.userDataAccessObject = userDataAccessInterface;
+        this.canvasDataAccessObject = canvasDataAccessInterface;
         this.getCanvasPresenter = getCanvasOutputBoundary;
     }
 
-    private List<ActionHistory> getUserCanvases(User user) {
-        return userDataAccessObject.getAllCanvases(user);
+    private List<BufferedImage> getUserCanvases(String username) {
+        return canvasDataAccessObject.getAllCanvases(username);
     }
 
     @Override
