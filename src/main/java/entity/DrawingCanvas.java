@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.awt.AlphaComposite;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -128,6 +129,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             // 1) if click inside an existing selection, start dragging as u needed
             if (hasSelection && selectionBounds.contains(p)){
                 draggingSelection = true;
+                hasCutOut = false;
                 dragAnchor = new Point(p.x - selectionBounds.x,
                                         p.y - selectionBounds.y);
             } else if (hasSelection){ // 2) clicked outside existing selection
@@ -177,7 +179,8 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             Point p = e.getPoint();
             if (draggingSelection){
                 // on the first drag, blank out the original rectangle
-                if (!hasCutOut && selectionBounds != null){
+                if (!hasCutOut){
+                    cutFromCommitted(selectionBounds);
                     clearRegions.add(new Rectangle(selectionBounds));
                     hasCutOut = true;
                 }
@@ -211,7 +214,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
                 selectionTool.finish(p);
                 isDrawing = false;
                 Rectangle r = selectionTool.getBounds();
-                if (r.width>0 && r.height>0){
+                if (r.width>0 && r.height>0) {
                     BufferedImage full = getImage(); // TODO: fix subimage implementation, capture maybe only drawables?
                     // try to get the state of the stack, whenever you mouse release,
                     // create new instance on the stack for easy undo and redo functionality directly built in
@@ -223,16 +226,31 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
                     selectionBounds = new Rectangle(r);
                     hasSelection = true;
 
-//                  clearRegions.add(new Rectangle(r));
+
                     // apparently layering issue functionality still working, bugs need fixing but managable
                 }
             }
             // reset dragging selection here
             draggingSelection = false;
             selectionTool.cancel();
-            isDrawing = false;
             repaint();
 //            actionHistory.push(getSelectionTool()); //fix this later, how to push that state onto actionhistory stack
+        }
+    }
+
+    private void cutFromCommitted(Rectangle cut) {
+        for (Pair<BufferedImage, Rectangle> pair : commitedSelections) {
+            Rectangle inter = cut.intersection(pair.second);
+            if (!inter.isEmpty()) {
+                Graphics2D g = pair.first.createGraphics();
+                g.setComposite(AlphaComposite.Src);
+                g.setColor(backgroundColor);
+                // translate intersection into the pasted-image’s local coords
+                g.fillRect(inter.x - pair.second.x,
+                        inter.y - pair.second.y,
+                        inter.width, inter.height);
+                g.dispose();
+            }
         }
     }
 
