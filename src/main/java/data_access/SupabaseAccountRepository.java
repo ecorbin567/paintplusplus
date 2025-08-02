@@ -169,20 +169,4 @@ public class SupabaseAccountRepository implements UserDataAccessInterface,
         return user != null && password.equals(user.getPassword());
     }
 
-    // TODO: canvas methods are unimplemented
-
-    @Override
-    public boolean saveCanvas(User user, ActionHistory actionHistory) {
-        return false;
-    }
-
-    @Override
-    public ActionHistory findCanvasById(User user, int id) {
-        return null;
-    }
-
-    @Override
-    public List<ActionHistory> getAllCanvases(User user) {
-        return List.of();
-    }
 }
