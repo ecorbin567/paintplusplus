@@ -28,6 +28,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     private Point dragAnchor;
     private BufferedImage canvas;
     private Point lastPoint;
+    private Rectangle originalSelectionBounds;
 
     public DrawingCanvas() {
         setBackground(Color.WHITE);
@@ -124,18 +125,27 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
                 draggingSelection = true;
                 dragAnchor = new Point(p.x - selectionBounds.x,
                                         p.y - selectionBounds.y);
-            } else if (hasSelection){ // 2) clicked outside existing selection
+            } else if (!hasSelection){ // 2) clicked outside existing selection
                 // commit it permanently back into the canvas
-                Graphics2D cg = canvas.createGraphics();
+                if (originalSelectionBounds != null) {
+                    Graphics2D cg = canvas.createGraphics();
+                    cg.setColor(backgroundColor);
+                    cg.fillRect(
+                            originalSelectionBounds.x, originalSelectionBounds.y,
+                            originalSelectionBounds.width, originalSelectionBounds.height
+                    );
+                    cg.drawImage(selectionImage,
+                            selectionBounds.x, selectionBounds.y,
+                            selectionBounds.width, selectionBounds.height, null);
+                    cg.dispose();
 
-                cg.drawImage(selectionImage,
-                        selectionBounds.x, selectionBounds.y,
-                        selectionBounds.width, selectionBounds.height, null);
-                cg.dispose();
+                }
 
                 hasSelection = false;
                 selectionImage = null;
                 selectionBounds = null;
+                originalSelectionBounds = null;
+                draggingSelection = false;
                 selectionTool.cancel();
             } else { // 3) otherwise, no selection at all, start drawing new selection rectangle
                 selectionTool.start(p);
@@ -210,13 +220,14 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     @Override
     public void mouseReleased(MouseEvent e) {
 //        actionHistory.setCurrentState(null);         // finished; ready for a fresh stroke
-        if ("Selection".equals(selectedTool)){
+        if ("Selection".equals(selectedTool)) {
             Point p = e.getPoint();
-            if (!draggingSelection){
+            Graphics2D g = canvas.createGraphics();
+            if (!draggingSelection) {
                 // user finished selecting the marked area (inside the rectangle)
                 selectionTool.finish(p);
                 Rectangle r = selectionTool.getBounds();
-                if (r.width>0 && r.height>0){
+                if (r.width > 0 && r.height > 0) {
                     // try to get the state of the stack, whenever you mouse release,
                     // create new instance on the stack for easy undo and redo functionality directly built in
                     // somehow use drawable to only capture state from the strokerecord/actionhistory,
@@ -226,19 +237,32 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
                     selectionImage = canvas.getSubimage(r.x, r.y, r.width, r.height);
                     selectionBounds = new Rectangle(r);
                     hasSelection = true;
-                    // erase from main canvas
-                    Graphics2D cg = canvas.createGraphics();
-                    cg.setColor(backgroundColor);
-                    cg.fillRect(r.x, r.y, r.width, r.height);
-                    cg.dispose();
+
+                    g.setColor(backgroundColor);
+                    g.fillRect(r.x, r.y, r.width, r.height);
+
                 }
+            } else {
+                if (hasSelection && selectionImage != null) {
+                    g.drawImage(
+                            selectionImage,
+                            selectionBounds.x, selectionBounds.y,
+                            selectionBounds.width, selectionBounds.height,
+                            null
+                    );
+                }
+                hasSelection = false;
+                selectionImage = null;
+                selectionBounds= null;
             }
-            // reset dragging selection here
-            draggingSelection = false;
-            isDrawing = false;
-            selectionTool.cancel();
-            repaint();
-//            actionHistory.push(getSelectionTool()); //fix this later, how to push that state onto actionhistory stack
+                g.dispose();
+                // reset dragging selection here
+                draggingSelection = false;
+                isDrawing = false;
+                selectionTool.cancel();
+                repaint();
+// actionHistory.push(getSelectionTool()); //fix this later, how to push that state onto actionhistory stack
+
         }
     }
 
