@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.awt.AlphaComposite;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -24,11 +25,11 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     private Rectangle selectionBounds;
     private boolean hasSelection = false;
     private boolean draggingSelection = false;
+    private boolean hasCutOut = false;
     private boolean isDrawing = false;
     private Point dragAnchor;
-    private BufferedImage canvas;
-    private Point lastPoint;
-    private Rectangle originalSelectionBounds;
+    private List<Rectangle> clearRegions = new ArrayList<>();
+    private final List<Pair<BufferedImage, Rectangle>> commitedSelections = new ArrayList<>();
 
     public DrawingCanvas() {
         setBackground(Color.WHITE);
@@ -40,16 +41,6 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         addMouseMotionListener(this);
         this.selectionBounds = null;
         this.setPreferredSize(new Dimension(800, 500));
-
-        canvas = new BufferedImage(
-                getPreferredSize().width,
-                getPreferredSize().height,
-                BufferedImage.TYPE_INT_ARGB
-        );
-        Graphics2D cg = canvas.createGraphics();
-        cg.setColor(backgroundColor);
-        cg.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
-        cg.dispose();
     }
 
     public double getScale() {
@@ -67,51 +58,60 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         Graphics2D g2 = (Graphics2D) g.create();
         g2.scale(this.scale, this.scale);
 
-        g2.drawImage(canvas,0,0, null);
+        for (Image image : importedImages) {
+            image.draw(g2);
+        }
+        //
+        if (!(actionHistory.getUndoStack().isEmpty())) {
+            for (Drawable d : actionHistory.getUndoStack()) {
+                if (d instanceof StrokeRecord s) {
+                    g2.setColor(s.colour);
+                    g2.setStroke(new BasicStroke(s.width,
+                            BasicStroke.CAP_ROUND,
+                            BasicStroke.JOIN_ROUND));
+                    for (int i = 1; i < s.pts.size(); i++) {
+                        Point p1 = s.pts.get(i - 1);
+                        Point p2 = s.pts.get(i);
+                        g2.drawLine(p1.x, p1.y, p2.x, p2.y);
+                    }
+                }
+            }
+        }
 
-//        for (Image image : importedImages) {
-//            image.draw(g2);
-//        }
-//        //
-//        if (!(actionHistory.getUndoStack().isEmpty())) {
-//            for (Drawable d : actionHistory.getUndoStack()) {
-//                if (d instanceof StrokeRecord s) {
-//                    g2.setColor(s.colour);
-//                    g2.setStroke(new BasicStroke(s.width,
-//                            BasicStroke.CAP_ROUND,
-//                            BasicStroke.JOIN_ROUND));
-//                    for (int i = 1; i < s.pts.size(); i++) {
-//                        Point p1 = s.pts.get(i - 1);
-//                        Point p2 = s.pts.get(i);
-//                        g2.drawLine(p1.x, p1.y, p2.x, p2.y);
-//                    }
-//                }
-//            }
-//        }
+        // paint background the background color as needed
+        g2.setColor(backgroundColor);
+        for (Rectangle hole: clearRegions){
+            g2.fillRect(hole.x, hole.y, hole.width, hole.height);
+        }
+
+        // always render all active selections
+        for (var p: commitedSelections){
+            g2.drawImage(p.first, p.second.x, p.second.y,
+                    p.second.width, p.second.height, null);
+        }
+
 
         // render the moving selected region
-        if (hasSelection) {
+        if (hasSelection && selectionImage != null && selectionBounds != null) {
             g2.drawImage(
                     selectionImage,
                     selectionBounds.x, selectionBounds.y,
                     selectionBounds.width, selectionBounds.height,
                     null
             );
-            g2.setColor(Color.DARK_GRAY);
-            g2.setStroke(new BasicStroke(1));
-            g2.drawRect(
-                    selectionBounds.x, selectionBounds.y,
-                    selectionBounds.width-1, selectionBounds.height-1
-            );
         }
-
-        else if ("Selection".equals(selectedTool) && isDrawing){
+        // selection tool rendering logic
+        g2.setColor(Color.DARK_GRAY);
+        g2.setStroke(new BasicStroke(1));
+        if ("Selection".equals(selectedTool) && isDrawing){
             Rectangle r = selectionTool.getBounds();
             if (r.width>0 && r.height>0){
-                g2.setColor(Color.DARK_GRAY);
-                g2.setStroke(new BasicStroke(1));
-                g2.drawRect(r.x, r.y, r.width-1, r.height-1);
+                g2.drawRect(r.x,r.y,r.width-1, r.height-1);
             }
+        } else if (hasSelection && selectionBounds != null){
+            g2.setStroke(new BasicStroke(1));
+            g2.drawRect(selectionBounds.x, selectionBounds.y,
+                    selectionBounds.width-1, selectionBounds.height-1);
         }
         g2.dispose();
     }
@@ -123,31 +123,29 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             // 1) if click inside an existing selection, start dragging as u needed
             if (hasSelection && selectionBounds.contains(p)){
                 draggingSelection = true;
+                hasCutOut = false;
                 dragAnchor = new Point(p.x - selectionBounds.x,
                                         p.y - selectionBounds.y);
-            } else if (!hasSelection){ // 2) clicked outside existing selection
-                // commit it permanently back into the canvas
-                if (originalSelectionBounds != null) {
-                    Graphics2D cg = canvas.createGraphics();
-                    cg.setColor(backgroundColor);
-                    cg.fillRect(
-                            originalSelectionBounds.x, originalSelectionBounds.y,
-                            originalSelectionBounds.width, originalSelectionBounds.height
-                    );
-                    cg.drawImage(selectionImage,
-                            selectionBounds.x, selectionBounds.y,
-                            selectionBounds.width, selectionBounds.height, null);
-                    cg.dispose();
+            } else if (hasSelection){ // 2) clicked outside existing selection
+                // commit current image at its last bounds
+                draggingSelection = false;
+                hasCutOut = false;
 
-                }
+                // get rid of old selection if one existed
+                commitedSelections.add(
+                        new Pair<>(selectionImage,
+                                new Rectangle(selectionBounds))
+                );
 
+                clearRegions.add(new Rectangle(selectionBounds));
+                // clear out active selection state
                 hasSelection = false;
                 selectionImage = null;
                 selectionBounds = null;
-                originalSelectionBounds = null;
-                draggingSelection = false;
                 selectionTool.cancel();
+                isDrawing = false;
             } else { // 3) otherwise, no selection at all, start drawing new selection rectangle
+                draggingSelection = false;
                 selectionTool.start(p);
                 isDrawing = true;
             }
@@ -156,7 +154,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             return;
         }
 
-        if (SwingUtilities.isLeftMouseButton(e)){
+        if (SwingUtilities.isLeftMouseButton(e)) {
             Color c = Objects.equals(this.selectedTool, "Eraser") ? backgroundColor
                     : paintbrush.getColour();
             float w = Objects.equals(this.selectedTool, "Eraser") ? eraser.getWidth()
@@ -165,7 +163,6 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             StrokeRecord currentStroke = new StrokeRecord(c, w);
             currentStroke.pts.add(e.getPoint());
             actionHistory.push(currentStroke);
-            lastPoint = e.getPoint();
         }
 
     }
@@ -175,7 +172,13 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         if ("Selection".equals(selectedTool)){
             Point p = e.getPoint();
             if (draggingSelection){
-                // translate the live selection
+                // on the first drag, blank out the original rectangle
+                if (!hasCutOut){
+                    cutFromCommitted(selectionBounds);
+                    clearRegions.add(new Rectangle(selectionBounds));
+                    hasCutOut = true;
+                }
+                // now move it
                 selectionBounds.x = p.x - dragAnchor.x;
                 selectionBounds.y = p.y - dragAnchor.y;
             } else {
@@ -185,83 +188,63 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             repaint();
             return;
         }
-
-        Point p = e.getPoint();
         Drawable curr = actionHistory.getCurrentState();
-
-        if (curr instanceof StrokeRecord strokeRecord) {
-            strokeRecord.pts.add(p);
-            actionHistory.setCurrentState(strokeRecord);
+        if (curr != null) {
+            if (curr instanceof StrokeRecord strokeRecord) {
+                strokeRecord.pts.add(e.getPoint());
+                actionHistory.setCurrentState(strokeRecord);
+            }
+            repaint();                 // ask Swing to invoke paintComponent()
         }
-
-
-        Graphics2D cg = canvas.createGraphics();
-        if ("Eraser".equals(selectedTool)) {
-            cg.setColor(backgroundColor);
-            cg.setStroke(new BasicStroke(
-                    eraser.getWidth(),
-                    BasicStroke.CAP_ROUND,
-                    BasicStroke.JOIN_ROUND));
-        } else {
-            cg.setColor(paintbrush.getColour());
-            cg.setStroke(new BasicStroke(
-                    paintbrush.getWidth(),
-                    BasicStroke.CAP_ROUND,
-                    BasicStroke.JOIN_ROUND));
-        }
-
-        cg.drawLine(lastPoint.x, lastPoint.y, p.x, p.y);
-        cg.dispose();
-
-        lastPoint = p;
-        repaint();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
 //        actionHistory.setCurrentState(null);         // finished; ready for a fresh stroke
-        if ("Selection".equals(selectedTool)) {
+        if ("Selection".equals(selectedTool)){
             Point p = e.getPoint();
-            Graphics2D g = canvas.createGraphics();
-            if (!draggingSelection) {
+            if (!draggingSelection){
                 // user finished selecting the marked area (inside the rectangle)
                 selectionTool.finish(p);
+                isDrawing = false;
                 Rectangle r = selectionTool.getBounds();
-                if (r.width > 0 && r.height > 0) {
+                if (r.width>0 && r.height>0) {
+                    BufferedImage full = getImage(); // TODO: fix subimage implementation, capture maybe only drawables?
                     // try to get the state of the stack, whenever you mouse release,
                     // create new instance on the stack for easy undo and redo functionality directly built in
                     // somehow use drawable to only capture state from the strokerecord/actionhistory,
                     // and capture those brushstrokes/image, etc.
                     // TODO: make selection tool a drawable I guess to make easy work of stack implementation of undo and redo
-                    // extract
-                    selectionImage = canvas.getSubimage(r.x, r.y, r.width, r.height);
+
+                    selectionImage = full.getSubimage(r.x, r.y, r.width, r.height);
                     selectionBounds = new Rectangle(r);
                     hasSelection = true;
 
-                    g.setColor(backgroundColor);
-                    g.fillRect(r.x, r.y, r.width, r.height);
 
+                    // apparently layering issue functionality still working, bugs need fixing but managable
                 }
-            } else {
-                if (hasSelection && selectionImage != null) {
-                    g.drawImage(
-                            selectionImage,
-                            selectionBounds.x, selectionBounds.y,
-                            selectionBounds.width, selectionBounds.height,
-                            null
-                    );
-                }
-                hasSelection = false;
-                selectionImage = null;
-                selectionBounds= null;
             }
-                g.dispose();
-                // reset dragging selection here
-                draggingSelection = false;
-                isDrawing = false;
-                selectionTool.cancel();
-                repaint();
+            // reset dragging selection here
+            draggingSelection = false;
+            selectionTool.cancel();
+            repaint();
+//            actionHistory.push(getSelectionTool()); //fix this later, how to push that state onto actionhistory stack
+        }
+    }
 
+    private void cutFromCommitted(Rectangle cut) {
+        for (Pair<BufferedImage, Rectangle> pair : commitedSelections) {
+            Rectangle inter = cut.intersection(pair.second);
+            if (!inter.isEmpty()) {
+                Graphics2D g = pair.first.createGraphics();
+                g.setComposite(AlphaComposite.Src);
+                g.setColor(backgroundColor);
+                // translate intersection into the pasted-image’s local coords
+                g.fillRect(inter.x - pair.second.x,
+                        inter.y - pair.second.y,
+                        inter.width, inter.height);
+                g.dispose();
+            }
         }
     }
 
@@ -274,52 +257,24 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     }
 
     public void undo() {
-//        Drawable prevState = actionHistory.undo();
-//        importedImages.clear();
-//
-//        if (prevState instanceof Image image) {
-//            importedImages.add(image);
-//            setCurrentImage(image);
-//        }
-//        repaint();
-        actionHistory.undo();
-        rebuildCanvasFromHistory();
-       }
+        Drawable prevState = actionHistory.undo();
+        importedImages.clear();
+
+        if (prevState instanceof Image image) {
+            importedImages.add(image);
+            setCurrentImage(image);
+        }
+        repaint();
+    }
 
     public void redo() {
-//        Drawable nextState = actionHistory.redo();
-//        importedImages.clear();
-//
-//        if (nextState instanceof Image image) {
-//            importedImages.add(image);
-//            setCurrentImage(image);
-//        }
-//        repaint();
-        actionHistory.redo();
-        rebuildCanvasFromHistory();
-    }
-    private void rebuildCanvasFromHistory(){
-        // clear background
-        Graphics2D g2 = canvas.createGraphics();
-        g2.setColor(backgroundColor);
-        g2.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        Drawable nextState = actionHistory.redo();
+        importedImages.clear();
 
-        // 2) replay every StrokeRecord in the undo stack
-        for (Drawable d : actionHistory.getUndoStack()) {
-            if (d instanceof StrokeRecord s) {
-                g2.setColor(s.colour);
-                g2.setStroke(new BasicStroke(
-                        s.width,
-                        BasicStroke.CAP_ROUND,
-                        BasicStroke.JOIN_ROUND));
-                for (int i = 1; i < s.pts.size(); i++) {
-                    Point p1 = s.pts.get(i-1);
-                    Point p2 = s.pts.get(i);
-                    g2.drawLine(p1.x, p1.y, p2.x, p2.y);
-                }
-            }
+        if (nextState instanceof Image image) {
+            importedImages.add(image);
+            setCurrentImage(image);
         }
-        g2.dispose();
         repaint();
     }
 
@@ -366,11 +321,8 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     }
 
     public void addDrawableElement(Image importedImage) {
-//        importedImages.add(importedImage);
-//        setCurrentImage(importedImage);
-//        repaint();
-        Graphics2D cg = canvas.createGraphics();
-        importedImage.draw(cg);
+        importedImages.add(importedImage);
+        setCurrentImage(importedImage);
         repaint();
     }
 
