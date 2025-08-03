@@ -20,3 +20,6 @@ forgot to mention changecolor package under usecase also done for brushstrokes.
 2025-08-02: prevously selected and pasted area not being able to be whited out bug fixed !!!!!
 selection tool finally able to select new areas and always white out whatevers selected
 , currently fixing layering issues regarding being able to draw over previous selected white out areas.
+2025-08-02: implemented basic functionality of undo and redo with selection tool. Working on layering
+issue of not being able to draw over pasted selections, working on that!
+added cut and pasterecord to keep track of selected and pasted selections.

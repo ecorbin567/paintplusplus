@@ -74,6 +74,9 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
                         Point p2 = s.pts.get(i);
                         g2.drawLine(p1.x, p1.y, p2.x, p2.y);
                     }
+                } else if (d instanceof PasteRecord pr){
+                    g2.drawImage(pr.image, pr.bounds.x, pr.bounds.y,
+                            pr.bounds.width, pr.bounds.height, null);
                 }
             }
         }
@@ -138,6 +141,11 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
                 );
 
                 clearRegions.add(new Rectangle(selectionBounds));
+
+                actionHistory.push(
+                        new PasteRecord(selectionImage,
+                                new Rectangle(selectionBounds))
+                );
                 // clear out active selection state
                 hasSelection = false;
                 selectionImage = null;
@@ -174,8 +182,10 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             if (draggingSelection){
                 // on the first drag, blank out the original rectangle
                 if (!hasCutOut){
-                    cutFromCommitted(selectionBounds);
-                    clearRegions.add(new Rectangle(selectionBounds));
+                    Rectangle hole = new Rectangle(selectionBounds);
+                    cutFromCommitted(hole);
+                    clearRegions.add(hole);
+                    actionHistory.push(new CutRecord(hole));
                     hasCutOut = true;
                 }
                 // now move it
@@ -247,6 +257,25 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             }
         }
     }
+    private void rebuildStateFromHistory(){
+        commitedSelections.clear();
+        clearRegions.clear();    // NEW
+
+        // past states
+        for (Drawable d : actionHistory.getUndoStack()) {
+            addFromDrawable(d);
+        }
+        // current head
+        addFromDrawable(actionHistory.getCurrentState());
+    }
+    private void addFromDrawable(Drawable d) {
+        if (d instanceof PasteRecord pr) {
+            commitedSelections.add(
+                    new Pair<>(pr.image, new Rectangle(pr.bounds)));
+        } else if (d instanceof CutRecord cr) {
+            clearRegions.add(new Rectangle(cr.bounds));
+        }
+    }
 
     public void erase() {
         this.selectedTool = "Eraser";
@@ -259,7 +288,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     public void undo() {
         Drawable prevState = actionHistory.undo();
         importedImages.clear();
-
+        rebuildStateFromHistory();
         if (prevState instanceof Image image) {
             importedImages.add(image);
             setCurrentImage(image);
@@ -270,7 +299,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     public void redo() {
         Drawable nextState = actionHistory.redo();
         importedImages.clear();
-
+        rebuildStateFromHistory();
         if (nextState instanceof Image image) {
             importedImages.add(image);
             setCurrentImage(image);
