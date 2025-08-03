@@ -24,4 +24,5 @@ selection tool finally able to select new areas and always white out whatevers s
 issue of not being able to draw over pasted selections, working on that!
 added cut and pasterecord to keep track of selected and pasted selections.
 2025-08-03: selection tool functionality fully functional, all bugs related to layering, drawing new strokes or erasing
-solved. Going to start on refactoring drawing canvas code.
+solved. Going to start on refactoring drawing canvas code. Fixed small bug where first item on
+the actionhistory stacks wouldnt undo or be able to redo from first deleted item.
