@@ -64,34 +64,27 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         //
         if (!(actionHistory.getUndoStack().isEmpty())) {
             for (Drawable d : actionHistory.getUndoStack()) {
-                if (d instanceof StrokeRecord s) {
-                    g2.setColor(s.colour);
-                    g2.setStroke(new BasicStroke(s.width,
-                            BasicStroke.CAP_ROUND,
-                            BasicStroke.JOIN_ROUND));
-                    for (int i = 1; i < s.pts.size(); i++) {
-                        Point p1 = s.pts.get(i - 1);
-                        Point p2 = s.pts.get(i);
-                        g2.drawLine(p1.x, p1.y, p2.x, p2.y);
-                    }
-                } else if (d instanceof PasteRecord pr){
-                    g2.drawImage(pr.image, pr.bounds.x, pr.bounds.y,
-                            pr.bounds.width, pr.bounds.height, null);
-                }
+                // this logic is refractored into drawDrawable() below paintComponent
+                drawDrawable(g2, d);
             }
         }
 
-        // paint background the background color as needed
-        g2.setColor(backgroundColor);
-        for (Rectangle hole: clearRegions){
-            g2.fillRect(hole.x, hole.y, hole.width, hole.height);
+        Drawable head = actionHistory.getCurrentState();
+        if (head != null){
+            drawDrawable(g2, head);
         }
 
-        // always render all active selections
-        for (var p: commitedSelections){
-            g2.drawImage(p.first, p.second.x, p.second.y,
-                    p.second.width, p.second.height, null);
-        }
+//        // paint background the background color as needed
+//        g2.setColor(backgroundColor);
+//        for (Rectangle hole: clearRegions){
+//            g2.fillRect(hole.x, hole.y, hole.width, hole.height);
+//        }
+
+//        // always render all active selections
+//        for (var p: commitedSelections){
+//            g2.drawImage(p.first, p.second.x, p.second.y,
+//                    p.second.width, p.second.height, null);
+//        }
 
 
         // render the moving selected region
@@ -117,6 +110,29 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
                     selectionBounds.width-1, selectionBounds.height-1);
         }
         g2.dispose();
+    }
+
+    private void drawDrawable(Graphics2D g2, Drawable d) {
+        if (d instanceof StrokeRecord s) {
+            g2.setColor(s.colour);
+            g2.setStroke(new BasicStroke(s.width,
+                    BasicStroke.CAP_ROUND,
+                    BasicStroke.JOIN_ROUND));
+            for (int i = 1; i < s.pts.size(); i++) {
+                Point p1 = s.pts.get(i - 1);
+                Point p2 = s.pts.get(i);
+                g2.drawLine(p1.x, p1.y, p2.x, p2.y);
+            }
+        } else if (d instanceof PasteRecord pr) {
+            g2.drawImage(pr.image,
+                    pr.bounds.x, pr.bounds.y,
+                    pr.bounds.width, pr.bounds.height,
+                    null);
+        } else if (d instanceof CutRecord cr) {
+            g2.setColor(backgroundColor);
+            g2.fillRect(cr.bounds.x, cr.bounds.y,
+                    cr.bounds.width, cr.bounds.height);
+        }
     }
 
     @Override
@@ -202,7 +218,9 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         if (curr != null) {
             if (curr instanceof StrokeRecord strokeRecord) {
                 strokeRecord.pts.add(e.getPoint());
-                actionHistory.setCurrentState(strokeRecord);
+//                actionHistory.setCurrentState(strokeRecord);
+                // the above kept calling the undo stack pop, it discarded the most recent PasteRecord,
+                // so pasted bitmaps always stay on the screen regardless of what next button we press/tool to use
             }
             repaint();                 // ask Swing to invoke paintComponent()
         }
@@ -219,13 +237,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
                 isDrawing = false;
                 Rectangle r = selectionTool.getBounds();
                 if (r.width>0 && r.height>0) {
-                    BufferedImage full = getImage(); // TODO: fix subimage implementation, capture maybe only drawables?
-                    // try to get the state of the stack, whenever you mouse release,
-                    // create new instance on the stack for easy undo and redo functionality directly built in
-                    // somehow use drawable to only capture state from the strokerecord/actionhistory,
-                    // and capture those brushstrokes/image, etc.
-                    // TODO: make selection tool a drawable I guess to make easy work of stack implementation of undo and redo
-
+                    BufferedImage full = getImage();
                     selectionImage = full.getSubimage(r.x, r.y, r.width, r.height);
                     selectionBounds = new Rectangle(r);
                     hasSelection = true;
@@ -375,7 +387,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     public ActionHistory getActionHistory() {
         return this.actionHistory;
     }
-
+    // use Pair, java generic to generalize an object for selectionTool functinality above
     private static class Pair<A,B> {
         final A first;
         final B second;
