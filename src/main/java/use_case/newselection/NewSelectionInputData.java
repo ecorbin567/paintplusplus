@@ -14,12 +14,7 @@ public record NewSelectionInputData(
         int w, int h) {
 
     public enum SelectionAction {
-        START, DRAG, COMMIT, CANCEL
+        START, DRAG, COMMIT, DRAG_EXISTING
     }
-
-
-
-
-
 
 }

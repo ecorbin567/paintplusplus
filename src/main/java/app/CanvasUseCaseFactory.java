@@ -1,5 +1,6 @@
 package app;
 
+import entity.Drawable;
 import interface_adapter.presenter.NewSelectionPresenter;
 import data_access.InMemoryUserDataAccessObject;
 import entity.DrawingCanvas;
@@ -55,8 +56,9 @@ public final class CanvasUseCaseFactory {
                 signupViewModel, userDataAccessObject);
         CanvasView view = new CanvasView(goBackViewModel, goBackController);
         // new selection wiring below
-        SelectionTool tool = new SelectionTool();
-        DrawingCanvas canvas = view.getCanvas(); // expose using getter
+        DrawingCanvas canvas = view.getCanvas(); // existing getter
+
+        SelectionTool tool = canvas.getSelectionTool();
         NewSelectionPresenter presenter = new NewSelectionPresenter(canvas);
         new CanvasController(canvas, tool, presenter);
 

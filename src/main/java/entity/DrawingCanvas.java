@@ -184,7 +184,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 //            return;
 //        }
 
-        if (SwingUtilities.isLeftMouseButton(e)) {
+        if (SwingUtilities.isLeftMouseButton(e) && !isSelectionMode()) {
             Color c = Objects.equals(this.selectedTool, "Eraser") ? backgroundColor
                     : paintbrush.getColour();
             float w = Objects.equals(this.selectedTool, "Eraser") ? eraser.getWidth()
@@ -193,6 +193,8 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             StrokeRecord currentStroke = new StrokeRecord(c, w);
             currentStroke.pts.add(e.getPoint());
             actionHistory.push(currentStroke);
+            repaint();
+            return;
         }
 
     }
@@ -220,15 +222,17 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 //            }
 //            return;
 //        }
+        if (SwingUtilities.isLeftMouseButton(e) && !isSelectionMode()) {
         Drawable curr = actionHistory.getCurrentState();
-        if (curr != null) {
-            if (curr instanceof StrokeRecord strokeRecord) {
-                strokeRecord.pts.add(e.getPoint());
-//                actionHistory.setCurrentState(strokeRecord);
-                // the above kept calling the undo stack pop, it discarded the most recent PasteRecord,
-                // so pasted bitmaps always stay on the screen regardless of what next button we press/tool to use
+            if (curr != null) {
+                if (curr instanceof StrokeRecord strokeRecord) {
+                    strokeRecord.pts.add(e.getPoint());
+    //                actionHistory.setCurrentState(strokeRecord);
+                    // the above kept calling the undo stack pop, it discarded the most recent PasteRecord,
+                    // so pasted bitmaps always stay on the screen regardless of what next button we press/tool to use
+                }
+                repaint();                 // ask Swing to invoke paintComponent()
             }
-            repaint();                 // ask Swing to invoke paintComponent()
         }
     }
 
@@ -259,6 +263,13 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 ////            repaint();
 ////            actionHistory.push(getSelectionTool()); //fix this later, how to push that state onto actionhistory stack
 //        }
+    }
+    public boolean isSelectionMode() {
+        return "Selection".equals(selectedTool);
+    }
+    public boolean hasCommittedSelection() { return hasSelection; }
+    public boolean pointInSelection(Point p) {
+        return hasSelection && selectionBounds.contains(p);
     }
 
     private void cutFromCommitted(Rectangle cut) {
@@ -408,16 +419,23 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 
     /** user pressed mouse to begin a new marquee */
     public void beginSelection(Point p) {
-        this.selectedTool = "Selection";
-        this.isDrawing    = true;
-        this.selectionTool.start(p);  // start exactly once
-        selectionBounds = new Rectangle(p);
+        if (hasSelection){ // turn off previous live rectangle
+            hasSelection = false;
+            selectionImage = null;
+            selectionBounds = null;
+            hasCutOut = false;
+        }
+
+        selectedTool = "Selection";
+        isDrawing    = true;
+        selectionTool.start(p);  // start exactly once
+//        selectionBounds = new Rectangle(p);
         repaint();
     }
 
     /** user is dragging the marquee */
     public void updateLiveSelection(SelectionTool tool) {
-        // just mirror the bounds so paintComponent shows the grey rectangle
+
         this.selectionBounds = tool.getBounds();
         repaint();
     }
@@ -426,23 +444,36 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     public void commitSelection(SelectionTool tool) {
         Rectangle r = tool.getBounds();
         if (r.width > 0 && r.height > 0) {
-            // 1) white out and push CutRecord once
-            Rectangle hole = new Rectangle(r);
+
+            // 1) grab a bitmap of what the user boxed in
+            BufferedImage full     = getImage();
+            selectionImage = full.getSubimage(r.x, r.y, r.width, r.height);
+            selectionBounds = new Rectangle(r);
+            // 2) drop it on top of the canvas (action history keeps it)
+            actionHistory.push(new PasteRecord(selectionImage,
+                                new Rectangle(selectionBounds)));
+        }
+
+        /* ---- clear *live*-selection state (no grey border, no ghosting) --- */
+        isDrawing = false;
+        hasCutOut = false;
+
+        repaint();
+    }
+
+    // dragExistingSelection, a new helper the interactor will call
+    public void dragExisting(Point p) {
+
+        if (!hasSelection) return;
+
+        if (!hasCutOut) {                // first move → white-out source
+            Rectangle hole = new Rectangle(selectionBounds);
             cutFromCommitted(hole);
             clearRegions.add(hole);
             actionHistory.push(new CutRecord(hole));
-            // 2) capture selection bitmap & push PasteRecord
-            BufferedImage full = getImage();
-            selectionImage  = full.getSubimage(r.x, r.y, r.width, r.height);
-            selectionBounds = hole;
-            hasSelection    = true;
-            isDrawing = false;
-
-
-            actionHistory.push(new PasteRecord(selectionImage,
-                    new Rectangle(selectionBounds)));
-            hasCutOut = false;
+            hasCutOut = true;
         }
+        selectionBounds.translate(p.x, p.y);
         repaint();
     }
 

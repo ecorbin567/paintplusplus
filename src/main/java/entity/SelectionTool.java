@@ -40,6 +40,9 @@ public class SelectionTool implements Drawable{
     public boolean isDragging()   {
         return dragging;
     }
+    public boolean contains(Point p){
+        return getBounds().contains(p);
+    }
     public BufferedImage getLiveImage() {
         return liveImage;
     }

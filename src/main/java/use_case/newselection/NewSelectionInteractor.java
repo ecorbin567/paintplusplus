@@ -21,20 +21,25 @@ public class NewSelectionInteractor implements NewSelectionInputBoundary{
     public void execute(NewSelectionInputData inputData){
         Point p = new Point(inputData.x(), inputData.y());
         switch (inputData.action()){
-            case START ->
+            case START -> {
+                tool.start(p);
                 canvas.beginSelection(p);
-
+            }
             case DRAG -> {
                 tool.drag(p);
                 canvas.updateLiveSelection(tool);
             }
-            case COMMIT ->
+            case COMMIT -> {
+                tool.finish(p);
                 canvas.commitSelection(tool);
-
-            case CANCEL -> {
-                canvas.cancelSelection();
                 tool.cancel();
             }
+
+            case DRAG_EXISTING ->{
+                Point d = new Point(inputData.w(), inputData.h());
+                canvas.dragExisting(d);
+            }
+
         }
          presenter.present(
                  new NewSelectionOutputData(
