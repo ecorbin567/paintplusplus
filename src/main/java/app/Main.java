@@ -1,7 +1,7 @@
 package app;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import data_access.InMemoryUserDataAccessObject;
+import data_access.*;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.goback.GoBackViewModel;
@@ -66,6 +66,10 @@ public class Main {
         // final SupabaseAccountRepository userDataAccessObject = new SupabaseAccountRepository();
         final InMemoryUserDataAccessObject userDataAccessObject = new InMemoryUserDataAccessObject();
 
+        /* Similar for Canvas repository*/
+        // final SupabaseCanvasRepository canvasDataAccessObject = new SupabaseCanvasRepository();
+        final InMemoryCanvasDataAccessObject canvasDataAccessObject = new InMemoryCanvasDataAccessObject();
+
         final SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel,
                                                                   signupViewModel, userDataAccessObject);
         views.add(signupView, signupView.getViewName());
@@ -81,7 +85,7 @@ public class Main {
         views.add(canvasView, canvasView.getViewName());
 
         final MyCanvasesView myCanvasesView = NewCanvasUseCaseFactory.create(viewManagerModel, newCanvasViewModel,
-                canvasViewModel, signupViewModel, userDataAccessObject);
+                canvasViewModel, signupViewModel, canvasDataAccessObject);
 
         views.add(myCanvasesView, myCanvasesView.getViewName());
 
