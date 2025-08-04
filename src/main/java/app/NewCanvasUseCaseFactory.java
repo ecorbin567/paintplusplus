@@ -28,7 +28,7 @@ public final class NewCanvasUseCaseFactory {
      * @param viewManagerModel the ViewManagerModel to inject into the NewCanvasView
      * @param newCanvasViewModel the NewCanvasViewModel to inject into the NewCanvasView
      * @param canvasViewModel the CanvasViewModel to inject into the NewCanvasView
-     * @param userDataAccessObject the NewCanvasUserDataAccessInterface to inject into the NewCanvasView
+     * @param canvasDataAccessObject the NewCanvasUserDataAccessInterface to inject into the NewCanvasView
      * @return the NewCanvasView created for the provided input classes
      */
     public static MyCanvasesView create(
@@ -36,10 +36,10 @@ public final class NewCanvasUseCaseFactory {
             NewCanvasViewModel newCanvasViewModel,
             CanvasViewModel canvasViewModel,
             SignupViewModel signupViewModel,
-            InMemoryUserDataAccessObject userDataAccessObject) {
+            NewCanvasUserDataAccessInterface canvasDataAccessObject) {
 
         final NewCanvasController newCanvasController = createNewCanvasUseCase(viewManagerModel, newCanvasViewModel,
-                                                                   canvasViewModel, signupViewModel, userDataAccessObject);
+                                                                   canvasViewModel, signupViewModel, canvasDataAccessObject);
         return new MyCanvasesView(newCanvasViewModel, newCanvasController);
 
     }

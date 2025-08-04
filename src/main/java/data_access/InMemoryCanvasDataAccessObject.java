@@ -2,6 +2,7 @@ package data_access;
 
 import entity.User;
 import use_case.getcanvas.GetCanvasUserDataAccessInterface;
+import use_case.newcanvas.NewCanvasUserDataAccessInterface;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -9,7 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class InMemoryCanvasDataAccessObject implements GetCanvasUserDataAccessInterface {
+public class InMemoryCanvasDataAccessObject implements CanvasDataAccessInterface, GetCanvasUserDataAccessInterface,
+        NewCanvasUserDataAccessInterface {
 
     private final Map<String, List<BufferedImage>> usersDocumentsMap = new HashMap<>();
 
