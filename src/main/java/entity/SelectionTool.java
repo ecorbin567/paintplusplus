@@ -6,27 +6,42 @@ import javax.swing.*;
 import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 
 public class SelectionTool implements Drawable{
 
     private Point startPoint; // start point of the selection on the canvas
     private Point currentPoint; // end point of the selection on the canvas
+    private boolean dragging = false;
+    private BufferedImage liveImage = null;
 
     public SelectionTool() {}
 
     public void start(Point p){
         startPoint = p;
         currentPoint = p;
+        dragging = true;
     }
     public void drag(Point p){
         currentPoint = p;
     }
     public void finish(Point p){
         currentPoint = p;
+        dragging = false;
     }
     public void cancel(){
         startPoint = null;
         currentPoint = null;
+        dragging = false;
+    }
+    public boolean hasSelection() {
+        return startPoint != null && !dragging;
+    }
+    public boolean isDragging()   {
+        return dragging;
+    }
+    public BufferedImage getLiveImage() {
+        return liveImage;
     }
     public Rectangle getBounds() {
         if (startPoint == null || currentPoint == null) {

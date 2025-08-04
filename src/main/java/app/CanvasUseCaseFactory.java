@@ -1,7 +1,11 @@
 package app;
 
+import interface_adapter.presenter.NewSelectionPresenter;
 import data_access.InMemoryUserDataAccessObject;
+import entity.DrawingCanvas;
+import entity.SelectionTool;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.canvas.CanvasController;
 import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.goback.GoBackController;
 import interface_adapter.goback.GoBackPresenter;
@@ -49,7 +53,14 @@ public final class CanvasUseCaseFactory {
 
         final GoBackController goBackController = createGoBackUseCase(viewManagerModel, newCanvasViewModel,
                 signupViewModel, userDataAccessObject);
-        return new CanvasView(goBackViewModel, goBackController);
+        CanvasView view = new CanvasView(goBackViewModel, goBackController);
+        // new selection wiring below
+        SelectionTool tool = new SelectionTool();
+        DrawingCanvas canvas = view.getCanvas(); // expose using getter
+        NewSelectionPresenter presenter = new NewSelectionPresenter(canvas);
+        new CanvasController(canvas, tool, presenter);
+
+        return view;
 
     }
 

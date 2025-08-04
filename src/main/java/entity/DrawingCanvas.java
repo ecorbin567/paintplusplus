@@ -137,46 +137,52 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if ("Selection".equals(selectedTool)){
-            Point p = e.getPoint();
-            // 1) if click inside an existing selection, start dragging as u needed
-            if (hasSelection && selectionBounds.contains(p)){
-                draggingSelection = true;
-                hasCutOut = false;
-                dragAnchor = new Point(p.x - selectionBounds.x,
-                                        p.y - selectionBounds.y);
-            } else if (hasSelection){ // 2) clicked outside existing selection
-                // commit current image at its last bounds
-                draggingSelection = false;
-                hasCutOut = false;
-
-                // get rid of old selection if one existed
-                commitedSelections.add(
-                        new Pair<>(selectionImage,
-                                new Rectangle(selectionBounds))
-                );
-
-                clearRegions.add(new Rectangle(selectionBounds));
-
-                actionHistory.push(
-                        new PasteRecord(selectionImage,
-                                new Rectangle(selectionBounds))
-                );
-                // clear out active selection state
-                hasSelection = false;
-                selectionImage = null;
-                selectionBounds = null;
-                selectionTool.cancel();
-                isDrawing = false;
-            } else { // 3) otherwise, no selection at all, start drawing new selection rectangle
-                draggingSelection = false;
-                selectionTool.start(p);
-                isDrawing = true;
-            }
-
-            repaint();
-            return;
-        }
+//        if ("Selection".equals(selectedTool)){
+//            Point p = e.getPoint();
+//            // 1) if click inside an existing selection, start dragging as u needed
+//            if (hasSelection && selectionBounds.contains(p)){
+//                draggingSelection = true;
+////                hasCutOut = false;
+//                dragAnchor = new Point(p.x - selectionBounds.x,
+//                                        p.y - selectionBounds.y);
+//            } else if (hasSelection){ // 2) clicked outside existing selection
+////                // commit current image at its last bounds
+////                draggingSelection = false;
+////                hasCutOut = false;
+////
+////                // get rid of old selection if one existed
+////                commitedSelections.add(
+////                        new Pair<>(selectionImage,
+////                                new Rectangle(selectionBounds))
+////                );
+////
+////                clearRegions.add(new Rectangle(selectionBounds));
+////
+////                actionHistory.push(
+////                        new PasteRecord(selectionImage,
+////                                new Rectangle(selectionBounds))
+////                );
+////                // clear out active selection state
+////                hasSelection = false;
+////                selectionImage = null;
+////                selectionBounds = null;
+////                selectionTool.cancel();
+////                isDrawing = false;
+//                commitSelection(selectionTool);   // <-- call helper
+////                hasSelection = false;             // reset state for new selection
+//                selectionTool.cancel();
+//            } else { // 3) otherwise, no selection at all, start drawing new selection rectangle
+////                draggingSelection = false;
+////                selectionTool.start(p);
+////                isDrawing = true;
+//                draggingSelection = false;
+//                beginSelection(p);
+////                selectionTool.start(p);
+//            }
+//
+//            repaint();
+//            return;
+//        }
 
         if (SwingUtilities.isLeftMouseButton(e)) {
             Color c = Objects.equals(this.selectedTool, "Eraser") ? backgroundColor
@@ -193,27 +199,27 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if ("Selection".equals(selectedTool)){
-            Point p = e.getPoint();
-            if (draggingSelection){
-                // on the first drag, blank out the original rectangle
-                if (!hasCutOut){
-                    Rectangle hole = new Rectangle(selectionBounds);
-                    cutFromCommitted(hole);
-                    clearRegions.add(hole);
-                    actionHistory.push(new CutRecord(hole));
-                    hasCutOut = true;
-                }
-                // now move it
-                selectionBounds.x = p.x - dragAnchor.x;
-                selectionBounds.y = p.y - dragAnchor.y;
-            } else {
-                // update live marquee
-                selectionTool.drag(p);
-            }
-            repaint();
-            return;
-        }
+//        if ("Selection".equals(selectedTool)){
+//            Point p = e.getPoint();
+//            if (draggingSelection){
+//                // on the first drag, blank out the original rectangle
+//                if (!hasCutOut){
+//                    Rectangle hole = new Rectangle(selectionBounds);
+//                    cutFromCommitted(hole);
+//                    clearRegions.add(hole);
+//                    actionHistory.push(new CutRecord(hole));
+//                    hasCutOut = true;
+//                }
+//                // now move it
+//                selectionBounds.x = p.x - dragAnchor.x;
+//                selectionBounds.y = p.y - dragAnchor.y;
+//            } else {
+//                // update live marquee
+//                selectionTool.drag(p);
+//                updateLiveSelection(selectionTool);
+//            }
+//            return;
+//        }
         Drawable curr = actionHistory.getCurrentState();
         if (curr != null) {
             if (curr instanceof StrokeRecord strokeRecord) {
@@ -229,29 +235,30 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     @Override
     public void mouseReleased(MouseEvent e) {
 //        actionHistory.setCurrentState(null);         // finished; ready for a fresh stroke
-        if ("Selection".equals(selectedTool)){
-            Point p = e.getPoint();
-            if (!draggingSelection){
-                // user finished selecting the marked area (inside the rectangle)
-                selectionTool.finish(p);
-                isDrawing = false;
-                Rectangle r = selectionTool.getBounds();
-                if (r.width>0 && r.height>0) {
-                    BufferedImage full = getImage();
-                    selectionImage = full.getSubimage(r.x, r.y, r.width, r.height);
-                    selectionBounds = new Rectangle(r);
-                    hasSelection = true;
-
-
-                    // apparently layering issue functionality still working, bugs need fixing but managable
-                }
-            }
-            // reset dragging selection here
-            draggingSelection = false;
-            selectionTool.cancel();
-            repaint();
-//            actionHistory.push(getSelectionTool()); //fix this later, how to push that state onto actionhistory stack
-        }
+//        if ("Selection".equals(selectedTool)){
+//            Point p = e.getPoint();
+//            if (!draggingSelection){
+//                // user finished selecting the marked area (inside the rectangle)
+//                selectionTool.finish(p);
+////                isDrawing = false;
+////                Rectangle r = selectionTool.getBounds();
+////                if (r.width>0 && r.height>0) {
+////                    BufferedImage full = getImage();
+////                    selectionImage = full.getSubimage(r.x, r.y, r.width, r.height);
+////                    selectionBounds = new Rectangle(r);
+////                    hasSelection = true;
+////
+////
+////                    // apparently layering issue functionality still working, bugs need fixing but managable
+////                }
+//                commitSelection(selectionTool);
+//            }
+//            // reset dragging selection here
+//            draggingSelection = false;
+////            selectionTool.cancel();
+////            repaint();
+////            actionHistory.push(getSelectionTool()); //fix this later, how to push that state onto actionhistory stack
+//        }
     }
 
     private void cutFromCommitted(Rectangle cut) {
@@ -395,6 +402,57 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             this.first = first;
             this.second = second;
         }
+    }
+
+    /* ---------------- selection-tool interface for the interactor -------------- */
+
+    /** user pressed mouse to begin a new marquee */
+    public void beginSelection(Point p) {
+        this.selectedTool = "Selection";
+        this.isDrawing    = true;
+        this.selectionTool.start(p);  // start exactly once
+        selectionBounds = new Rectangle(p);
+        repaint();
+    }
+
+    /** user is dragging the marquee */
+    public void updateLiveSelection(SelectionTool tool) {
+        // just mirror the bounds so paintComponent shows the grey rectangle
+        this.selectionBounds = tool.getBounds();
+        repaint();
+    }
+
+    /** user clicked outside or released to commit the cut-and-paste */
+    public void commitSelection(SelectionTool tool) {
+        Rectangle r = tool.getBounds();
+        if (r.width > 0 && r.height > 0) {
+            // 1) white out and push CutRecord once
+            Rectangle hole = new Rectangle(r);
+            cutFromCommitted(hole);
+            clearRegions.add(hole);
+            actionHistory.push(new CutRecord(hole));
+            // 2) capture selection bitmap & push PasteRecord
+            BufferedImage full = getImage();
+            selectionImage  = full.getSubimage(r.x, r.y, r.width, r.height);
+            selectionBounds = hole;
+            hasSelection    = true;
+            isDrawing = false;
+
+
+            actionHistory.push(new PasteRecord(selectionImage,
+                    new Rectangle(selectionBounds)));
+            hasCutOut = false;
+        }
+        repaint();
+    }
+
+    /** user pressed Esc or right-click to cancel */
+    public void cancelSelection() {
+        selectionImage   = null;
+        selectionBounds  = null;
+        hasSelection     = false;
+        isDrawing        = false;
+        repaint();
     }
 
     // We don't need these, but must include them:
