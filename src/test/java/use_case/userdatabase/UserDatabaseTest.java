@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-public class InsertUserTest {
+public class UserDatabaseTest {
     SupabaseAccountRepository service = new SupabaseAccountRepository();
     String testUserName = "JaneDoe12345";
     String testPswd = "security1";
