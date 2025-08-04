@@ -26,3 +26,6 @@ added cut and pasterecord to keep track of selected and pasted selections.
 2025-08-03: selection tool functionality fully functional, all bugs related to layering, drawing new strokes or erasing
 solved. Going to start on refactoring drawing canvas code. Fixed small bug where first item on
 the actionhistory stacks wouldnt undo or be able to redo from first deleted item.
+2025-08-04: added marching ants effect to selection box border, fixed selection tool selections
+and stack interaction from previous selected pasted region wouldnt display until original selection
+of objects then show entire pasted region. Cut out region wouldnt redisplay when undoing.
