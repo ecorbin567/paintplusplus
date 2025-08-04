@@ -74,19 +74,6 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             drawDrawable(g2, head);
         }
 
-//        // paint background the background color as needed
-//        g2.setColor(backgroundColor);
-//        for (Rectangle hole: clearRegions){
-//            g2.fillRect(hole.x, hole.y, hole.width, hole.height);
-//        }
-
-//        // always render all active selections
-//        for (var p: commitedSelections){
-//            g2.drawImage(p.first, p.second.x, p.second.y,
-//                    p.second.width, p.second.height, null);
-//        }
-
-
         // render the moving selected region
         if (hasSelection && selectionImage != null && selectionBounds != null) {
             g2.drawImage(
@@ -241,16 +228,12 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
                     selectionImage = full.getSubimage(r.x, r.y, r.width, r.height);
                     selectionBounds = new Rectangle(r);
                     hasSelection = true;
-
-
-                    // apparently layering issue functionality still working, bugs need fixing but managable
                 }
             }
             // reset dragging selection here
             draggingSelection = false;
             selectionTool.cancel();
             repaint();
-//            actionHistory.push(getSelectionTool()); //fix this later, how to push that state onto actionhistory stack
         }
     }
 
@@ -280,6 +263,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         // current head
         addFromDrawable(actionHistory.getCurrentState());
     }
+
     private void addFromDrawable(Drawable d) {
         if (d instanceof PasteRecord pr) {
             commitedSelections.add(
