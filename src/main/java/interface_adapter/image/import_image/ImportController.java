@@ -5,6 +5,9 @@ import use_case.image.import_image.ImportRequestModel;
 
 import java.io.File;
 
+/**
+ * The controller for the Import Use Case.
+ */
 public class ImportController {
     private final ImportInputBoundary interactor;
 

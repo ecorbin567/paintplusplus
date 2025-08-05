@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * A canvas to paint and edit images on.
+ */
 public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionListener {
     private double scale = 1.0;
     private Image currentImage;
@@ -241,7 +244,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             repaint();
             return;
         }
-        Drawable curr = actionHistory.getCurrentState();
+        Editable curr = actionHistory.getCurrentState();
         if (curr != null) {
             if (curr instanceof StrokeRecord strokeRecord) {
                 strokeRecord.pts.add(e.getPoint());
@@ -335,7 +338,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     }
 
     public void undo() {
-        Drawable prevState = actionHistory.undo();
+        Editable prevState = actionHistory.undo();
         importedImages.clear();
 
         rebuildStateFromHistory(); // call the rebuildstate for selection tool to work with

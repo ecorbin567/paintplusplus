@@ -7,7 +7,7 @@ import interface_adapter.signup.SignupViewModel;
 import use_case.newcanvas.NewCanvasOutputBoundary;
 
 /**
- * The Presenter for the Login Use Case.
+ * The Presenter for the New Canvas Use Case.
  */
 public class NewCanvasPresenter implements NewCanvasOutputBoundary {
 

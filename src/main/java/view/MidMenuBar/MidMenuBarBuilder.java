@@ -5,6 +5,7 @@ import java.util.List;
 import entity.DrawingCanvas;
 import entity.ActionHistory;
 import entity.Paintbrush;
+import interface_adapter.changecolor.ChangeColorPresenter;
 import interface_adapter.image.crop.*;
 import interface_adapter.image.import_image.*;
 import interface_adapter.image.resize.*;

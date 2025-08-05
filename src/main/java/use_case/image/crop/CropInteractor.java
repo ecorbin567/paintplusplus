@@ -4,6 +4,9 @@ import entity.ActionHistory;
 import entity.DrawingCanvas;
 import entity.Image;
 
+/**
+ * The Crop Interactor.
+ */
 public class CropInteractor implements CropInputBoundary {
 
     private final DrawingCanvas canvas;
