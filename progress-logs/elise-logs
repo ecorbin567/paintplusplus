@@ -10,3 +10,4 @@ before accessing the canvas.
 2025-07-31: Implemented New Canvas and Log Out buttons in My Canvases screen,
 plus Go Back to Canvases and Log Out buttons in file menu on canvas
 2025-08-01: Added Javadoc to class descriptions and updated existing incorrect/faulty Javadoc
+2025-08-05: Wrote README.md
