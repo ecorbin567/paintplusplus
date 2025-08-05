@@ -2,7 +2,7 @@ package data_access;
 
 import entity.CommonUser;
 import entity.User;
-import use_case.getcanvas.GetCanvasUserDataAccessInterface;
+import use_case.newcanvas.NewCanvasUserDataAccessInterface;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class TestUserRepositoryMethods {
     private static final UserDataAccessInterface service = new SupabaseAccountRepository();
-    private static final GetCanvasUserDataAccessInterface canvasService = new SupabaseCanvasRepository();
+    private static final NewCanvasUserDataAccessInterface canvasService = new SupabaseCanvasRepository();
 
     public static void main(String[] args) throws IOException {
         TestRetrieveCanvasImages();

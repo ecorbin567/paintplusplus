@@ -1,9 +1,5 @@
 package use_case.getcanvas;
 
-import data_access.UserDataAccessInterface;
-import entity.ActionHistory;
-import entity.User;
-
 import java.awt.image.BufferedImage;
 import java.util.List;
 
@@ -18,13 +14,12 @@ public class GetCanvasInteractor implements GetCanvasInputBoundary {
         this.getCanvasPresenter = getCanvasOutputBoundary;
     }
 
-    private List<BufferedImage> getUserCanvases(String username) {
-        return canvasDataAccessObject.getAllCanvases(username);
-    }
-
     @Override
     public void execute(GetCanvasInputData getCanvasInputData) {
-        getCanvasPresenter.prepareSuccessView();
+        String username = getCanvasInputData.getUsername();
+        List<BufferedImage> userCanvases = canvasDataAccessObject.getAllCanvases(username);
+
+        getCanvasPresenter.prepareSuccessView(new GetCanvasOutputData(username, userCanvases));
     }
 
     @Override

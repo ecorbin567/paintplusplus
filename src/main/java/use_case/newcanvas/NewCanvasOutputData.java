@@ -1,5 +1,8 @@
 package use_case.newcanvas;
 
+import java.awt.image.BufferedImage;
+import java.util.List;
+
 /**
  * Output Data for the Login Use Case.
  */
