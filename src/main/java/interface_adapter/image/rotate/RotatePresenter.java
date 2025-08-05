@@ -14,7 +14,7 @@ public class RotatePresenter implements RotateOutputBoundary {
 
     @Override
     public void present(RotateResponseModel responseModel) {
-        canvas.repaint();
+        canvas.updateCurrentImage(responseModel.getImage());
     }
 
     @Override

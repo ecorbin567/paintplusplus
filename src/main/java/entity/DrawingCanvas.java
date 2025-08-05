@@ -349,6 +349,10 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 
     public void redo() {
         Drawable nextState = actionHistory.redo();
+
+        if (nextState == null) {
+            return;
+        }
         importedImages.clear();
         rebuildStateFromHistory();
         if (nextState instanceof Image image) {
@@ -408,21 +412,23 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         repaint();
     }
 
-    public void resizeLastImportedImage(int newWidth, int newHeight) {
-        if (!importedImages.isEmpty()) {
-            Image lastImage = importedImages.get(importedImages.size() - 1);
-            actionHistory.push(lastImage.clone());
-            lastImage.resize(newWidth, newHeight);
+    public void updateCurrentImage(Image newImage) {
+        if (this.currentImage != null) {
+            int index = this.importedImages.indexOf(this.currentImage);
+            if (index != -1) {
+                this.importedImages.set(index, newImage);
+            } else {
+                // If the image wasn't in the list, just add the new one
+                this.importedImages.add(newImage);
+            }
+        } else {
+            // If there was no image, just add it
+            this.importedImages.add(newImage);
         }
-    }
 
-    public void rotateLastImportedImage(double degrees) {
-        if (!importedImages.isEmpty()) {
-            Image lastImage = importedImages.get(importedImages.size() - 1);
-            actionHistory.push(lastImage.clone());
-            lastImage.rotate(degrees);
-            repaint();
-        }
+        // Set the new image as the current one and repaint
+        setCurrentImage(newImage);
+        repaint();
     }
 
     public ActionHistory getActionHistory() {

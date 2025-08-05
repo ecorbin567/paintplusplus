@@ -19,23 +19,19 @@ public class CropInteractor implements CropInputBoundary {
     @Override
     public void execute(CropRequestModel requestModel) {
         try {
-            Image image = canvas.getCurrentImage();
-            if (image == null) {
-                presenter.presentError("No image to crop.");
+            Image originalImage = canvas.getCurrentImage();
+            if (originalImage == null) {
+                presenter.presentError("No image to modify."); // Use a generic error
                 return;
             }
 
-            actionHistory.push(image.clone());
+            Image newImage = originalImage.clone();
 
-            image.crop(
-                    requestModel.getX(),
-                    requestModel.getY(),
-                    requestModel.getWidth(),
-                    requestModel.getHeight()
-            );
+            newImage.crop(requestModel.getX(), requestModel.getY(), requestModel.getWidth(), requestModel.getHeight());
 
-            presenter.present(new CropResponseModel(image));
-            canvas.repaint();
+            actionHistory.push(newImage);
+
+            presenter.present(new CropResponseModel(newImage));
 
         } catch (Exception e) {
             presenter.presentError("Crop failed: " + e.getMessage());
