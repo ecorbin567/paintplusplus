@@ -14,7 +14,7 @@ public class ResizePresenter implements ResizeOutputBoundary {
 
     @Override
     public void present(ResizeResponseModel responseModel) {
-        canvas.repaint();
+        canvas.updateCurrentImage(responseModel.getImage());
     }
 
     @Override

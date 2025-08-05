@@ -16,7 +16,7 @@ public class CropPresenter implements CropOutputBoundary {
 
     @Override
     public void present(CropResponseModel responseModel) {
-        canvas.repaint();
+        canvas.updateCurrentImage(responseModel.getImage());
     }
 
     @Override
