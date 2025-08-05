@@ -44,20 +44,5 @@ public interface UserDataAccessInterface {
      */
     boolean verifyCredentials(String username, String password);
 
-    /**
-     * Add new document to user's repository
-     * @param actionHistory
-     * @return
-     */
-    boolean saveCanvas(User user, ActionHistory actionHistory);
-
-    /**
-     * Get a certain project from user's repository.
-     * @param id
-     * @return the action history of the desired drawing
-     */
-    ActionHistory findCanvasById(User user, int id);
-
-    List<ActionHistory> getAllCanvases(User user);
 }
 

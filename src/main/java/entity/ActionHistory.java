@@ -23,8 +23,14 @@ public class ActionHistory {
         redoStack.clear();
     }
 
-    public Editable undo() {
-        if (undoStack.isEmpty()) return null;
+    public Drawable undo() {
+        if (currentState == null) return null; // nothing to do
+        if (undoStack.isEmpty()){ // first action on canvas
+            redoStack.push(currentState); // save it for redo
+            currentState = null;
+            return currentState;
+        }
+        // code below from before
         redoStack.push(currentState);
         currentState = undoStack.pop();
         return currentState;
@@ -32,7 +38,9 @@ public class ActionHistory {
 
     public Editable redo() {
         if (redoStack.isEmpty()) return null;
-        undoStack.push(currentState);
+        if (currentState != null) { // might be null after the first redo
+            undoStack.push(currentState);
+        }
         currentState = redoStack.pop();
         return currentState;
     }
