@@ -20,11 +20,7 @@ import java.util.Map;
 public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterface,
                                                      LoginUserDataAccessInterface,
                                                      NewCanvasUserDataAccessInterface,
-<<<<<<< HEAD
-        GoBackUserDataAccessInterface {
-=======
                                                      GoBackUserDataAccessInterface {
->>>>>>> d3205083101ba668c75ae6d95b9ae302bb2d3128
     private final Map<String, User> users = new HashMap<>();
     private final Map<String, List<ActionHistory>> usersDocumentsMap = new HashMap<>();
     private String currentUser;

@@ -30,8 +30,7 @@ undo and redo actions, save the canvas to your computer, return back to the My C
 and log out. All top menu actions correspond to keyboard shortcuts as well for additional flexibility.
 
 ## Running Paint++
-To launch Paint++, run
-src/main/java/app/Main.java.
+To launch Paint++, run src/main/java/app/Main.java.
 
 ## Using Paint++
 
