@@ -23,6 +23,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     private final List<Image> importedImages = new ArrayList<>();
     private BufferedImage selectionImage;
     private Rectangle selectionBounds;
+    private Rectangle selectionOriginalBounds;
     private boolean hasSelection = false;
     private boolean draggingSelection = false;
     private boolean hasCutOut = false;
@@ -30,6 +31,13 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     private Point dragAnchor;
     private List<Rectangle> clearRegions = new ArrayList<>();
     private final List<Pair<BufferedImage, Rectangle>> commitedSelections = new ArrayList<>();
+    // dotted selection box border effect fields
+    private final float[] ANTS_DASH = {4f, 4f}; // dash, gap in px scaled with the canvas
+    private float antsPhase = 0f;
+    private final javax.swing.Timer antsTimer = new javax.swing.Timer(60, e -> {
+        antsPhase = (antsPhase +1f) % (ANTS_DASH[0] + ANTS_DASH[1]);
+        repaint();
+    });
 
     public DrawingCanvas() {
         setBackground(Color.WHITE);
@@ -41,6 +49,12 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         addMouseMotionListener(this);
         this.selectionBounds = null;
         this.setPreferredSize(new Dimension(800, 500));
+    }
+
+    private void updateAntsTimer(){
+        boolean shouldRun = "Selection".equals(selectedTool)&&(isDrawing||hasSelection);
+        if (shouldRun&&!antsTimer.isRunning()) antsTimer.start();
+        if (!shouldRun&&antsTimer.isRunning()) antsTimer.stop();
     }
 
     public double getScale() {
@@ -74,19 +88,6 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             drawDrawable(g2, head);
         }
 
-//        // paint background the background color as needed
-//        g2.setColor(backgroundColor);
-//        for (Rectangle hole: clearRegions){
-//            g2.fillRect(hole.x, hole.y, hole.width, hole.height);
-//        }
-
-//        // always render all active selections
-//        for (var p: commitedSelections){
-//            g2.drawImage(p.first, p.second.x, p.second.y,
-//                    p.second.width, p.second.height, null);
-//        }
-
-
         // render the moving selected region
         if (hasSelection && selectionImage != null && selectionBounds != null) {
             g2.drawImage(
@@ -97,19 +98,33 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             );
         }
         // selection tool rendering logic
-        g2.setColor(Color.DARK_GRAY);
-        g2.setStroke(new BasicStroke(1));
+        Rectangle r = null;
+
         if ("Selection".equals(selectedTool) && isDrawing){
-            Rectangle r = selectionTool.getBounds();
-            if (r.width>0 && r.height>0){
-                g2.drawRect(r.x,r.y,r.width-1, r.height-1);
-            }
+            r = selectionTool.getBounds();
         } else if (hasSelection && selectionBounds != null){
-            g2.setStroke(new BasicStroke(1));
-            g2.drawRect(selectionBounds.x, selectionBounds.y,
-                    selectionBounds.width-1, selectionBounds.height-1);
+            r = selectionBounds;
         }
-        g2.dispose();
+        if (r != null && r.width>0 && r.height>0){
+            Stroke oldStroke = g2.getStroke();
+            Color oldColor = g2.getColor();
+            // dark dashes
+            Stroke dark = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER,
+                    10f, ANTS_DASH, antsPhase);
+            g2.setStroke(dark);
+            g2.setColor(Color.DARK_GRAY);
+            g2.drawRect(r.x, r.y, r.width - 1, r.height - 1);
+
+            // light dashes shifted by one dash length to fill the gaps
+            Stroke light = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER,
+                    10f, ANTS_DASH, antsPhase + ANTS_DASH[0]);
+            g2.setStroke(light);
+            g2.setColor(new Color(230, 230, 230)); // very light gray
+            g2.drawRect(r.x, r.y, r.width - 1, r.height - 1);
+
+            g2.setStroke(oldStroke);
+            g2.setColor(oldColor);
+        }
     }
 
     private void drawDrawable(Graphics2D g2, Drawable d) {
@@ -132,6 +147,17 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             g2.setColor(backgroundColor);
             g2.fillRect(cr.bounds.x, cr.bounds.y,
                     cr.bounds.width, cr.bounds.height);
+
+        } else if (d instanceof MoveRecord mr) {
+            /* blank the old rectangle */
+            g2.setColor(backgroundColor);
+            g2.fillRect(mr.from.x, mr.from.y, mr.from.width, mr.from.height);
+
+            /* draw the bitmap at its new spot */
+            g2.drawImage(mr.image,
+                    mr.to.x, mr.to.y,
+                    mr.to.width, mr.to.height,
+                    null);
         }
     }
 
@@ -150,18 +176,18 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
                 draggingSelection = false;
                 hasCutOut = false;
 
-                // get rid of old selection if one existed
-                commitedSelections.add(
-                        new Pair<>(selectionImage,
-                                new Rectangle(selectionBounds))
-                );
+                // Remove the temporary CutRecord if it’s still the head
+                if (actionHistory.getCurrentState() instanceof CutRecord) {
+                    actionHistory.undo();              // pops the CutRecord
+                }
+                // push one MoveRecord so that it reps the whole operation
+                Rectangle dest = new Rectangle(selectionBounds);
+                Rectangle src = new Rectangle(selectionOriginalBounds);
+                actionHistory.push(new MoveRecord(selectionImage, src, dest));
 
-                clearRegions.add(new Rectangle(selectionBounds));
+                commitedSelections.add(new Pair<>(selectionImage, dest));
+                clearRegions.add(src);
 
-                actionHistory.push(
-                        new PasteRecord(selectionImage,
-                                new Rectangle(selectionBounds))
-                );
                 // clear out active selection state
                 hasSelection = false;
                 selectionImage = null;
@@ -175,6 +201,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             }
 
             repaint();
+            updateAntsTimer();
             return;
         }
 
@@ -199,7 +226,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
                 // on the first drag, blank out the original rectangle
                 if (!hasCutOut){
                     Rectangle hole = new Rectangle(selectionBounds);
-                    cutFromCommitted(hole);
+
                     clearRegions.add(hole);
                     actionHistory.push(new CutRecord(hole));
                     hasCutOut = true;
@@ -240,6 +267,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
                     BufferedImage full = getImage();
                     selectionImage = full.getSubimage(r.x, r.y, r.width, r.height);
                     selectionBounds = new Rectangle(r);
+                    selectionOriginalBounds = new Rectangle(r);
                     hasSelection = true;
 
 
@@ -250,25 +278,27 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             draggingSelection = false;
             selectionTool.cancel();
             repaint();
-//            actionHistory.push(getSelectionTool()); //fix this later, how to push that state onto actionhistory stack
+
+            updateAntsTimer();
         }
     }
 
-    private void cutFromCommitted(Rectangle cut) {
-        for (Pair<BufferedImage, Rectangle> pair : commitedSelections) {
-            Rectangle inter = cut.intersection(pair.second);
-            if (!inter.isEmpty()) {
-                Graphics2D g = pair.first.createGraphics();
-                g.setComposite(AlphaComposite.Src);
-                g.setColor(backgroundColor);
-                // translate intersection into the pasted-image’s local coords
-                g.fillRect(inter.x - pair.second.x,
-                        inter.y - pair.second.y,
-                        inter.width, inter.height);
-                g.dispose();
-            }
-        }
-    }
+//    private void cutFromCommitted(Rectangle cut) { // no usages
+//        for (Pair<BufferedImage, Rectangle> pair : commitedSelections) {
+//            Rectangle inter = cut.intersection(pair.second);
+//            if (!inter.isEmpty()) {
+//                Graphics2D g = pair.first.createGraphics();
+//                g.setComposite(AlphaComposite.Src);
+//                g.setColor(backgroundColor);
+//                // translate intersection into the pasted-image’s local coords
+//                g.fillRect(inter.x - pair.second.x,
+//                        inter.y - pair.second.y,
+//                        inter.width, inter.height);
+//                g.dispose();
+//            }
+//        }
+//    }
+
     private void rebuildStateFromHistory(){
         commitedSelections.clear();
         clearRegions.clear();    // NEW
@@ -280,12 +310,19 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         // current head
         addFromDrawable(actionHistory.getCurrentState());
     }
+
+    // helper function for rebuildStateFromHistory()
     private void addFromDrawable(Drawable d) {
         if (d instanceof PasteRecord pr) {
             commitedSelections.add(
                     new Pair<>(pr.image, new Rectangle(pr.bounds)));
         } else if (d instanceof CutRecord cr) {
             clearRegions.add(new Rectangle(cr.bounds));
+
+        } else if (d instanceof  MoveRecord mr){
+            clearRegions.add(new Rectangle(mr.from));
+            commitedSelections.add(
+                    new Pair<>(mr.image, new Rectangle(mr.to)));
         }
     }
 
@@ -300,12 +337,14 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     public void undo() {
         Drawable prevState = actionHistory.undo();
         importedImages.clear();
-        rebuildStateFromHistory();
+
+        rebuildStateFromHistory(); // call the rebuildstate for selection tool to work with
         if (prevState instanceof Image image) {
             importedImages.add(image);
             setCurrentImage(image);
         }
         repaint();
+        updateAntsTimer();
     }
 
     public void redo() {
@@ -317,6 +356,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             setCurrentImage(image);
         }
         repaint();
+        updateAntsTimer();
     }
 
     public Paintbrush getPaintbrush(){
@@ -324,6 +364,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     }
     public void setSelectedTool(String toolname){
         this.selectedTool = toolname;
+        updateAntsTimer();
     }
     public String getSelectedTool(){
         return this.selectedTool;
