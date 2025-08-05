@@ -12,5 +12,6 @@ public enum ToolEnum {
     UNDO,
     REDO,
     SAVE,
-    RESIZEVIEW
+    ZOOMIN,
+    ZOOMOUT,
 }

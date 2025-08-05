@@ -5,6 +5,7 @@ import java.util.List;
 import entity.DrawingCanvas;
 import entity.ActionHistory;
 import entity.Paintbrush;
+import interface_adapter.canvas.CanvasController;
 import interface_adapter.image.crop.*;
 import use_case.changecolor.*;
 import use_case.image.crop.*;
@@ -38,10 +39,10 @@ public class MidMenuBarBuilder {
     JToggleButton upperColorChooserButton;
     JToggleButton lowerColorChooserButton;
     JToggleButton colorWheelButton;
-    DrawingCanvas canvas;
+    CanvasController canvasController;
 
-    public MidMenuBarBuilder(DrawingCanvas canvas) {
-        this.canvas = canvas;
+    public MidMenuBarBuilder(CanvasController canvasController) {
+        this.canvasController = canvasController;
         Paintbrush brush = canvas.getPaintbrush();
 
         CropOutputBoundary cropPresenter = new CropPresenter(canvas);
@@ -54,10 +55,10 @@ public class MidMenuBarBuilder {
         ImportInputBoundary interactor = new ImportInteractor(gateway, presenter, actionHistory);
         ImportController importController = new ImportController(interactor);
 
-        PencilButton pencilButton = new PencilButton();
+        PencilButton pencilButton = new PencilButton(this.canvasController);
         pButton = pencilButton.getButton();
 
-        EraseButton eraseButton = new EraseButton();
+        EraseButton eraseButton = new EraseButton(this.canvasController);
         eButton = eraseButton.getButton();
 
         SelectionToolButton selectButton = new SelectionToolButton();

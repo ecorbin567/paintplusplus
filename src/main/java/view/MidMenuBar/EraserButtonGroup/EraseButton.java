@@ -2,21 +2,20 @@ package view.MidMenuBar.EraserButtonGroup;
 
 
 import entity.ToolEnum;
-import use_case.toolselection.ToolSelectionInputBoundary;
-import use_case.toolselection.ToolSelectionInputData;
+import interface_adapter.canvas.CanvasController;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class EraseButton {
-    ToolEnum tool = ToolEnum.ERASER;
-    JButton button;
+    private final ToolEnum toolName = ToolEnum.ERASER;
+    private final JButton button;
     ImageIcon imageIcon;
-    ToolSelectionInputBoundary inputBoundary;
+    private final CanvasController canvasController;
 
-    public EraseButton(ToolSelectionInputBoundary inputBoundary) {
-        this.inputBoundary = inputBoundary;
-        ErasePopUp erasePopUp = new ErasePopUp(inputBoundary);
+    public EraseButton(CanvasController canvasController) {
+        this.canvasController = canvasController;
+        ErasePopUp erasePopUp = new ErasePopUp(canvasController);
         button = new JButton();
         imageIcon = new ImageIcon(EraseButton.class.getResource("/images/EraseIcon.png"));
         Image image = imageIcon.getImage();
@@ -26,9 +25,7 @@ public class EraseButton {
         button.setPreferredSize(new Dimension(60, 60));
 
         button.addActionListener(event -> {
-            ToolSelectionInputData inputData = new ToolSelectionInputData(tool);
-            inputBoundary.selectTool(tool);
-            inputBoundary.selectColor(Color.WHITE);
+            this.canvasController.handleEraserButtonPress(toolName);
         });
 
         button.addActionListener(e -> {

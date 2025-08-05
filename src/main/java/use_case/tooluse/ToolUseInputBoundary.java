@@ -1,7 +1,7 @@
 package use_case.tooluse;
 
 public interface ToolUseInputBoundary {
-
-    void useTool(ToolUseInputData inputData);
-    void extendStroke(ToolUseInputData inputData);
+    void setTool(ToolUseInputData inputData);
+    void setSize(ToolUseInputData inputData);
+    void setColor (ToolUseInputData inputData);
 }

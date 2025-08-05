@@ -1,17 +1,19 @@
 package view.TopMenuBar.ViewMenu;
 
-import entity.DrawingCanvas;
+import interface_adapter.canvas.CanvasController;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 
 public class ResizeCanvasButton extends JMenu {
+    CanvasController canvasController;
 
-    public ResizeCanvasButton(DrawingCanvas drawingCanvas) {
+    public ResizeCanvasButton(CanvasController canvasController) {
         super("Resize Canvas");
+        this.canvasController = canvasController;
         setMnemonic(KeyEvent.VK_R);
 
-        add(new ZoomInButton(drawingCanvas).getMenuItem());
-        add(new ZoomOutButton(drawingCanvas).getMenuItem());
+        add(new ZoomInButton(this.canvasController).getMenuItem());
+        add(new ZoomOutButton(this.canvasController).getMenuItem());
     }
 }

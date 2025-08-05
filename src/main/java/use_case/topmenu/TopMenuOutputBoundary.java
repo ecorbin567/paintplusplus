@@ -1,0 +1,6 @@
+package use_case.topmenu;
+
+public interface TopMenuOutputBoundary {
+    void setRepaintState(TopMenuOutputData outputData);
+    void setDrawables(TopMenuOutputData outputData);
+}

@@ -1,34 +1,46 @@
 package use_case.tooluse;
 
 import entity.CanvasState;
-import entity.Drawable;
-import entity.StrokeRecord;
+import entity.ToolEnum;
+
+import java.awt.*;
 
 
-public class ToolUseInteractor implements ToolUseInputBoundary{
+public class ToolUseInteractor implements ToolUseInputBoundary {
     private final CanvasState canvasState;
-    private final ToolUseOutputBoundary toolUseOutputBoundary;
 
-    public ToolUseInteractor (CanvasState canvasState, ToolUseOutputBoundary toolUseOutputBoundary) {
+    ToolUseInteractor(CanvasState canvasState) {
         this.canvasState = canvasState;
-        this.toolUseOutputBoundary = toolUseOutputBoundary;
     }
 
     @Override
-    public void useTool(ToolUseInputData inputData) {
-        StrokeRecord currentStroke = new StrokeRecord(inputData.getColor(), inputData.getSize());
-        currentStroke.pts.add(inputData.getPoint());
-        canvasState.addActionHistory(currentStroke);
-    }
-
-    @Override
-    public void extendStroke(ToolUseInputData inputData) {
-        Drawable drawable = canvasState.getCurrentDrawable();
-        if (drawable != null) {
-            if (drawable instanceof StrokeRecord strokeRecord){
-                strokeRecord.pts.add(inputData.getPoint());
-                canvasState.setCurrentDrawable(strokeRecord);
-            }
+    public void setTool(ToolUseInputData inputData) {
+        ToolEnum toolName = inputData.getToolName();
+        this.canvasState.setButtonPressed(toolName);
+        switch (toolName) {
+            case PENCIL -> this.canvasState.setToolState(toolName);
+            case ERASER -> this.canvasState.setToolState(toolName);
+            case SELECT -> this.canvasState.setToolState(toolName);
+            case CHANGECOLOR -> this.canvasState.setToolState(ToolEnum.PENCIL);
         }
+    }
+
+    @Override
+    public void setSize(ToolUseInputData inputData) {
+        Float size = inputData.getSize();
+        ToolEnum toolName = inputData.getToolName();
+        if (toolName == ToolEnum.PENCIL) {
+            this.canvasState.setPaintBrushSize(size);
+        }
+
+        else if (toolName == ToolEnum.ERASER) {
+            this.canvasState.setEraserSize(size);
+        }
+    }
+
+    @Override
+    public void setColor(ToolUseInputData inputData) {
+        Color color = inputData.getColor();
+        this.canvasState.setPaintBrushColor(color);
     }
 }

@@ -1,43 +1,97 @@
 package interface_adapter.canvas;
 
-import entity.ToolSelectionState;
+import entity.ToolEnum;
 import use_case.tooluse.ToolUseInputBoundary;
 import use_case.tooluse.ToolUseInputData;
+import use_case.mouseui.MouseUIUseInputBoundary;
+import use_case.mouseui.MouseUIInputData;
+import use_case.topmenu.TopMenuInputBoundary;
+import use_case.topmenu.TopMenuInputData;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 public class CanvasController {
-    ToolSelectionState toolSelectionState;
+    MouseUIUseInputBoundary mouseUIUseInputBoundary;
     ToolUseInputBoundary toolUseInputBoundary;
+    TopMenuInputBoundary topMenuInputBoundary;
 
-    public CanvasController(ToolSelectionState toolSelectionState,
-                            ToolUseInputBoundary toolUseInputBoundary) {
-        this.toolSelectionState = toolSelectionState;
+    public CanvasController(MouseUIUseInputBoundary mouseUIUseInputBoundary,
+                            ToolUseInputBoundary toolUseInputBoundary,
+                            TopMenuInputBoundary topMenuInputBoundary) {
+        this.mouseUIUseInputBoundary = mouseUIUseInputBoundary;
         this.toolUseInputBoundary = toolUseInputBoundary;
+        this.topMenuInputBoundary = topMenuInputBoundary;
     }
 
+    public void handlePencilButtonPress(ToolEnum tool){
+        ToolUseInputData inputData = new ToolUseInputData(tool);
+        toolUseInputBoundary.setTool(inputData);
+    }
+
+    public void handlePencilSliderButton(ToolEnum tool, float value){
+        ToolUseInputData inputData = new ToolUseInputData(tool, value);
+        toolUseInputBoundary.setTool(inputData);
+        toolUseInputBoundary.setSize(inputData);
+    }
+
+    public void handleEraserButtonPress(ToolEnum tool){
+        ToolUseInputData inputData = new ToolUseInputData(tool);
+        toolUseInputBoundary.setTool(inputData);
+    }
+
+    public void handleEraserSliderButton(ToolEnum tool, float value){
+        ToolUseInputData inputData = new ToolUseInputData(tool, value);
+        toolUseInputBoundary.setTool(inputData);
+        toolUseInputBoundary.setSize(inputData);
+    }
+
+    public void handleChangeColorButtonPress(ToolEnum tool, Color color){
+        ToolUseInputData inputData = new ToolUseInputData(tool, color);
+        toolUseInputBoundary.setTool(inputData);
+        toolUseInputBoundary.setColor(inputData);
+    }
+
+    public void handleUndoButtonPress(ToolEnum tool){
+        TopMenuInputData inputData = new TopMenuInputData(tool);
+        topMenuInputBoundary.setTool(inputData);
+    }
+
+    public void handleRedoButtonPress(ToolEnum tool){
+        TopMenuInputData inputData = new TopMenuInputData(tool);
+        topMenuInputBoundary.setTool(inputData);
+    }
+
+    public void handleSaveButtonPress(ToolEnum tool, BufferedImage image, File file){
+        TopMenuInputData inputData = new TopMenuInputData(tool, image, file);
+        topMenuInputBoundary.setTool(inputData);
+        topMenuInputBoundary.setBufferedImage(inputData);
+        topMenuInputBoundary.setFile(inputData);
+    }
+
+    public void handleZoomInButtonPress(ToolEnum tool){
+        TopMenuInputData inputData = new TopMenuInputData(tool);
+        topMenuInputBoundary.setTool(inputData);
+    }
+
+    public void handleZoomOutButtonPress(ToolEnum tool){
+        TopMenuInputData inputData = new TopMenuInputData(tool);
+        topMenuInputBoundary.setTool(inputData);
+    }
 
     public void handleMousePressed(Point point){
-        ToolUseInputData inputData = new ToolUseInputData(
-                toolSelectionState.getTool(),
-                toolSelectionState.getToolSize(),
-                toolSelectionState.getSelectedColor(),
-                point);
-
-        toolUseInputBoundary.useTool(inputData);
+        MouseUIInputData inputData = new MouseUIInputData(point);
+        mouseUIUseInputBoundary.useTool(inputData);
     }
 
     public void handleMouseDragged(Point point){
-        ToolUseInputData inputData = new ToolUseInputData(
-                toolSelectionState.getTool(),
-                toolSelectionState.getToolSize(),
-                toolSelectionState.getSelectedColor(),
-                point);
-
-        toolUseInputBoundary.extendStroke(inputData);
+        MouseUIInputData inputData = new MouseUIInputData(point);
+        mouseUIUseInputBoundary.extendStroke(inputData);
     }
 
     public void handleMouseReleased(Point point){
-
     }
 }
+
+

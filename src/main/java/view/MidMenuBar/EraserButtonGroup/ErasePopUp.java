@@ -1,23 +1,25 @@
 package view.MidMenuBar.EraserButtonGroup;
 
-import use_case.toolselection.ToolSelectionInputBoundary;
+import entity.ToolEnum;
+import interface_adapter.canvas.CanvasController;
+import use_case.tooluse.ToolUseInputBoundary;
+import use_case.tooluse.ToolUseInputData;
 
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
 
 public class ErasePopUp {
+    private final ToolEnum toolName = ToolEnum.ERASER;
+    private final JPopupMenu popupMenu;
+    private final JSlider slider;
+    private final CanvasController canvasController;
 
-    JPopupMenu popupMenu;
-    JSlider slider;
-    ToolSelectionInputBoundary inputBoundary;
-
-
-    public ErasePopUp(ToolSelectionInputBoundary inputBoundary) {
-        this.inputBoundary = inputBoundary;
+    public ErasePopUp(CanvasController canvasController) {
+        this.canvasController = canvasController;
         popupMenu = new JPopupMenu();
         popupMenu.setOpaque(true);
 
-        slider = new JSlider(JSlider.VERTICAL, 0, 100, 0);
+        slider = new JSlider(SwingConstants.VERTICAL, 0, 100, 0);
         slider.setSize(100, 100);
         slider.setMajorTickSpacing(10);
         slider.setPaintTicks(true);
@@ -25,7 +27,7 @@ public class ErasePopUp {
         ChangeListener cl = e ->{
             JSlider sliderValue = (JSlider) e.getSource();
             float value = sliderValue.getValue();
-            inputBoundary.selectSize(value);
+            this.canvasController.handleEraserSliderButton(toolName, value);
         };
 
         slider.addChangeListener(cl);

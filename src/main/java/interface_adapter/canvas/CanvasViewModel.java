@@ -1,18 +1,16 @@
 package interface_adapter.canvas;
 
 import entity.Drawable;
-import entity.Image;
 import interface_adapter.ViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Stack;
 
 /**
  * The View Model for the Logged In View.
  */
 public class CanvasViewModel extends ViewModel<CanvasUserState> {
-    private final List<Image> importedImages = new ArrayList<>();
     private final double scale = 1.0;
+    private boolean stackEmpty;
+    private Stack<Drawable> drawables;
 
     public CanvasViewModel() {
         super("canvas");
@@ -23,12 +21,11 @@ public class CanvasViewModel extends ViewModel<CanvasUserState> {
         return this.scale;
     }
 
-    public List<Image> getImportedImages(){
-        return this.importedImages;
-    }
+    //Only Repaint if there are things in ActionHistoryUndoStack
+    public void shouldRepaint(boolean stackEmpty) {this.stackEmpty = stackEmpty;}
+    public boolean getRepaintState() {return this.stackEmpty;}
 
-    public List<Drawable> getDrawables(){
-        
-    }
-
+    //Retrieves ActionHistoryUndoStack
+    public void setDrawables(Stack<Drawable> drawables) {this.drawables = drawables;}
+    public Stack<Drawable> getDrawables() {return this.drawables;}
 }

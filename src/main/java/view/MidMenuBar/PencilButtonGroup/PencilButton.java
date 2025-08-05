@@ -1,23 +1,23 @@
 package view.MidMenuBar.PencilButtonGroup;
 
 import entity.ToolEnum;
-import use_case.toolselection.ToolSelectionInputBoundary;
-import use_case.toolselection.ToolSelectionInputData;
+
+import interface_adapter.canvas.CanvasController;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class PencilButton{
     //ImageIcon is for Images of the PencilButton
-    ToolEnum tool = ToolEnum.PENCIL;
-    JButton button;
-    ImageIcon imageIcon;
-    ToolSelectionInputBoundary inputBoundary;
+    private final ToolEnum tool = ToolEnum.PENCIL;
+    private final JButton button;
+    private ImageIcon imageIcon;
+    private final CanvasController canvasController;
 
-    public PencilButton (ToolSelectionInputBoundary inputBoundary) {
+    public PencilButton (CanvasController canvasController) {
         button = new JButton();
-        this.inputBoundary = inputBoundary;
-        PencilPopUp pencilPopUp = new PencilPopUp(inputBoundary);
+        this.canvasController = canvasController;
+        PencilPopUp pencilPopUp = new PencilPopUp(this.canvasController);
         try{
             imageIcon = new ImageIcon(PencilButton.class.getResource("/images/PencilIcon.png"));
             Image image = imageIcon.getImage();
@@ -31,14 +31,11 @@ public class PencilButton{
         }
 
         button.addActionListener(event -> {
-            ToolSelectionInputData inputData = new ToolSelectionInputData(tool);
-            inputBoundary.selectTool(tool);
-            inputBoundary.selectColor(Color.BLACK);
+            this.canvasController.handlePencilButtonPress(tool);
         });
 
-        button.addActionListener(e -> {
-            pencilPopUp.getPopupMenu().show(button, button.getWidth(), button.getHeight());
-        });
+        button.addActionListener(e -> pencilPopUp.getPopupMenu().show(button,
+                button.getWidth(), button.getHeight()));
 
     }
 
