@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 /**
  * An image.
  */
-public class Image implements Editable, Cloneable {
+public class Image implements Drawable, Cloneable {
 
     private BufferedImage image;
     private int x, y;

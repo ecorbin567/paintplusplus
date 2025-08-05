@@ -2,7 +2,7 @@ package entity;
 
 import java.awt.*;
 
-public class SelectionTool implements Editable {
+public class SelectionTool implements Drawable {
 
     private Point startPoint; // start point of the selection on the canvas
     private Point currentPoint; // end point of the selection on the canvas

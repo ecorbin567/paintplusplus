@@ -30,7 +30,7 @@ public class ImportButton {
                 JFileChooser fileChooser = new JFileChooser();
                 fileChooser.setDialogTitle("Import PNG or PDF");
 
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG & PDF Files", "png", "pdf");
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Files", "png");
                 fileChooser.setFileFilter(filter);
 
                 int result = fileChooser.showOpenDialog(null);

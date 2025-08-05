@@ -10,9 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * A canvas to paint and edit images on.
- */
 public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionListener {
     private double scale = 1.0;
     private Image currentImage;
@@ -65,7 +62,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         }
         //
         if (!(actionHistory.getUndoStack().isEmpty())) {
-            for (Editable d : actionHistory.getUndoStack()) {
+            for (Drawable d : actionHistory.getUndoStack()) {
                 if (d instanceof StrokeRecord s) {
                     g2.setColor(s.colour);
                     g2.setStroke(new BasicStroke(s.width,
@@ -191,7 +188,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             repaint();
             return;
         }
-        Editable curr = actionHistory.getCurrentState();
+        Drawable curr = actionHistory.getCurrentState();
         if (curr != null) {
             if (curr instanceof StrokeRecord strokeRecord) {
                 strokeRecord.pts.add(e.getPoint());
@@ -242,7 +239,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     }
 
     public void undo() {
-        Editable prevState = actionHistory.undo();
+        Drawable prevState = actionHistory.undo();
         importedImages.clear();
 
         if (prevState instanceof Image image) {
@@ -253,7 +250,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     }
 
     public void redo() {
-        Editable nextState = actionHistory.redo();
+        Drawable nextState = actionHistory.redo();
         importedImages.clear();
 
         if (nextState instanceof Image image) {

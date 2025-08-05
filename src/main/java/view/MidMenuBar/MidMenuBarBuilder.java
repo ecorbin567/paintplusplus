@@ -7,10 +7,14 @@ import entity.ActionHistory;
 import entity.Paintbrush;
 import interface_adapter.changecolor.ChangeColorPresenter;
 import interface_adapter.image.crop.*;
+import interface_adapter.image.import_image.*;
+import interface_adapter.image.resize.*;
+import interface_adapter.image.rotate.*;
 import use_case.changecolor.*;
 import use_case.image.crop.*;
-import interface_adapter.image.import_image.*;
 import use_case.image.import_image.*;
+import use_case.image.resize.*;
+import use_case.image.rotate.*;
 import data_access.LocalImageLoader;
 import view.MidMenuBar.ColorButtonsBar.*;
 import view.MidMenuBar.EraserButtonGroup.EraseButton;
@@ -55,6 +59,14 @@ public class MidMenuBarBuilder {
         ImportInputBoundary interactor = new ImportInteractor(gateway, presenter, actionHistory);
         ImportController importController = new ImportController(interactor);
 
+        ResizeOutputBoundary resizePresenter = new interface_adapter.image.resize.ResizePresenter(canvas);
+        ResizeInputBoundary resizeInteractor = new use_case.image.resize.ResizeInteractor(canvas, resizePresenter, actionHistory);
+        ResizeController resizeController = new interface_adapter.image.resize.ResizeController(resizeInteractor);
+
+        RotateOutputBoundary rotatePresenter = new interface_adapter.image.rotate.RotatePresenter(canvas);
+        RotateInputBoundary rotateInteractor = new use_case.image.rotate.RotateInteractor(canvas, rotatePresenter, actionHistory);
+        RotateController rotateController = new interface_adapter.image.rotate.RotateController(rotateInteractor);
+
         PencilButton pencilButton = new PencilButton(canvas);
         pButton = pencilButton.getButton();
 
@@ -70,10 +82,10 @@ public class MidMenuBarBuilder {
         CropButton crop = new CropButton(cropController);
         cropButton = crop.getButton();
 
-        ResizeImageButton resize = new ResizeImageButton(canvas);
+        ResizeImageButton resize = new ResizeImageButton(resizeController);
         resizeButton = resize.getButton();
 
-        RotateButton rotate = new RotateButton(canvas);
+        RotateButton rotate = new RotateButton(rotateController);
         rotateButton = rotate.getButton();
 
         UpperColorChooserButton upperChooserButton = new UpperColorChooserButton();

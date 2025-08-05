@@ -41,8 +41,8 @@ public class EntityToJSONConverter {
 
         // Serialize undo stack
         JSONArray undoStackJson = new JSONArray();
-        Stack<Editable> undoStack = history.getUndoStack();
-        for (Editable d : undoStack) {
+        Stack<Drawable> undoStack = history.getUndoStack();
+        for (Drawable d : undoStack) {
             if (d instanceof StrokeRecord) {
                 undoStackJson.put(convertStrokeRecordToJSON((StrokeRecord) d));
             }
@@ -50,7 +50,7 @@ public class EntityToJSONConverter {
         result.put("undoStack", undoStackJson);
 
         // Serialize current state
-        Editable current = history.getCurrentState();
+        Drawable current = history.getCurrentState();
         if (current instanceof StrokeRecord) {
             result.put("currentState", convertStrokeRecordToJSON((StrokeRecord) current));
         } else {
