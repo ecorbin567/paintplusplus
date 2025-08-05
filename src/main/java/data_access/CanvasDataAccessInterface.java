@@ -22,5 +22,10 @@ public interface CanvasDataAccessInterface {
      */
     BufferedImage findCanvasById(String username, int id);
 
+    /**
+     * Get all projects from user's repository.
+     * @param username name of said user
+     * @return the screenshot of the projects
+     */
     List<BufferedImage> getAllCanvases(String username);
 }

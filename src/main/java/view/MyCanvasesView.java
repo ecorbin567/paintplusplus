@@ -3,6 +3,7 @@ package view;
 import interface_adapter.newcanvas.NewCanvasController;
 import interface_adapter.newcanvas.NewCanvasState;
 import interface_adapter.newcanvas.NewCanvasViewModel;
+import view.MidMenuBar.ImageBar.RotateButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,6 +39,8 @@ public class MyCanvasesView extends JPanel implements ActionListener, PropertyCh
         this.logOut = new JButton("Log Out");
         buttons.add(logOut);
 
+        final JPanel canvasesPanel = constructCanvasesPanel();
+
         newCanvas.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
@@ -64,6 +67,30 @@ public class MyCanvasesView extends JPanel implements ActionListener, PropertyCh
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(buttons);
+        this.add(canvasesPanel);
+    }
+
+    private JPanel constructCanvasesPanel() {
+        // Create the sub panel with horizontal layout
+        JPanel subPanel = new JPanel();
+        subPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // horizontal with spacing
+
+        int squareSize = 100; // size of each square
+
+        for (int i = 0; i < 3; i++) {
+            JButton square = new JButton();
+
+            ImageIcon icon = new ImageIcon(RotateButton.class.getResource("/images/RotateIcon.png"));
+            java.awt.Image image = icon.getImage().getScaledInstance(squareSize, squareSize, java.awt.Image.SCALE_SMOOTH);
+            square.setIcon(new ImageIcon(image));
+
+            square.setPreferredSize(new Dimension(squareSize, squareSize));
+            square.setBackground(Color.LIGHT_GRAY); // or any other color
+            square.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            subPanel.add(square);
+        }
+
+        return subPanel;
     }
 
     /**

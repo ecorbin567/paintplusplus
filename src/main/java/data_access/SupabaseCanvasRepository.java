@@ -1,6 +1,6 @@
 package data_access;
 
-import use_case.getcanvas.GetCanvasUserDataAccessInterface;
+import use_case.newcanvas.NewCanvasUserDataAccessInterface;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class SupabaseCanvasRepository implements GetCanvasUserDataAccessInterface {
+public class SupabaseCanvasRepository implements NewCanvasUserDataAccessInterface {
 
     private static final String CANVAS_DATABASE_URL = "https://jrzhzrsourpuiflfzdgc.supabase.co";
     private static final String API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impyemh6cnNvdXJwdWlmbGZ6ZGdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMzOTgzNzIsImV4cCI6MjA2ODk3NDM3Mn0.410etuDXZxkRBwnHi76oei7I_djIJWFw3e3RkL6Aw3I";  // use service key for uploads

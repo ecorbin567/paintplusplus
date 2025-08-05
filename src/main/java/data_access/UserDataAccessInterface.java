@@ -44,5 +44,27 @@ public interface UserDataAccessInterface {
      */
     boolean verifyCredentials(String username, String password);
 
+
+    // COMBINED WITH LOGIN/SIGNUP
+    /**
+     * Checks if the given username exists.
+     * @param username the username to look for
+     * @return true if a user with the given username exists; false otherwise
+     */
+    boolean existsByName(String username);
+
+    /**
+     * Sets the current user to a given name.
+     * @param name the username to set
+     */
+    void setCurrentUser(String name);
+    // JOSH: why is this a String? it works tho so I'll stick with it
+
+    /**
+     * Returns the current user's name.
+     * @return name the username of the current user
+     */
+    String getCurrentUser();
+
 }
 

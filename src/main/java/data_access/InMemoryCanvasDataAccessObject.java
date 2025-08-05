@@ -1,6 +1,5 @@
 package data_access;
 
-import use_case.getcanvas.GetCanvasUserDataAccessInterface;
 import use_case.newcanvas.NewCanvasUserDataAccessInterface;
 import view.MidMenuBar.ImageBar.CropButton;
 
@@ -13,8 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class InMemoryCanvasDataAccessObject implements CanvasDataAccessInterface, GetCanvasUserDataAccessInterface,
-        NewCanvasUserDataAccessInterface {
+public class InMemoryCanvasDataAccessObject implements CanvasDataAccessInterface, NewCanvasUserDataAccessInterface {
 
     private final Map<String, List<BufferedImage>> usersDocumentsMap = new HashMap<>();
     public String defaultTestUsername; // For development
@@ -23,9 +21,8 @@ public class InMemoryCanvasDataAccessObject implements CanvasDataAccessInterface
      * Populate with images
      */
     public InMemoryCanvasDataAccessObject() {
-        String testUsername = "job";
-
-        usersDocumentsMap.put(testUsername, loadLocalTestImages());
+        defaultTestUsername = "asdf";
+        usersDocumentsMap.put(defaultTestUsername, loadLocalTestImages());
 
         // System.out.println(usersDocumentsMap);
     }

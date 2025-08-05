@@ -1,24 +1,26 @@
-package interface_adapter.newcanvas;
+package interface_adapter.getcanvas;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.canvas.CanvasState;
 import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.signup.SignupViewModel;
+import use_case.getcanvas.GetCanvasOutputBoundary;
+import use_case.getcanvas.GetCanvasOutputData;
 import use_case.newcanvas.NewCanvasOutputBoundary;
 import use_case.newcanvas.NewCanvasOutputData;
 
 /**
- * The Presenter for the New Canvas Use Case.
+ * The Presenter for the Login Use Case.
  */
-public class NewCanvasPresenter implements NewCanvasOutputBoundary {
+public class GetCanvasPresenter implements GetCanvasOutputBoundary {
 
     private final CanvasViewModel canvasViewModel;
     private final ViewManagerModel viewManagerModel;
     private final SignupViewModel signupViewModel;
 
-    public NewCanvasPresenter(ViewManagerModel viewManagerModel,
+    public GetCanvasPresenter(ViewManagerModel viewManagerModel,
                               CanvasViewModel canvasViewModel,
-                              NewCanvasViewModel newCanvasViewModel,
+                              GetCanvasViewModel newCanvasViewModel,
                               SignupViewModel signupViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.canvasViewModel = canvasViewModel;
@@ -26,7 +28,7 @@ public class NewCanvasPresenter implements NewCanvasOutputBoundary {
     }
 
     @Override
-    public void prepareSuccessView() {
+    public void prepareSuccessView(GetCanvasOutputData outputData) {
         final CanvasState canvasState = this.canvasViewModel.getState();
         this.canvasViewModel.setState(canvasState);
         this.canvasViewModel.firePropertyChanged();
