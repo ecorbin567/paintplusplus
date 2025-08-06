@@ -1,6 +1,10 @@
 package view;
 
-import entity.DrawingCanvas;
+
+import entity.Drawable;
+import entity.StrokeRecord;
+import interface_adapter.canvas.CanvasController;
+import interface_adapter.canvas.CanvasRenderer;
 import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.goback.GoBackController;
 import interface_adapter.goback.GoBackState;
@@ -11,47 +15,53 @@ import view.TopMenuBar.TopMenuBarBuilder;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.util.Objects;
 
 /**
  * The View for when the user is drawing on a canvas.
  */
 public class CanvasView extends JPanel implements ActionListener, MenuActionListener {
+public class CanvasView extends JPanel implements ActionListener, MenuActionListener, MouseListener, MouseMotionListener {
     private final String viewName = "canvas";
     private final GoBackViewModel goBackViewModel;
     private final GoBackController goBackController;
-    private final DrawingCanvas canvas;
+    private final Color backgroundColor = Color.WHITE;
+    private final CanvasViewModel viewModel;
+    private final CanvasController controller;
+    private final CanvasRenderer renderer;
 
-    public CanvasView(GoBackViewModel goBackViewModel, GoBackController goBackController) {
+    public CanvasView(GoBackViewModel goBackViewModel,
+                      GoBackController goBackController,
+                      CanvasController controller,
+                      CanvasRenderer canvasRenderer) {
         this.goBackViewModel = goBackViewModel;
+        this.viewModel = new CanvasViewModel();
         this.goBackController = goBackController;
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(800, 600));
+        this.controller = controller;
+        this.renderer = canvasRenderer;
 
-        this.canvas = new DrawingCanvas();
-        TopMenuBarBuilder topMenuBarBuilder = new TopMenuBarBuilder(canvas);
-        JMenuBar menuBar = topMenuBarBuilder.getMenuBar();
-        topMenuBarBuilder.setMenuActionListener(this);
-        this.add(menuBar, BorderLayout.NORTH);
-
-        MidMenuBarBuilder midMenuBarBuilder = new MidMenuBarBuilder(canvas);
-        JPanel panel = midMenuBarBuilder.getPanel();
-        JPanel bottomPanel = new JPanel();
-        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
-        bottomPanel.add(panel);
-        bottomPanel.add(canvas);
-        this.add(bottomPanel, BorderLayout.CENTER);
+        setBackground(backgroundColor);
+        addMouseListener(this);
+        addMouseMotionListener(this);
+        setPreferredSize(new Dimension(800, 600));
+//        TopMenuBarBuilder topMenuBarBuilder = new TopMenuBarBuilder(canvas);
+//        JMenuBar menuBar = topMenuBarBuilder.getMenuBar();
+//        topMenuBarBuilder.setMenuActionListener(this);
+//        this.add(menuBar, BorderLayout.NORTH);
+//
+//        MidMenuBarBuilder midMenuBarBuilder = new MidMenuBarBuilder(canvas);
+//        JPanel panel = midMenuBarBuilder.getPanel();
+//        JPanel bottomPanel = new JPanel();
+//        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
+//        bottomPanel.add(panel);
+//        bottomPanel.add(canvas);
+//        this.add(bottomPanel, BorderLayout.CENTER);
     }
 
-    public DrawingCanvas getCanvas() {
-        return canvas;
-    }
-
-    /**
-     * React to a button click that results in evt.
-     * @param evt the ActionEvent to react to
-     */
     public void actionPerformed(ActionEvent evt) {
         System.out.println("Click " + evt.getActionCommand());
     }
@@ -72,4 +82,57 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
             );
         }
     }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g.create();
+        renderer.renderDraw(g2, viewModel);
+        g2.dispose();
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        controller.handleMouseDragged(e.getPoint());
+        renderCanvasView();
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        controller.handleMouseReleased(e.getPoint());
+        renderCanvasView();
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        if (SwingUtilities.isLeftMouseButton(e)) {
+            controller.handleMousePressed(e.getPoint());
+            renderCanvasView();
+        }
+    }
+
+    public void renderCanvasView(){
+        if (this.viewModel.getRepaintState()){
+            repaint();
+            this.viewModel.shouldRepaint(false);
+        }
+    }
+
+    public BufferedImage getImage() {
+        BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = image.createGraphics();
+        this.paint(g2d);
+        g2d.dispose();
+        return image;
+    }
+
+    // We don't need these, but must include them:
+    @Override
+    public void mouseEntered(MouseEvent e) {}
+    @Override
+    public void mouseClicked(MouseEvent e) {}
+    @Override
+    public void mouseMoved(MouseEvent e) {}
+    @Override
+    public void mouseExited(MouseEvent e) {}
 }

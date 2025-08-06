@@ -1,13 +1,18 @@
 package view.TopMenuBar.ViewMenu;
 
-import entity.DrawingCanvas;
+import entity.ToolEnum;
+import interface_adapter.canvas.CanvasController;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 
 public class ZoomInButton {
+    private ToolEnum toolName = ToolEnum.ZOOMIN;
     private final JMenuItem menuItem;
-    public ZoomInButton(DrawingCanvas drawingCanvas){
+    private final CanvasController canvasController;
+
+    public ZoomInButton(CanvasController canvasController){
+        this.canvasController = canvasController;
         menuItem = new JMenuItem("Zoom In");
         menuItem.setMnemonic(KeyEvent.VK_F);
         menuItem.setAccelerator(
@@ -15,9 +20,7 @@ public class ZoomInButton {
         menuItem.setActionCommand("Zoom in");
 
         menuItem.addActionListener(e -> {
-            drawingCanvas.setScale(drawingCanvas.getScale() * 1.1);
-            drawingCanvas.revalidate();
-            drawingCanvas.repaint();
+            this.canvasController.handleZoomInButtonPress(toolName);
         });
     }
 

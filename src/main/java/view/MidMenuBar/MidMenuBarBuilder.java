@@ -6,6 +6,7 @@ import entity.DrawingCanvas;
 import entity.ActionHistory;
 import entity.Paintbrush;
 import interface_adapter.changecolor.ChangeColorPresenter;
+import interface_adapter.canvas.CanvasController;
 import interface_adapter.image.crop.*;
 import interface_adapter.image.import_image.*;
 import interface_adapter.image.resize.*;
@@ -43,10 +44,10 @@ public class MidMenuBarBuilder {
     JToggleButton upperColorChooserButton;
     JToggleButton lowerColorChooserButton;
     JToggleButton colorWheelButton;
-    DrawingCanvas canvas;
+    CanvasController canvasController;
 
-    public MidMenuBarBuilder(DrawingCanvas canvas) {
-        this.canvas = canvas;
+    public MidMenuBarBuilder(CanvasController canvasController) {
+        this.canvasController = canvasController;
         Paintbrush brush = canvas.getPaintbrush();
 
         CropOutputBoundary cropPresenter = new CropPresenter(canvas);
@@ -59,6 +60,7 @@ public class MidMenuBarBuilder {
         ImportInputBoundary interactor = new ImportInteractor(gateway, presenter, actionHistory);
         ImportController importController = new ImportController(interactor);
 
+        PencilButton pencilButton = new PencilButton(this.canvasController);
         ResizeOutputBoundary resizePresenter = new interface_adapter.image.resize.ResizePresenter(canvas);
         ResizeInputBoundary resizeInteractor = new use_case.image.resize.ResizeInteractor(canvas, resizePresenter, actionHistory);
         ResizeController resizeController = new interface_adapter.image.resize.ResizeController(resizeInteractor);
@@ -70,7 +72,7 @@ public class MidMenuBarBuilder {
         PencilButton pencilButton = new PencilButton(canvas);
         pButton = pencilButton.getButton();
 
-        EraseButton eraseButton = new EraseButton(canvas);
+        EraseButton eraseButton = new EraseButton(this.canvasController);
         eButton = eraseButton.getButton();
 
         SelectionToolButton selectButton = new SelectionToolButton();
