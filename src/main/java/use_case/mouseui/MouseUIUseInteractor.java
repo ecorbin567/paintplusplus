@@ -20,6 +20,7 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
         Color color;
         float size;
 
+
         if (toolstate.equals(ToolEnum.ERASER)) {
             Eraser eraser = this.canvasState.getEraser();
             color = Color.WHITE;
@@ -32,7 +33,6 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
             color = Color.WHITE;
             size = 3f;
         }
-
 
         StrokeRecord currentStroke = new StrokeRecord(color, size);
         currentStroke.pts.add(inputData.getPoint());

@@ -8,23 +8,33 @@ import java.util.List;
 import java.util.Stack;
 
 public class CanvasState {
+    private double scale = 1.0;
     private final Paintbrush paintbrush = new Paintbrush();
     private final Eraser eraser = new Eraser();
+
     private ToolEnum toolState = ToolEnum.PENCIL;
     private ToolEnum buttonPressed = ToolEnum.PENCIL;
-    private Image prevImage;
     private Image currentImage;
-    private double scale = 1.0;
+
     private final ActionHistory actionHistory = new ActionHistory();
     private final SelectionTool selectionTool = new SelectionTool();
+
+    private BufferedImage selectionImage;
+    private Rectangle selectionBounds;
+    private Rectangle selectionOriginalBounds;
+    private boolean hasSelection = false;
+    private boolean draggingSelection = false;
+    private boolean hasCutOut = false;
+    private boolean isDrawing = false;
+    private Point dragAnchor;
+
     private final List<CanvasState.Pair<BufferedImage, Rectangle>> commitedSelections = new ArrayList<>();
     private double imageHeight;
     private double imageWidth;
     private double imageDegree;
-    private double canvasWidth;
-    private double canvasHeight;
+
     private BufferedImage savedImage;
-    private File savedImageFile;
+
 
     public CanvasState() {
 
