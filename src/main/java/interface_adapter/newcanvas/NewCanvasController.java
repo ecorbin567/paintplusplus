@@ -4,7 +4,7 @@ import use_case.newcanvas.NewCanvasInputBoundary;
 import use_case.newcanvas.NewCanvasInputData;
 
 /**
- * The controller for the Login Use Case.
+ * The controller for the New Canvas Screen Use Case.
  */
 public class NewCanvasController {
 
@@ -15,7 +15,7 @@ public class NewCanvasController {
     }
 
     /**
-     * Executes the Login Use Case.
+     * Executes the New Canvas Use Case.
      * @param username the username of the user logging in
      * @param password the password of the user logging in
      */

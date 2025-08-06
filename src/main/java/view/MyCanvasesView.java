@@ -3,12 +3,13 @@ package view;
 import interface_adapter.newcanvas.NewCanvasController;
 import interface_adapter.newcanvas.NewCanvasState;
 import interface_adapter.newcanvas.NewCanvasViewModel;
-import view.MidMenuBar.ImageBar.RotateButton;
 
 import javax.swing.*;
+import java.util.List;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -23,6 +24,8 @@ public class MyCanvasesView extends JPanel implements ActionListener, PropertyCh
     private final JButton newCanvas;
     private final JButton logOut;
     private final NewCanvasController newCanvasController;
+
+    final JPanel canvasesPanel;
 
     public MyCanvasesView(NewCanvasViewModel newCanvasViewModel, NewCanvasController controller) {
         this.setPreferredSize(new Dimension(400, 400));
@@ -39,7 +42,8 @@ public class MyCanvasesView extends JPanel implements ActionListener, PropertyCh
         this.logOut = new JButton("Log Out");
         buttons.add(logOut);
 
-        final JPanel canvasesPanel = constructCanvasesPanel();
+        this.canvasesPanel = new JPanel();
+        refreshCanvasesPanel(canvasesPanel); // 1st call to refresh = construct it
 
         newCanvas.addActionListener(
                 new ActionListener() {
@@ -70,27 +74,65 @@ public class MyCanvasesView extends JPanel implements ActionListener, PropertyCh
         this.add(canvasesPanel);
     }
 
-    private JPanel constructCanvasesPanel() {
+    /**
+     * Helper method for refreshCanvasesPanel
+     * @param img original image
+     * @param newWidth scale to width
+     * @param newHeight scale to height
+     * @return scaled image
+     */
+    private Image getScaledImage(Image img, int newWidth, int newHeight) {
+        int originalWidth = img.getWidth(null);
+        int originalHeight = img.getHeight(null);
+
+        if (originalWidth <= 0 || originalHeight <= 0) {
+            throw new IllegalArgumentException("Image has invalid dimensions.");
+        }
+
+        double scaleX = (double) newWidth / originalWidth;
+        double scaleY = (double) newHeight / originalHeight;
+        double scale = Math.min(scaleX, scaleY);
+
+        int scaledWidth = (int) (originalWidth * scale);
+        int scaledHeight = (int) (originalHeight * scale);
+
+        return img.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
+    }
+
+    /**
+     * Helper method to update specifically the select canvas panel.
+     * Used on the first call to initially construct it.
+     * @param subPanel the canvas panel to be updated
+     */
+    private void refreshCanvasesPanel(JPanel subPanel) {
+
         // Create the sub panel with horizontal layout
-        JPanel subPanel = new JPanel();
         subPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // horizontal with spacing
 
-        int squareSize = 100; // size of each square
+        int iconWidth = 250; // size of each square
+        int iconHeight = 200;
 
-        for (int i = 0; i < 3; i++) {
+        final NewCanvasState currentState = newCanvasViewModel.getState();
+        List<BufferedImage> listCanvases = newCanvasViewModel.getCanvases();
+
+        for (int i = 0; i < listCanvases.size(); i++) {
             JButton square = new JButton();
 
-            ImageIcon icon = new ImageIcon(RotateButton.class.getResource("/images/RotateIcon.png"));
-            java.awt.Image image = icon.getImage().getScaledInstance(squareSize, squareSize, java.awt.Image.SCALE_SMOOTH);
+            ImageIcon icon = new ImageIcon(listCanvases.get(i));
+            //Image image = icon.getImage().getScaledInstance(iconWidth, iconHeight, java.awt.Image.SCALE_SMOOTH);
+            Image image = getScaledImage(icon.getImage(), iconWidth, iconHeight);
+
             square.setIcon(new ImageIcon(image));
 
-            square.setPreferredSize(new Dimension(squareSize, squareSize));
+            square.setPreferredSize(new Dimension(iconWidth, iconHeight));
             square.setBackground(Color.LIGHT_GRAY); // or any other color
             square.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             subPanel.add(square);
         }
 
-        return subPanel;
+        this.revalidate();
+        this.repaint();
+
     }
 
     /**
@@ -103,7 +145,11 @@ public class MyCanvasesView extends JPanel implements ActionListener, PropertyCh
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        //System.out.println(evt.getPropertyName());
         final NewCanvasState state = (NewCanvasState) evt.getNewValue();
+        if ("canvases".equals(evt.getPropertyName())) {
+            refreshCanvasesPanel(this.canvasesPanel);
+        }
     }
 
     public String getViewName() {

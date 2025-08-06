@@ -18,15 +18,29 @@ public class NewCanvasInteractor implements NewCanvasInputBoundary {
     }
 
     @Override
-    public void execute(NewCanvasInputData loginOutputData) {
-//        final User user = canvasDataAccessObject.getUser(loginInputData.getUsername());
-//        canvasDataAccessObject.setCurrentUser(user.getName());
-//        final NewCanvasOutputData loginOutputData = new NewCanvasOutputData(user.getName());
-        newCanvasPresenter.prepareSuccessView();
+    public void execute(NewCanvasInputData newCanvasInputData) {
+        // this was once an inline variable, but the below code was added and then removed.
+        String username = newCanvasInputData.getUsername();
+        /*String password = newCanvasInputData.getPassword();
+
+        List<BufferedImage> userCanvases = canvasDataAccessObject.getAllCanvases(username);
+        */
+
+        newCanvasPresenter.prepareSuccessView(
+                new NewCanvasOutputData(username)
+        );
     }
 
     @Override
     public void switchToSignupView() {
         newCanvasPresenter.switchToSignupView();
+    }
+
+    @Override
+    public List<BufferedImage> getUserCanvases(NewCanvasInputData newCanvasInputData) {
+        String username = newCanvasInputData.getUsername();
+        String password = newCanvasInputData.getPassword();
+
+        return canvasDataAccessObject.getAllCanvases(username);
     }
 }
