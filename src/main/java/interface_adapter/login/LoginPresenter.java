@@ -6,20 +6,23 @@ import interface_adapter.newcanvas.NewCanvasViewModel;
 import use_case.login.LoginOutputBoundary;
 import use_case.login.LoginOutputData;
 
+import java.awt.image.BufferedImage;
+import java.util.List;
+
 /**
  * The Presenter for the Login Use Case.
  */
 public class LoginPresenter implements LoginOutputBoundary {
 
     private final LoginViewModel loginViewModel;
-    private final NewCanvasViewModel canvasViewModel;
+    private final NewCanvasViewModel newCanvasViewModel;
     private final ViewManagerModel viewManagerModel;
 
     public LoginPresenter(ViewManagerModel viewManagerModel,
                           NewCanvasViewModel canvasViewModel,
                           LoginViewModel loginViewModel) {
         this.viewManagerModel = viewManagerModel;
-        this.canvasViewModel = canvasViewModel;
+        this.newCanvasViewModel = canvasViewModel;
         this.loginViewModel = loginViewModel;
     }
 
@@ -34,11 +37,16 @@ public class LoginPresenter implements LoginOutputBoundary {
 //
 //        this.viewManagerModel.setState(loggedInViewModel.getViewName());
 //        this.viewManagerModel.firePropertyChanged();
-        final NewCanvasState canvasState = this.canvasViewModel.getState();
-        this.canvasViewModel.setState(canvasState);
-        this.canvasViewModel.firePropertyChanged();
+        final NewCanvasState myCanvasState = this.newCanvasViewModel.getState();
 
-        this.viewManagerModel.setState(canvasViewModel.getViewName());
+        // Upon login success, update "canvas select screen" with user's canvases.
+        List<BufferedImage> userCanvases = response.getUserCanvases();
+        myCanvasState.setCanvases(userCanvases);
+        this.newCanvasViewModel.setState(myCanvasState);
+        this.newCanvasViewModel.setCanvases(userCanvases);
+        this.newCanvasViewModel.firePropertyChanged();
+
+        this.viewManagerModel.setState(newCanvasViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
 

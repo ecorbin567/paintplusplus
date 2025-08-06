@@ -64,7 +64,8 @@ public class Main {
         views.add(signupView, signupView.getViewName());
 
         final LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel,
-                                                               newCanvasViewModel, userDataAccessObject);
+                                                               newCanvasViewModel, userDataAccessObject,
+                canvasDataAccessObject);
         views.add(loginView, loginView.getViewName());
 
         final CanvasView canvasView = CanvasUseCaseFactory.create(viewManagerModel, goBackViewModel,

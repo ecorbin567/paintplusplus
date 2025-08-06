@@ -24,3 +24,42 @@ USE CASE(S): Login and signup, accessing past canvases and storing new ones
         beabadoobee / plaintext123
         saliva / ilovecheetos1
 
+2025-08-05 Created canvas selection screen after log in
+General description: upon login, users are faced with a summary of their saved canvases.
+canvas image data is fed through the login use case interface adapter, since the event happens on login success.
+
+## Misc.
+- create resources/sample-canvases and added 3 png files for testing canvas repository
+
+## Frameworks & Drivers
+#### InMemoryCanvasDataAccessObject
+- literal one line change; now serves images from sample-canvases
+#### MyCanvasesView
+- add field "canvasesPanel" for the canvas select subpanel
+- create methods refreshCanvasesPanel, getScaledImage
+- modify method propertyChange to call refreshCanvasesPanel on events titled "canvases"
+
+## Interface Adapter
+#### LoginPresenter
+- modify method prepareSuccessView to update the "canvas select" view model (newCanvasViewModel) with user's retrieved canvases and fire a property change
+#### NewCanvasPresenter
+- nothing. a code snippet to populate new canvas view state was added and replaced immediately. for future reference.
+#### NewCanvasViewModel
+- added unused title constant for the title on screen + updateNewCanvasTitle method
+- create methods getCanvases and setCanvases; retrieve canvases stored in current state
+#### NewCanvasState
+- added methods getCanvases, setCanvases
+
+## Use Case / Business Rules
+#### LoginInteractor
+- modify method execute: upon login, the user's canvases are retrieved, put into output data, and fed to LoginPresenter.prepareSuccessView
+#### LoginOutputData
+- add javadoc for methods
+#### NewCanvasInputBoundary, NewCanvasInteractor
+- added unused getUserCanvases method
+#### NewCanvasOutputBoundary
+- added parameter for output data to NewCanvasOutputBoundary.
+
+## App
+#### LoginUseCaseFactory, Main
+- constructor for LoginInteractor was updated, so some data access objects had to be added to parameters

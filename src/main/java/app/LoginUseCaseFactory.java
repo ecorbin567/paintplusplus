@@ -9,6 +9,7 @@ import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
 import use_case.login.LoginUserDataAccessInterface;
+import use_case.newcanvas.NewCanvasUserDataAccessInterface;
 import view.LoginView;
 
 /**
@@ -23,20 +24,24 @@ public final class LoginUseCaseFactory {
 
     /**
      * Factory function for creating the LoginView.
-     * @param viewManagerModel the ViewManagerModel to inject into the LoginView
-     * @param loginViewModel the LoginViewModel to inject into the LoginView
-     * @param newCanvasViewModel the NewCanvasViewModel to inject into the LoginView
-     * @param userDataAccessObject the LoginUserDataAccessInterface to inject into the LoginView
+     *
+     * @param viewManagerModel             the ViewManagerModel to inject into the LoginView
+     * @param loginViewModel               the LoginViewModel to inject into the LoginView
+     * @param canvasViewModel              the NewCanvasViewModel to inject into the LoginView
+     * @param userDataAccessObject         the LoginUserDataAccessInterface to inject into the LoginView
+     * @param newCanvasDataAccessInterface
      * @return the LoginView created for the provided input classes
      */
     public static LoginView create(
             ViewManagerModel viewManagerModel,
             LoginViewModel loginViewModel,
-            NewCanvasViewModel newCanvasViewModel,
-            LoginUserDataAccessInterface userDataAccessObject) {
+            NewCanvasViewModel canvasViewModel,
+            LoginUserDataAccessInterface userDataAccessObject,
+            NewCanvasUserDataAccessInterface newCanvasDataAccessInterface) {
 
         final LoginController loginController = createLoginUseCase(viewManagerModel, loginViewModel,
-                                                                   newCanvasViewModel, userDataAccessObject);
+                                                                   canvasViewModel, userDataAccessObject,
+                newCanvasDataAccessInterface);
         return new LoginView(loginViewModel, loginController);
 
     }
@@ -44,13 +49,14 @@ public final class LoginUseCaseFactory {
     private static LoginController createLoginUseCase(
             ViewManagerModel viewManagerModel,
             LoginViewModel loginViewModel,
-            NewCanvasViewModel newCanvasViewModel,
-            LoginUserDataAccessInterface userDataAccessObject) {
+            NewCanvasViewModel canvasViewModel,
+            LoginUserDataAccessInterface userDataAccessObject,
+            NewCanvasUserDataAccessInterface canvasDataAccessInterface) {
 
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
                                                                            newCanvasViewModel, loginViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
-                userDataAccessObject, loginOutputBoundary);
+                userDataAccessObject, loginOutputBoundary, canvasDataAccessInterface);
 
         return new LoginController(loginInteractor);
     }

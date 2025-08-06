@@ -33,7 +33,7 @@ public class InMemoryCanvasDataAccessObject implements CanvasDataAccessInterface
             // Get the /images directory (works in IDE, not in JAR)
             File imageDir = new File(
                     InMemoryCanvasDataAccessObject.class
-                            .getResource("/images")
+                            .getResource("/sample-canvases")
                             .toURI()
             );
 
