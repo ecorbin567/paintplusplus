@@ -13,13 +13,10 @@ import view.*;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * The version of Main with an external database used to persist user data.
- */
 public class Main {
 
     /**
-     * The main method for starting the program with an external database used to persist user data.
+     * The main method for starting the program.
      * @param args input to main
      */
     public static void main(String[] args) {
@@ -58,17 +55,9 @@ public class Main {
         final NewCanvasViewModel newCanvasViewModel = new NewCanvasViewModel();
         final GoBackViewModel goBackViewModel = new GoBackViewModel();
 
-        /* Josh: The below should be UserDataAccessInterface for generality, but it gets messy and I just want
-        to test the signup/login functionality with the database
+         final SupabaseAccountRepository userDataAccessObject = new SupabaseAccountRepository();
 
-        If you want to test the signup/login with the DB, uncomment the line below and comment out
-        the InMemory version. user/pswd for testing DB: "beabadoobee" / "plaintext123" */
-        // final SupabaseAccountRepository userDataAccessObject = new SupabaseAccountRepository();
-        final InMemoryUserDataAccessObject userDataAccessObject = new InMemoryUserDataAccessObject();
-
-        /* Similar for Canvas repository*/
-        // final SupabaseCanvasRepository canvasDataAccessObject = new SupabaseCanvasRepository();
-        final InMemoryCanvasDataAccessObject canvasDataAccessObject = new InMemoryCanvasDataAccessObject();
+         final SupabaseCanvasRepository canvasDataAccessObject = new SupabaseCanvasRepository();
 
         final SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel,
                                                                   signupViewModel, userDataAccessObject);

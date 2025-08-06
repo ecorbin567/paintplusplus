@@ -6,10 +6,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.awt.AlphaComposite;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * A canvas to paint and edit images on.
+ */
 public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionListener {
     private double scale = 1.0;
     private Image currentImage;
@@ -98,6 +102,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         }
         // selection tool rendering logic
         Rectangle r = null;
+
         if ("Selection".equals(selectedTool) && isDrawing){
             r = selectionTool.getBounds();
         } else if (hasSelection && selectionBounds != null){
@@ -145,6 +150,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
             g2.setColor(backgroundColor);
             g2.fillRect(cr.bounds.x, cr.bounds.y,
                     cr.bounds.width, cr.bounds.height);
+
         } else if (d instanceof MoveRecord mr) {
             /* blank the old rectangle */
             g2.setColor(backgroundColor);
@@ -184,6 +190,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 
                 commitedSelections.add(new Pair<>(selectionImage, dest));
                 clearRegions.add(src);
+
                 // clear out active selection state
                 hasSelection = false;
                 selectionImage = null;
@@ -222,6 +229,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
                 // on the first drag, blank out the original rectangle
                 if (!hasCutOut){
                     Rectangle hole = new Rectangle(selectionBounds);
+
                     clearRegions.add(hole);
                     actionHistory.push(new CutRecord(hole));
                     hasCutOut = true;
@@ -264,12 +272,16 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
                     selectionBounds = new Rectangle(r);
                     selectionOriginalBounds = new Rectangle(r);
                     hasSelection = true;
+
+
+                    // apparently layering issue functionality still working, bugs need fixing but managable
                 }
             }
             // reset dragging selection here
             draggingSelection = false;
             selectionTool.cancel();
             repaint();
+
             updateAntsTimer();
         }
     }
@@ -289,6 +301,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 //            }
 //        }
 //    }
+
     private void rebuildStateFromHistory(){
         commitedSelections.clear();
         clearRegions.clear();    // NEW
@@ -300,6 +313,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         // current head
         addFromDrawable(actionHistory.getCurrentState());
     }
+
     // helper function for rebuildStateFromHistory()
     private void addFromDrawable(Drawable d) {
         if (d instanceof PasteRecord pr) {
@@ -307,6 +321,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
                     new Pair<>(pr.image, new Rectangle(pr.bounds)));
         } else if (d instanceof CutRecord cr) {
             clearRegions.add(new Rectangle(cr.bounds));
+
         } else if (d instanceof  MoveRecord mr){
             clearRegions.add(new Rectangle(mr.from));
             commitedSelections.add(
@@ -325,6 +340,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
     public void undo() {
         Drawable prevState = actionHistory.undo();
         importedImages.clear();
+
         rebuildStateFromHistory(); // call the rebuildstate for selection tool to work with
         if (prevState instanceof Image image) {
             importedImages.add(image);
@@ -336,6 +352,10 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 
     public void redo() {
         Drawable nextState = actionHistory.redo();
+
+        if (nextState == null) {
+            return;
+        }
         importedImages.clear();
         rebuildStateFromHistory();
         if (nextState instanceof Image image) {
@@ -395,21 +415,23 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         repaint();
     }
 
-    public void resizeLastImportedImage(int newWidth, int newHeight) {
-        if (!importedImages.isEmpty()) {
-            Image lastImage = importedImages.get(importedImages.size() - 1);
-            actionHistory.push(lastImage.clone());
-            lastImage.resize(newWidth, newHeight);
+    public void updateCurrentImage(Image newImage) {
+        if (this.currentImage != null) {
+            int index = this.importedImages.indexOf(this.currentImage);
+            if (index != -1) {
+                this.importedImages.set(index, newImage);
+            } else {
+                // If the image wasn't in the list, just add the new one
+                this.importedImages.add(newImage);
+            }
+        } else {
+            // If there was no image, just add it
+            this.importedImages.add(newImage);
         }
-    }
 
-    public void rotateLastImportedImage(double degrees) {
-        if (!importedImages.isEmpty()) {
-            Image lastImage = importedImages.get(importedImages.size() - 1);
-            actionHistory.push(lastImage.clone());
-            lastImage.rotate(degrees);
-            repaint();
-        }
+        // Set the new image as the current one and repaint
+        setCurrentImage(newImage);
+        repaint();
     }
 
     public ActionHistory getActionHistory() {

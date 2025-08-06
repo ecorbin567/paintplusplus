@@ -1,3 +1,4 @@
+USE CASE(S): Draw, erase, undo, redo
 2025-07-14: Added Java classes and interfaces for Draw and Erase use cases according to clean architecture
 2025-07-15: Implemented drawing canvas, eraser, and paintbrush in a minimal working example that DOES NOT follow clean architecture
 2025-07-17: Implemented undo and redo
@@ -8,3 +9,5 @@ before accessing the canvas.
 2025-07-29: Fixed bug where mid menu bar would be resized for full screen
 2025-07-31: Implemented New Canvas and Log Out buttons in My Canvases screen,
 plus Go Back to Canvases and Log Out buttons in file menu on canvas
+2025-08-01: Added Javadoc to class descriptions and updated existing incorrect/faulty Javadoc
+2025-08-05: Wrote README.md

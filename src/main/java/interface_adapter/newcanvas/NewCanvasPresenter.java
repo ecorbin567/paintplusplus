@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 /**
- * The Presenter for the Login Use Case.
+ * The Presenter for the New Canvas Use Case.
  */
 public class NewCanvasPresenter implements NewCanvasOutputBoundary {
 

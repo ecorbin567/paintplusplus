@@ -6,6 +6,9 @@ import use_case.image.crop.CropResponseModel;
 
 import javax.swing.*;
 
+/**
+ * The presenter for the Crop Use Case.
+ */
 public class CropPresenter implements CropOutputBoundary {
 
     private final DrawingCanvas canvas;
@@ -16,7 +19,7 @@ public class CropPresenter implements CropOutputBoundary {
 
     @Override
     public void present(CropResponseModel responseModel) {
-        canvas.repaint();  // Image is already updated
+        canvas.updateCurrentImage(responseModel.getImage());
     }
 
     @Override

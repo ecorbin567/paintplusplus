@@ -1,3 +1,4 @@
+USE CASE(S): Login and signup, accessing past canvases and storing new ones
 2025-07-22 Created interactor to retrieve user documents (e.g. Google Docs)
 2025-07-23 Created Entity to JSON converter to start working on the database API
 2025-07-24 resolving massive conflict to do with Users and UserDataAccess things

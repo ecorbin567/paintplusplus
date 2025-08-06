@@ -4,6 +4,9 @@ package entity;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+/**
+ * An image.
+ */
 public class Image implements Drawable, Cloneable {
 
     private BufferedImage image;

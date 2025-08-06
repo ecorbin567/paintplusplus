@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The state for the Login View Model.
+ * The state for the New Canvas View Model.
  */
 public class NewCanvasState {
     private String username = "";

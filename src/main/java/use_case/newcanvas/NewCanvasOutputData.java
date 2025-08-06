@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 /**
- * Output Data for the Login Use Case.
+ * Output Data for the New Canvas Use Case.
  */
 public class NewCanvasOutputData {
 

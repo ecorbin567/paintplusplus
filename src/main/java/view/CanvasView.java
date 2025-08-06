@@ -14,6 +14,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The View for when the user is drawing on a canvas.
+ */
 public class CanvasView extends JPanel implements ActionListener, MenuActionListener {
     private final String viewName = "canvas";
     private final GoBackViewModel goBackViewModel;

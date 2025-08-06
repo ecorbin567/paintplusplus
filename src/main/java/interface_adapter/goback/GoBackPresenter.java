@@ -1,8 +1,6 @@
 package interface_adapter.goback;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.canvas.CanvasState;
-import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.newcanvas.NewCanvasState;
 import interface_adapter.newcanvas.NewCanvasViewModel;
 import interface_adapter.signup.SignupState;
@@ -10,7 +8,7 @@ import interface_adapter.signup.SignupViewModel;
 import use_case.goback.GoBackOutputBoundary;
 
 /**
- * The Presenter for the Login Use Case.
+ * The Presenter for the Go Back Use Case.
  */
 public class GoBackPresenter implements GoBackOutputBoundary {
 

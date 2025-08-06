@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 /**
- * Input Boundary for actions which are related to logging in.
+ * Input Boundary for actions which are related to creating a new canvas.
  */
 public interface NewCanvasInputBoundary {
 

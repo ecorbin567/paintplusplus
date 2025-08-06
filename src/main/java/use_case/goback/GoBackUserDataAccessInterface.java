@@ -4,7 +4,7 @@ import data_access.UserDataAccessInterface;
 import entity.User;
 
 /**
- * DAO for the Login Use Case.
+ * DAO for the Go Back Use Case.
  */
 public interface GoBackUserDataAccessInterface extends UserDataAccessInterface {
 
