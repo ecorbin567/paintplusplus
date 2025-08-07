@@ -70,7 +70,7 @@ public class Main {
 
         final CanvasView canvasView = CanvasUseCaseFactory.create(viewManagerModel, goBackViewModel,
                                                                 newCanvasViewModel, signupViewModel,
-                userDataAccessObject);
+                userDataAccessObject, canvasViewModel);
 
         views.add(canvasView, canvasView.getViewName());
 

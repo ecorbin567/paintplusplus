@@ -106,6 +106,8 @@ public class MyCanvasesView extends JPanel implements ActionListener, PropertyCh
      */
     private void refreshCanvasesPanel(JPanel subPanel) {
 
+        subPanel.removeAll();
+
         // Create the sub panel with horizontal layout
         subPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // horizontal with spacing
 
@@ -113,21 +115,39 @@ public class MyCanvasesView extends JPanel implements ActionListener, PropertyCh
         int iconHeight = 200;
 
         final NewCanvasState currentState = newCanvasViewModel.getState();
-        List<BufferedImage> listCanvases = newCanvasViewModel.getCanvases();
+        List<BufferedImage> listOfCanvasImages = newCanvasViewModel.getCanvases();
 
-        for (int i = 0; i < listCanvases.size(); i++) {
-            JButton square = new JButton();
+        for (BufferedImage oldCanvasImage : listOfCanvasImages) {
+            JButton canvasIconButton = new JButton();
 
-            ImageIcon icon = new ImageIcon(listCanvases.get(i));
+            ImageIcon icon = new ImageIcon(oldCanvasImage);
             //Image image = icon.getImage().getScaledInstance(iconWidth, iconHeight, java.awt.Image.SCALE_SMOOTH);
             Image image = getScaledImage(icon.getImage(), iconWidth, iconHeight);
 
-            square.setIcon(new ImageIcon(image));
+            canvasIconButton.setIcon(new ImageIcon(image));
 
-            square.setPreferredSize(new Dimension(iconWidth, iconHeight));
-            square.setBackground(Color.LIGHT_GRAY); // or any other color
-            square.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            subPanel.add(square);
+            canvasIconButton.setPreferredSize(new Dimension(iconWidth, iconHeight));
+            canvasIconButton.setBackground(Color.LIGHT_GRAY); // or any other color
+            canvasIconButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            subPanel.add(canvasIconButton);
+
+            // Execute login with new import image
+            canvasIconButton.addActionListener(
+                    new ActionListener() {
+                        public void actionPerformed(ActionEvent evt) {
+                            if (evt.getSource().equals(canvasIconButton)) {
+                                final NewCanvasState currentState = newCanvasViewModel.getState();
+
+                                // 3 parameter version executes an automatic import!!!
+                                newCanvasController.execute(
+                                        currentState.getUsername(),
+                                        currentState.getPassword(),
+                                        oldCanvasImage
+                                );
+                            }
+                        }
+                    }
+            );
         }
 
         this.revalidate();

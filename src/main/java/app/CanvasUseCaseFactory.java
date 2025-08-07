@@ -1,6 +1,7 @@
 package app;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.goback.GoBackController;
 import interface_adapter.goback.GoBackPresenter;
 import interface_adapter.goback.GoBackViewModel;
@@ -24,11 +25,13 @@ public final class CanvasUseCaseFactory {
 
     /**
      * Factory function for creating the CanvasView.
-     * @param viewManagerModel the ViewManagerModel to inject into the CanvasView
-     * @param goBackViewModel the NewCanvasViewModel to inject into the CanvasView
-     * @param newCanvasViewModel the CanvasViewModel to inject into the CanvasView
-     * @param signupViewModel the SignupViewModel to inject into the CanvasView
+     *
+     * @param viewManagerModel     the ViewManagerModel to inject into the CanvasView
+     * @param goBackViewModel      the NewCanvasViewModel to inject into the CanvasView
+     * @param newCanvasViewModel   the CanvasViewModel to inject into the CanvasView
+     * @param signupViewModel      the SignupViewModel to inject into the CanvasView
      * @param userDataAccessObject the GoBackUserDataAccessInterface to inject into the CanvasView
+     * @param canvasViewModel
      * @return the CanvasView created for the provided input classes
      */
     public static CanvasView create(
@@ -36,11 +39,12 @@ public final class CanvasUseCaseFactory {
             GoBackViewModel goBackViewModel,
             NewCanvasViewModel newCanvasViewModel,
             SignupViewModel signupViewModel,
-            GoBackUserDataAccessInterface userDataAccessObject) {
+            GoBackUserDataAccessInterface userDataAccessObject,
+            CanvasViewModel canvasViewModel) {
 
         final GoBackController goBackController = createGoBackUseCase(viewManagerModel, newCanvasViewModel,
                 signupViewModel, userDataAccessObject);
-        return new CanvasView(goBackViewModel, goBackController);
+        return new CanvasView(canvasViewModel, goBackViewModel, goBackController);
 
     }
 

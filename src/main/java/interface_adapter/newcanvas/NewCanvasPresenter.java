@@ -33,12 +33,14 @@ public class NewCanvasPresenter implements NewCanvasOutputBoundary {
 
     @Override
     public void prepareSuccessView(NewCanvasOutputData newCanvasOutputData) {
-        /* *CODE REPLACED IN LOGIN PRESENTER* populate new canvas view state
-        List<BufferedImage> userCanvases = newCanvasOutputData.getUserExistingCanvases();
-        this.newCanvasViewModel.getState().setCanvases(userCanvases);
-        this.newCanvasViewModel.firePropertyChanged(); */
+        /* if an imported canvas is provided, import it into canvasViewModel */
+        BufferedImage importedCanvas = newCanvasOutputData.getImportedCanvas();
 
         final CanvasState canvasState = this.canvasViewModel.getState();
+        if (importedCanvas != null) {
+            // fires property change called "initialImportedImage"
+            canvasViewModel.setInitialImportedImage(importedCanvas);
+        }
         this.canvasViewModel.setState(canvasState);
         this.canvasViewModel.firePropertyChanged();
 
