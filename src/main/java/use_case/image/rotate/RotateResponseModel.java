@@ -2,12 +2,14 @@ package use_case.image.rotate;
 
 import entity.Image;
 
-public class RotateResponseModel {
-    private final Image rotatedImage;
+import java.util.List;
 
-    public RotateResponseModel(Image rotatedImage) {
+public class RotateResponseModel {
+    private final List<Image> rotatedImage;
+
+    public RotateResponseModel(List<Image>  rotatedImage) {
         this.rotatedImage = rotatedImage;
     }
 
-    public Image getImage() { return rotatedImage; }
+    public List<Image>  getImage() { return rotatedImage; }
 }

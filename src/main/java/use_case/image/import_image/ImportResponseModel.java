@@ -2,17 +2,16 @@ package use_case.image.import_image;
 
 import entity.Image;
 
-/**
- * Represents the imported image.
- */
-public class ImportResponseModel {
-    private final Image image;
+import java.util.List;
 
-    public ImportResponseModel(Image image) {
+public class ImportResponseModel {
+    private final List<Image> image;
+
+    public ImportResponseModel(List<Image>  image) {
         this.image = image;
     }
 
-    public Image getImage() {
+    public List<Image>  getImage() {
         return image;
     }
 }

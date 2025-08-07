@@ -2,12 +2,14 @@ package use_case.image.resize;
 
 import entity.Image;
 
-public class ResizeResponseModel {
-    private final Image resizedImage;
+import java.util.List;
 
-    public ResizeResponseModel(Image resizedImage) {
+public class ResizeResponseModel {
+    private final List<Image> resizedImage;
+
+    public ResizeResponseModel( List<Image> resizedImage) {
         this.resizedImage = resizedImage;
     }
 
-    public Image getImage() { return resizedImage; }
+    public  List<Image> getImages() { return resizedImage; }
 }
