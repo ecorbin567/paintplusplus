@@ -2,6 +2,7 @@ package use_case.mouseui;
 
 public interface MouseUIUseInputBoundary {
 
-    void useTool(MouseUIInputData inputData);
-    void extendStroke(MouseUIInputData inputData);
+    void mouseIsPressed(MouseUIInputData inputData);
+    void mouseIsDragged(MouseUIInputData inputData);
+    void mouseIsReleased(MouseUIInputData inputData);
 }

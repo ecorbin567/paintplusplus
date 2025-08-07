@@ -1,16 +1,18 @@
 package use_case.image.rotate;
 
 import entity.ActionHistory;
+import entity.CanvasState;
 import entity.DrawingCanvas;
 import entity.Image;
+import view.CanvasView;
 
 public class RotateInteractor implements RotateInputBoundary {
-    private final DrawingCanvas canvas;
+    private CanvasState canvasState;
     private final RotateOutputBoundary presenter;
     private final ActionHistory actionHistory;
 
-    public RotateInteractor(DrawingCanvas canvas, RotateOutputBoundary presenter, ActionHistory actionHistory) {
-        this.canvas = canvas;
+    public RotateInteractor(CanvasState canvasState, RotateOutputBoundary presenter, ActionHistory actionHistory) {
+        this.canvasState = canvasState;
         this.presenter = presenter;
         this.actionHistory = actionHistory;
     }
@@ -18,7 +20,7 @@ public class RotateInteractor implements RotateInputBoundary {
     @Override
     public void execute(RotateRequestModel requestModel) {
         try {
-            Image originalImage = canvas.getCurrentImage();
+            Image originalImage = canvasState.getCurrentImage();
             if (originalImage == null) {
                 presenter.presentError("No image to rotate.");
                 return;

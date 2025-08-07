@@ -2,10 +2,22 @@ package use_case.mouseui;
 
 import entity.Drawable;
 
-public class MouseUIOutputData {
-    private final Drawable drawable;
+import java.util.Stack;
 
-    public MouseUIOutputData(Drawable drawable, boolean TRUE){
-        this.drawable = drawable;
+public class MouseUIOutputData {
+    private final Stack<Drawable> drawables;
+    private final boolean state;
+
+    public MouseUIOutputData(Stack<Drawable> drawables, boolean state){
+        this.drawables = drawables;
+        this.state = state;
+    }
+
+    public Stack<Drawable> getDrawables() {
+        return drawables;
+    }
+
+    public boolean getState() {
+        return state;
     }
 }

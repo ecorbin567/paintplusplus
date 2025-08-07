@@ -95,7 +95,7 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        controller.handleMouseReleased(e.getPoint());
+        controller.handleMouseReleased(e.getPoint(), getImage());
         renderCanvasView();
     }
 
