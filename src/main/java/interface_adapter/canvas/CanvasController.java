@@ -91,6 +91,8 @@ public class CanvasController {
     }
 
     public void handleMouseReleased(Point point){
+        MouseUIInputData inputData = new MouseUIInputData(point);
+        mouseUIUseInputBoundary.useTool(inputData); // fine for now
     }
 }
 

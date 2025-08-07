@@ -1,6 +1,7 @@
 package view.MidMenuBar.PencilButtonGroup;
 
 import entity.ToolEnum;
+import entity.DrawingCanvas;
 
 import interface_adapter.canvas.CanvasController;
 

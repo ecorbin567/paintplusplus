@@ -19,6 +19,8 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
         ToolEnum toolstate = canvasState.getToolState();
         Color color;
         float size;
+        Point startPoint;
+        Point endPoint;
 
 
         if (toolstate.equals(ToolEnum.ERASER)) {
@@ -29,14 +31,19 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
             Paintbrush paintbrush = this.canvasState.getPaintbrush();
             color = paintbrush.getColour();
             size = paintbrush.getWidth();
-        } else {
+        }
+        else if (toolstate.equals(ToolEnum.SELECT)){
+            SelectionTool selectionTool = this.canvasState.getSelectionTool();
+            startPoint = selectionTool.getStartPoint(); // usetool only need startpoint selecting
+        }else {
             color = Color.WHITE;
             size = 3f;
         }
-
+        // handles when we use paintbrush
         StrokeRecord currentStroke = new StrokeRecord(color, size);
         currentStroke.pts.add(inputData.getPoint());
         canvasState.addActionHistory(currentStroke);
+
         MouseUIOutputData outputData = new MouseUIOutputData(currentStroke, true);
         mouseUIOutputBoundary.setDrawableState(outputData);
         mouseUIOutputBoundary.setRepaintState(outputData);

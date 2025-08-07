@@ -23,6 +23,12 @@ public class SelectionTool implements Drawable {
         startPoint = null;
         currentPoint = null;
     }
+    public Point getStartPoint(){
+        return this.startPoint;
+    }
+    public Point getEndPoint(){
+        return this.currentPoint;
+    }
     public Rectangle getBounds() {
         if (startPoint == null || currentPoint == null) {
             return new Rectangle();

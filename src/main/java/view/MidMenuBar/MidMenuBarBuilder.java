@@ -5,6 +5,7 @@ import java.util.List;
 import entity.DrawingCanvas;
 import entity.ActionHistory;
 import entity.Paintbrush;
+import entity.CanvasState;
 import interface_adapter.changecolor.ChangeColorPresenter;
 import interface_adapter.canvas.CanvasController;
 import interface_adapter.image.crop.*;
@@ -48,7 +49,9 @@ public class MidMenuBarBuilder {
 
     public MidMenuBarBuilder(CanvasController canvasController) {
         this.canvasController = canvasController;
+        DrawingCanvas canvas = new DrawingCanvas();
         Paintbrush brush = canvas.getPaintbrush();
+        CanvasState canvasState = new CanvasState();
 
         CropOutputBoundary cropPresenter = new CropPresenter(canvas);
         ActionHistory actionHistory = canvas.getActionHistory();
@@ -135,8 +138,6 @@ public class MidMenuBarBuilder {
         colorChooserPanel.add(lowerColorChooserButton);
 
         solidColorsPanel = new JPanel(new GridLayout(2, 4,4,4)); // panel of small solid colors
-
-
 
         // logic for color choosing driver code below
         ChangeColorOutputBoundary primaryPresenter = new ChangeColorPresenter(

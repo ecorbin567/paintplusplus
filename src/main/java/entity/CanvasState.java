@@ -11,13 +11,14 @@ public class CanvasState {
     private double scale = 1.0;
     private final Paintbrush paintbrush = new Paintbrush();
     private final Eraser eraser = new Eraser();
+    private final SelectionTool selectionTool = new SelectionTool();
 
     private ToolEnum toolState = ToolEnum.PENCIL;
     private ToolEnum buttonPressed = ToolEnum.PENCIL;
+    private ToolEnum
     private Image currentImage;
 
     private final ActionHistory actionHistory = new ActionHistory();
-    private final SelectionTool selectionTool = new SelectionTool();
 
     private BufferedImage selectionImage;
     private Rectangle selectionBounds;
@@ -77,6 +78,11 @@ public class CanvasState {
     public Image getCurrentImage() {
         return this.currentImage;
     }
+
+    //SelectionTool
+    public SelectionTool getSelectionTool(){
+        return selectionTool;
+    } // dont set a startpoint here, that variable doesnt vary
 
     public void addActionHistory(Drawable drawable) {
         this.actionHistory.push(drawable);
