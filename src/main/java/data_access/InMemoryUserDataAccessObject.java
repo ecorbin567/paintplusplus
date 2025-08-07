@@ -26,8 +26,8 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
 
     public InMemoryUserDataAccessObject() {
 
-        // creating users for testing
-        //createUser(new User("beabadoobee", "abcdefg123"));
+        // default user for quick login
+        createUser(new CommonUser("asdf", "asdf"));
     }
 
     /* DEPENDENCY INJECTIONS!!!! :DDDDD */
