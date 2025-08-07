@@ -45,4 +45,8 @@ public class ImportButton {
     public JButton getButton() {
         return button;
     }
+
+    public ImportController getController() {
+        return controller;
+    }
 }

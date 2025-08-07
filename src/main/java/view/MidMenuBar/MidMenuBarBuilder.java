@@ -45,6 +45,8 @@ public class MidMenuBarBuilder {
     JToggleButton colorWheelButton;
     DrawingCanvas canvas;
 
+    ImportButton importButtonObject;
+
     public MidMenuBarBuilder(DrawingCanvas canvas) {
         this.canvas = canvas;
         Paintbrush brush = canvas.getPaintbrush();
@@ -78,6 +80,7 @@ public class MidMenuBarBuilder {
 
         ImportButton imageButton = new ImportButton(importController);
         iButton = imageButton.getButton();
+        this.importButtonObject = imageButton; //  JOSH: Lol store it
 
         CropButton crop = new CropButton(cropController);
         cropButton = crop.getButton();
@@ -225,6 +228,14 @@ public class MidMenuBarBuilder {
 
     public JButton getEraseButton() {
         return eButton;
+    }
+
+    /**
+     * Getter for import button
+     * @return the import button
+     */
+    public ImportButton getImportButtonObject() {
+        return importButtonObject; // Josh: lol
     }
 
 }

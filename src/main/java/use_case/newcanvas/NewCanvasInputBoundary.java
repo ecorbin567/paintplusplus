@@ -13,6 +13,13 @@ public interface NewCanvasInputBoundary {
      * @param newCanvasInputData the input data
      */
     void execute(NewCanvasInputData newCanvasInputData);
+
+    /**
+     * Executes the login use case when importing an existing canvas.
+     * @param newCanvasInputData the input data
+     */
+    void executeImportExistingCanvas(NewCanvasInputData newCanvasInputData);
+
     void switchToSignupView();
     List<BufferedImage> getUserCanvases(NewCanvasInputData newCanvasInputData);
 }

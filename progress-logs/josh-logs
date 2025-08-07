@@ -63,3 +63,8 @@ canvas image data is fed through the login use case interface adapter, since the
 ## App
 #### LoginUseCaseFactory, Main
 - constructor for LoginInteractor was updated, so some data access objects had to be added to parameters
+
+2025-08-07 Implemented "Import/Retrieve Existing Canvas"
+General description: The canvas select screen in the previous entry was non-functional. Now, when you click
+on a canvas, it immediately imports that image.
+Details in pull request #77 (?)

@@ -3,8 +3,6 @@ package app;
 import com.formdev.flatlaf.FlatLightLaf;
 import data_access.InMemoryCanvasDataAccessObject;
 import data_access.InMemoryUserDataAccessObject;
-import data_access.SupabaseAccountRepository;
-import data_access.SupabaseCanvasRepository;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.goback.GoBackViewModel;
@@ -73,7 +71,7 @@ public class MainInMemory {
 
         final CanvasView canvasView = CanvasUseCaseFactory.create(viewManagerModel, goBackViewModel,
                                                                 newCanvasViewModel, signupViewModel,
-                userDataAccessObject);
+                userDataAccessObject, canvasViewModel);
 
         views.add(canvasView, canvasView.getViewName());
 

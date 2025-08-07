@@ -27,7 +27,20 @@ public class NewCanvasInteractor implements NewCanvasInputBoundary {
         */
 
         newCanvasPresenter.prepareSuccessView(
-                new NewCanvasOutputData(username)
+                new NewCanvasOutputData(username, null)
+        );
+    }
+
+    /**
+     * Alternative execution where a canvas is immediately imported
+     * @param newCanvasInputData input data
+     */
+    public void executeImportExistingCanvas(NewCanvasInputData newCanvasInputData) {
+        String username = newCanvasInputData.getUsername();
+        BufferedImage importedCanvas = newCanvasInputData.getImportedCanvas();
+
+        newCanvasPresenter.prepareSuccessView(
+                new NewCanvasOutputData(username, importedCanvas)
         );
     }
 
