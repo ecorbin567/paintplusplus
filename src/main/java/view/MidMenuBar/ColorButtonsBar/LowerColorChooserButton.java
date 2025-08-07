@@ -5,14 +5,23 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class LowerColorChooserButton extends CircularButton{
+import entity.ToolEnum;
+import interface_adapter.canvas.CanvasController;
 
+
+public class LowerColorChooserButton extends CircularButton{
+    private final ToolEnum toolName = ToolEnum.CHANGECOLOR;
+    private final CanvasController canvasController;
     private Color lowerCurrentColor = Color.WHITE;
 
-    public LowerColorChooserButton(){
+    public LowerColorChooserButton(CanvasController canvasController){
         super(30);
-
+        this.canvasController = canvasController;
         setBackground(lowerCurrentColor);
+
+        addActionListener(e->{
+            this.canvasController.handleChangeColorButtonPress(toolName, );
+        });
 
     }
 

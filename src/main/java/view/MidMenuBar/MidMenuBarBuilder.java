@@ -3,7 +3,10 @@ package view.MidMenuBar;
 import java.util.List;
 
 import entity.ActionHistory;
+import entity.CanvasState;
+import entity.ToolEnum;
 import interface_adapter.canvas.CanvasController;
+import interface_adapter.changecolor.ChangeColorPresenter;
 import interface_adapter.image.crop.*;
 import interface_adapter.image.resize.ResizeController;
 import interface_adapter.image.rotate.RotateController;
@@ -12,6 +15,9 @@ import use_case.image.crop.*;
 import interface_adapter.image.import_image.*;
 import use_case.image.import_image.*;
 import data_access.LocalImageLoader;
+import use_case.mouseui.MouseUIUseInputBoundary;
+import use_case.topmenu.TopMenuInputBoundary;
+import use_case.tooluse.ToolUseInputBoundary;
 import use_case.image.resize.ResizeInputBoundary;
 import use_case.image.resize.ResizeOutputBoundary;
 import use_case.image.rotate.RotateInputBoundary;
@@ -44,6 +50,10 @@ public class MidMenuBarBuilder {
     JToggleButton lowerColorChooserButton;
     JToggleButton colorWheelButton;
     CanvasController canvasController;
+    CropController cropController;
+    ImportController importController;
+    ResizeController resizeController;
+    RotateController rotateController;
 
 
     public MidMenuBarBuilder(CanvasController canvasController,
@@ -53,6 +63,10 @@ public class MidMenuBarBuilder {
                              RotateController rotateController) {
 
         this.canvasController = canvasController;
+        this.cropController = cropController;
+        this.importController = importController;
+        this.resizeController = resizeController;
+        this.rotateController = rotateController;
 
         CropOutputBoundary cropPresenter = new CropPresenter(canvas);
         ActionHistory actionHistory = canvas.getActionHistory();
@@ -70,7 +84,7 @@ public class MidMenuBarBuilder {
         EraseButton eraseButton = new EraseButton(this.canvasController);
         eButton = eraseButton.getButton();
 
-        SelectionToolButton selectButton = new SelectionToolButton();
+        SelectionToolButton selectButton = new SelectionToolButton(this.canvasController);
         sButton = selectButton.getButton();
 
         CropOutputBoundary cropPresenter = new CropPresenter(canvas);
@@ -104,7 +118,12 @@ public class MidMenuBarBuilder {
         RotateButton rotate = new RotateButton(rotateController);
         rotateButton = rotate.getButton();
 
-        UpperColorChooserButton upperChooserButton = new UpperColorChooserButton();
+
+        CanvasController controller = new CanvasController(
+                new MouseUI(), )
+
+
+        UpperColorChooserButton upperChooserButton = new UpperColorChooserButton(); // is declared here
         LowerColorChooserButton lowerChooserButton = new LowerColorChooserButton();
         upperColorChooserButton = upperChooserButton.getButton();
         lowerColorChooserButton = lowerChooserButton.getButton();
@@ -117,22 +136,22 @@ public class MidMenuBarBuilder {
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
         // selected tools logic to work with selectiontool code
-        pButton.addActionListener(e -> {
-            canvas.setSelectedTool("PaintBrush");
-            canvas.getSelectionTool().cancel();
-            canvas.repaint();
-        });
-        eButton.addActionListener(e -> {
-            canvas.setSelectedTool("Eraser");
-            canvas.getSelectionTool().cancel();
-            canvas.repaint();
-        });
-        sButton.addActionListener( e -> {
-            canvas.setSelectedTool("Selection");
-            // get rid of any older rectangle
-            canvas.getSelectionTool().cancel();
-            canvas.repaint();
-        });
+//        pButton.addActionListener(e -> {
+//            canvas.setSelectedTool("PaintBrush");
+//            canvas.getSelectionTool().cancel();
+//            canvas.repaint();
+//        });
+//        eButton.addActionListener(e -> {
+//            canvas.setSelectedTool("Eraser");
+//            canvas.getSelectionTool().cancel();
+//            canvas.repaint();
+//        });
+//        sButton.addActionListener( e -> {
+//            canvas.setSelectedTool("Selection");
+//            // get rid of any older rectangle
+//            canvas.getSelectionTool().cancel();
+//            canvas.repaint();
+//        });
 
         panel.add(pButton);
         panel.add(eButton);
@@ -154,12 +173,15 @@ public class MidMenuBarBuilder {
 
         // logic for color choosing driver code below
         ChangeColorOutputBoundary primaryPresenter = new ChangeColorPresenter(
-                brush, upperChooserButton, lowerChooserButton, true); // presenter driver of domain and model
-        ChangeColorInputBoundary primaryInteractor = new ChangeColorInteractor(brush, primaryPresenter); // check code below each time we change color for colorwheel or swatch
+                 upperChooserButton, lowerChooserButton, true); // presenter driver of domain and model
+        ChangeColorInputBoundary primaryInteractor = new ChangeColorInteractor(
+                new CanvasState(), primaryPresenter
+        ); // check code below each time we change color for colorwheel or swatch
 
         ChangeColorOutputBoundary secondaryPresenter = new ChangeColorPresenter(
-                brush, upperChooserButton, lowerChooserButton, false);
-        ChangeColorInputBoundary secondaryInteractor = new ChangeColorInteractor(brush, secondaryPresenter);
+                upperChooserButton, lowerChooserButton, false);
+        ChangeColorInputBoundary secondaryInteractor = new ChangeColorInteractor(
+                new CanvasState(), secondaryPresenter);
 
         // track which chooser (upper or lower color chooser buttons) is active
         ButtonGroup chooserGroup = new ButtonGroup();
@@ -172,7 +194,7 @@ public class MidMenuBarBuilder {
             // immediately set brush to whatever color the upper chooser is showing:
             primaryInteractor.changeColor(
                     new ChangeColorInputData(
-                            upperChooserButton.getUpperCurrentColor()
+                            ToolEnum.CHANGECOLOR, upperChooserButton.getUpperCurrentColor()
                     )
             );
         });
@@ -181,7 +203,7 @@ public class MidMenuBarBuilder {
             // immediately set brush to whatever color the lower chooser is showing:
             secondaryInteractor.changeColor(
                     new ChangeColorInputData(
-                            lowerChooserButton.getLowerCurrentColor()
+                            ToolEnum.CHANGECOLOR, lowerChooserButton.getLowerCurrentColor()
                     )
             );
         });

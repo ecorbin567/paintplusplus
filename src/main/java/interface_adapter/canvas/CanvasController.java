@@ -82,17 +82,17 @@ public class CanvasController {
 
     public void handleMousePressed(Point point){
         MouseUIInputData inputData = new MouseUIInputData(point);
-        mouseUIUseInputBoundary.useTool(inputData);
+        mouseUIUseInputBoundary.mouseIsPressed(inputData);
     }
 
     public void handleMouseDragged(Point point){
         MouseUIInputData inputData = new MouseUIInputData(point);
-        mouseUIUseInputBoundary.extendStroke(inputData);
+        mouseUIUseInputBoundary.mouseIsDragged(inputData);
     }
 
     public void handleMouseReleased(Point point){
         MouseUIInputData inputData = new MouseUIInputData(point);
-        mouseUIUseInputBoundary.useTool(inputData); // fine for now
+        mouseUIUseInputBoundary.mouseIsReleased(inputData); // fine for now
     }
 }
 

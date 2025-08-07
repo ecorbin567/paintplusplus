@@ -19,6 +19,9 @@ public class ColorWheelButton extends CircularButton{
         imageIcon = new ImageIcon(newImage);
         setIcon(imageIcon);
 
+        addActionListener(e->
+                );
+
     }
 
     public JToggleButton getColorWheelButton(){
