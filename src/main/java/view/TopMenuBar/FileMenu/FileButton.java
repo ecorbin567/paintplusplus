@@ -1,6 +1,5 @@
 package view.TopMenuBar.FileMenu;
 
-import entity.DrawingCanvas;
 import interface_adapter.canvas.CanvasController;
 import view.CanvasView;
 import view.TopMenuBar.MenuActionListener;

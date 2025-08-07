@@ -1,10 +1,8 @@
 package data_access;
 
 import entity.ActionHistory;
-import entity.DrawingCanvas;
 import entity.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /** Use case: retrieving all the documents for a certain user. **/

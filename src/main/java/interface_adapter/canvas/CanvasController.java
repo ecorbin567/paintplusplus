@@ -56,11 +56,13 @@ public class CanvasController {
     public void handleUndoButtonPress(ToolEnum tool){
         TopMenuInputData inputData = new TopMenuInputData(tool);
         topMenuInputBoundary.setTool(inputData);
+        topMenuInputBoundary.undoDrawable(inputData);
     }
 
     public void handleRedoButtonPress(ToolEnum tool){
         TopMenuInputData inputData = new TopMenuInputData(tool);
         topMenuInputBoundary.setTool(inputData);
+        topMenuInputBoundary.redoDrawable(inputData);
     }
 
     public void handleSaveButtonPress(ToolEnum tool, BufferedImage image, File file){
@@ -73,11 +75,13 @@ public class CanvasController {
     public void handleZoomInButtonPress(ToolEnum tool){
         TopMenuInputData inputData = new TopMenuInputData(tool);
         topMenuInputBoundary.setTool(inputData);
+        topMenuInputBoundary.zoomIn(inputData);
     }
 
     public void handleZoomOutButtonPress(ToolEnum tool){
         TopMenuInputData inputData = new TopMenuInputData(tool);
         topMenuInputBoundary.setTool(inputData);
+        topMenuInputBoundary.zoomOut(inputData);
     }
 
     public void handleMousePressed(Point point){

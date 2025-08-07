@@ -1,6 +1,6 @@
 package interface_adapter.image.crop;
 
-import entity.DrawingCanvas;
+import interface_adapter.canvas.CanvasViewModel;
 import use_case.image.crop.CropOutputBoundary;
 import use_case.image.crop.CropResponseModel;
 
@@ -8,15 +8,15 @@ import javax.swing.*;
 
 public class CropPresenter implements CropOutputBoundary {
 
-    private final DrawingCanvas canvas;
+    private final CanvasViewModel canvasViewModel;
 
-    public CropPresenter(DrawingCanvas canvas) {
-        this.canvas = canvas;
+    public CropPresenter(CanvasViewModel canvasViewModel) {
+        this.canvasViewModel = canvasViewModel;
     }
 
     @Override
     public void present(CropResponseModel responseModel) {
-        canvas.updateCurrentImage(responseModel.getImage());
+        canvasViewModel.setImageList(responseModel.getImage());
     }
 
     @Override

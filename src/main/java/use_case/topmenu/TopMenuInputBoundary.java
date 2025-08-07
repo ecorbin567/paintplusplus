@@ -4,4 +4,8 @@ public interface TopMenuInputBoundary {
     void setTool(TopMenuInputData inputData);
     void setBufferedImage (TopMenuInputData inputData);
     void setFile(TopMenuInputData inputData);
+    void undoDrawable(TopMenuInputData inputData);
+    void redoDrawable(TopMenuInputData inputData);
+    void zoomIn(TopMenuInputData inputData);
+    void zoomOut(TopMenuInputData inputData);
 }

@@ -2,15 +2,17 @@ package use_case.image.crop;
 
 import entity.Image;
 
+import java.util.List;
+
 public class CropResponseModel {
 
-    private final Image croppedImage;
+    private final List<Image> croppedImage;
 
-    public CropResponseModel(Image croppedImage) {
-        this.croppedImage = croppedImage;
+    public CropResponseModel(List<Image> croppedImages) {
+        this.croppedImage = croppedImages;
     }
 
-    public Image getImage() {
+    public List<Image> getImage() {
         return croppedImage;
     }
 }

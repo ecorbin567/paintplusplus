@@ -1,21 +1,20 @@
 package view.MidMenuBar.ImageBar;
 
-import entity.DrawingCanvas;
+import interface_adapter.image.rotate.RotateController;
+import view.CanvasView;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class RotateButton {
 
     private final JButton button;
 
-    public RotateButton(DrawingCanvas canvas) {
+    public RotateButton(RotateController rotateController, CanvasView canvasView) {
         button = new JButton();
-
         ImageIcon icon = new ImageIcon(RotateButton.class.getResource("/images/RotateIcon.png"));
         java.awt.Image image = icon.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
         button.setIcon(new ImageIcon(image));
-        button.setPreferredSize(new Dimension(60, 60));
+        button.setPreferredSize(new java.awt.Dimension(60, 60));
 
         button.addActionListener(e -> {
             String input = JOptionPane.showInputDialog(null,
@@ -25,7 +24,8 @@ public class RotateButton {
             if (input != null) {
                 try {
                     double degrees = Double.parseDouble(input);
-                    canvas.rotateLastImportedImage(degrees);
+                    rotateController.execute(degrees);
+                    canvasView.repaint();
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null,
                             "Please enter a valid number.",

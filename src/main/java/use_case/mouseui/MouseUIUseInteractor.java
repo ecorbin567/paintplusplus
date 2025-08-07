@@ -11,11 +11,15 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
     private final CanvasState canvasState;
     private final MouseUIOutputBoundary mouseUIOutputBoundary;
     private final ActionHistory actionHistory;
+    private final SelectOutputBoundary selectOutputBoundary;
 
-    public MouseUIUseInteractor(CanvasState canvasState, MouseUIOutputBoundary mouseUIOutputBoundary) {
+    public MouseUIUseInteractor(CanvasState canvasState,
+                                MouseUIOutputBoundary mouseUIOutputBoundary,
+                                SelectOutputBoundary selectOutputBoundary) {
         this.canvasState = canvasState;
         this.mouseUIOutputBoundary = mouseUIOutputBoundary;
         this.actionHistory = canvasState.getActionHistory();
+        this.selectOutputBoundary = selectOutputBoundary;
     }
 
     @Override
@@ -23,13 +27,42 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
         ToolEnum toolstate = canvasState.getToolState();
         switch(toolstate) {
             case PENCIL, ERASER -> handleDrawingTool(toolstate, inputData);
-            case SELECT -> handleSelectTool(inputData);
+            case SELECT -> {
+                handleSelectTool(inputData);
+                sendSelectionOutputData();
+            }
         }
+        sendMouseOutputData();
+    }
+
+    private void sendSelectionOutputData() {
+        selectOutputBoundary.setIsDraggingSelection(getSelectOutputData());
+        selectOutputBoundary.setIsDrawing(getSelectOutputData());
+        selectOutputBoundary.setSelectionToolBounds(getSelectOutputData());
+        selectOutputBoundary.setHasSelection(getSelectOutputData());
+        selectOutputBoundary.setSelectionImage(getSelectOutputData());
+        selectOutputBoundary.setSelectionBounds(getSelectOutputData());
+    }
+
+    private SelectOutputData getSelectOutputData() {
+        BufferedImage image = canvasState.getSelectionImage();
+        Rectangle bounds = canvasState.getSelectionBounds();
+        boolean hasSelection = canvasState.getHasSelection();
+        boolean draggingSelection = canvasState.getDraggingSelection();
+        boolean isDrawing = canvasState.getIsDrawing();
+        Rectangle selectionToolBounds = canvasState.getSelectionTool().getBounds();
+        return new SelectOutputData(image,
+                bounds, hasSelection, draggingSelection, isDrawing, selectionToolBounds);
+    }
+
+    private void sendMouseOutputData() {
         Stack<Drawable> undoStack = this.actionHistory.getUndoStack();
         boolean state = undoStack.isEmpty();
-        MouseUIOutputData outputData = new MouseUIOutputData(undoStack, state);
+        Drawable currentDrawable = actionHistory.getCurrentState();
+        MouseUIOutputData outputData = new MouseUIOutputData(undoStack, state, currentDrawable);
         mouseUIOutputBoundary.setDrawableState(outputData);
         mouseUIOutputBoundary.setRepaintState(outputData);
+        mouseUIOutputBoundary.setCurrentDrawable(outputData);
     }
 
     private void handleDrawingTool(ToolEnum toolstate, MouseUIInputData inputData) {
@@ -54,7 +87,7 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
 
     private void handleSelectTool(MouseUIInputData inputData) {
         Point p = inputData.getPoint();
-        boolean hasSelection = this.canvasState.hasSelection();
+        boolean hasSelection = this.canvasState.getHasSelection();
         Rectangle selectionBounds = this.canvasState.getSelectionBounds();
 
         if (hasSelection && selectionBounds.contains(p)) {
@@ -72,20 +105,19 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
 
         switch(toolstate) {
             case PENCIL, ERASER -> mouseDragPencilEraser(inputData);
-            case SELECT -> mouseDragSelect(inputData);
+            case SELECT -> {
+                mouseDragSelect(inputData);
+                sendSelectionOutputData();
+            }
         }
-        Stack<Drawable> undoStack = actionHistory.getUndoStack();
-        boolean state = undoStack.isEmpty();
-        MouseUIOutputData outputData = new MouseUIOutputData(undoStack, state);
-        mouseUIOutputBoundary.setDrawableState(outputData);
-        mouseUIOutputBoundary.setRepaintState(outputData);
+        sendMouseOutputData();
     }
 
     @Override
     public void mouseIsReleased(MouseUIInputData inputData) {
         ToolEnum toolstate = canvasState.getToolState();
         Point p = inputData.getPoint();
-        boolean draggingSelection = this.canvasState.draggingSelection();
+        boolean draggingSelection = this.canvasState.getDraggingSelection();
         SelectionTool tool = this.canvasState.getSelectionTool();
         BufferedImage image = inputData.getImage();
 
@@ -93,17 +125,14 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
             releasingMouse(draggingSelection, tool, p, image);
         }
 
-        Stack<Drawable> undoStack = actionHistory.getUndoStack();
-        boolean state = undoStack.isEmpty();
-        MouseUIOutputData outputData = new MouseUIOutputData(undoStack, state);
-        mouseUIOutputBoundary.setDrawableState(outputData);
-        mouseUIOutputBoundary.setRepaintState(outputData);
+        sendMouseOutputData();
+        sendSelectionOutputData();
     }
 
     private void releasingMouse(boolean draggingSelection, SelectionTool tool, Point p, BufferedImage image) {
         if(!draggingSelection) {
             tool.finish(p);
-            this.canvasState.setDrawing(false);
+            this.canvasState.setIsDrawing(false);
             Rectangle rect = tool.getBounds();
 
             if (rect.width>0&&rect.height>0) {
@@ -119,8 +148,8 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
 
     private void mouseDragSelect(MouseUIInputData inputData) {
         Point p = inputData.getPoint();
-        boolean draggingSelection = this.canvasState.draggingSelection();
-        boolean hasCutOut = this.canvasState.hasCutOut();
+        boolean draggingSelection = this.canvasState.getDraggingSelection();
+        boolean hasCutOut = this.canvasState.getHasCutOut();
 
         if (draggingSelection) {
             if(!hasCutOut) {
@@ -149,7 +178,7 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
     private void drawNewSelect() {
         this.canvasState.setDraggingSelection(false);
         this.canvasState.getSelectionTool().cancel();
-        this.canvasState.setDrawing(true);
+        this.canvasState.setIsDrawing(true);
     }
 
     private void deselect(Rectangle selectionBounds) {
@@ -172,7 +201,7 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
         this.canvasState.setSelectionImage(null);
         this.canvasState.setSelectionBounds(null);
         this.canvasState.getSelectionTool().cancel();
-        this.canvasState.setDrawing(false);
+        this.canvasState.setIsDrawing(false);
     }
 
     private void selectPrexist(Point p, Rectangle selectionBounds) {

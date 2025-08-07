@@ -1,35 +1,124 @@
 package interface_adapter.canvas;
 
-import entity.Drawable;
-import entity.StrokeRecord;
+import entity.*;
+import entity.Image;
+import interface_adapter.SelectionViewModel;
 
 import java.awt.*;
 import java.util.Stack;
 
 public class CanvasRenderer {
+    private final float[] ANTS_DASH = {4f, 4f}; // dash, gap in px scaled with the canvas
+    private float antsPhase = 0f;
+    private final javax.swing.Timer antsTimer = new javax.swing.Timer(60, e -> antsPhase = (antsPhase +1f) % (ANTS_DASH[0] + ANTS_DASH[1]));
+
     public void renderDraw(Graphics2D graphics2D, CanvasViewModel canvasViewModel){
         if(canvasViewModel.getRepaintState()){
             Stack<Drawable> drawables = canvasViewModel.getDrawables();
             for (Drawable drawable: drawables) {
-                if (drawable instanceof StrokeRecord strokeRecord){
-                    graphics2D.setColor(strokeRecord.colour);
-                    graphics2D.setStroke(new BasicStroke(strokeRecord.width,
-                            BasicStroke.CAP_ROUND,
-                            BasicStroke.JOIN_ROUND));
-
-                    for (int i = 1; i < strokeRecord.pts.size(); i++){
-                        Point p1 = strokeRecord.pts.get(i - 1);
-                        Point p2 = strokeRecord.pts.get(i);
-                        graphics2D.drawLine(p1.x, p1.y, p2.x, p2.y);
-                    }
-                }
-
-                else if (drawable instanceof entity.Image image){
-                    image.draw(graphics2D);
-                }
+                drawDrawable(graphics2D, drawable);
             }
         }
     }
+
+    public void resize(Graphics2D graphics2D, CanvasViewModel canvasViewModel){
+        graphics2D.scale(canvasViewModel.getScale(), canvasViewModel.getScale());
+    }
+
+    public void drawImage(Graphics2D graphics2D, CanvasViewModel canvasViewModel){
+        for (Image image: canvasViewModel.getImageList()){
+            image.draw(graphics2D);
+        }
+    }
+
+    public void layeringDraw(Graphics2D graphics2D, CanvasViewModel canvasViewModel){
+        Drawable head = canvasViewModel.getDrawable();
+        if (head != null){
+            drawDrawable(graphics2D, head);
+        }
+    }
+
+    public void moveSelectionWindow(Graphics2D graphics2D, SelectionViewModel selectionViewModel){
+
+        if (selectionViewModel.getHasSelection() && selectionViewModel.getSelectionImage() != null
+                && selectionViewModel.getSelectionBounds() != null) {
+            graphics2D.drawImage(
+                    selectionViewModel.getSelectionImage(),
+                    selectionViewModel.getSelectionBounds().x,
+                    selectionViewModel.getSelectionBounds().y,
+                    selectionViewModel.getSelectionBounds().width,
+                    selectionViewModel.getSelectionBounds().height,
+                    null
+            );
+        }
+    }
+
+    public void selectionDraw(Graphics2D graphics2D, SelectionViewModel selectionViewModel){
+        // selection tool rendering logic
+        Rectangle r = null;
+
+        if (selectionViewModel.getIsDrawing()){
+            r = selectionViewModel.getSelectionToolBounds();
+        } else if (selectionViewModel.getHasSelection() && selectionViewModel.getSelectionBounds() != null){
+            r = selectionViewModel.getSelectionBounds();
+        }
+
+        if (r != null && r.width>0 && r.height>0){
+            Stroke oldStroke = graphics2D.getStroke();
+            Color oldColor = graphics2D.getColor();
+            // dark dashes
+            Stroke dark = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER,
+                    10f, ANTS_DASH, antsPhase);
+            graphics2D.setStroke(dark);
+            graphics2D.setColor(Color.DARK_GRAY);
+            graphics2D.drawRect(r.x, r.y, r.width - 1, r.height - 1);
+
+            // light dashes shifted by one dash length to fill the gaps
+            Stroke light = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER,
+                    10f, ANTS_DASH, antsPhase + ANTS_DASH[0]);
+            graphics2D.setStroke(light);
+            graphics2D.setColor(new Color(230, 230, 230)); // very light gray
+            graphics2D.drawRect(r.x, r.y, r.width - 1, r.height - 1);
+
+            graphics2D.setStroke(oldStroke);
+            graphics2D.setColor(oldColor);
+        }
+    }
+
+    private void drawDrawable(Graphics2D g2, Drawable d) {
+        if (d instanceof StrokeRecord s) {
+            g2.setColor(s.colour);
+            g2.setStroke(new BasicStroke(s.width,
+                    BasicStroke.CAP_ROUND,
+                    BasicStroke.JOIN_ROUND));
+            for (int i = 1; i < s.pts.size(); i++) {
+                Point p1 = s.pts.get(i - 1);
+                Point p2 = s.pts.get(i);
+                g2.drawLine(p1.x, p1.y, p2.x, p2.y);
+            }
+        } else if (d instanceof PasteRecord pr) {
+            g2.drawImage(pr.image,
+                    pr.bounds.x, pr.bounds.y,
+                    pr.bounds.width, pr.bounds.height,
+                    null);
+        } else if (d instanceof CutRecord cr) {
+            g2.setColor(Color.WHITE);
+            g2.fillRect(cr.bounds.x, cr.bounds.y,
+                    cr.bounds.width, cr.bounds.height);
+
+        } else if (d instanceof MoveRecord mr) {
+            /* blank the old rectangle */
+            g2.setColor(Color.WHITE);
+            g2.fillRect(mr.from.x, mr.from.y, mr.from.width, mr.from.height);
+
+            /* draw the bitmap at its new spot */
+            g2.drawImage(mr.image,
+                    mr.to.x, mr.to.y,
+                    mr.to.width, mr.to.height,
+                    null);
+        }
+    }
+
 
 
 }

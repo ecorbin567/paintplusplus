@@ -2,16 +2,20 @@ package view.MidMenuBar;
 
 import java.util.List;
 
-import entity.DrawingCanvas;
 import entity.ActionHistory;
-import entity.Paintbrush;
 import interface_adapter.canvas.CanvasController;
 import interface_adapter.image.crop.*;
+import interface_adapter.image.resize.ResizeController;
+import interface_adapter.image.rotate.RotateController;
 import use_case.changecolor.*;
 import use_case.image.crop.*;
 import interface_adapter.image.import_image.*;
 import use_case.image.import_image.*;
 import data_access.LocalImageLoader;
+import use_case.image.resize.ResizeInputBoundary;
+import use_case.image.resize.ResizeOutputBoundary;
+import use_case.image.rotate.RotateInputBoundary;
+import use_case.image.rotate.RotateOutputBoundary;
 import view.MidMenuBar.ColorButtonsBar.*;
 import view.MidMenuBar.EraserButtonGroup.EraseButton;
 import view.MidMenuBar.ImageBar.CropButton;
@@ -41,9 +45,14 @@ public class MidMenuBarBuilder {
     JToggleButton colorWheelButton;
     CanvasController canvasController;
 
-    public MidMenuBarBuilder(CanvasController canvasController) {
+
+    public MidMenuBarBuilder(CanvasController canvasController,
+                             CropController cropController,
+                             ImportController importController,
+                             ResizeController resizeController,
+                             RotateController rotateController) {
+
         this.canvasController = canvasController;
-        Paintbrush brush = canvas.getPaintbrush();
 
         CropOutputBoundary cropPresenter = new CropPresenter(canvas);
         ActionHistory actionHistory = canvas.getActionHistory();
@@ -64,16 +73,35 @@ public class MidMenuBarBuilder {
         SelectionToolButton selectButton = new SelectionToolButton();
         sButton = selectButton.getButton();
 
+        CropOutputBoundary cropPresenter = new CropPresenter(canvas);
+        ActionHistory actionHistory = canvas.getActionHistory();
+        CropInputBoundary cropInteractor = new CropInteractor(canvas, cropPresenter, actionHistory);
+        CropController cropController = new CropController(cropInteractor);
+
+        ImportOutputBoundary presenter = new ImportPresenter(canvas);
+        ImportGateway gateway = new LocalImageLoader();
+        ImportInputBoundary interactor = new ImportInteractor(gateway, presenter, actionHistory);
+        ImportController importController = new ImportController(interactor);
+
+        ResizeOutputBoundary resizePresenter = new interface_adapter.image.resize.ResizePresenter(canvas);
+        ResizeInputBoundary resizeInteractor = new use_case.image.resize.ResizeInteractor(canvas, resizePresenter, actionHistory);
+        ResizeController resizeController = new interface_adapter.image.resize.ResizeController(resizeInteractor);
+
+        RotateOutputBoundary rotatePresenter = new interface_adapter.image.rotate.RotatePresenter(canvas);
+        RotateInputBoundary rotateInteractor = new use_case.image.rotate.RotateInteractor(canvas, rotatePresenter, actionHistory);
+        RotateController rotateController = new interface_adapter.image.rotate.RotateController(rotateInteractor);
+
+
         ImportButton imageButton = new ImportButton(importController);
         iButton = imageButton.getButton();
 
         CropButton crop = new CropButton(cropController);
         cropButton = crop.getButton();
 
-        ResizeImageButton resize = new ResizeImageButton(canvas);
+        ResizeImageButton resize = new ResizeImageButton(resizeController);
         resizeButton = resize.getButton();
 
-        RotateButton rotate = new RotateButton(canvas);
+        RotateButton rotate = new RotateButton(rotateController);
         rotateButton = rotate.getButton();
 
         UpperColorChooserButton upperChooserButton = new UpperColorChooserButton();

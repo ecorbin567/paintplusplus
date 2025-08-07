@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CanvasState {
-    private double scale = 1.0;
+    private double scale = 1;
     //ToolUse
     private final Paintbrush paintbrush = new Paintbrush();
     private final Eraser eraser = new Eraser();
@@ -15,7 +15,6 @@ public class CanvasState {
 
     //ToolState
     private ToolEnum toolState = ToolEnum.PENCIL;
-    private ToolEnum buttonPressed = ToolEnum.PENCIL;
     private Image currentImage;
 
     //ActionHistory
@@ -40,8 +39,9 @@ public class CanvasState {
     private BufferedImage savedImage = null;
     private File savedImageFile = null;
 
+    public void setButtonPressed(ToolEnum toolName) {
 
-    public CanvasState() {}
+    }
 
     public static class Pair<A,B> {
         final A first;
@@ -51,7 +51,6 @@ public class CanvasState {
             this.second = second;
         }
     }
-
 
     //ActionHistory Stuff
     public ActionHistory getActionHistory() {
@@ -84,10 +83,6 @@ public class CanvasState {
         return this.currentImage;
     }
     public List<Image> getImportedImages() {return this.importedImages;}
-    public void setImportedImages(List<Image> importedImages) {
-        this.importedImages.clear();
-    }
-
 
     //Setting ToolState
     public void setToolState(ToolEnum toolState) {
@@ -97,49 +92,51 @@ public class CanvasState {
         return this.toolState;
     }
 
-    //Setting ButtonPressed
-    public void setButtonPressed(ToolEnum buttonPressed) {
-        this.buttonPressed = buttonPressed;
-    }
-
+    //Resize Window:
     public void setScale(double scale) {
         this.scale = scale;
     }
+    public double getScale() {
+        return this.scale;
+    }
 
+    //Save Image
     public void setSavedImage(BufferedImage savedImage) {
         this.savedImage = savedImage;
     }
-
+    public BufferedImage getSavedImage() {
+        return this.savedImage;
+    }
     public void setFilePath(File file){
         this.savedImageFile = file;
     }
 
     //Selection Tool
-    public boolean hasSelection() {
+    public boolean getHasSelection() {
         return this.hasSelection;
     }
     public void setHasSelection(boolean hasSelection) {
         this.hasSelection = hasSelection;
     }
 
-    public boolean hasCutOut() {
+    public boolean getHasCutOut() {
         return this.hasCutOut;
     }
     public void setHasCutOut(boolean hasCutOut) {
         this.hasCutOut = hasCutOut;
     }
 
-    public boolean draggingSelection() {
+    public boolean getDraggingSelection() {
         return this.draggingSelection;
     }
     public void setDraggingSelection(boolean draggingSelection) {
         this.draggingSelection = draggingSelection;
     }
 
-    public boolean isDrawing() {
+    public boolean getIsDrawing() {
         return this.isDrawing;
     }
-    public void setDrawing(boolean drawing) {
+    public void setIsDrawing(boolean drawing) {
         this.isDrawing = drawing;
     }
 
@@ -154,9 +151,6 @@ public class CanvasState {
     public void setDragAnchor(Point dragAnchor){this.dragAnchor = dragAnchor;}
 
     public List<Rectangle> getClearRegions() {return this.clearRegions;}
-    public void setClearRegions(List<Rectangle> clearRegions) {
-        this.clearRegions = clearRegions;
-    }
 
     public Rectangle getSelectionOriginalBounds() {return this.selectionOriginalBounds;}
     public void setSelectionOriginalBounds(Rectangle selectionOriginalBounds) {
@@ -175,7 +169,5 @@ public class CanvasState {
     public List<CanvasState.Pair<BufferedImage, Rectangle>> getCommitedSelections() {
         return this.commitedSelections;
     }
-
-
 
 }

@@ -1,38 +1,44 @@
 package view.MidMenuBar.ImageBar;
 
-import entity.DrawingCanvas;
+import interface_adapter.image.resize.ResizeController;
+import view.CanvasView;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ResizeImageButton {
-    JButton button;
+    private final JButton button;
 
-    public ResizeImageButton(DrawingCanvas canvas) {
+    public ResizeImageButton(ResizeController resizeController, CanvasView canvasView) {
         button = new JButton();
         ImageIcon icon = new ImageIcon(ResizeImageButton.class.getResource("/images/ResizeIcon.png"));
-        Image image = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        java.awt.Image image = icon.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
         button.setIcon(new ImageIcon(image));
-        button.setPreferredSize(new Dimension(60, 60));
+        button.setPreferredSize(new java.awt.Dimension(60, 60));
 
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String widthStr = JOptionPane.showInputDialog("Enter new width:");
-                String heightStr = JOptionPane.showInputDialog("Enter new height:");
+        button.addActionListener(e -> {
+            JPanel myPanel = new JPanel();
+            myPanel.add(new JLabel("Width:"));
+            JTextField widthField = new JTextField(5);
+            myPanel.add(widthField);
+            myPanel.add(Box.createHorizontalStrut(15));
+            myPanel.add(new JLabel("Height:"));
+            JTextField heightField = new JTextField(5);
+            myPanel.add(heightField);
 
-                if (widthStr != null && heightStr != null) {
-                    try {
-                        int newWidth = Integer.parseInt(widthStr);
-                        int newHeight = Integer.parseInt(heightStr);
+            int result = JOptionPane.showConfirmDialog(null, myPanel,
+                    "Please Enter New Dimensions", JOptionPane.OK_CANCEL_OPTION);
 
-                        canvas.resizeLastImportedImage(newWidth, newHeight);
-                        canvas.repaint();
-                    } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(null, "Invalid input. Please enter valid numbers.");
+            if (result == JOptionPane.OK_OPTION) {
+                try {
+                    int newWidth = Integer.parseInt(widthField.getText());
+                    int newHeight = Integer.parseInt(heightField.getText());
+                    if (newWidth <= 0 || newHeight <= 0) {
+                        throw new NumberFormatException();
                     }
+                    resizeController.execute(newWidth, newHeight);
+                    canvasView.repaint();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Please enter valid positive integers.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

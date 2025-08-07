@@ -1,7 +1,12 @@
 package app;
 
 import data_access.InMemoryUserDataAccessObject;
+import entity.CanvasState;
+import interface_adapter.SelectionViewModel;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.canvas.CanvasController;
+import interface_adapter.canvas.CanvasPresenter;
+import interface_adapter.canvas.CanvasRenderer;
 import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.goback.GoBackController;
 import interface_adapter.goback.GoBackPresenter;
@@ -10,6 +15,7 @@ import interface_adapter.newcanvas.NewCanvasController;
 import interface_adapter.newcanvas.NewCanvasPresenter;
 import interface_adapter.newcanvas.NewCanvasViewModel;
 import interface_adapter.signup.SignupViewModel;
+import use_case.canvas.CanvasOutputBoundary;
 import use_case.goback.GoBackInputBoundary;
 import use_case.goback.GoBackInteractor;
 import use_case.goback.GoBackOutputBoundary;
@@ -40,17 +46,26 @@ public final class CanvasUseCaseFactory {
      * @param userDataAccessObject the NewCanvasUserDataAccessInterface to inject into the NewCanvasView
      * @return the NewCanvasView created for the provided input classes
      */
+
     public static CanvasView create(
             ViewManagerModel viewManagerModel,
             GoBackViewModel goBackViewModel,
             NewCanvasViewModel newCanvasViewModel,
             SignupViewModel signupViewModel,
-            GoBackUserDataAccessInterface userDataAccessObject) {
+            GoBackUserDataAccessInterface userDataAccessObject,
+            CanvasController controller,
+            CanvasRenderer canvasRenderer,
+            SelectionViewModel selectionViewModel) {
 
         final GoBackController goBackController = createGoBackUseCase(viewManagerModel, newCanvasViewModel,
                 signupViewModel, userDataAccessObject);
-        return new CanvasView(goBackViewModel, goBackController);
 
+        final CanvasState canvasState = new CanvasState();
+        final CanvasViewModel canvasViewModel = new CanvasViewModel();
+        final CanvasPresenter presenter = new CanvasPresenter(canvasViewModel);
+
+
+        return new CanvasView(goBackViewModel, goBackController, controller, canvasRenderer, selectionViewModel);
     }
 
     private static GoBackController createGoBackUseCase(
@@ -68,4 +83,5 @@ public final class CanvasUseCaseFactory {
 
         return new GoBackController(goBackInteractor);
     }
+
 }

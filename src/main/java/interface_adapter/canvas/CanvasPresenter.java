@@ -39,11 +39,15 @@ public class CanvasPresenter implements TopMenuOutputBoundary, MouseUIOutputBoun
         this.canvasViewModel.setDrawables(drawables);
     }
 
-    public void prepareSuccessSave(TopMenuOutputData outputData) {
-
+    @Override
+    public void setCurrentDrawable(MouseUIOutputData outputData) {
+        Drawable currentDrawable = outputData.getDrawable();
+        this.canvasViewModel.setDrawable(currentDrawable);
     }
 
-    public void prepareFailedSave(){
-
+    @Override
+    public void setScale(TopMenuOutputData outputData) {
+        double scale = canvasViewModel.getScale();
+        this.canvasViewModel.setScale(scale);
     }
 }

@@ -1,8 +1,8 @@
 package view;
 
 
-import entity.Drawable;
-import entity.StrokeRecord;
+
+import interface_adapter.SelectionViewModel;
 import interface_adapter.canvas.CanvasController;
 import interface_adapter.canvas.CanvasRenderer;
 import interface_adapter.canvas.CanvasViewModel;
@@ -17,7 +17,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.util.Objects;
 
 public class CanvasView extends JPanel implements ActionListener, MenuActionListener, MouseListener, MouseMotionListener {
     private final String viewName = "canvas";
@@ -27,11 +26,13 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
     private final CanvasViewModel viewModel;
     private final CanvasController controller;
     private final CanvasRenderer renderer;
+    private final SelectionViewModel selectionViewModel;
 
     public CanvasView(GoBackViewModel goBackViewModel,
                       GoBackController goBackController,
                       CanvasController controller,
-                      CanvasRenderer canvasRenderer) {
+                      CanvasRenderer canvasRenderer,
+                      SelectionViewModel selectionViewModel) {
         this.goBackViewModel = goBackViewModel;
         this.viewModel = new CanvasViewModel();
         this.goBackController = goBackController;
@@ -39,23 +40,24 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
         this.setPreferredSize(new Dimension(800, 600));
         this.controller = controller;
         this.renderer = canvasRenderer;
+        this.selectionViewModel = selectionViewModel;
 
         setBackground(backgroundColor);
         addMouseListener(this);
         addMouseMotionListener(this);
         setPreferredSize(new Dimension(800, 600));
-//        TopMenuBarBuilder topMenuBarBuilder = new TopMenuBarBuilder(canvas);
-//        JMenuBar menuBar = topMenuBarBuilder.getMenuBar();
-//        topMenuBarBuilder.setMenuActionListener(this);
-//        this.add(menuBar, BorderLayout.NORTH);
-//
-//        MidMenuBarBuilder midMenuBarBuilder = new MidMenuBarBuilder(canvas);
-//        JPanel panel = midMenuBarBuilder.getPanel();
-//        JPanel bottomPanel = new JPanel();
-//        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
-//        bottomPanel.add(panel);
-//        bottomPanel.add(canvas);
-//        this.add(bottomPanel, BorderLayout.CENTER);
+        TopMenuBarBuilder topMenuBarBuilder = new TopMenuBarBuilder(this, this.controller);
+        JMenuBar menuBar = topMenuBarBuilder.getMenuBar();
+        topMenuBarBuilder.setMenuActionListener(this);
+        this.add(menuBar, BorderLayout.NORTH);
+
+        MidMenuBarBuilder midMenuBarBuilder = new MidMenuBarBuilder(this.controller);
+        JPanel panel = midMenuBarBuilder.getPanel();
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
+        bottomPanel.add(panel);
+        bottomPanel.add(this);
+        this.add(bottomPanel, BorderLayout.CENTER);
     }
 
     public void actionPerformed(ActionEvent evt) {
@@ -83,7 +85,12 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g.create();
+        renderer.resize(g2, viewModel);
+        renderer.drawImage(g2, viewModel);
         renderer.renderDraw(g2, viewModel);
+        renderer.layeringDraw(g2, viewModel);
+        renderer.selectionDraw(g2, selectionViewModel);
+        renderer.moveSelectionWindow(g2, selectionViewModel);
         g2.dispose();
     }
 
