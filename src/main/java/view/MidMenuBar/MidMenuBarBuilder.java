@@ -106,7 +106,7 @@ public class MidMenuBarBuilder {
         // selected tools logic to work with selectiontool code
         pButton.addActionListener(e -> {
             canvas.setSelectedTool("PaintBrush");
-            canvas.getSelectionTool().cancel();
+//            canvas.getSelectionTool().cancel();
             canvas.repaint();
         });
         eButton.addActionListener(e -> {
