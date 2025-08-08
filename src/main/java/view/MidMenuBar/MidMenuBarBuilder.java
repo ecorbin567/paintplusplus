@@ -48,8 +48,8 @@ public class MidMenuBarBuilder {
         this.canvas = canvas;
         Paintbrush brush = canvas.getPaintbrush();
 
-        CropOutputBoundary cropPresenter = new CropPresenter(canvas);
         ActionHistory actionHistory = canvas.getActionHistory();
+        CropOutputBoundary cropPresenter = new CropPresenter(canvas);
         CropInputBoundary cropInteractor = new CropInteractor(canvas, cropPresenter, actionHistory);
         CropController cropController = new CropController(cropInteractor);
 
@@ -58,13 +58,13 @@ public class MidMenuBarBuilder {
         ImportInputBoundary interactor = new ImportInteractor(gateway, presenter, actionHistory);
         ImportController importController = new ImportController(interactor);
 
-        ResizeOutputBoundary resizePresenter = new interface_adapter.image.resize.ResizePresenter(canvas);
-        ResizeInputBoundary resizeInteractor = new use_case.image.resize.ResizeInteractor(canvas, resizePresenter, actionHistory);
-        ResizeController resizeController = new interface_adapter.image.resize.ResizeController(resizeInteractor);
+        ResizeOutputBoundary resizePresenter = new ResizePresenter(canvas);
+        ResizeInputBoundary resizeInteractor = new ResizeInteractor(canvas, resizePresenter, actionHistory);
+        ResizeController resizeController = new ResizeController(resizeInteractor);
 
-        RotateOutputBoundary rotatePresenter = new interface_adapter.image.rotate.RotatePresenter(canvas);
-        RotateInputBoundary rotateInteractor = new use_case.image.rotate.RotateInteractor(canvas, rotatePresenter, actionHistory);
-        RotateController rotateController = new interface_adapter.image.rotate.RotateController(rotateInteractor);
+        RotateOutputBoundary rotatePresenter = new RotatePresenter(canvas);
+        RotateInputBoundary rotateInteractor = new RotateInteractor(canvas, rotatePresenter, actionHistory);
+        RotateController rotateController = new RotateController(rotateInteractor);
 
         PencilButton pencilButton = new PencilButton(canvas);
         pButton = pencilButton.getButton();

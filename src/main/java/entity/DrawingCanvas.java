@@ -75,10 +75,10 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
         for (Image image : importedImages) {
             image.draw(g2);
         }
-        //
+
         if (!(actionHistory.getUndoStack().isEmpty())) {
             for (Drawable d : actionHistory.getUndoStack()) {
-                // this logic is refractored into drawDrawable() below paintComponent
+                // this logic is refactored into drawDrawable() below paintComponent
                 drawDrawable(g2, d);
             }
         }
