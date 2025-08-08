@@ -21,11 +21,12 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
                                                      LoginUserDataAccessInterface,
                                                      GoBackUserDataAccessInterface {
     private final Map<String, User> users = new HashMap<>();
+    private final Map<String, List<ActionHistory>> usersDocumentsMap = new HashMap<>();
     private String currentUser;
 
     public InMemoryUserDataAccessObject() {
 
-        // create a default user login so we can log in faster
+        // default user for quick login
         createUser(new CommonUser("asdf", "asdf"));
     }
 
@@ -94,4 +95,23 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         }
         }
 
+    public boolean saveCanvas(User user, ActionHistory actionHistory) {
+        if (usersDocumentsMap.get(user.getUsername()) == null) {
+            usersDocumentsMap.put(user.getUsername(), new ArrayList<>());
+            usersDocumentsMap.get(user.getUsername()).add(actionHistory);
+            return true;
+        } else {
+            usersDocumentsMap.get(user.getUsername()).add(actionHistory);
+            return false;
+        }
+
+    }
+
+    public ActionHistory findCanvasById(User user, int id) {
+        return usersDocumentsMap.get(user.getUsername()).get(id);
+    }
+
+    public List<ActionHistory> getAllCanvases(User user) {
+        return usersDocumentsMap.get(user.getUsername());
+    }
 }

@@ -4,7 +4,7 @@ import use_case.goback.GoBackInputBoundary;
 import use_case.goback.GoBackInputData;
 
 /**
- * The controller for the Login Use Case.
+ * The controller for the Go Back Use Case.
  */
 public class GoBackController {
 
@@ -15,7 +15,7 @@ public class GoBackController {
     }
 
     /**
-     * Executes the Login Use Case.
+     * Executes the Go Back Use Case.
      * @param username the username of the user logging in
      * @param password the password of the user logging in
      */

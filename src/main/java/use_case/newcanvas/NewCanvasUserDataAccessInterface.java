@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 /**
- * DAO for the Login Use Case.
+ * DAO for the New Canvas Use Case.
  */
 public interface NewCanvasUserDataAccessInterface extends CanvasDataAccessInterface {
 

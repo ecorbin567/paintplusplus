@@ -1,19 +1,20 @@
 package app;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import data_access.*;
+import data_access.InMemoryCanvasDataAccessObject;
+import data_access.InMemoryUserDataAccessObject;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.goback.GoBackViewModel;
 import interface_adapter.login.LoginViewModel;
-import interface_adapter.signup.SignupViewModel;
 import interface_adapter.newcanvas.NewCanvasViewModel;
+import interface_adapter.signup.SignupViewModel;
 import view.*;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Main {
+public class MainInMemory {
 
     /**
      * The main method for starting the program.
@@ -55,9 +56,9 @@ public class Main {
         final NewCanvasViewModel newCanvasViewModel = new NewCanvasViewModel();
         final GoBackViewModel goBackViewModel = new GoBackViewModel();
 
-         final SupabaseAccountRepository userDataAccessObject = new SupabaseAccountRepository();
+        final InMemoryUserDataAccessObject userDataAccessObject = new InMemoryUserDataAccessObject();
 
-         final SupabaseCanvasRepository canvasDataAccessObject = new SupabaseCanvasRepository();
+        final InMemoryCanvasDataAccessObject canvasDataAccessObject = new InMemoryCanvasDataAccessObject();
 
         final SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel,
                                                                   signupViewModel, userDataAccessObject);

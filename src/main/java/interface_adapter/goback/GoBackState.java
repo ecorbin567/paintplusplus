@@ -1,7 +1,7 @@
 package interface_adapter.goback;
 
 /**
- * The state for the Login View Model.
+ * The state for the Go Back View Model.
  */
 public class GoBackState {
     private String username = "";

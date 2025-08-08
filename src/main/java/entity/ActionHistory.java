@@ -2,6 +2,9 @@ package entity;
 
 import java.util.*;
 
+/**
+ * Stores all past actions in stacks of done and undone actions.
+ */
 public class ActionHistory {
     private final Stack<Drawable> undoStack;
     private final Stack<Drawable> redoStack;

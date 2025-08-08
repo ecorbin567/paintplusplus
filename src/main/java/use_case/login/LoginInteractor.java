@@ -1,6 +1,10 @@
 package use_case.login;
 
 import entity.User;
+import use_case.newcanvas.NewCanvasUserDataAccessInterface;
+
+import java.awt.image.BufferedImage;
+import java.util.List;
 
 /**
  * The Login Interactor.
@@ -8,11 +12,14 @@ import entity.User;
 public class LoginInteractor implements LoginInputBoundary {
     private final LoginUserDataAccessInterface userDataAccessObject;
     private final LoginOutputBoundary loginPresenter;
+    private final NewCanvasUserDataAccessInterface canvasDataAccessInterface;
 
     public LoginInteractor(LoginUserDataAccessInterface userDataAccessInterface,
-                           LoginOutputBoundary loginOutputBoundary) {
+                           LoginOutputBoundary loginOutputBoundary,
+                           NewCanvasUserDataAccessInterface canvasDataAccessInterface) {
         this.userDataAccessObject = userDataAccessInterface;
         this.loginPresenter = loginOutputBoundary;
+        this.canvasDataAccessInterface = canvasDataAccessInterface;
     }
 
     @Override
@@ -31,7 +38,14 @@ public class LoginInteractor implements LoginInputBoundary {
 
                 final User user = userDataAccessObject.getUser(loginInputData.getUsername());
                 userDataAccessObject.setCurrentUser(user.getName());
-                final LoginOutputData loginOutputData = new LoginOutputData(user.getName(), false);
+
+                // Aug 5: feed presenter with user canvas data
+                final LoginOutputData loginOutputData = new LoginOutputData(
+                        user.getName(),
+                        false,
+                        canvasDataAccessInterface.getAllCanvases(user.getName())
+                );
+
                 loginPresenter.prepareSuccessView(loginOutputData);
             }
         }
