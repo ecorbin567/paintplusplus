@@ -3,36 +3,48 @@ package interface_adapter.canvas;
 import entity.*;
 import entity.Image;
 import interface_adapter.SelectionViewModel;
+import view.DrawingView;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.Stack;
 
 public class CanvasRenderer {
     private final float[] ANTS_DASH = {4f, 4f}; // dash, gap in px scaled with the canvas
     private float antsPhase = 0f;
-    private final javax.swing.Timer antsTimer = new javax.swing.Timer(60, e -> antsPhase = (antsPhase +1f) % (ANTS_DASH[0] + ANTS_DASH[1]));
 
-    public void renderDraw(Graphics2D graphics2D, CanvasViewModel canvasViewModel){
-        if(canvasViewModel.getRepaintState()){
-            Stack<Drawable> drawables = canvasViewModel.getDrawables();
+    public CanvasRenderer() {
+    }
+
+    public void updateAntsTimer(Timer timer, SelectionViewModel selectionViewModel){
+        boolean isDrawing = selectionViewModel.getIsDrawing();
+        boolean hasSelection = selectionViewModel.getHasSelection();
+        boolean shouldRun =(isDrawing||hasSelection);
+        if (shouldRun&&!timer.isRunning()) timer.start();
+        if (!shouldRun&&timer.isRunning()) timer.stop();
+    }
+
+    public void renderDraw(Graphics2D graphics2D, DrawingViewModel drawingViewModel){
+        if(drawingViewModel.getRepaintState()){
+            Stack<Drawable> drawables = drawingViewModel.getDrawables();
             for (Drawable drawable: drawables) {
                 drawDrawable(graphics2D, drawable);
             }
         }
     }
 
-    public void resize(Graphics2D graphics2D, CanvasViewModel canvasViewModel){
-        graphics2D.scale(canvasViewModel.getScale(), canvasViewModel.getScale());
+    public void resize(Graphics2D graphics2D, DrawingViewModel drawingViewModel){
+        graphics2D.scale(drawingViewModel.getScale(), drawingViewModel.getScale());
     }
 
-    public void drawImage(Graphics2D graphics2D, CanvasViewModel canvasViewModel){
-        for (Image image: canvasViewModel.getImageList()){
+    public void drawImage(Graphics2D graphics2D, DrawingViewModel drawingViewModel){
+        for (Image image: drawingViewModel.getImageList()){
             image.draw(graphics2D);
         }
     }
 
-    public void layeringDraw(Graphics2D graphics2D, CanvasViewModel canvasViewModel){
-        Drawable head = canvasViewModel.getDrawable();
+    public void layeringDraw(Graphics2D graphics2D, DrawingViewModel drawingViewModel){
+        Drawable head = drawingViewModel.getDrawable();
         if (head != null){
             drawDrawable(graphics2D, head);
         }
@@ -118,7 +130,4 @@ public class CanvasRenderer {
                     null);
         }
     }
-
-
-
 }

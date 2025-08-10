@@ -9,19 +9,15 @@ import java.awt.*;
 public class ToolUseInteractor implements ToolUseInputBoundary {
     private final CanvasState canvasState;
 
-    ToolUseInteractor(CanvasState canvasState) {
+    public ToolUseInteractor(CanvasState canvasState) {
         this.canvasState = canvasState;
     }
 
     @Override
     public void setTool(ToolUseInputData inputData) {
         ToolEnum toolName = inputData.getToolName();
-        this.canvasState.setButtonPressed(toolName);
         switch (toolName) {
-            case PENCIL -> this.canvasState.setToolState(toolName);
-            case ERASER -> this.canvasState.setToolState(toolName);
-            case SELECT -> this.canvasState.setToolState(toolName);
-            case CHANGECOLOR -> this.canvasState.setToolState(ToolEnum.PENCIL);
+            case PENCIL, ERASER, SELECT -> this.canvasState.setToolState(toolName);
         }
     }
 

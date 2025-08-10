@@ -11,10 +11,8 @@ public class EraseButton {
     private final ToolEnum toolName = ToolEnum.ERASER;
     private final JButton button;
     ImageIcon imageIcon;
-    private final CanvasController canvasController;
 
     public EraseButton(CanvasController canvasController) {
-        this.canvasController = canvasController;
         ErasePopUp erasePopUp = new ErasePopUp(canvasController);
         button = new JButton();
         imageIcon = new ImageIcon(EraseButton.class.getResource("/images/EraseIcon.png"));
@@ -25,10 +23,10 @@ public class EraseButton {
         button.setPreferredSize(new Dimension(60, 60));
 
         button.addActionListener(event -> {
-            this.canvasController.handleEraserButtonPress(toolName);
+            canvasController.handleEraserButtonPress(toolName);
         });
 
-        button.addActionListener(e -> {
+         button.addActionListener(e -> {
             erasePopUp.getPopupMenu().show(button, button.getWidth(), button.getHeight());
         });
     }

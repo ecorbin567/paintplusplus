@@ -15,6 +15,8 @@ public class CanvasState {
 
     //ToolState
     private ToolEnum toolState = ToolEnum.PENCIL;
+    private ToolEnum buttonState = ToolEnum.PENCIL;
+    private String buttonPressed = "UpperColorChooserButton";
     private Image currentImage;
 
     //ActionHistory
@@ -32,15 +34,26 @@ public class CanvasState {
     private boolean hasCutOut = false;
     private boolean isDrawing = false;
     private Point dragAnchor = null;
-    private List<Rectangle> clearRegions = new ArrayList<>();
+    private final List<Rectangle> clearRegions = new ArrayList<>();
     private final List<CanvasState.Pair<BufferedImage, Rectangle>> commitedSelections = new ArrayList<>();
 
     //Database + Save
     private BufferedImage savedImage = null;
     private File savedImageFile = null;
 
-    public void setButtonPressed(ToolEnum toolName) {
+    public CanvasState() {
+        //Nothing is instantiated this ist more or less just a record class.
+    }
 
+    public void setButtonPressed(String buttonName) {
+        this.buttonPressed = buttonName;
+    }
+    public String getButtonPressed() {
+        return this.buttonPressed;
+    }
+
+    public File getSavedImageFile() {
+        return this.savedImageFile;
     }
 
     public static class Pair<A,B> {

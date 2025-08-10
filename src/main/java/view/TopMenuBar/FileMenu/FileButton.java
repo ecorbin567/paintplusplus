@@ -2,6 +2,7 @@ package view.TopMenuBar.FileMenu;
 
 import interface_adapter.canvas.CanvasController;
 import view.CanvasView;
+import view.DrawingView;
 import view.TopMenuBar.MenuActionListener;
 
 import javax.swing.*;
@@ -12,13 +13,10 @@ public class FileButton {
     private final JMenu menu;
     private final GoBackButton goBackButton;
     private final LogOutButton logOutButton;
-    private CanvasView canvasView;
-    private CanvasController canvasController;
 
-    public FileButton(CanvasView canvasView, CanvasController canvasController) {
-        this.canvasView = canvasView;
-        this.canvasController = canvasController;
-        SaveAsButton saveAsButton = new SaveAsButton(this.canvasView, this.canvasController);
+
+    public FileButton(DrawingView drawingView, CanvasController canvasController) {
+        SaveAsButton saveAsButton = new SaveAsButton(drawingView, canvasController);
         goBackButton = new GoBackButton();
         logOutButton = new LogOutButton();
 

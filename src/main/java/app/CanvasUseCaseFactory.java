@@ -1,32 +1,28 @@
 package app;
 
-import data_access.InMemoryUserDataAccessObject;
-import entity.CanvasState;
+
 import interface_adapter.SelectionViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.canvas.CanvasController;
-import interface_adapter.canvas.CanvasPresenter;
 import interface_adapter.canvas.CanvasRenderer;
-import interface_adapter.canvas.CanvasViewModel;
+import interface_adapter.changecolor.ColorController;
 import interface_adapter.goback.GoBackController;
 import interface_adapter.goback.GoBackPresenter;
 import interface_adapter.goback.GoBackViewModel;
-import interface_adapter.newcanvas.NewCanvasController;
-import interface_adapter.newcanvas.NewCanvasPresenter;
+import interface_adapter.image.crop.CropController;
+import interface_adapter.image.import_image.ImportController;
+import interface_adapter.image.resize.ResizeController;
+import interface_adapter.image.rotate.RotateController;
 import interface_adapter.newcanvas.NewCanvasViewModel;
 import interface_adapter.signup.SignupViewModel;
-import use_case.canvas.CanvasOutputBoundary;
 import use_case.goback.GoBackInputBoundary;
 import use_case.goback.GoBackInteractor;
 import use_case.goback.GoBackOutputBoundary;
 import use_case.goback.GoBackUserDataAccessInterface;
-import use_case.newcanvas.NewCanvasInputBoundary;
-import use_case.newcanvas.NewCanvasInteractor;
-import use_case.newcanvas.NewCanvasOutputBoundary;
-import use_case.newcanvas.NewCanvasUserDataAccessInterface;
-import use_case.signup.SignupOutputBoundary;
+
 import view.CanvasView;
-import view.MyCanvasesView;
+import view.DrawingView;
+
 
 /**
  * This class contains the static factory function for creating the NewCanvasView.
@@ -53,19 +49,18 @@ public final class CanvasUseCaseFactory {
             NewCanvasViewModel newCanvasViewModel,
             SignupViewModel signupViewModel,
             GoBackUserDataAccessInterface userDataAccessObject,
-            CanvasController controller,
-            CanvasRenderer canvasRenderer,
-            SelectionViewModel selectionViewModel) {
+            CropController cropController,
+            ImportController importController,
+            ResizeController resizeController,
+            RotateController rotateController, ColorController colorController,
+            DrawingView drawingView, CanvasController controller) {
 
         final GoBackController goBackController = createGoBackUseCase(viewManagerModel, newCanvasViewModel,
                 signupViewModel, userDataAccessObject);
 
-        final CanvasState canvasState = new CanvasState();
-        final CanvasViewModel canvasViewModel = new CanvasViewModel();
-        final CanvasPresenter presenter = new CanvasPresenter(canvasViewModel);
-
-
-        return new CanvasView(goBackViewModel, goBackController, controller, canvasRenderer, selectionViewModel);
+        return new CanvasView(goBackViewModel, goBackController,
+                cropController, importController, resizeController,
+                rotateController, colorController, drawingView, controller);
     }
 
     private static GoBackController createGoBackUseCase(

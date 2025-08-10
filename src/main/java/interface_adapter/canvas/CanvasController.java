@@ -47,40 +47,30 @@ public class CanvasController {
         toolUseInputBoundary.setSize(inputData);
     }
 
-    public void handleChangeColorButtonPress(ToolEnum tool, Color color){
-        ToolUseInputData inputData = new ToolUseInputData(tool, color);
-        toolUseInputBoundary.setTool(inputData);
-        toolUseInputBoundary.setColor(inputData);
-    }
-
     public void handleUndoButtonPress(ToolEnum tool){
         TopMenuInputData inputData = new TopMenuInputData(tool);
-        topMenuInputBoundary.setTool(inputData);
         topMenuInputBoundary.undoDrawable(inputData);
     }
 
     public void handleRedoButtonPress(ToolEnum tool){
         TopMenuInputData inputData = new TopMenuInputData(tool);
-        topMenuInputBoundary.setTool(inputData);
         topMenuInputBoundary.redoDrawable(inputData);
     }
 
     public void handleSaveButtonPress(ToolEnum tool, BufferedImage image, File file){
         TopMenuInputData inputData = new TopMenuInputData(tool, image, file);
-        topMenuInputBoundary.setTool(inputData);
         topMenuInputBoundary.setBufferedImage(inputData);
         topMenuInputBoundary.setFile(inputData);
+        topMenuInputBoundary.save(inputData);
     }
 
     public void handleZoomInButtonPress(ToolEnum tool){
         TopMenuInputData inputData = new TopMenuInputData(tool);
-        topMenuInputBoundary.setTool(inputData);
         topMenuInputBoundary.zoomIn(inputData);
     }
 
     public void handleZoomOutButtonPress(ToolEnum tool){
         TopMenuInputData inputData = new TopMenuInputData(tool);
-        topMenuInputBoundary.setTool(inputData);
         topMenuInputBoundary.zoomOut(inputData);
     }
 
@@ -97,6 +87,11 @@ public class CanvasController {
     public void handleMouseReleased(Point point, BufferedImage image){
         MouseUIInputData inputData = new MouseUIInputData(point, image);
         mouseUIUseInputBoundary.mouseIsReleased(inputData);
+    }
+
+    public void handleSelectButtonPress(ToolEnum tool){
+        ToolUseInputData inputData = new ToolUseInputData(tool);
+        toolUseInputBoundary.setTool(inputData);
     }
 }
 

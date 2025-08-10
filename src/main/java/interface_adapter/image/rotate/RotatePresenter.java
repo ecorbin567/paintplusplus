@@ -1,20 +1,21 @@
 package interface_adapter.image.rotate;
 
 import interface_adapter.canvas.CanvasViewModel;
+import interface_adapter.canvas.DrawingViewModel;
 import use_case.image.rotate.RotateOutputBoundary;
 import use_case.image.rotate.RotateResponseModel;
 import javax.swing.*;
 
 public class RotatePresenter implements RotateOutputBoundary {
-    private final CanvasViewModel canvasViewModel;
+    private final DrawingViewModel drawingViewModel;
 
-    public RotatePresenter(CanvasViewModel canvasViewModel) {
-        this.canvasViewModel = canvasViewModel;
+    public RotatePresenter(DrawingViewModel drawingViewModel) {
+        this.drawingViewModel = drawingViewModel;
     }
 
     @Override
     public void present(RotateResponseModel responseModel) {
-        canvasViewModel.setImageList(responseModel.getImage());
+        drawingViewModel.setImageList(responseModel.getImage());
     }
 
     @Override

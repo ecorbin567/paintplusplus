@@ -12,10 +12,8 @@ public class ErasePopUp {
     private final ToolEnum toolName = ToolEnum.ERASER;
     private final JPopupMenu popupMenu;
     private final JSlider slider;
-    private final CanvasController canvasController;
 
     public ErasePopUp(CanvasController canvasController) {
-        this.canvasController = canvasController;
         popupMenu = new JPopupMenu();
         popupMenu.setOpaque(true);
 
@@ -27,7 +25,7 @@ public class ErasePopUp {
         ChangeListener cl = e ->{
             JSlider sliderValue = (JSlider) e.getSource();
             float value = sliderValue.getValue();
-            this.canvasController.handleEraserSliderButton(toolName, value);
+            canvasController.handleEraserSliderButton(toolName, value);
         };
 
         slider.addChangeListener(cl);

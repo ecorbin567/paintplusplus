@@ -1,13 +1,28 @@
 package app;
 
+import app.ImageFactory.CropUseCaseFactory;
+import app.ImageFactory.ImportUseCaseFactory;
+import app.ImageFactory.ResizeUseCaseFactory;
+import app.ImageFactory.RotateUseCaseFactory;
 import data_access.InMemoryUserDataAccessObject;
+import data_access.LocalImageLoader;
+import entity.CanvasState;
+import interface_adapter.SelectionViewModel;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.canvas.CanvasController;
+import interface_adapter.canvas.CanvasRenderer;
 import interface_adapter.canvas.CanvasViewModel;
+import interface_adapter.canvas.DrawingViewModel;
+import interface_adapter.changecolor.ColorController;
 import interface_adapter.goback.GoBackViewModel;
+import interface_adapter.image.crop.CropController;
+import interface_adapter.image.import_image.ImportController;
+import interface_adapter.image.resize.ResizeController;
+import interface_adapter.image.rotate.RotateController;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.newcanvas.NewCanvasViewModel;
-import use_case.goback.GoBackUserDataAccessInterface;
+import use_case.topmenu.ImageFileSaveGateway;
 import view.*;
 
 import javax.swing.*;
@@ -50,7 +65,7 @@ public class Main {
         final CanvasViewModel canvasViewModel = new CanvasViewModel();
         final NewCanvasViewModel newCanvasViewModel = new NewCanvasViewModel();
         final GoBackViewModel goBackViewModel = new GoBackViewModel();
-
+        final SelectionViewModel selectionViewModel = new SelectionViewModel();
         /* Josh: The below should be UserDataAccessInterface for generality, but it gets messy and I just want
         to test the signup/login functionality with the database
 
@@ -67,9 +82,34 @@ public class Main {
                                                                newCanvasViewModel, userDataAccessObject);
         views.add(loginView, loginView.getViewName());
 
+        //Entity Layer:
+        CanvasState canvasState = new CanvasState();
+
+        //Gateways
+        LocalImageLoader localImageLoader = new LocalImageLoader();
+        ImageFileSaveGateway imageFileSaveGateway = new ImageFileSaveGateway();
+
+        //Presentation Layer:
+        DrawingViewModel drawingViewModel = new DrawingViewModel();
+        CropController cropcontroller = CropUseCaseFactory.create(canvasState, drawingViewModel);
+        ImportController importController = ImportUseCaseFactory.create(canvasState, drawingViewModel, localImageLoader);
+        ResizeController resizeController = ResizeUseCaseFactory.create(canvasState, drawingViewModel);
+        RotateController rotateController = RotateUseCaseFactory.create(canvasState, drawingViewModel);
+        CanvasController canvasController = CanvasControllerFactory.createCanvasController(canvasState, drawingViewModel,
+                imageFileSaveGateway, selectionViewModel);
+        ColorController colorController = ColorUseCaseFactory.create(canvasState);
+
+        //Renderer
+        CanvasRenderer canvasRenderer = new CanvasRenderer();
+
+        final DrawingView drawingView = DrawingViewUseCaseFactory.create(canvasController, canvasRenderer,
+                selectionViewModel, drawingViewModel);
+
         final CanvasView canvasView = CanvasUseCaseFactory.create(viewManagerModel, goBackViewModel,
                                                                 newCanvasViewModel, signupViewModel,
-                userDataAccessObject);
+                userDataAccessObject, cropcontroller, importController,
+                resizeController, rotateController, colorController,
+                drawingView, canvasController);
 
         views.add(canvasView, canvasView.getViewName());
 

@@ -12,12 +12,9 @@ public class PencilButton{
     private final ToolEnum tool = ToolEnum.PENCIL;
     private final JButton button;
     private ImageIcon imageIcon;
-    private final CanvasController canvasController;
-
     public PencilButton (CanvasController canvasController) {
         button = new JButton();
-        this.canvasController = canvasController;
-        PencilPopUp pencilPopUp = new PencilPopUp(this.canvasController);
+        PencilPopUp pencilPopUp = new PencilPopUp(canvasController);
         try{
             imageIcon = new ImageIcon(PencilButton.class.getResource("/images/PencilIcon.png"));
             Image image = imageIcon.getImage();
@@ -31,7 +28,7 @@ public class PencilButton{
         }
 
         button.addActionListener(event -> {
-            this.canvasController.handlePencilButtonPress(tool);
+            canvasController.handlePencilButtonPress(tool);
         });
 
         button.addActionListener(e -> pencilPopUp.getPopupMenu().show(button,

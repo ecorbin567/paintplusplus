@@ -1,7 +1,7 @@
 package view.MidMenuBar.ImageBar;
 
 import interface_adapter.image.crop.CropController;
-import view.CanvasView;
+import view.DrawingView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +10,7 @@ import java.awt.*;
 public class CropButton {
     JButton button;
 
-    public CropButton(CropController controller, CanvasView canvasView) {
+    public CropButton(CropController controller, DrawingView drawingView) {
         button = new JButton();
         ImageIcon icon = new ImageIcon(CropButton.class.getResource("/images/CropIcon.png"));
         Image image = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
@@ -32,7 +32,7 @@ public class CropButton {
                 int h = Integer.parseInt(hStr);
 
                 controller.execute(x, y, w, h);
-                canvasView.repaint();
+                drawingView.repaint();
 
 
             } catch (Exception ex) {

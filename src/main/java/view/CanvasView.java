@@ -9,6 +9,12 @@ import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.goback.GoBackController;
 import interface_adapter.goback.GoBackState;
 import interface_adapter.goback.GoBackViewModel;
+import interface_adapter.image.crop.CropController;
+import interface_adapter.changecolor.ColorController;
+
+import interface_adapter.image.import_image.ImportController;
+import interface_adapter.image.resize.ResizeController;
+import interface_adapter.image.rotate.RotateController;
 import view.MidMenuBar.MidMenuBarBuilder;
 import view.TopMenuBar.MenuActionListener;
 import view.TopMenuBar.TopMenuBarBuilder;
@@ -18,45 +24,37 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 
-public class CanvasView extends JPanel implements ActionListener, MenuActionListener, MouseListener, MouseMotionListener {
-    private final String viewName = "canvas";
+public class CanvasView extends JPanel implements ActionListener, MenuActionListener{
     private final GoBackViewModel goBackViewModel;
     private final GoBackController goBackController;
-    private final Color backgroundColor = Color.WHITE;
-    private final CanvasViewModel viewModel;
-    private final CanvasController controller;
-    private final CanvasRenderer renderer;
-    private final SelectionViewModel selectionViewModel;
 
     public CanvasView(GoBackViewModel goBackViewModel,
                       GoBackController goBackController,
-                      CanvasController controller,
-                      CanvasRenderer canvasRenderer,
-                      SelectionViewModel selectionViewModel) {
+                      CropController cropController,
+                      ImportController importController,
+                      ResizeController resizeController,
+                      RotateController rotateController,
+                      ColorController colorController,
+                      DrawingView drawingView,
+                      CanvasController controller) {
+
         this.goBackViewModel = goBackViewModel;
-        this.viewModel = new CanvasViewModel();
         this.goBackController = goBackController;
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(800, 600));
-        this.controller = controller;
-        this.renderer = canvasRenderer;
-        this.selectionViewModel = selectionViewModel;
 
-        setBackground(backgroundColor);
-        addMouseListener(this);
-        addMouseMotionListener(this);
-        setPreferredSize(new Dimension(800, 600));
-        TopMenuBarBuilder topMenuBarBuilder = new TopMenuBarBuilder(this, this.controller);
+        TopMenuBarBuilder topMenuBarBuilder = new TopMenuBarBuilder(drawingView, controller);
         JMenuBar menuBar = topMenuBarBuilder.getMenuBar();
         topMenuBarBuilder.setMenuActionListener(this);
         this.add(menuBar, BorderLayout.NORTH);
 
-        MidMenuBarBuilder midMenuBarBuilder = new MidMenuBarBuilder(this.controller);
+        MidMenuBarBuilder midMenuBarBuilder = new MidMenuBarBuilder(controller, cropController, importController,
+                resizeController, rotateController, colorController, drawingView);
         JPanel panel = midMenuBarBuilder.getPanel();
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
         bottomPanel.add(panel);
-        bottomPanel.add(this);
+        bottomPanel.add(drawingView);
         this.add(bottomPanel, BorderLayout.CENTER);
     }
 
@@ -65,7 +63,7 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
     }
 
     public String getViewName() {
-        return viewName;
+        return "canvas";
     }
 
     @Override
@@ -80,62 +78,4 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
             );
         }
     }
-
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g.create();
-        renderer.resize(g2, viewModel);
-        renderer.drawImage(g2, viewModel);
-        renderer.renderDraw(g2, viewModel);
-        renderer.layeringDraw(g2, viewModel);
-        renderer.selectionDraw(g2, selectionViewModel);
-        renderer.moveSelectionWindow(g2, selectionViewModel);
-        g2.dispose();
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        controller.handleMouseDragged(e.getPoint());
-        renderCanvasView();
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        controller.handleMouseReleased(e.getPoint(), getImage());
-        renderCanvasView();
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        if (SwingUtilities.isLeftMouseButton(e)) {
-            controller.handleMousePressed(e.getPoint());
-            renderCanvasView();
-        }
-    }
-
-    public void renderCanvasView(){
-        if (this.viewModel.getRepaintState()){
-            repaint();
-            this.viewModel.shouldRepaint(false);
-        }
-    }
-
-    public BufferedImage getImage() {
-        BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = image.createGraphics();
-        this.paint(g2d);
-        g2d.dispose();
-        return image;
-    }
-
-    // We don't need these, but must include them:
-    @Override
-    public void mouseEntered(MouseEvent e) {}
-    @Override
-    public void mouseClicked(MouseEvent e) {}
-    @Override
-    public void mouseMoved(MouseEvent e) {}
-    @Override
-    public void mouseExited(MouseEvent e) {}
 }

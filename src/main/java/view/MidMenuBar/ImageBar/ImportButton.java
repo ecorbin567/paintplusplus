@@ -1,7 +1,7 @@
 package view.MidMenuBar.ImageBar;
 
 import interface_adapter.image.import_image.ImportController;
-import view.CanvasView;
+import view.DrawingView;
 import view.MidMenuBar.SelectionToolButton;
 
 import javax.swing.*;
@@ -13,7 +13,7 @@ public class ImportButton {
 
     private final JButton button;
 
-    public ImportButton(ImportController controller, CanvasView canvasView) {
+    public ImportButton(ImportController controller, DrawingView drawingView) {
         button = new JButton();
 
         ImageIcon icon = new ImageIcon(SelectionToolButton.class.getResource("/images/ImageIcon.png"));
@@ -32,7 +32,7 @@ public class ImportButton {
             if (result == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
                 controller.execute(selectedFile);
-                canvasView.repaint();
+                drawingView.repaint();
             }
         });
     }

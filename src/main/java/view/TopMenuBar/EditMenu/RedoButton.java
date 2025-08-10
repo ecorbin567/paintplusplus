@@ -3,6 +3,7 @@ package view.TopMenuBar.EditMenu;
 import entity.ToolEnum;
 import interface_adapter.canvas.CanvasController;
 import view.CanvasView;
+import view.DrawingView;
 
 import javax.swing.*;
 import java.awt.event.InputEvent;
@@ -12,13 +13,13 @@ public class RedoButton{
     private static final ToolEnum toolName = ToolEnum.REDO;
     private final JMenuItem menuItem;
 
-    public RedoButton(CanvasView canvasView, CanvasController canvasController) {
+    public RedoButton(DrawingView drawingView, CanvasController canvasController) {
         menuItem = new JMenuItem("Redo");
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z,
                 InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK));
         menuItem.addActionListener(evt -> {
             canvasController.handleRedoButtonPress(toolName);
-            canvasView.repaint();
+            drawingView.repaint();
         });
         menuItem.setActionCommand("redo");
     }

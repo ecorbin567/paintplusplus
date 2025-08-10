@@ -1,6 +1,8 @@
 package use_case.mouseui;
 
 
+import entity.ToolEnum;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 

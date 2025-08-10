@@ -26,7 +26,7 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
     public void mouseIsPressed(MouseUIInputData inputData) {
         ToolEnum toolstate = canvasState.getToolState();
         switch(toolstate) {
-            case PENCIL, ERASER -> handleDrawingTool(toolstate, inputData);
+            case PENCIL, ERASER, CHANGECOLOR -> handleDrawingTool(toolstate, inputData);
             case SELECT -> {
                 handleSelectTool(inputData);
                 sendSelectionOutputData();
@@ -57,7 +57,7 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
 
     private void sendMouseOutputData() {
         Stack<Drawable> undoStack = this.actionHistory.getUndoStack();
-        boolean state = undoStack.isEmpty();
+        boolean state = !undoStack.isEmpty();
         Drawable currentDrawable = actionHistory.getCurrentState();
         MouseUIOutputData outputData = new MouseUIOutputData(undoStack, state, currentDrawable);
         mouseUIOutputBoundary.setDrawableState(outputData);
@@ -69,7 +69,7 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
         Color color = Color.BLACK;
         float size = 3f;
 
-        if (toolstate == ToolEnum.PENCIL) {
+        if (toolstate == ToolEnum.PENCIL || toolstate == ToolEnum.CHANGECOLOR) {
             Paintbrush paintbrush = this.canvasState.getPaintbrush();
             color = paintbrush.getColour();
             size = paintbrush.getWidth();
@@ -102,7 +102,6 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
     @Override
     public void mouseIsDragged(MouseUIInputData inputData) {
         ToolEnum toolstate = canvasState.getToolState();
-
         switch(toolstate) {
             case PENCIL, ERASER -> mouseDragPencilEraser(inputData);
             case SELECT -> {

@@ -10,12 +10,10 @@ import javax.swing.event.ChangeListener;
 
 public class PencilPopUp {
     private final ToolEnum toolName = ToolEnum.PENCIL;
-    private final CanvasController canvasController;
     private final JPopupMenu popupMenu;
     private final JSlider slider;
 
     public PencilPopUp(CanvasController canvasController) {
-        this.canvasController = canvasController;
         popupMenu = new JPopupMenu();
         popupMenu.setOpaque(true);
 
@@ -28,7 +26,7 @@ public class PencilPopUp {
         ChangeListener cl = e ->{
             JSlider sliderValue = (JSlider) e.getSource();
             float value = sliderValue.getValue();
-            this.canvasController.handlePencilSliderButton(toolName, value);
+            canvasController.handlePencilSliderButton(toolName, value);
         };
 
         slider.addChangeListener(cl);

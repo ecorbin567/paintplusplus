@@ -15,7 +15,9 @@ public class ImportInteractor implements ImportInputBoundary {
     private final CanvasState canvasState;
     private final ActionHistory actionHistory;
 
-    public ImportInteractor(ImportGateway gateway, ImportOutputBoundary presenter, CanvasState canvasState) {
+    public ImportInteractor(ImportGateway gateway,
+                            ImportOutputBoundary presenter,
+                            CanvasState canvasState) {
         this.gateway = gateway;
         this.presenter = presenter;
         this.canvasState = canvasState;

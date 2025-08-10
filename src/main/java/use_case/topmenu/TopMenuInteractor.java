@@ -27,12 +27,6 @@ public class TopMenuInteractor implements TopMenuInputBoundary {
     }
 
     @Override
-    public void setTool(TopMenuInputData inputData) {
-        ToolEnum toolName = inputData.getToolName();
-        this.canvasState.setButtonPressed(toolName);
-    }
-
-    @Override
     public void setBufferedImage(TopMenuInputData inputData) {
         BufferedImage image = inputData.getImage();
         this.canvasState.setSavedImage(image);
@@ -44,6 +38,7 @@ public class TopMenuInteractor implements TopMenuInputBoundary {
         this.canvasState.setFilePath(file);
     }
 
+    @Override
     public void save(TopMenuInputData inputData) {
         File file = inputData.getFile();
         BufferedImage image = inputData.getImage();
@@ -72,7 +67,7 @@ public class TopMenuInteractor implements TopMenuInputBoundary {
                 this.canvasState.setCurrentImage(image);
             }
 
-            boolean undoStackEmpty = actionHistory.getUndoStack().isEmpty();
+            boolean undoStackEmpty = !actionHistory.getUndoStack().isEmpty();
             Stack<Drawable> undoStack = actionHistory.getUndoStack();
 
             TopMenuOutputData outputData = new TopMenuOutputData(undoStack, undoStackEmpty, importedImages);
@@ -96,7 +91,7 @@ public class TopMenuInteractor implements TopMenuInputBoundary {
                 this.canvasState.setCurrentImage(image);
             }
 
-            boolean undoStackEmpty = actionHistory.getUndoStack().isEmpty();
+            boolean undoStackEmpty = !actionHistory.getUndoStack().isEmpty();
             Stack<Drawable> undoStack = actionHistory.getUndoStack();
 
             TopMenuOutputData outputData = new TopMenuOutputData(undoStack, undoStackEmpty, importedImages);
@@ -145,10 +140,8 @@ public class TopMenuInteractor implements TopMenuInputBoundary {
         canvasState.setScale(scale);
         ActionHistory actionHistory = this.canvasState.getActionHistory();
         Stack<Drawable> undoStack = actionHistory.getUndoStack();
-        boolean undoStackEmpty = undoStack.isEmpty();
+        boolean undoStackEmpty = !undoStack.isEmpty();
         TopMenuOutputData outputData = new TopMenuOutputData(undoStack, undoStackEmpty, scale);
-        outputBoundary.setDrawables(outputData);
-        outputBoundary.setRepaintState(outputData);
         outputBoundary.setScale(outputData);
     }
 
