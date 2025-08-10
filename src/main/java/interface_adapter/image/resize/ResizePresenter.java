@@ -1,20 +1,21 @@
 package interface_adapter.image.resize;
 
-import entity.DrawingCanvas;
+import interface_adapter.canvas.CanvasViewModel;
+import interface_adapter.canvas.DrawingViewModel;
 import use_case.image.resize.ResizeOutputBoundary;
 import use_case.image.resize.ResizeResponseModel;
 import javax.swing.*;
 
 public class ResizePresenter implements ResizeOutputBoundary {
-    private final DrawingCanvas canvas;
+    private final DrawingViewModel drawingViewModel;
 
-    public ResizePresenter(DrawingCanvas canvas) {
-        this.canvas = canvas;
+    public ResizePresenter(DrawingViewModel drawingViewModel) {
+        this.drawingViewModel = drawingViewModel;
     }
 
     @Override
     public void present(ResizeResponseModel responseModel) {
-        canvas.updateCurrentImage(responseModel.getImage());
+        drawingViewModel.setImageList(responseModel.getImages());
     }
 
     @Override

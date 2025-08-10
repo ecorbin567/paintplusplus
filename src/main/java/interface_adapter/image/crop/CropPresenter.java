@@ -1,25 +1,23 @@
 package interface_adapter.image.crop;
 
-import entity.DrawingCanvas;
+import interface_adapter.canvas.CanvasViewModel;
+import interface_adapter.canvas.DrawingViewModel;
 import use_case.image.crop.CropOutputBoundary;
 import use_case.image.crop.CropResponseModel;
 
 import javax.swing.*;
 
-/**
- * The presenter for the Crop Use Case.
- */
 public class CropPresenter implements CropOutputBoundary {
 
-    private final DrawingCanvas canvas;
+    private final DrawingViewModel drawingViewModel;
 
-    public CropPresenter(DrawingCanvas canvas) {
-        this.canvas = canvas;
+    public CropPresenter(DrawingViewModel drawingViewModel) {
+        this.drawingViewModel = drawingViewModel;
     }
 
     @Override
     public void present(CropResponseModel responseModel) {
-        canvas.updateCurrentImage(responseModel.getImage());
+        drawingViewModel.setImageList(responseModel.getImage());
     }
 
     @Override

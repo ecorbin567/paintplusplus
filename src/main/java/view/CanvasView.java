@@ -1,86 +1,69 @@
 package view;
 
-import entity.DrawingCanvas;
-import interface_adapter.canvas.CanvasState;
+
+
+import interface_adapter.SelectionViewModel;
+import interface_adapter.canvas.CanvasController;
+import interface_adapter.canvas.CanvasRenderer;
 import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.goback.GoBackController;
 import interface_adapter.goback.GoBackState;
 import interface_adapter.goback.GoBackViewModel;
+import interface_adapter.image.crop.CropController;
+import interface_adapter.changecolor.ColorController;
+
 import interface_adapter.image.import_image.ImportController;
-import view.MidMenuBar.ImageBar.ImportButton;
+import interface_adapter.image.resize.ResizeController;
+import interface_adapter.image.rotate.RotateController;
 import view.MidMenuBar.MidMenuBarBuilder;
 import view.TopMenuBar.MenuActionListener;
 import view.TopMenuBar.TopMenuBarBuilder;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.File;
-import java.io.IOException;
 
-/**
- * The View for when the user is drawing on a canvas.
- */
-public class CanvasView extends JPanel implements ActionListener, MenuActionListener,
-        PropertyChangeListener {
-    private final String viewName = "canvas";
-    private final CanvasViewModel canvasViewModel;
+public class CanvasView extends JPanel implements ActionListener, MenuActionListener{
     private final GoBackViewModel goBackViewModel;
     private final GoBackController goBackController;
-    private final DrawingCanvas canvas;
 
-    // TODO: Josh: I don't know a better way to import when getting canvases
-    // store the import button and then press it when we log in with an existing canvas.
-    private final ImportButton importButton;
+    public CanvasView(GoBackViewModel goBackViewModel,
+                      GoBackController goBackController,
+                      CropController cropController,
+                      ImportController importController,
+                      ResizeController resizeController,
+                      RotateController rotateController,
+                      ColorController colorController,
+                      DrawingView drawingView,
+                      CanvasController controller) {
 
-    public CanvasView(CanvasViewModel canvasViewModel, GoBackViewModel goBackViewModel, GoBackController goBackController) {
         this.goBackViewModel = goBackViewModel;
         this.goBackController = goBackController;
-
-        // JOSH: listen for changes in canvas state
-        this.canvasViewModel = canvasViewModel;
-        this.canvasViewModel.addPropertyChangeListener(this);
-
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(800, 600));
 
-        this.canvas = new DrawingCanvas();
-        TopMenuBarBuilder topMenuBarBuilder = new TopMenuBarBuilder(canvas);
+        TopMenuBarBuilder topMenuBarBuilder = new TopMenuBarBuilder(drawingView, controller);
         JMenuBar menuBar = topMenuBarBuilder.getMenuBar();
         topMenuBarBuilder.setMenuActionListener(this);
         this.add(menuBar, BorderLayout.NORTH);
 
-        MidMenuBarBuilder midMenuBarBuilder = new MidMenuBarBuilder(canvas);
+        MidMenuBarBuilder midMenuBarBuilder = new MidMenuBarBuilder(controller, cropController, importController,
+                resizeController, rotateController, colorController, drawingView);
         JPanel panel = midMenuBarBuilder.getPanel();
-        // store import button for use in login (in property change)
-        this.importButton = midMenuBarBuilder.getImportButtonObject();
-
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
         bottomPanel.add(panel);
-        bottomPanel.add(canvas);
+        bottomPanel.add(drawingView);
         this.add(bottomPanel, BorderLayout.CENTER);
     }
 
-    public DrawingCanvas getCanvas() {
-        return canvas;
-    }
-
-    /**
-     * React to a button click that results in evt.
-     * @param evt the ActionEvent to react to
-     */
     public void actionPerformed(ActionEvent evt) {
         System.out.println("Click " + evt.getActionCommand());
     }
 
     public String getViewName() {
-        return viewName;
+        return "canvas";
     }
 
     @Override
@@ -93,31 +76,6 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
                     currentState.getPassword(),
                     command
             );
-        }
-    }
-
-    /**
-     * Helper for propertyChange(). Directly accesses the import controller with a specific image
-     */
-    private void pressImportButton(ImportButton importButtonObject, BufferedImage initialImportedImage) {
-        ImportController controller = importButtonObject.getController();
-        File outputFile = new File("imageToImport.png");
-        try {
-            ImageIO.write(initialImportedImage, "png", outputFile);
-        } catch (IOException e) {
-            System.out.println("Failed to import initial image.");
-            throw new RuntimeException(e);
-        }
-
-        controller.execute(outputFile);
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        // System.out.println(evt.getPropertyName());
-        final CanvasState state = (CanvasState) evt.getNewValue();
-        if ("import".equals(evt.getPropertyName())) {
-            pressImportButton(this.importButton, state.getInitialImportedImage());
         }
     }
 }

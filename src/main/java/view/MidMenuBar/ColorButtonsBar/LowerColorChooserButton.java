@@ -1,20 +1,33 @@
 package view.MidMenuBar.ColorButtonsBar;
 
+import entity.ToolEnum;
+import interface_adapter.changecolor.ColorController;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class LowerColorChooserButton extends CircularButton{
 
     private Color lowerCurrentColor = Color.WHITE;
+    private static final ToolEnum toolName = ToolEnum.PENCIL;
+    private final String buttonName = "LowerColorChooserButton";
 
-    public LowerColorChooserButton(){
+    public LowerColorChooserButton(ColorController colorController) {
         super(30);
 
         setBackground(lowerCurrentColor);
+        this.addActionListener(e->
+            colorController.handleColorChangeButton(toolName, lowerCurrentColor, buttonName));
 
     }
+//            lowerChooserButton.addActionListener(e -> {
+//        // immediately set brush to whatever color the lower chooser is showing:
+//        secondaryInteractor.changeColor(
+//                new ChangeColorInputData(
+//                        lowerChooserButton.getLowerCurrentColor()
+//                )
+//        );
+//    });
 
     public Color getLowerCurrentColor(){
         return this.lowerCurrentColor;

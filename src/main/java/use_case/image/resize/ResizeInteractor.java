@@ -1,18 +1,21 @@
 package use_case.image.resize;
 
 import entity.ActionHistory;
-import entity.DrawingCanvas;
+import entity.CanvasState;
 import entity.Image;
+import use_case.image.crop.CropInteractor;
+
+import java.util.List;
 
 public class ResizeInteractor implements ResizeInputBoundary {
-    private final DrawingCanvas canvas;
+    private final CanvasState canvas;
     private final ResizeOutputBoundary presenter;
     private final ActionHistory actionHistory;
 
-    public ResizeInteractor(DrawingCanvas canvas, ResizeOutputBoundary presenter, ActionHistory actionHistory) {
+    public ResizeInteractor(CanvasState canvas, ResizeOutputBoundary presenter) {
         this.canvas = canvas;
         this.presenter = presenter;
-        this.actionHistory = actionHistory;
+        this.actionHistory = this.canvas.getActionHistory();
     }
 
     @Override
@@ -31,10 +34,10 @@ public class ResizeInteractor implements ResizeInputBoundary {
             newImage.resize(requestModel.getNewWidth(), requestModel.getNewHeight());
 
             // 3. Push the new, modified state to the history
-            actionHistory.push(newImage);
-
+            CropInteractor.updateCurrentImage(originalImage, newImage, actionHistory, canvas);
+            List<Image> importedImages = canvas.getImportedImages();
             // 4. Pass the new state to the presenter to update the view
-            presenter.present(new ResizeResponseModel(newImage));
+            presenter.present(new ResizeResponseModel(importedImages));
 
         } catch (Exception e) {
             presenter.presentError("Resize failed: " + e.getMessage());

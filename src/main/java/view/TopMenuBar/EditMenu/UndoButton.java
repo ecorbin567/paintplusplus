@@ -1,21 +1,29 @@
 package view.TopMenuBar.EditMenu;
 
-import entity.DrawingCanvas;
+import entity.ToolEnum;
+import interface_adapter.canvas.CanvasController;
+import view.CanvasView;
+import view.DrawingView;
 
 import javax.swing.*;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 public class UndoButton {
-    JMenuItem menuItem;
-    DrawingCanvas canvas;
+    private static final ToolEnum toolName = ToolEnum.UNDO;
+    private final JMenuItem menuItem;
 
-    public UndoButton(DrawingCanvas canvas) {
-        this.canvas = canvas;
+    public UndoButton(DrawingView drawingView, CanvasController canvasController) {
         menuItem = new JMenuItem("Undo");
         menuItem.setMnemonic(KeyEvent.VK_Z);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_DOWN_MASK));
         menuItem.setActionCommand("Undo");
-        menuItem.addActionListener(evt -> canvas.undo());
+        menuItem.addActionListener(evt -> {
+            canvasController.handleUndoButtonPress(toolName);
+            System.out.println("Undo Button Before");
+            drawingView.repaint();
+            System.out.println("Undo Button After");
+        });
     }
 
     public JMenuItem getMenuItem() {

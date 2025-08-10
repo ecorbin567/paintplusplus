@@ -1,34 +1,45 @@
 package app;
 
-import com.formdev.flatlaf.FlatLightLaf;
-import data_access.*;
+import app.ImageFactory.CropUseCaseFactory;
+import app.ImageFactory.ImportUseCaseFactory;
+import app.ImageFactory.ResizeUseCaseFactory;
+import app.ImageFactory.RotateUseCaseFactory;
+import data_access.InMemoryUserDataAccessObject;
+import data_access.LocalImageLoader;
+import entity.CanvasState;
+import interface_adapter.SelectionViewModel;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.canvas.CanvasController;
+import interface_adapter.canvas.CanvasRenderer;
 import interface_adapter.canvas.CanvasViewModel;
+import interface_adapter.canvas.DrawingViewModel;
+import interface_adapter.changecolor.ColorController;
 import interface_adapter.goback.GoBackViewModel;
+import interface_adapter.image.crop.CropController;
+import interface_adapter.image.import_image.ImportController;
+import interface_adapter.image.resize.ResizeController;
+import interface_adapter.image.rotate.RotateController;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.newcanvas.NewCanvasViewModel;
+import use_case.topmenu.ImageFileSaveGateway;
 import view.*;
 
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The version of Main with an external database used to persist user data.
+ */
 public class Main {
 
     /**
-     * The main method for starting the program.
+     * The main method for starting the program with an external database used to persist user data.
      * @param args input to main
      */
     public static void main(String[] args) {
         // Build the main program window, the main panel containing the
         // various cards, and the layout, and stitch them together.
-
-        try {
-            // Set FlatLaf Light look and feel
-            UIManager.setLookAndFeel(new FlatLightLaf());
-        } catch (UnsupportedLookAndFeelException e) {
-            System.err.println("Failed to initialize FlatLaf Light L&F");
-        }
 
         // The main application window.
         final JFrame application = new JFrame("Paint++");
@@ -54,28 +65,56 @@ public class Main {
         final CanvasViewModel canvasViewModel = new CanvasViewModel();
         final NewCanvasViewModel newCanvasViewModel = new NewCanvasViewModel();
         final GoBackViewModel goBackViewModel = new GoBackViewModel();
+        final SelectionViewModel selectionViewModel = new SelectionViewModel();
+        /* Josh: The below should be UserDataAccessInterface for generality, but it gets messy and I just want
+        to test the signup/login functionality with the database
 
-         final SupabaseAccountRepository userDataAccessObject = new SupabaseAccountRepository();
-
-         final SupabaseCanvasRepository canvasDataAccessObject = new SupabaseCanvasRepository();
+        If you want to test the signup/login with the DB, uncomment the line below and comment out
+        the InMemory version. user/pswd for testing DB: "beabadoobee" / "plaintext123" */
+        // final SupabaseAccountRepository userDataAccessObject = new SupabaseAccountRepository();
+        final InMemoryUserDataAccessObject userDataAccessObject = new InMemoryUserDataAccessObject();
 
         final SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel,
                                                                   signupViewModel, userDataAccessObject);
         views.add(signupView, signupView.getViewName());
 
         final LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel,
-                                                               newCanvasViewModel, userDataAccessObject,
-                canvasDataAccessObject);
+                                                               newCanvasViewModel, userDataAccessObject);
         views.add(loginView, loginView.getViewName());
+
+        //Entity Layer:
+        CanvasState canvasState = new CanvasState();
+
+        //Gateways
+        LocalImageLoader localImageLoader = new LocalImageLoader();
+        ImageFileSaveGateway imageFileSaveGateway = new ImageFileSaveGateway();
+
+        //Presentation Layer:
+        DrawingViewModel drawingViewModel = new DrawingViewModel();
+        CropController cropcontroller = CropUseCaseFactory.create(canvasState, drawingViewModel);
+        ImportController importController = ImportUseCaseFactory.create(canvasState, drawingViewModel, localImageLoader);
+        ResizeController resizeController = ResizeUseCaseFactory.create(canvasState, drawingViewModel);
+        RotateController rotateController = RotateUseCaseFactory.create(canvasState, drawingViewModel);
+        CanvasController canvasController = CanvasControllerFactory.createCanvasController(canvasState, drawingViewModel,
+                imageFileSaveGateway, selectionViewModel);
+        ColorController colorController = ColorUseCaseFactory.create(canvasState);
+
+        //Renderer
+        CanvasRenderer canvasRenderer = new CanvasRenderer();
+
+        final DrawingView drawingView = DrawingViewUseCaseFactory.create(canvasController, canvasRenderer,
+                selectionViewModel, drawingViewModel);
 
         final CanvasView canvasView = CanvasUseCaseFactory.create(viewManagerModel, goBackViewModel,
                                                                 newCanvasViewModel, signupViewModel,
-                userDataAccessObject, canvasViewModel);
+                userDataAccessObject, cropcontroller, importController,
+                resizeController, rotateController, colorController,
+                drawingView, canvasController);
 
         views.add(canvasView, canvasView.getViewName());
 
         final MyCanvasesView myCanvasesView = NewCanvasUseCaseFactory.create(viewManagerModel, newCanvasViewModel,
-                canvasViewModel, signupViewModel, canvasDataAccessObject);
+                canvasViewModel, signupViewModel, userDataAccessObject);
 
         views.add(myCanvasesView, myCanvasesView.getViewName());
 

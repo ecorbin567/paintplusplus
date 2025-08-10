@@ -1,22 +1,26 @@
 package view.TopMenuBar.EditMenu;
 
-import entity.DrawingCanvas;
+import entity.ToolEnum;
+import interface_adapter.canvas.CanvasController;
+import view.CanvasView;
+import view.DrawingView;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 public class RedoButton{
-    JMenuItem menuItem;
-    DrawingCanvas canvas;
+    private static final ToolEnum toolName = ToolEnum.REDO;
+    private final JMenuItem menuItem;
 
-    public RedoButton(DrawingCanvas drawingCanvas) {
-        canvas = drawingCanvas;
+    public RedoButton(DrawingView drawingView, CanvasController canvasController) {
         menuItem = new JMenuItem("Redo");
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z,
-                KeyEvent.SHIFT_DOWN_MASK | KeyEvent.CTRL_DOWN_MASK));
-        menuItem.addActionListener(evt -> canvas.redo());
+                InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK));
+        menuItem.addActionListener(evt -> {
+            canvasController.handleRedoButtonPress(toolName);
+            drawingView.repaint();
+        });
         menuItem.setActionCommand("redo");
     }
 

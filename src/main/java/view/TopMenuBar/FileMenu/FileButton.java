@@ -1,6 +1,8 @@
 package view.TopMenuBar.FileMenu;
 
-import entity.DrawingCanvas;
+import interface_adapter.canvas.CanvasController;
+import view.CanvasView;
+import view.DrawingView;
 import view.TopMenuBar.MenuActionListener;
 
 import javax.swing.*;
@@ -8,24 +10,22 @@ import java.awt.event.KeyEvent;
 
 public class FileButton {
 
-    JMenu menu;
+    private final JMenu menu;
     private final GoBackButton goBackButton;
     private final LogOutButton logOutButton;
 
-    public FileButton(DrawingCanvas canvas){
-        SaveButton saveButton = new SaveButton(canvas);
-        SaveAsButton saveAsButton = new SaveAsButton();
+
+    public FileButton(DrawingView drawingView, CanvasController canvasController) {
+        SaveAsButton saveAsButton = new SaveAsButton(drawingView, canvasController);
         goBackButton = new GoBackButton();
         logOutButton = new LogOutButton();
 
-        JMenuItem saveMenu = saveButton.getMenuItem();
         JMenuItem saveAsMenu = saveAsButton.getMenuItem();
         JMenuItem goBackMenu = goBackButton.getMenuItem();
         JMenuItem logOutMenu = logOutButton.getMenuItem();
 
         menu = new JMenu("File");
 
-        menu.add(saveMenu);
         menu.add(saveAsMenu);
         menu.add(goBackMenu);
         menu.add(logOutMenu);

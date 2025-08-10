@@ -1,29 +1,32 @@
 package view.MidMenuBar.PencilButtonGroup;
 
-import entity.DrawingCanvas;
+import entity.ToolEnum;
+import interface_adapter.canvas.CanvasController;
+import use_case.tooluse.ToolUseInputBoundary;
+import use_case.tooluse.ToolUseInputData;
 
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
 
 public class PencilPopUp {
-    JPopupMenu popupMenu;
-    JSlider slider;
-    DrawingCanvas canvas;
+    private final ToolEnum toolName = ToolEnum.PENCIL;
+    private final JPopupMenu popupMenu;
+    private final JSlider slider;
 
-    public PencilPopUp(DrawingCanvas canvas) {
-        this.canvas = canvas;
+    public PencilPopUp(CanvasController canvasController) {
         popupMenu = new JPopupMenu();
         popupMenu.setOpaque(true);
 
-        slider = new JSlider(JSlider.VERTICAL, 0, 100, 0);
+        slider = new JSlider(SwingConstants.VERTICAL, 0, 100, 0);
         slider.setSize(100, 100);
         slider.setMajorTickSpacing(10);
         slider.setPaintTicks(true);
         slider.setPaintLabels(true);
 
         ChangeListener cl = e ->{
-            JSlider x = (JSlider) e.getSource();
-            canvas.setPaintBrushSize(x.getValue());
+            JSlider sliderValue = (JSlider) e.getSource();
+            float value = sliderValue.getValue();
+            canvasController.handlePencilSliderButton(toolName, value);
         };
 
         slider.addChangeListener(cl);

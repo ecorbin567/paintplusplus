@@ -1,22 +1,19 @@
 package view.MidMenuBar.ImageBar;
 
 import interface_adapter.image.import_image.ImportController;
+import view.DrawingView;
 import view.MidMenuBar.SelectionToolButton;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 
 public class ImportButton {
 
     private final JButton button;
-    private final ImportController controller;
 
-    public ImportButton(ImportController controller) {
-        this.controller = controller;
+    public ImportButton(ImportController controller, DrawingView drawingView) {
         button = new JButton();
 
         ImageIcon icon = new ImageIcon(SelectionToolButton.class.getResource("/images/ImageIcon.png"));
@@ -24,29 +21,23 @@ public class ImportButton {
         button.setIcon(new ImageIcon(image));
         button.setPreferredSize(new Dimension(60, 60));
 
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setDialogTitle("Import PNG or PDF");
+        button.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Import PNG or PDF");
 
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Files", "png");
-                fileChooser.setFileFilter(filter);
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Files", "png");
+            fileChooser.setFileFilter(filter);
 
-                int result = fileChooser.showOpenDialog(null);
-                if (result == JFileChooser.APPROVE_OPTION) {
-                    File selectedFile = fileChooser.getSelectedFile();
-                    controller.execute(selectedFile);
-                }
+            int result = fileChooser.showOpenDialog(null);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                controller.execute(selectedFile);
+                drawingView.repaint();
             }
         });
     }
 
     public JButton getButton() {
         return button;
-    }
-
-    public ImportController getController() {
-        return controller;
     }
 }

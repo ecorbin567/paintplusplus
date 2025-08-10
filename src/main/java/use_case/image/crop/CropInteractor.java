@@ -1,22 +1,21 @@
 package use_case.image.crop;
 
 import entity.ActionHistory;
-import entity.DrawingCanvas;
+import entity.CanvasState;
 import entity.Image;
 
-/**
- * The Crop Interactor.
- */
+import java.util.List;
+
 public class CropInteractor implements CropInputBoundary {
 
-    private final DrawingCanvas canvas;
+    private final CanvasState canvas;
     private final CropOutputBoundary presenter;
     private final ActionHistory actionHistory;
 
-    public CropInteractor(DrawingCanvas canvas, CropOutputBoundary presenter, ActionHistory actionHistory) {
+    public CropInteractor(CanvasState canvas, CropOutputBoundary presenter) {
         this.canvas = canvas;
         this.presenter = presenter;
-        this.actionHistory = actionHistory;
+        this.actionHistory = canvas.getActionHistory();
     }
 
     @Override
@@ -28,16 +27,31 @@ public class CropInteractor implements CropInputBoundary {
                 return;
             }
 
+
             Image newImage = originalImage.clone();
-
             newImage.crop(requestModel.getX(), requestModel.getY(), requestModel.getWidth(), requestModel.getHeight());
+            updateCurrentImage(originalImage, newImage, actionHistory, canvas);
+            List<Image> importedImages = canvas.getImportedImages();
 
-            actionHistory.push(newImage);
-
-            presenter.present(new CropResponseModel(newImage));
+            presenter.present(new CropResponseModel(importedImages));
 
         } catch (Exception e) {
             presenter.presentError("Crop failed: " + e.getMessage());
         }
+    }
+
+    public static void updateCurrentImage(Image originalImage, Image newImage, ActionHistory actionHistory, CanvasState canvas) {
+        actionHistory.push(newImage);
+
+        List<Image> importedImages = canvas.getImportedImages();
+        int index = importedImages.indexOf(originalImage);
+        if(index != -1){
+            importedImages.set(index, newImage);
+        }
+        else{
+            importedImages.add(newImage);
+        }
+
+        canvas.setCurrentImage(newImage);
     }
 }

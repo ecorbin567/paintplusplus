@@ -2,20 +2,13 @@ package view.MidMenuBar;
 
 import java.util.List;
 
-import entity.DrawingCanvas;
-import entity.ActionHistory;
-import entity.Paintbrush;
-import interface_adapter.changecolor.ChangeColorPresenter;
+import interface_adapter.canvas.CanvasController;
+import interface_adapter.changecolor.ColorController;
 import interface_adapter.image.crop.*;
+import interface_adapter.image.resize.ResizeController;
+import interface_adapter.image.rotate.RotateController;
 import interface_adapter.image.import_image.*;
-import interface_adapter.image.resize.*;
-import interface_adapter.image.rotate.*;
-import use_case.changecolor.*;
-import use_case.image.crop.*;
-import use_case.image.import_image.*;
-import use_case.image.resize.*;
-import use_case.image.rotate.*;
-import data_access.LocalImageLoader;
+import view.DrawingView;
 import view.MidMenuBar.ColorButtonsBar.*;
 import view.MidMenuBar.EraserButtonGroup.EraseButton;
 import view.MidMenuBar.ImageBar.CropButton;
@@ -43,83 +36,55 @@ public class MidMenuBarBuilder {
     JToggleButton upperColorChooserButton;
     JToggleButton lowerColorChooserButton;
     JToggleButton colorWheelButton;
-    DrawingCanvas canvas;
+    CanvasController canvasController;
 
-    ImportButton importButtonObject;
+    public MidMenuBarBuilder(CanvasController canvasController,
+                             CropController cropController,
+                             ImportController importController,
+                             ResizeController resizeController,
+                             RotateController rotateController,
+                             ColorController colorController,
+                             DrawingView drawingView) {
 
-    public MidMenuBarBuilder(DrawingCanvas canvas) {
-        this.canvas = canvas;
-        Paintbrush brush = canvas.getPaintbrush();
+        this.canvasController = canvasController;
 
-        ActionHistory actionHistory = canvas.getActionHistory();
-        CropOutputBoundary cropPresenter = new CropPresenter(canvas);
-        CropInputBoundary cropInteractor = new CropInteractor(canvas, cropPresenter, actionHistory);
-        CropController cropController = new CropController(cropInteractor);
 
-        ImportOutputBoundary presenter = new ImportPresenter(canvas);
-        ImportGateway gateway = new LocalImageLoader();
-        ImportInputBoundary interactor = new ImportInteractor(gateway, presenter, actionHistory);
-        ImportController importController = new ImportController(interactor);
-
-        ResizeOutputBoundary resizePresenter = new ResizePresenter(canvas);
-        ResizeInputBoundary resizeInteractor = new ResizeInteractor(canvas, resizePresenter, actionHistory);
-        ResizeController resizeController = new ResizeController(resizeInteractor);
-
-        RotateOutputBoundary rotatePresenter = new RotatePresenter(canvas);
-        RotateInputBoundary rotateInteractor = new RotateInteractor(canvas, rotatePresenter, actionHistory);
-        RotateController rotateController = new RotateController(rotateInteractor);
-
-        PencilButton pencilButton = new PencilButton(canvas);
+        PencilButton pencilButton = new PencilButton(this.canvasController);
         pButton = pencilButton.getButton();
 
-        EraseButton eraseButton = new EraseButton(canvas);
+        EraseButton eraseButton = new EraseButton(this.canvasController);
         eButton = eraseButton.getButton();
 
-        SelectionToolButton selectButton = new SelectionToolButton();
+        SelectionToolButton selectButton = new SelectionToolButton(canvasController);
         sButton = selectButton.getButton();
 
-        ImportButton imageButton = new ImportButton(importController);
+        ImportButton imageButton = new ImportButton(importController, drawingView);
         iButton = imageButton.getButton();
-        this.importButtonObject = imageButton; //  JOSH: Lol store it
 
-        CropButton crop = new CropButton(cropController);
+        CropButton crop = new CropButton(cropController, drawingView);
         cropButton = crop.getButton();
 
-        ResizeImageButton resize = new ResizeImageButton(resizeController);
+        ResizeImageButton resize = new ResizeImageButton(resizeController, drawingView);
         resizeButton = resize.getButton();
 
-        RotateButton rotate = new RotateButton(rotateController);
+        RotateButton rotate = new RotateButton(rotateController, drawingView);
         rotateButton = rotate.getButton();
 
-        UpperColorChooserButton upperChooserButton = new UpperColorChooserButton();
-        LowerColorChooserButton lowerChooserButton = new LowerColorChooserButton();
+        UpperColorChooserButton upperChooserButton = new UpperColorChooserButton(colorController);
+        LowerColorChooserButton lowerChooserButton = new LowerColorChooserButton(colorController);
         upperColorChooserButton = upperChooserButton.getButton();
         lowerColorChooserButton = lowerChooserButton.getButton();
 
-        ColorWheelButton colorWheel = new ColorWheelButton();
-        colorWheelButton = colorWheel.getColorWheelButton();
+
 
         // how we add to the panel on the buttons to the midmenu worry about later on when refractoring
         panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        ColorWheelButton colorWheel = new ColorWheelButton(panel, colorController,
+                upperChooserButton, lowerChooserButton);
+        colorWheelButton = colorWheel.getColorWheelButton();
 
         // selected tools logic to work with selectiontool code
-        pButton.addActionListener(e -> {
-            canvas.setSelectedTool("PaintBrush");
-            canvas.getSelectionTool().cancel();
-            canvas.repaint();
-        });
-        eButton.addActionListener(e -> {
-            canvas.setSelectedTool("Eraser");
-            canvas.getSelectionTool().cancel();
-            canvas.repaint();
-        });
-        sButton.addActionListener( e -> {
-            canvas.setSelectedTool("Selection");
-            // get rid of any older rectangle
-            canvas.getSelectionTool().cancel();
-            canvas.repaint();
-        });
 
         panel.add(pButton);
         panel.add(eButton);
@@ -137,17 +102,6 @@ public class MidMenuBarBuilder {
 
         solidColorsPanel = new JPanel(new GridLayout(2, 4,4,4)); // panel of small solid colors
 
-
-
-        // logic for color choosing driver code below
-        ChangeColorOutputBoundary primaryPresenter = new ChangeColorPresenter(
-                brush, upperChooserButton, lowerChooserButton, true); // presenter driver of domain and model
-        ChangeColorInputBoundary primaryInteractor = new ChangeColorInteractor(brush, primaryPresenter); // check code below each time we change color for colorwheel or swatch
-
-        ChangeColorOutputBoundary secondaryPresenter = new ChangeColorPresenter(
-                brush, upperChooserButton, lowerChooserButton, false);
-        ChangeColorInputBoundary secondaryInteractor = new ChangeColorInteractor(brush, secondaryPresenter);
-
         // track which chooser (upper or lower color chooser buttons) is active
         ButtonGroup chooserGroup = new ButtonGroup();
         chooserGroup.add(upperColorChooserButton);
@@ -155,58 +109,15 @@ public class MidMenuBarBuilder {
 
         upperColorChooserButton.setSelected(true);
 
-        upperChooserButton.addActionListener(e -> {
-            // immediately set brush to whatever color the upper chooser is showing:
-            primaryInteractor.changeColor(
-                    new ChangeColorInputData(
-                            upperChooserButton.getUpperCurrentColor()
-                    )
-            );
-        });
-
-        lowerChooserButton.addActionListener(e -> {
-            // immediately set brush to whatever color the lower chooser is showing:
-            secondaryInteractor.changeColor(
-                    new ChangeColorInputData(
-                            lowerChooserButton.getLowerCurrentColor()
-                    )
-            );
-        });
-
-        // color wheel logic
-        colorWheelButton.addActionListener(e -> {
-            ColorWheelPopUpWindow popUpWindow =
-                    new ColorWheelPopUpWindow(
-                            SwingUtilities.getWindowAncestor(panel)
-                    );
-            popUpWindow.setVisible(true);
-
-            if (popUpWindow.isConfirmed()) {
-                Color picked = popUpWindow.getSelectedColor();
-                if (upperColorChooserButton.isSelected()) {
-                    primaryInteractor.changeColor(new ChangeColorInputData(picked));
-                } else {
-                    secondaryInteractor.changeColor(new ChangeColorInputData(picked));
-                }
-            }
-            colorWheelButton.setSelected(false); // after toggling wheel button, toggle button off
-        });
         // handle individual solid color buttons
         List<Color> solidColors = List.of(
                 Color.BLACK, Color.RED, Color.ORANGE, Color.YELLOW,
                 Color.GREEN, Color.CYAN, Color.BLUE, Color.MAGENTA
         );
         for (Color solidColor: solidColors) {
-            SingleColorButton swatch = new SingleColorButton(solidColor);
+            SingleColorButton swatch = new SingleColorButton(solidColor, colorController,
+                    upperChooserButton, lowerChooserButton);
             solidColorsPanel.add(swatch);
-            swatch.addActionListener(e -> {
-                if (upperColorChooserButton.isSelected()){
-                    primaryInteractor.changeColor(new ChangeColorInputData(solidColor));
-                } else {
-                    secondaryInteractor.changeColor((new ChangeColorInputData(solidColor)));
-                }
-                swatch.setSelected(false); // clear toggle state so it doesn't stay
-            });
         }
 
         colorPanel.add(colorChooserPanel);
@@ -221,21 +132,4 @@ public class MidMenuBarBuilder {
     public JPanel getPanel() {
         return panel;
     }
-
-    public JButton getPencilButton() {
-        return pButton;
-    }
-
-    public JButton getEraseButton() {
-        return eButton;
-    }
-
-    /**
-     * Getter for import button
-     * @return the import button
-     */
-    public ImportButton getImportButtonObject() {
-        return importButtonObject; // Josh: lol
-    }
-
 }
