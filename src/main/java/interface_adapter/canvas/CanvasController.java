@@ -48,6 +48,7 @@ public class CanvasController {
     }
 
     public void handleUndoButtonPress(ToolEnum tool){
+        System.out.println("Undo Button Controller");
         TopMenuInputData inputData = new TopMenuInputData(tool);
         topMenuInputBoundary.undoDrawable(inputData);
     }
