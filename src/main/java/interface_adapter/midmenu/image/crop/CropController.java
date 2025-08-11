@@ -1,0 +1,21 @@
+package interface_adapter.midmenu.image.crop;
+
+import use_case.image.crop.CropInputBoundary;
+import use_case.image.crop.CropRequestModel;
+
+/**
+ * The controller for the Crop Use Case.
+ */
+public class CropController {
+
+    private final CropInputBoundary interactor;
+
+    public CropController(CropInputBoundary interactor) {
+        this.interactor = interactor;
+    }
+
+    public void execute(int x, int y, int width, int height) {
+        CropRequestModel request = new CropRequestModel(x, y, width, height);
+        interactor.execute(request);
+    }
+}

@@ -1,7 +1,7 @@
 package view.TopMenuBar.FileMenu;
 
-import interface_adapter.canvas.CanvasController;
-import view.CanvasView;
+import interface_adapter.topmenu.TopMenuFacade;
+import interface_adapter.topmenu.TopMenuFacadeImpl;
 import view.DrawingView;
 import view.TopMenuBar.MenuActionListener;
 
@@ -15,8 +15,8 @@ public class FileButton {
     private final LogOutButton logOutButton;
 
 
-    public FileButton(DrawingView drawingView, CanvasController canvasController) {
-        SaveAsButton saveAsButton = new SaveAsButton(drawingView, canvasController);
+    public FileButton(DrawingView drawingView, TopMenuFacade controller) {
+        SaveAsButton saveAsButton = new SaveAsButton(drawingView, controller);
         goBackButton = new GoBackButton();
         logOutButton = new LogOutButton();
 

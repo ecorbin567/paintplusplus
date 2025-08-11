@@ -7,12 +7,15 @@ import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.goback.GoBackController;
 import interface_adapter.goback.GoBackState;
 import interface_adapter.goback.GoBackViewModel;
-import interface_adapter.image.crop.CropController;
+import interface_adapter.midmenu.image.ImageFacade;
+import interface_adapter.midmenu.image.crop.CropController;
 import interface_adapter.changecolor.ColorController;
 
-import interface_adapter.image.import_image.ImportController;
-import interface_adapter.image.resize.ResizeController;
-import interface_adapter.image.rotate.RotateController;
+import interface_adapter.midmenu.image.import_image.ImportController;
+import interface_adapter.midmenu.image.resize.ResizeController;
+import interface_adapter.midmenu.image.rotate.RotateController;
+import interface_adapter.topmenu.TopMenuFacade;
+import interface_adapter.topmenu.TopMenuFacadeImpl;
 import view.MidMenuBar.ImageBar.ImportButton;
 import view.MidMenuBar.MidMenuBarBuilder;
 import view.TopMenuBar.MenuActionListener;
@@ -46,13 +49,11 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
     public CanvasView(CanvasViewModel canvasViewModel,
                       GoBackViewModel goBackViewModel,
                       GoBackController goBackController,
-                      CropController cropController,
-                      ImportController importController,
-                      ResizeController resizeController,
-                      RotateController rotateController,
+                      ImageFacade imageFacade,
                       ColorController colorController,
                       DrawingView drawingView,
-                      CanvasController controller) {
+                      CanvasController controller,
+                      TopMenuFacade controllers) {
         // TODO: Josh: I don't know a better way to import when getting canvases
         // store the import button and then press it when we log in with an existing canvas.
 
@@ -66,13 +67,12 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(800, 600));
 
-        TopMenuBarBuilder topMenuBarBuilder = new TopMenuBarBuilder(drawingView, controller);
+        TopMenuBarBuilder topMenuBarBuilder = new TopMenuBarBuilder(drawingView, controllers);
         JMenuBar menuBar = topMenuBarBuilder.getMenuBar();
         topMenuBarBuilder.setMenuActionListener(this);
         this.add(menuBar, BorderLayout.NORTH);
 
-        MidMenuBarBuilder midMenuBarBuilder = new MidMenuBarBuilder(controller, cropController, importController,
-                resizeController, rotateController, colorController, drawingView);
+        MidMenuBarBuilder midMenuBarBuilder = new MidMenuBarBuilder(controller, imageFacade, colorController, drawingView);
         JPanel panel = midMenuBarBuilder.getPanel();
         // store import button for use in login (in property change)
         this.importButton = midMenuBarBuilder.getImportButtonObject();

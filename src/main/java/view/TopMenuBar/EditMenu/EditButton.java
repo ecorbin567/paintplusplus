@@ -1,7 +1,7 @@
 package view.TopMenuBar.EditMenu;
 
-import interface_adapter.canvas.CanvasController;
-import view.CanvasView;
+import interface_adapter.topmenu.TopMenuFacade;
+import interface_adapter.topmenu.TopMenuFacadeImpl;
 import view.DrawingView;
 
 import javax.swing.*;
@@ -10,9 +10,9 @@ import java.awt.event.KeyEvent;
 public class EditButton {
     private final JMenu menu;
 
-    public EditButton(DrawingView drawingView, CanvasController controller) {
-        RedoButton redoButton = new RedoButton(drawingView, controller);
-        UndoButton undoButton = new UndoButton(drawingView, controller);
+    public EditButton(DrawingView drawingView, TopMenuFacade controllers) {
+        RedoButton redoButton = new RedoButton(drawingView, controllers);
+        UndoButton undoButton = new UndoButton(drawingView, controllers);
 
         JMenuItem undoMenuItem = undoButton.getMenuItem();
         JMenuItem redoMenuItem = redoButton.getMenuItem();

@@ -1,18 +1,16 @@
 package view.TopMenuBar.ViewMenu;
 
-import entity.ToolEnum;
-import interface_adapter.canvas.CanvasController;
-import view.CanvasView;
+import interface_adapter.topmenu.TopMenuFacade;
+import interface_adapter.topmenu.TopMenuFacadeImpl;
 import view.DrawingView;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 
 public class ZoomOutButton {
-    private final ToolEnum toolName = ToolEnum.ZOOMOUT;
     private final JMenuItem menuItem;
 
-    public ZoomOutButton(DrawingView drawingView, CanvasController canvasController){
+    public ZoomOutButton(DrawingView drawingView, TopMenuFacade controller){
         menuItem = new JMenuItem("Zoom Out");
         menuItem.setMnemonic(KeyEvent.VK_F);
         menuItem.setAccelerator(
@@ -20,7 +18,7 @@ public class ZoomOutButton {
         menuItem.setActionCommand("Zoom Out");
 
         menuItem.addActionListener(e -> {
-            canvasController.handleZoomOutButtonPress(toolName);
+            controller.zoomIn();
             drawingView.repaint();
         });
     }
