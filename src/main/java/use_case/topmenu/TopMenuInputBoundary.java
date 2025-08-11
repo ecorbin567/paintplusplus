@@ -8,4 +8,5 @@ public interface TopMenuInputBoundary {
     void zoomIn(TopMenuInputData inputData);
     void zoomOut(TopMenuInputData inputData);
     void save(TopMenuInputData inputData);
+    void saveOnline(TopMenuInputData inputData);
 }

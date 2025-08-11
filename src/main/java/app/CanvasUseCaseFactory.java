@@ -1,9 +1,8 @@
 package app;
 
-import interface_adapter.SelectionViewModel;
+import data_access.CanvasDataAccessInterface;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.canvas.CanvasController;
-import interface_adapter.canvas.CanvasRenderer;
 import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.changecolor.ColorController;
 import interface_adapter.goback.GoBackController;
@@ -18,7 +17,6 @@ import interface_adapter.signup.SignupViewModel;
 import use_case.goback.GoBackInputBoundary;
 import use_case.goback.GoBackInteractor;
 import use_case.goback.GoBackOutputBoundary;
-import use_case.goback.GoBackUserDataAccessInterface;
 import view.CanvasView;
 import view.DrawingView;
 
@@ -40,7 +38,7 @@ public final class CanvasUseCaseFactory {
      * @param goBackViewModel      the NewCanvasViewModel to inject into the CanvasView
      * @param newCanvasViewModel   the CanvasViewModel to inject into the CanvasView
      * @param signupViewModel      the SignupViewModel to inject into the CanvasView
-     * @param userDataAccessObject the GoBackUserDataAccessInterface to inject into the CanvasView
+     * @param canvasDataAccessObject the GoBackUserDataAccessInterface to inject into the CanvasView
      * @param canvasViewModel
      * @return the CanvasView created for the provided input classes
      */
@@ -51,7 +49,7 @@ public final class CanvasUseCaseFactory {
             GoBackViewModel goBackViewModel,
             NewCanvasViewModel newCanvasViewModel,
             SignupViewModel signupViewModel,
-            GoBackUserDataAccessInterface userDataAccessObject,
+            CanvasDataAccessInterface canvasDataAccessObject,
             CropController cropController,
             ImportController importController,
             ResizeController resizeController,
@@ -60,7 +58,7 @@ public final class CanvasUseCaseFactory {
             CanvasViewModel canvasViewModel) {
 
         final GoBackController goBackController = createGoBackUseCase(viewManagerModel, newCanvasViewModel,
-                signupViewModel, userDataAccessObject);
+                signupViewModel, canvasDataAccessObject);
 
         return new CanvasView(canvasViewModel, goBackViewModel, goBackController,
                 cropController, importController, resizeController,
@@ -71,13 +69,13 @@ public final class CanvasUseCaseFactory {
             ViewManagerModel viewManagerModel,
             NewCanvasViewModel newCanvasViewModel,
             SignupViewModel signupViewModel,
-            GoBackUserDataAccessInterface userDataAccessObject) {
+            CanvasDataAccessInterface canvasDataAccessObject) {
 
         final GoBackOutputBoundary goBackOutputBoundary = new GoBackPresenter(viewManagerModel,
                 newCanvasViewModel,
                 signupViewModel);
         final GoBackInputBoundary goBackInteractor = new GoBackInteractor(
-                userDataAccessObject, goBackOutputBoundary);
+                canvasDataAccessObject, goBackOutputBoundary);
 
         return new GoBackController(goBackInteractor);
     }

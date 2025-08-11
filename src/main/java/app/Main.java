@@ -4,14 +4,13 @@ import app.ImageFactory.CropUseCaseFactory;
 import app.ImageFactory.ImportUseCaseFactory;
 import app.ImageFactory.ResizeUseCaseFactory;
 import app.ImageFactory.RotateUseCaseFactory;
-import data_access.InMemoryUserDataAccessObject;
+import data_access.InMemoryCanvasDataAccessObject;
 import data_access.LocalImageLoader;
 import data_access.SupabaseAccountRepository;
 import data_access.SupabaseCanvasRepository;
 import entity.CanvasState;
 import interface_adapter.SelectionViewModel;
 import com.formdev.flatlaf.FlatLightLaf;
-import data_access.*;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.canvas.CanvasController;
 import interface_adapter.canvas.CanvasRenderer;
@@ -83,15 +82,6 @@ public class Main {
 
         final SupabaseCanvasRepository canvasDataAccessObject = new SupabaseCanvasRepository();
 
-        final SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel,
-                signupViewModel, userDataAccessObject);
-        views.add(signupView, signupView.getViewName());
-
-        final LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel,
-                newCanvasViewModel, userDataAccessObject,
-                canvasDataAccessObject);
-        views.add(loginView, loginView.getViewName());
-
         //Entity Layer:
         CanvasState canvasState = new CanvasState();
 
@@ -106,18 +96,27 @@ public class Main {
         ResizeController resizeController = ResizeUseCaseFactory.create(canvasState, drawingViewModel);
         RotateController rotateController = RotateUseCaseFactory.create(canvasState, drawingViewModel);
         CanvasController canvasController = CanvasControllerFactory.createCanvasController(canvasState, drawingViewModel,
-                imageFileSaveGateway, selectionViewModel);
+                imageFileSaveGateway, selectionViewModel, canvasDataAccessObject);
         ColorController colorController = ColorUseCaseFactory.create(canvasState);
 
         //Renderer
         CanvasRenderer canvasRenderer = new CanvasRenderer();
+
+        final SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel,
+                signupViewModel, userDataAccessObject);
+        views.add(signupView, signupView.getViewName());
+
+        final LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel,
+                newCanvasViewModel, userDataAccessObject,
+                canvasDataAccessObject, drawingViewModel, goBackViewModel);
+        views.add(loginView, loginView.getViewName());
 
         final DrawingView drawingView = DrawingViewUseCaseFactory.create(canvasController, canvasRenderer,
                 selectionViewModel, drawingViewModel);
 
         final CanvasView canvasView = CanvasUseCaseFactory.create(viewManagerModel, goBackViewModel,
                 newCanvasViewModel, signupViewModel,
-                userDataAccessObject, cropcontroller, importController,
+                canvasDataAccessObject, cropcontroller, importController,
                 resizeController, rotateController, colorController,
                 drawingView, canvasController, canvasViewModel);
 

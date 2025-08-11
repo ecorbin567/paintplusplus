@@ -1,8 +1,8 @@
 package use_case.topmenu;
 
+import data_access.CanvasDataAccessInterface;
 import entity.*;
 import entity.Image;
-import use_case.tooluse.ToolUseInputData;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -17,13 +17,15 @@ public class TopMenuInteractor implements TopMenuInputBoundary {
     private final TopMenuOutputBoundary outputBoundary;
     private final FileSaveGateway fileSaveGateway;
     private static final Logger logger = Logger.getLogger(TopMenuInteractor.class.getName());
+    private final CanvasDataAccessInterface canvasDataAccessObject;
 
     public TopMenuInteractor(CanvasState canvasState,
                              TopMenuOutputBoundary outputBoundary,
-                             FileSaveGateway fileSaveGateway) {
+                             FileSaveGateway fileSaveGateway, CanvasDataAccessInterface canvasDataAccessObject) {
         this.canvasState = canvasState;
         this.outputBoundary = outputBoundary;
         this.fileSaveGateway = fileSaveGateway;
+        this.canvasDataAccessObject = canvasDataAccessObject;
     }
 
     @Override
@@ -50,6 +52,18 @@ public class TopMenuInteractor implements TopMenuInputBoundary {
         catch(ImageSaveException e){
             logger.log(Level.SEVERE, "Error saving image", e);
         }
+    }
+
+    /**
+     * Save the canvas to My Canvases repository
+     * @param inputData input data
+     */
+    @Override
+    public void saveOnline(TopMenuInputData inputData) {
+        String username = inputData.getCurrentUsername();
+        BufferedImage canvasToSave = inputData.getImage();
+
+        canvasDataAccessObject.saveCanvas(username, canvasToSave);
     }
 
     @Override

@@ -65,6 +65,11 @@ public class CanvasController {
         topMenuInputBoundary.save(inputData);
     }
 
+    public void handleSaveOnlineButtonPress(BufferedImage image, String username){
+        TopMenuInputData inputData = new TopMenuInputData(null, image, null, username);
+        topMenuInputBoundary.saveOnline(inputData);
+    }
+
     public void handleZoomInButtonPress(ToolEnum tool){
         TopMenuInputData inputData = new TopMenuInputData(tool);
         topMenuInputBoundary.zoomIn(inputData);
