@@ -1,8 +1,7 @@
 package use_case.goback;
 
-import data_access.UserDataAccessInterface;
 import entity.User;
-
+import data_access.UserDataAccessInterface;
 /**
  * DAO for the Login Use Case.
  */

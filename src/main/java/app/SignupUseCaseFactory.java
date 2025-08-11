@@ -36,7 +36,7 @@ public final class SignupUseCaseFactory {
             SignupViewModel signupViewModel, SignupUserDataAccessInterface userDataAccessObject) {
 
         final SignupController signupController = createUserSignupUseCase(viewManagerModel, signupViewModel,
-                                                                          loginViewModel, userDataAccessObject);
+                loginViewModel, userDataAccessObject);
         return new SignupView(signupController, signupViewModel);
 
     }
@@ -46,9 +46,8 @@ public final class SignupUseCaseFactory {
                                                             LoginViewModel loginViewModel,
                                                             SignupUserDataAccessInterface userDataAccessObject) {
 
-        // Notice how we pass this method's parameters to the Presenter.
         final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel,
-                                                                              signupViewModel, loginViewModel);
+                signupViewModel, loginViewModel);
 
         final UserFactory userFactory = new CommonUserFactory();
 

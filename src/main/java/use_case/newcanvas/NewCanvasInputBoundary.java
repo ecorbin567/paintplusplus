@@ -1,7 +1,10 @@
 package use_case.newcanvas;
 
+import java.awt.image.BufferedImage;
+import java.util.List;
+
 /**
- * Input Boundary for actions which are related to logging in.
+ * Input Boundary for actions which are related to creating a new canvas.
  */
 public interface NewCanvasInputBoundary {
 
@@ -10,5 +13,13 @@ public interface NewCanvasInputBoundary {
      * @param newCanvasInputData the input data
      */
     void execute(NewCanvasInputData newCanvasInputData);
+
+    /**
+     * Executes the login use case when importing an existing canvas.
+     * @param newCanvasInputData the input data
+     */
+    void executeImportExistingCanvas(NewCanvasInputData newCanvasInputData);
+
     void switchToSignupView();
+    List<BufferedImage> getUserCanvases(NewCanvasInputData newCanvasInputData);
 }

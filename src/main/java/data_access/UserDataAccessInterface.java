@@ -1,9 +1,6 @@
 package data_access;
 
-import entity.ActionHistory;
 import entity.User;
-
-import java.util.List;
 
 /** Primary interface for accessing user information
  */
@@ -44,20 +41,27 @@ public interface UserDataAccessInterface {
      */
     boolean verifyCredentials(String username, String password);
 
+
+    // COMBINED WITH LOGIN/SIGNUP
     /**
-     * Add new document to user's repository
-     * @param actionHistory
-     * @return
+     * Checks if the given username exists.
+     * @param username the username to look for
+     * @return true if a user with the given username exists; false otherwise
      */
-    boolean saveCanvas(User user, ActionHistory actionHistory);
+    boolean existsByName(String username);
 
     /**
-     * Get a certain project from user's repository.
-     * @param id
-     * @return the action history of the desired drawing
+     * Sets the current user to a given name.
+     * @param name the username to set
      */
-    ActionHistory findCanvasById(User user, int id);
+    void setCurrentUser(String name);
+    // JOSH: why is this a String? it works tho so I'll stick with it
 
-    List<ActionHistory> getAllCanvases(User user);
+    /**
+     * Returns the current user's name.
+     * @return name the username of the current user
+     */
+    String getCurrentUser();
+
 }
 

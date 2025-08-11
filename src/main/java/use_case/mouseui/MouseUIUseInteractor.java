@@ -63,6 +63,7 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
     }
 
     private void deselect(Rectangle selectionBounds) {
+        System.out.println("DESELECT");
         this.canvasState.setDraggingSelection(false);
         this.canvasState.setHasCutOut(false);
         if (actionHistory.getCurrentState() instanceof CutRecord) {
@@ -72,14 +73,11 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
         Rectangle dest = new Rectangle(selectionBounds);
         Rectangle src = new Rectangle(this.canvasState.getSelectionOriginalBounds());
         BufferedImage selectionImage = this.canvasState.getSelectionImage();
-        System.out.println("Does this deselect happen?:");
         actionHistory.push(new MoveRecord(selectionImage, src, dest));
-
         commitedSelections.add(new CanvasState.Pair<>(selectionImage, dest));
         clearRegions.add(src);
 
-
-        this.canvasState.setHasCutOut(false);
+        this.canvasState.setHasSelection(false);
         this.canvasState.setSelectionImage(null);
         this.canvasState.setSelectionBounds(null);
         selectionTool.cancel();
@@ -101,13 +99,10 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
             case PENCIL, ERASER -> mouseDragPencilEraser(inputData);
             case SELECT -> {
                 mouseDragSelect(inputData);
-                System.out.println("Dragged selected Sent");
                 sendSelectionOutputData();
             }
         }
-        System.out.println("Mouse Output Sent :");
         sendMouseOutputData();
-
     }
 
     private void mouseDragSelect(MouseUIInputData inputData) {
@@ -119,7 +114,6 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
             if(!hasCutOut) {
                 Rectangle hole = new Rectangle(this.canvasState.getSelectionBounds());
                 clearRegions.add(hole);
-                System.out.println("Hole?:");
                 actionHistory.push(new CutRecord(hole));
                 this.canvasState.setHasCutOut(true);
             }
@@ -148,7 +142,7 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
 
         StrokeRecord currentStroke = new StrokeRecord(color, size);
         currentStroke.pts.add(inputData.getPoint());
-        canvasState.addActionHistory(currentStroke);
+        actionHistory.push(currentStroke);
     }
 
     @Override
@@ -160,10 +154,10 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
 
         if (toolstate == ToolEnum.SELECT){
             releasingMouse(draggingSelection, selectionTool, p, image);
+            sendSelectionOutputData();
         }
 
         sendMouseOutputData();
-        sendSelectionOutputData();
     }
 
     private void releasingMouse(boolean draggingSelection, SelectionTool tool, Point p, BufferedImage image) {
@@ -188,11 +182,8 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
         Drawable drawable = actionHistory.getCurrentState();
         if (drawable instanceof StrokeRecord strokeRecord) {
             strokeRecord.pts.add(inputData.getPoint());
-            actionHistory.setCurrentState(strokeRecord);
         }
     }
-
-
     private void sendSelectionOutputData() {
         selectOutputBoundary.setIsDraggingSelection(getSelectOutputData());
         selectOutputBoundary.setIsDrawing(getSelectOutputData());

@@ -54,6 +54,7 @@ public class TopMenuInteractor implements TopMenuInputBoundary {
 
     @Override
     public void undoDrawable(TopMenuInputData inputData) {
+        System.out.println("Undo button Interactor");
         ToolEnum toolName = inputData.getToolName();
         if (toolName == ToolEnum.UNDO) {
 
@@ -67,26 +68,25 @@ public class TopMenuInteractor implements TopMenuInputBoundary {
                 importedImages.add(image);
                 this.canvasState.setCurrentImage(image);
             }
+            Drawable currentState = actionHistory.getCurrentState();
 
             boolean undoStackEmpty = !actionHistory.getUndoStack().isEmpty();
             Stack<Drawable> undoStack = actionHistory.getUndoStack();
-            Drawable currentDrawable = actionHistory.getCurrentState();
 
             TopMenuOutputData outputData = new TopMenuOutputData(undoStack, undoStackEmpty,
-                    importedImages, currentDrawable);
+                    importedImages, prevState);
             outputBoundary.setRepaintState(outputData);
             outputBoundary.setDrawables(outputData);
             outputBoundary.setCurrentDrawable(outputData);
-            System.out.println("Undo Interactor");
-            for (Drawable drawable : undoStack) {
-                System.out.println(drawable);
-            }
+            System.out.println(currentState);
+            System.out.println(undoStack);
             System.out.println(undoStack.size());
         }
     }
 
     @Override
     public void redoDrawable(TopMenuInputData inputData) {
+        System.out.println("Redo button Interactor");
         ToolEnum toolEnum = inputData.getToolName();
         if (toolEnum == ToolEnum.REDO) {
             ActionHistory actionHistory = this.canvasState.getActionHistory();
@@ -94,6 +94,7 @@ public class TopMenuInteractor implements TopMenuInputBoundary {
             if (nextState == null) {
                 return;
             }
+
             List<Image> importedImages = canvasState.getImportedImages();
             importedImages.clear();
             rebuildStateFromHistory();
@@ -102,16 +103,19 @@ public class TopMenuInteractor implements TopMenuInputBoundary {
                 importedImages.add(image);
                 this.canvasState.setCurrentImage(image);
             }
+            Drawable currentState = actionHistory.getCurrentState();
 
             boolean undoStackEmpty = !actionHistory.getUndoStack().isEmpty();
             Stack<Drawable> undoStack = actionHistory.getUndoStack();
-            Drawable currentDrawable = actionHistory.getCurrentState();
 
             TopMenuOutputData outputData = new TopMenuOutputData(undoStack, undoStackEmpty,
-                    importedImages, currentDrawable);
+                    importedImages, nextState);
             outputBoundary.setDrawables(outputData);
             outputBoundary.setRepaintState(outputData);
             outputBoundary.setCurrentDrawable(outputData);
+            System.out.println(currentState);
+            System.out.println(undoStack);
+            System.out.println(undoStack.size());
         }
     }
 

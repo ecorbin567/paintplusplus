@@ -2,7 +2,6 @@ package app.ImageFactory;
 
 import data_access.LocalImageLoader;
 import entity.CanvasState;
-import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.canvas.DrawingViewModel;
 import interface_adapter.image.import_image.ImportController;
 import interface_adapter.image.import_image.ImportPresenter;

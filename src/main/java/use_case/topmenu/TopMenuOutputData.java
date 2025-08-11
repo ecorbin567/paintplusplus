@@ -44,10 +44,6 @@ public class TopMenuOutputData {
         return scale;
     }
 
-    public List<Image> getImportedImages() {
-        return importedImages;
-    }
-
     public Drawable getCurrentDrawable() {
         return currentDrawable;
     }

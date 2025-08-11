@@ -1,6 +1,5 @@
 package use_case.userdatabase;
 
-import data_access.SupabaseAccountRepository;
 import entity.CommonUser;
 import entity.User;
 

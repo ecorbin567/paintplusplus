@@ -9,7 +9,7 @@ import java.util.List;
 public class CanvasState {
     private double scale = 1;
     //ToolUse
-    private final Paintbrush paintbrush = new Paintbrush();
+    private final Paintbrush paintbrush = new Paintbrush(3f, Color.BLACK );
     private final Eraser eraser = new Eraser();
     private final SelectionTool selectionTool = new SelectionTool();
 

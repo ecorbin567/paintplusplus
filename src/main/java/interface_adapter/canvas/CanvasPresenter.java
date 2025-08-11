@@ -24,8 +24,6 @@ public class CanvasPresenter implements TopMenuOutputBoundary, MouseUIOutputBoun
     @Override
     public void setDrawables(TopMenuOutputData outputData) {
         Stack<Drawable> drawables = outputData.getDrawables();
-        System.out.println("Presenter");
-        System.out.println(drawables.size());
         this.drawingViewModel.setDrawables(drawables);
     }
 
@@ -38,10 +36,6 @@ public class CanvasPresenter implements TopMenuOutputBoundary, MouseUIOutputBoun
     @Override
     public void setDrawableState(MouseUIOutputData outputData) {
         Stack<Drawable> drawables = outputData.getDrawables();
-        for (Drawable drawable : drawables) {
-            System.out.println(drawable);
-        }
-
         this.drawingViewModel.setDrawables(drawables);
     }
 
@@ -60,7 +54,6 @@ public class CanvasPresenter implements TopMenuOutputBoundary, MouseUIOutputBoun
     @Override
     public void setCurrentDrawable(TopMenuOutputData outputData) {
         Drawable currentDrawable = outputData.getCurrentDrawable();
-        System.out.println(currentDrawable);
         this.drawingViewModel.setDrawable(currentDrawable);
     }
 }

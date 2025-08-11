@@ -3,15 +3,13 @@ package interface_adapter.canvas;
 import entity.*;
 import entity.Image;
 import interface_adapter.SelectionViewModel;
-import view.DrawingView;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.Stack;
 
 public class CanvasRenderer {
     private final float[] ANTS_DASH = {4f, 4f}; // dash, gap in px scaled with the canvas
-    private float antsPhase = 0f;
+    private static final float antsPhase = 0f;
 
     public CanvasRenderer() {
     }
@@ -19,7 +17,7 @@ public class CanvasRenderer {
     public void updateAntsTimer(Timer timer, SelectionViewModel selectionViewModel){
         boolean isDrawing = selectionViewModel.getIsDrawing();
         boolean hasSelection = selectionViewModel.getHasSelection();
-        boolean shouldRun =(isDrawing||hasSelection);
+        boolean shouldRun = (isDrawing||hasSelection);
         if (shouldRun&&!timer.isRunning()) timer.start();
         if (!shouldRun&&timer.isRunning()) timer.stop();
     }
@@ -51,7 +49,6 @@ public class CanvasRenderer {
     }
 
     public void moveSelectionWindow(Graphics2D graphics2D, SelectionViewModel selectionViewModel){
-
         if (selectionViewModel.getHasSelection() && selectionViewModel.getSelectionImage() != null
                 && selectionViewModel.getSelectionBounds() != null) {
             graphics2D.drawImage(
@@ -68,6 +65,9 @@ public class CanvasRenderer {
     public void selectionDraw(Graphics2D graphics2D, SelectionViewModel selectionViewModel){
         // selection tool rendering logic
         Rectangle r = null;
+        System.out.println(selectionViewModel.getIsDrawing());
+        System.out.println(selectionViewModel.getHasSelection());
+        System.out.println(selectionViewModel.getSelectionBounds());
 
         if (selectionViewModel.getIsDrawing()){
             r = selectionViewModel.getSelectionToolBounds();

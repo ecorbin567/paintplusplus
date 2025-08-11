@@ -19,6 +19,7 @@ public class RedoButton{
                 InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK));
         menuItem.addActionListener(evt -> {
             canvasController.handleRedoButtonPress(toolName);
+            System.out.println("Redo button pressed");
             drawingView.repaint();
         });
         menuItem.setActionCommand("redo");

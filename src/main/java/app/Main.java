@@ -6,6 +6,8 @@ import app.ImageFactory.ResizeUseCaseFactory;
 import app.ImageFactory.RotateUseCaseFactory;
 import data_access.InMemoryUserDataAccessObject;
 import data_access.LocalImageLoader;
+import data_access.SupabaseAccountRepository;
+import data_access.SupabaseCanvasRepository;
 import entity.CanvasState;
 import interface_adapter.SelectionViewModel;
 import interface_adapter.ViewManagerModel;
@@ -71,15 +73,17 @@ public class Main {
 
         If you want to test the signup/login with the DB, uncomment the line below and comment out
         the InMemory version. user/pswd for testing DB: "beabadoobee" / "plaintext123" */
-        // final SupabaseAccountRepository userDataAccessObject = new SupabaseAccountRepository();
-        final InMemoryUserDataAccessObject userDataAccessObject = new InMemoryUserDataAccessObject();
+        final SupabaseAccountRepository userDataAccessObject = new SupabaseAccountRepository();
+
+        final SupabaseCanvasRepository canvasDataAccessObject = new SupabaseCanvasRepository();
 
         final SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel,
                                                                   signupViewModel, userDataAccessObject);
         views.add(signupView, signupView.getViewName());
 
         final LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel,
-                                                               newCanvasViewModel, userDataAccessObject);
+                newCanvasViewModel, userDataAccessObject,
+                canvasDataAccessObject);
         views.add(loginView, loginView.getViewName());
 
         //Entity Layer:
@@ -114,7 +118,7 @@ public class Main {
         views.add(canvasView, canvasView.getViewName());
 
         final MyCanvasesView myCanvasesView = NewCanvasUseCaseFactory.create(viewManagerModel, newCanvasViewModel,
-                canvasViewModel, signupViewModel, userDataAccessObject);
+                canvasViewModel, signupViewModel, canvasDataAccessObject);
 
         views.add(myCanvasesView, myCanvasesView.getViewName());
 

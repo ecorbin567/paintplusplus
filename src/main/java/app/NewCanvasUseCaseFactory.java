@@ -28,7 +28,7 @@ public final class NewCanvasUseCaseFactory {
      * @param viewManagerModel the ViewManagerModel to inject into the NewCanvasView
      * @param newCanvasViewModel the NewCanvasViewModel to inject into the NewCanvasView
      * @param canvasViewModel the CanvasViewModel to inject into the NewCanvasView
-     * @param userDataAccessObject the NewCanvasUserDataAccessInterface to inject into the NewCanvasView
+     * @param canvasDataAccessObject the NewCanvasUserDataAccessInterface to inject into the NewCanvasView
      * @return the NewCanvasView created for the provided input classes
      */
     public static MyCanvasesView create(
@@ -36,10 +36,10 @@ public final class NewCanvasUseCaseFactory {
             NewCanvasViewModel newCanvasViewModel,
             CanvasViewModel canvasViewModel,
             SignupViewModel signupViewModel,
-            InMemoryUserDataAccessObject userDataAccessObject) {
+            NewCanvasUserDataAccessInterface canvasDataAccessObject) {
 
         final NewCanvasController newCanvasController = createNewCanvasUseCase(viewManagerModel, newCanvasViewModel,
-                                                                   canvasViewModel, signupViewModel, userDataAccessObject);
+                canvasViewModel, signupViewModel, canvasDataAccessObject);
         return new MyCanvasesView(newCanvasViewModel, newCanvasController);
 
     }
@@ -51,10 +51,9 @@ public final class NewCanvasUseCaseFactory {
             SignupViewModel signupViewModel,
             NewCanvasUserDataAccessInterface userDataAccessObject) {
 
-        // Notice how we pass this method's parameters to the Presenter.
         final NewCanvasOutputBoundary newCanvasOutputBoundary = new NewCanvasPresenter(viewManagerModel,
-                                                                           canvasViewModel, newCanvasViewModel,
-                                                                            signupViewModel);
+                canvasViewModel, newCanvasViewModel,
+                signupViewModel);
         final NewCanvasInputBoundary newCanvasInteractor = new NewCanvasInteractor(
                 userDataAccessObject, newCanvasOutputBoundary);
 

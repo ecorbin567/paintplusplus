@@ -8,7 +8,7 @@ import interface_adapter.signup.SignupViewModel;
 import use_case.goback.GoBackOutputBoundary;
 
 /**
- * The Presenter for the Login Use Case.
+ * The Presenter for the Go Back Use Case.
  */
 public class GoBackPresenter implements GoBackOutputBoundary {
 

@@ -55,7 +55,7 @@ public class DrawingView extends JPanel implements MouseListener, MouseMotionLis
     @Override
     public void mouseDragged(MouseEvent e) {
         controller.handleMouseDragged(e.getPoint());
-        renderCanvasView();
+        repaint();
     }
 
     @Override
@@ -70,6 +70,7 @@ public class DrawingView extends JPanel implements MouseListener, MouseMotionLis
         if (SwingUtilities.isLeftMouseButton(e)) {
             controller.handleMousePressed(e.getPoint());
             renderCanvasView();
+            renderer.updateAntsTimer(antsTimer, selectionViewModel);
         }
     }
 

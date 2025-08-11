@@ -5,7 +5,6 @@ import entity.CommonUser;
 import entity.User;
 import use_case.goback.GoBackUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
-import use_case.newcanvas.NewCanvasUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
 import java.util.ArrayList;
@@ -19,16 +18,15 @@ import java.util.Map;
  */
 public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterface,
                                                      LoginUserDataAccessInterface,
-                                                     NewCanvasUserDataAccessInterface,
-        GoBackUserDataAccessInterface {
+                                                     GoBackUserDataAccessInterface {
     private final Map<String, User> users = new HashMap<>();
     private final Map<String, List<ActionHistory>> usersDocumentsMap = new HashMap<>();
     private String currentUser;
 
     public InMemoryUserDataAccessObject() {
 
-        // creating users for testing
-        //createUser(new User("beabadoobee", "abcdefg123"));
+        // default user for quick login
+        createUser(new CommonUser("asdf", "asdf"));
     }
 
     /* DEPENDENCY INJECTIONS!!!! :DDDDD */
