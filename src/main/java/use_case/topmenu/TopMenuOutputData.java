@@ -12,21 +12,24 @@ public class TopMenuOutputData {
     private boolean stackEmpty;
     private Double scale;
     private List<Image> importedImages;
+    private Drawable currentDrawable;
 
     public TopMenuOutputData(Stack<Drawable> drawableStack, boolean stackEmpty,
-                             List<Image> importedImages) {
+                             List<Image> importedImages, Drawable currentDrawable) {
         this.drawableStack = drawableStack;
         this.stackEmpty = stackEmpty;
         this.scale = null;
         this.importedImages = importedImages;
+        this.currentDrawable = currentDrawable;
     }
 
     public TopMenuOutputData(Stack<Drawable> drawableStack, boolean stackEmpty,
-                             double scale) {
+                             double scale, Drawable currentDrawable) {
         this.drawableStack = drawableStack;
         this.stackEmpty = stackEmpty;
         this.scale = scale;
         this.importedImages = null;
+        this.currentDrawable = currentDrawable;
     }
 
     public Stack<Drawable> getDrawables() {
@@ -45,4 +48,7 @@ public class TopMenuOutputData {
         return importedImages;
     }
 
+    public Drawable getCurrentDrawable() {
+        return currentDrawable;
+    }
 }

@@ -42,13 +42,12 @@ public class DrawingView extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void paintComponent(Graphics g) {
-        System.out.println("paintComponent");
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g.create();
         renderer.resize(g2, viewModel);
         renderer.drawImage(g2, viewModel);
         renderer.renderDraw(g2, viewModel);
-//        renderer.layeringDraw(g2, viewModel);
+        renderer.layeringDraw(g2, viewModel);
         renderer.selectionDraw(g2, selectionViewModel);
         renderer.moveSelectionWindow(g2, selectionViewModel);
     }

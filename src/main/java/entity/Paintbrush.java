@@ -2,6 +2,9 @@ package entity;
 
 import java.awt.*;
 
+/**
+ * A paintbrush.
+ */
 public class Paintbrush implements Tool{
     private float width;
     private Color colour;
@@ -9,11 +12,6 @@ public class Paintbrush implements Tool{
     public Paintbrush(float width, Color colour) {
         this.width = width;
         this.colour = colour;
-    }
-
-    public Paintbrush(){
-        this.width = 3f;
-        this.colour = Color.BLACK;
     }
 
     @Override

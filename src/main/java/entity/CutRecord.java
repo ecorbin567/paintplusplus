@@ -7,4 +7,9 @@ public class CutRecord implements Drawable{
     public CutRecord(Rectangle b){
         this.bounds = b;
     }
+
+    @Override
+    public String toString(){
+        return "CutRecord [bounds=" + bounds + "]";
+    }
 }

@@ -12,4 +12,8 @@ public class PasteRecord implements Drawable{
         this.bounds = where;
     }
 
+    @Override
+    public String toString(){
+        return "Paste Record: " + bounds.toString();
+    }
 }

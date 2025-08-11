@@ -43,12 +43,12 @@ public class CanvasRenderer {
         }
     }
 
-//    public void layeringDraw(Graphics2D graphics2D, DrawingViewModel drawingViewModel){
-//        Drawable head = drawingViewModel.getDrawable();
-//        if (head != null){
-//            drawDrawable(graphics2D, head);
-//        }
-//    }
+    public void layeringDraw(Graphics2D graphics2D, DrawingViewModel drawingViewModel){
+        Drawable head = drawingViewModel.getDrawable();
+        if (head != null){
+            drawDrawable(graphics2D, head);
+        }
+    }
 
     public void moveSelectionWindow(Graphics2D graphics2D, SelectionViewModel selectionViewModel){
 

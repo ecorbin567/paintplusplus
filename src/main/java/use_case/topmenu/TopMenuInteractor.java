@@ -70,10 +70,13 @@ public class TopMenuInteractor implements TopMenuInputBoundary {
 
             boolean undoStackEmpty = !actionHistory.getUndoStack().isEmpty();
             Stack<Drawable> undoStack = actionHistory.getUndoStack();
+            Drawable currentDrawable = actionHistory.getCurrentState();
 
-            TopMenuOutputData outputData = new TopMenuOutputData(undoStack, undoStackEmpty, importedImages);
+            TopMenuOutputData outputData = new TopMenuOutputData(undoStack, undoStackEmpty,
+                    importedImages, currentDrawable);
             outputBoundary.setRepaintState(outputData);
             outputBoundary.setDrawables(outputData);
+            outputBoundary.setCurrentDrawable(outputData);
             System.out.println("Undo Interactor");
             for (Drawable drawable : undoStack) {
                 System.out.println(drawable);
@@ -102,10 +105,13 @@ public class TopMenuInteractor implements TopMenuInputBoundary {
 
             boolean undoStackEmpty = !actionHistory.getUndoStack().isEmpty();
             Stack<Drawable> undoStack = actionHistory.getUndoStack();
+            Drawable currentDrawable = actionHistory.getCurrentState();
 
-            TopMenuOutputData outputData = new TopMenuOutputData(undoStack, undoStackEmpty, importedImages);
+            TopMenuOutputData outputData = new TopMenuOutputData(undoStack, undoStackEmpty,
+                    importedImages, currentDrawable);
             outputBoundary.setDrawables(outputData);
             outputBoundary.setRepaintState(outputData);
+            outputBoundary.setCurrentDrawable(outputData);
         }
     }
 
@@ -150,7 +156,9 @@ public class TopMenuInteractor implements TopMenuInputBoundary {
         ActionHistory actionHistory = this.canvasState.getActionHistory();
         Stack<Drawable> undoStack = actionHistory.getUndoStack();
         boolean undoStackEmpty = !undoStack.isEmpty();
-        TopMenuOutputData outputData = new TopMenuOutputData(undoStack, undoStackEmpty, scale);
+        Drawable currentDrawable = actionHistory.getCurrentState();
+        TopMenuOutputData outputData = new TopMenuOutputData(undoStack, undoStackEmpty,
+                scale, currentDrawable);
         outputBoundary.setScale(outputData);
     }
 

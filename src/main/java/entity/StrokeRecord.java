@@ -15,11 +15,11 @@ public class StrokeRecord implements Drawable{
         this.width  = width;
     }
 
-    @Override
-    public String toString(){
-        return String.format(
-                "Stroke color: RGB(%d, %d, %d), size: %.2f",
-                colour.getRed(), colour.getGreen(), colour.getBlue(),
-                width);
-    }
+//    @Override
+//    public String toString(){
+//        return String.format(
+//                "Stroke color: RGB(%d, %d, %d), size: %.2f",
+//                colour.getRed(), colour.getGreen(), colour.getBlue(),
+//                width);
+//    }
 }
