@@ -75,8 +75,6 @@ public class SupabaseAccountRepository implements UserDataAccessInterface,
             // Send the request
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            System.out.println(response);
-
             // Check if insert succeeded
             return response.statusCode() == 201;
 
