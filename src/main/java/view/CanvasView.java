@@ -85,7 +85,6 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
     }
 
     public void actionPerformed(ActionEvent evt) {
-        System.out.println("Click " + evt.getActionCommand());
     }
 
     public String getViewName() {

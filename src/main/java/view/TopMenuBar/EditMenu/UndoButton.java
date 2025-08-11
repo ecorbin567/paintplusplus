@@ -20,7 +20,6 @@ public class UndoButton {
         menuItem.setActionCommand("Undo");
         menuItem.addActionListener(evt -> {
             canvasController.handleUndoButtonPress(toolName);
-            System.out.println("Undo button pressed");
             drawingView.repaint();
         });
     }

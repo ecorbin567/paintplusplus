@@ -160,7 +160,6 @@ public class MyCanvasesView extends JPanel implements ActionListener, PropertyCh
      * @param evt the ActionEvent to react to
      */
     public void actionPerformed(ActionEvent evt) {
-        System.out.println("Click " + evt.getActionCommand());
     }
 
     @Override

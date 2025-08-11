@@ -92,7 +92,7 @@ public class EntityToJSONConverter {
      */
     public static void main(String[] args) {
         User user = new CommonUser("alice", "securepassword123");
-        JSONObject userJson = convertUserToJSON(user);
-        System.out.println(userJson.toString(2)); // Pretty print with indentation
+//        JSONObject userJson = convertUserToJSON(user);
+//        System.out.println(userJson.toString(2)); // Pretty print with indentation
     }
 }

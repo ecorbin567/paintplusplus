@@ -54,7 +54,6 @@ public class TopMenuInteractor implements TopMenuInputBoundary {
 
     @Override
     public void undoDrawable(TopMenuInputData inputData) {
-        System.out.println("Undo button Interactor");
         ToolEnum toolName = inputData.getToolName();
         if (toolName == ToolEnum.UNDO) {
 
@@ -78,15 +77,11 @@ public class TopMenuInteractor implements TopMenuInputBoundary {
             outputBoundary.setRepaintState(outputData);
             outputBoundary.setDrawables(outputData);
             outputBoundary.setCurrentDrawable(outputData);
-            System.out.println(currentState);
-            System.out.println(undoStack);
-            System.out.println(undoStack.size());
         }
     }
 
     @Override
     public void redoDrawable(TopMenuInputData inputData) {
-        System.out.println("Redo button Interactor");
         ToolEnum toolEnum = inputData.getToolName();
         if (toolEnum == ToolEnum.REDO) {
             ActionHistory actionHistory = this.canvasState.getActionHistory();
@@ -113,9 +108,6 @@ public class TopMenuInteractor implements TopMenuInputBoundary {
             outputBoundary.setDrawables(outputData);
             outputBoundary.setRepaintState(outputData);
             outputBoundary.setCurrentDrawable(outputData);
-            System.out.println(currentState);
-            System.out.println(undoStack);
-            System.out.println(undoStack.size());
         }
     }
 
