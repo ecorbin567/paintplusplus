@@ -18,7 +18,7 @@ public class ZoomInButton {
         menuItem.setActionCommand("Zoom in");
 
         menuItem.addActionListener(e -> {
-            controller.zoomOut();
+            controller.zoomIn();
             drawingView.repaint();
         });
     }

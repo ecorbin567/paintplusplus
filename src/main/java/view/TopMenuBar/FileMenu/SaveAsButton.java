@@ -28,7 +28,7 @@ public class SaveAsButton{
 
             if (result == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
-                if (file.getName().endsWith(".png")) {
+                if (!file.getName().endsWith(".png")) {
                     file = new File(file.getAbsolutePath() + ".png");
                 }
                 controller.save(image, file);
