@@ -7,6 +7,9 @@ import use_case.image.import_image.ImportResponseModel;
 
 import javax.swing.*;
 
+/**
+ * The presenter for the Import Use Case.
+ */
 public class ImportPresenter implements ImportOutputBoundary {
 
     private final DrawingViewModel drawingViewModel;

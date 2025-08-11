@@ -5,7 +5,7 @@ import interface_adapter.ViewModel;
 import java.awt.image.BufferedImage;
 
 /**
- * The View Model for the Logged In View.
+ * The View Model for the Canvas View.
  */
 public class CanvasViewModel extends ViewModel<CanvasUserState> {
 

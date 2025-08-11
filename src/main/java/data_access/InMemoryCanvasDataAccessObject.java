@@ -1,6 +1,7 @@
 package data_access;
 
 import use_case.newcanvas.NewCanvasUserDataAccessInterface;
+import view.MidMenuBar.ImageBar.CropButton;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

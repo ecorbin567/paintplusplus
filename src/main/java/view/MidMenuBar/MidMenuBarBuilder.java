@@ -9,6 +9,7 @@ import interface_adapter.image.resize.ResizeController;
 import interface_adapter.image.rotate.RotateController;
 import interface_adapter.image.import_image.*;
 import view.DrawingView;
+
 import view.MidMenuBar.ColorButtonsBar.*;
 import view.MidMenuBar.EraserButtonGroup.EraseButton;
 import view.MidMenuBar.ImageBar.CropButton;
@@ -37,6 +38,7 @@ public class MidMenuBarBuilder {
     JToggleButton lowerColorChooserButton;
     JToggleButton colorWheelButton;
     CanvasController canvasController;
+    ImportButton importButtonObject;
 
     public MidMenuBarBuilder(CanvasController canvasController,
                              CropController cropController,
@@ -47,7 +49,6 @@ public class MidMenuBarBuilder {
                              DrawingView drawingView) {
 
         this.canvasController = canvasController;
-
 
         PencilButton pencilButton = new PencilButton(this.canvasController);
         pButton = pencilButton.getButton();
@@ -60,6 +61,7 @@ public class MidMenuBarBuilder {
 
         ImportButton imageButton = new ImportButton(importController, drawingView);
         iButton = imageButton.getButton();
+        this.importButtonObject = imageButton; //  JOSH: Lol store it
 
         CropButton crop = new CropButton(cropController, drawingView);
         cropButton = crop.getButton();
@@ -68,6 +70,7 @@ public class MidMenuBarBuilder {
         resizeButton = resize.getButton();
 
         RotateButton rotate = new RotateButton(rotateController, drawingView);
+
         rotateButton = rotate.getButton();
 
         UpperColorChooserButton upperChooserButton = new UpperColorChooserButton(colorController);
@@ -131,5 +134,20 @@ public class MidMenuBarBuilder {
 
     public JPanel getPanel() {
         return panel;
+    }
+    public JButton getPencilButton() {
+        return pButton;
+    }
+
+    public JButton getEraseButton() {
+        return eButton;
+    }
+
+    /**
+     * Getter for import button
+     * @return the import button
+     */
+    public ImportButton getImportButtonObject() {
+        return importButtonObject; // Josh: lol
     }
 }

@@ -13,7 +13,6 @@ public class MoveRecord implements Drawable{
         this.from = from;
         this.to = to;
     }
-
     @Override
     public String toString(){
         return "Move Record: " + from + " to " + to;

@@ -4,6 +4,9 @@ import entity.ToolEnum;
 
 import java.awt.*;
 
+/**
+ * The Input Data for the Change Colour Use Case.
+ */
 public class ChangeColorInputData {
     private final ToolEnum toolName;
     private final Color newColor;

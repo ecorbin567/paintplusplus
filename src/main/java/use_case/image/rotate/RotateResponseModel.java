@@ -1,7 +1,6 @@
 package use_case.image.rotate;
 
 import entity.Image;
-
 import java.util.List;
 
 public class RotateResponseModel {

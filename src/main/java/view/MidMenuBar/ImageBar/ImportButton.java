@@ -12,8 +12,10 @@ import java.io.File;
 public class ImportButton {
 
     private final JButton button;
+    private ImportController importController;
 
     public ImportButton(ImportController controller, DrawingView drawingView) {
+        this.importController = controller;
         button = new JButton();
 
         ImageIcon icon = new ImageIcon(SelectionToolButton.class.getResource("/images/ImageIcon.png"));
@@ -39,5 +41,9 @@ public class ImportButton {
 
     public JButton getButton() {
         return button;
+    }
+
+    public ImportController getController() {
+        return importController;
     }
 }

@@ -3,9 +3,11 @@ package use_case.image.crop;
 import entity.ActionHistory;
 import entity.CanvasState;
 import entity.Image;
-
 import java.util.List;
 
+/**
+ * The Crop Interactor.
+ */
 public class CropInteractor implements CropInputBoundary {
 
     private final CanvasState canvas;
@@ -26,7 +28,6 @@ public class CropInteractor implements CropInputBoundary {
                 presenter.presentError("No image to modify."); // Use a generic error
                 return;
             }
-
 
             Image newImage = originalImage.clone();
             newImage.crop(requestModel.getX(), requestModel.getY(), requestModel.getWidth(), requestModel.getHeight());

@@ -10,6 +10,8 @@ import data_access.SupabaseAccountRepository;
 import data_access.SupabaseCanvasRepository;
 import entity.CanvasState;
 import interface_adapter.SelectionViewModel;
+import com.formdev.flatlaf.FlatLightLaf;
+import data_access.*;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.canvas.CanvasController;
 import interface_adapter.canvas.CanvasRenderer;
@@ -30,18 +32,22 @@ import view.*;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * The version of Main with an external database used to persist user data.
- */
 public class Main {
 
     /**
-     * The main method for starting the program with an external database used to persist user data.
+     * The main method for starting the program.
      * @param args input to main
      */
     public static void main(String[] args) {
         // Build the main program window, the main panel containing the
         // various cards, and the layout, and stitch them together.
+
+        try {
+            // Set FlatLaf Light look and feel
+            UIManager.setLookAndFeel(new FlatLightLaf());
+        } catch (UnsupportedLookAndFeelException e) {
+            System.err.println("Failed to initialize FlatLaf Light L&F");
+        }
 
         // The main application window.
         final JFrame application = new JFrame("Paint++");
@@ -78,7 +84,7 @@ public class Main {
         final SupabaseCanvasRepository canvasDataAccessObject = new SupabaseCanvasRepository();
 
         final SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel,
-                                                                  signupViewModel, userDataAccessObject);
+                signupViewModel, userDataAccessObject);
         views.add(signupView, signupView.getViewName());
 
         final LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel,
@@ -110,10 +116,10 @@ public class Main {
                 selectionViewModel, drawingViewModel);
 
         final CanvasView canvasView = CanvasUseCaseFactory.create(viewManagerModel, goBackViewModel,
-                                                                newCanvasViewModel, signupViewModel,
+                newCanvasViewModel, signupViewModel,
                 userDataAccessObject, cropcontroller, importController,
                 resizeController, rotateController, colorController,
-                drawingView, canvasController);
+                drawingView, canvasController, canvasViewModel);
 
         views.add(canvasView, canvasView.getViewName());
 

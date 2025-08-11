@@ -1,6 +1,5 @@
 package interface_adapter.image.rotate;
 
-import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.canvas.DrawingViewModel;
 import use_case.image.rotate.RotateOutputBoundary;
 import use_case.image.rotate.RotateResponseModel;

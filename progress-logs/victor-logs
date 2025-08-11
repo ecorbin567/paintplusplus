@@ -1,3 +1,4 @@
+USE CASE(S): Colour functionality, selection tool
 2025-07-11: added src, main, and java path to store project files
 
 2025-07-18: added brush button, selection tool, other required files
@@ -16,3 +17,15 @@ done under canvas. Selection tool edited for object use only. Selected area/rect
 rectangle and move it.
 2025-07-27: selection tool able to select, drag, and move colorstrokes to different areas. base funtionality completed
 forgot to mention changecolor package under usecase also done for brushstrokes.
+2025-08-02: prevously selected and pasted area not being able to be whited out bug fixed !!!!!
+selection tool finally able to select new areas and always white out whatevers selected
+, currently fixing layering issues regarding being able to draw over previous selected white out areas.
+2025-08-02: implemented basic functionality of undo and redo with selection tool. Working on layering
+issue of not being able to draw over pasted selections, working on that!
+added cut and pasterecord to keep track of selected and pasted selections.
+2025-08-03: selection tool functionality fully functional, all bugs related to layering, drawing new strokes or erasing
+solved. Going to start on refactoring drawing canvas code. Fixed small bug where first item on
+the actionhistory stacks wouldnt undo or be able to redo from first deleted item.
+2025-08-04: added marching ants effect to selection box border, fixed selection tool selections
+and stack interaction from previous selected pasted region wouldnt display until original selection
+of objects then show entire pasted region. Cut out region wouldnt redisplay when undoing.

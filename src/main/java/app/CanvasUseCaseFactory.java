@@ -1,10 +1,10 @@
 package app;
 
-
 import interface_adapter.SelectionViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.canvas.CanvasController;
 import interface_adapter.canvas.CanvasRenderer;
+import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.changecolor.ColorController;
 import interface_adapter.goback.GoBackController;
 import interface_adapter.goback.GoBackPresenter;
@@ -19,13 +19,12 @@ import use_case.goback.GoBackInputBoundary;
 import use_case.goback.GoBackInteractor;
 import use_case.goback.GoBackOutputBoundary;
 import use_case.goback.GoBackUserDataAccessInterface;
-
 import view.CanvasView;
 import view.DrawingView;
 
 
 /**
- * This class contains the static factory function for creating the NewCanvasView.
+ * This class contains the static factory function for creating the CanvasView.
  */
 public final class CanvasUseCaseFactory {
 
@@ -35,15 +34,19 @@ public final class CanvasUseCaseFactory {
     }
 
     /**
-     * Factory function for creating the NewCanvasView.
-     * @param viewManagerModel the ViewManagerModel to inject into the NewCanvasView
-     * @param goBackViewModel the NewCanvasViewModel to inject into the NewCanvasView
-     * @param newCanvasViewModel the CanvasViewModel to inject into the NewCanvasView
-     * @param userDataAccessObject the NewCanvasUserDataAccessInterface to inject into the NewCanvasView
-     * @return the NewCanvasView created for the provided input classes
+     * Factory function for creating the CanvasView.
+     *
+     * @param viewManagerModel     the ViewManagerModel to inject into the CanvasView
+     * @param goBackViewModel      the NewCanvasViewModel to inject into the CanvasView
+     * @param newCanvasViewModel   the CanvasViewModel to inject into the CanvasView
+     * @param signupViewModel      the SignupViewModel to inject into the CanvasView
+     * @param userDataAccessObject the GoBackUserDataAccessInterface to inject into the CanvasView
+     * @param canvasViewModel
+     * @return the CanvasView created for the provided input classes
      */
 
     public static CanvasView create(
+
             ViewManagerModel viewManagerModel,
             GoBackViewModel goBackViewModel,
             NewCanvasViewModel newCanvasViewModel,
@@ -53,12 +56,13 @@ public final class CanvasUseCaseFactory {
             ImportController importController,
             ResizeController resizeController,
             RotateController rotateController, ColorController colorController,
-            DrawingView drawingView, CanvasController controller) {
+            DrawingView drawingView, CanvasController controller,
+            CanvasViewModel canvasViewModel) {
 
         final GoBackController goBackController = createGoBackUseCase(viewManagerModel, newCanvasViewModel,
                 signupViewModel, userDataAccessObject);
 
-        return new CanvasView(goBackViewModel, goBackController,
+        return new CanvasView(canvasViewModel, goBackViewModel, goBackController,
                 cropController, importController, resizeController,
                 rotateController, colorController, drawingView, controller);
     }
@@ -69,10 +73,9 @@ public final class CanvasUseCaseFactory {
             SignupViewModel signupViewModel,
             GoBackUserDataAccessInterface userDataAccessObject) {
 
-        // Notice how we pass this method's parameters to the Presenter.
         final GoBackOutputBoundary goBackOutputBoundary = new GoBackPresenter(viewManagerModel,
-                                                                           newCanvasViewModel,
-                                                                            signupViewModel);
+                newCanvasViewModel,
+                signupViewModel);
         final GoBackInputBoundary goBackInteractor = new GoBackInteractor(
                 userDataAccessObject, goBackOutputBoundary);
 

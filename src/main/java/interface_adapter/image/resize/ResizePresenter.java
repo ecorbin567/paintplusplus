@@ -1,6 +1,5 @@
 package interface_adapter.image.resize;
 
-import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.canvas.DrawingViewModel;
 import use_case.image.resize.ResizeOutputBoundary;
 import use_case.image.resize.ResizeResponseModel;

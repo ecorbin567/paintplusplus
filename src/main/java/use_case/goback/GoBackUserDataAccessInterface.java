@@ -3,7 +3,7 @@ package use_case.goback;
 import entity.User;
 import data_access.UserDataAccessInterface;
 /**
- * DAO for the Login Use Case.
+ * DAO for the Go Back Use Case.
  */
 public interface GoBackUserDataAccessInterface extends UserDataAccessInterface {
 

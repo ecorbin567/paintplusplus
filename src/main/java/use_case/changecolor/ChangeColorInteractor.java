@@ -3,8 +3,9 @@ package use_case.changecolor;
 import entity.CanvasState;
 import entity.Paintbrush;
 
-import java.awt.*;
-
+/**
+ * The Change Colour Interactor.
+ */
 public class ChangeColorInteractor implements ChangeColorInputBoundary{
 
     private final CanvasState canvasState;

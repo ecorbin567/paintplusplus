@@ -32,6 +32,13 @@
         <scope>test</scope>
     </dependency>
 
+    <dependency>
+        <groupId>com.formdev</groupId>
+        <artifactId>flatlaf</artifactId>
+        <version>3.2</version> <!-- or latest -->
+    </dependency>
+
+
 </dependencies>
 
 <properties>
