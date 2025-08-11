@@ -1,6 +1,6 @@
 package view.MidMenuBar.ImageBar;
 
-import interface_adapter.image.resize.ResizeController;
+import interface_adapter.midmenu.image.ImageFacade;
 import view.DrawingView;
 
 import javax.swing.*;
@@ -8,7 +8,7 @@ import javax.swing.*;
 public class ResizeImageButton {
     private final JButton button;
 
-    public ResizeImageButton(ResizeController resizeController, DrawingView drawingView) {
+    public ResizeImageButton(ImageFacade controller, DrawingView drawingView) {
         button = new JButton();
         ImageIcon icon = new ImageIcon(ResizeImageButton.class.getResource("/images/ResizeIcon.png"));
         java.awt.Image image = icon.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
@@ -35,7 +35,7 @@ public class ResizeImageButton {
                     if (newWidth <= 0 || newHeight <= 0) {
                         throw new NumberFormatException();
                     }
-                    resizeController.execute(newWidth, newHeight);
+                    controller.resize(newWidth, newHeight);
                     drawingView.repaint();
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Please enter valid positive integers.", "Invalid Input", JOptionPane.ERROR_MESSAGE);

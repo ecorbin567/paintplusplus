@@ -1,24 +1,25 @@
 package app;
 
-import interface_adapter.SelectionViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.canvas.CanvasController;
-import interface_adapter.canvas.CanvasRenderer;
 import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.changecolor.ColorController;
 import interface_adapter.goback.GoBackController;
 import interface_adapter.goback.GoBackPresenter;
 import interface_adapter.goback.GoBackViewModel;
-import interface_adapter.image.crop.CropController;
-import interface_adapter.image.import_image.ImportController;
-import interface_adapter.image.resize.ResizeController;
-import interface_adapter.image.rotate.RotateController;
+import interface_adapter.midmenu.image.ImageFacade;
+import interface_adapter.midmenu.image.crop.CropController;
+import interface_adapter.midmenu.image.import_image.ImportController;
+import interface_adapter.midmenu.image.resize.ResizeController;
+import interface_adapter.midmenu.image.rotate.RotateController;
 import interface_adapter.newcanvas.NewCanvasViewModel;
 import interface_adapter.signup.SignupViewModel;
+import interface_adapter.topmenu.TopMenuFacade;
 import use_case.goback.GoBackInputBoundary;
 import use_case.goback.GoBackInteractor;
 import use_case.goback.GoBackOutputBoundary;
 import use_case.goback.GoBackUserDataAccessInterface;
+import interface_adapter.topmenu.TopMenuFacadeImpl;
 import view.CanvasView;
 import view.DrawingView;
 
@@ -52,19 +53,16 @@ public final class CanvasUseCaseFactory {
             NewCanvasViewModel newCanvasViewModel,
             SignupViewModel signupViewModel,
             GoBackUserDataAccessInterface userDataAccessObject,
-            CropController cropController,
-            ImportController importController,
-            ResizeController resizeController,
-            RotateController rotateController, ColorController colorController,
+            ImageFacade imageFacade, ColorController colorController,
             DrawingView drawingView, CanvasController controller,
-            CanvasViewModel canvasViewModel) {
+            CanvasViewModel canvasViewModel,
+            TopMenuFacade topMenuFacade) {
 
         final GoBackController goBackController = createGoBackUseCase(viewManagerModel, newCanvasViewModel,
                 signupViewModel, userDataAccessObject);
 
         return new CanvasView(canvasViewModel, goBackViewModel, goBackController,
-                cropController, importController, resizeController,
-                rotateController, colorController, drawingView, controller);
+                imageFacade, colorController, drawingView, controller, topMenuFacade);
     }
 
     private static GoBackController createGoBackUseCase(

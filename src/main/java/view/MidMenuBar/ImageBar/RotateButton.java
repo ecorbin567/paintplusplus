@@ -1,6 +1,6 @@
 package view.MidMenuBar.ImageBar;
 
-import interface_adapter.image.rotate.RotateController;
+import interface_adapter.midmenu.image.ImageFacade;
 import view.DrawingView;
 
 import javax.swing.*;
@@ -9,7 +9,7 @@ public class RotateButton {
 
     private final JButton button;
 
-    public RotateButton(RotateController rotateController, DrawingView drawingView) {
+    public RotateButton(ImageFacade controller, DrawingView drawingView) {
         button = new JButton();
         ImageIcon icon = new ImageIcon(RotateButton.class.getResource("/images/RotateIcon.png"));
         java.awt.Image image = icon.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
@@ -24,7 +24,7 @@ public class RotateButton {
             if (input != null) {
                 try {
                     double degrees = Double.parseDouble(input);
-                    rotateController.execute(degrees);
+                    controller.rotate(degrees);
                     drawingView.repaint();
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null,

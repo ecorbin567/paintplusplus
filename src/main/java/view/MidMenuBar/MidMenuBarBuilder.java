@@ -4,10 +4,11 @@ import java.util.List;
 
 import interface_adapter.canvas.CanvasController;
 import interface_adapter.changecolor.ColorController;
-import interface_adapter.image.crop.*;
-import interface_adapter.image.resize.ResizeController;
-import interface_adapter.image.rotate.RotateController;
-import interface_adapter.image.import_image.*;
+import interface_adapter.midmenu.image.ImageFacade;
+import interface_adapter.midmenu.image.crop.CropController;
+import interface_adapter.midmenu.image.import_image.ImportController;
+import interface_adapter.midmenu.image.resize.ResizeController;
+import interface_adapter.midmenu.image.rotate.RotateController;
 import view.DrawingView;
 
 import view.MidMenuBar.ColorButtonsBar.*;
@@ -41,10 +42,7 @@ public class MidMenuBarBuilder {
     ImportButton importButtonObject;
 
     public MidMenuBarBuilder(CanvasController canvasController,
-                             CropController cropController,
-                             ImportController importController,
-                             ResizeController resizeController,
-                             RotateController rotateController,
+                             ImageFacade imageFacade,
                              ColorController colorController,
                              DrawingView drawingView) {
 
@@ -59,17 +57,17 @@ public class MidMenuBarBuilder {
         SelectionToolButton selectButton = new SelectionToolButton(canvasController);
         sButton = selectButton.getButton();
 
-        ImportButton imageButton = new ImportButton(importController, drawingView);
+        ImportButton imageButton = new ImportButton(imageFacade, drawingView);
         iButton = imageButton.getButton();
         this.importButtonObject = imageButton; //  JOSH: Lol store it
 
-        CropButton crop = new CropButton(cropController, drawingView);
+        CropButton crop = new CropButton(imageFacade, drawingView);
         cropButton = crop.getButton();
 
-        ResizeImageButton resize = new ResizeImageButton(resizeController, drawingView);
+        ResizeImageButton resize = new ResizeImageButton(imageFacade, drawingView);
         resizeButton = resize.getButton();
 
-        RotateButton rotate = new RotateButton(rotateController, drawingView);
+        RotateButton rotate = new RotateButton(imageFacade, drawingView);
 
         rotateButton = rotate.getButton();
 

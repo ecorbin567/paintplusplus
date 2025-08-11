@@ -63,7 +63,6 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
     }
 
     private void deselect(Rectangle selectionBounds) {
-        System.out.println("DESELECT");
         this.canvasState.setDraggingSelection(false);
         this.canvasState.setHasCutOut(false);
         if (actionHistory.getCurrentState() instanceof CutRecord) {

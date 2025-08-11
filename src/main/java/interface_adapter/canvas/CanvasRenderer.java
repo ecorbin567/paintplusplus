@@ -65,9 +65,6 @@ public class CanvasRenderer {
     public void selectionDraw(Graphics2D graphics2D, SelectionViewModel selectionViewModel){
         // selection tool rendering logic
         Rectangle r = null;
-        System.out.println(selectionViewModel.getIsDrawing());
-        System.out.println(selectionViewModel.getHasSelection());
-        System.out.println(selectionViewModel.getSelectionBounds());
 
         if (selectionViewModel.getIsDrawing()){
             r = selectionViewModel.getSelectionToolBounds();
