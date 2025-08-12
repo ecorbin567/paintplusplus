@@ -23,7 +23,7 @@ public class CanvasControllerFactory {
         SelectionPresenter selectionPresenter = new SelectionPresenter(selectionViewModel);
         // interactors
         MouseUIUseInputBoundary mouseInteractor = new MouseUIUseInteractor(canvasState,
-                canvasPresenter, selectionPresenter);
+                canvasPresenter);
         ToolUseInputBoundary toolUseInteractor = new ToolUseInteractor(canvasState);
         NewSelectionInputBoundary selectionInteractor = new NewSelectionInteractor(canvasState,
                 selectionPresenter);
