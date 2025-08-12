@@ -1,6 +1,6 @@
 package use_case.newcanvas;
 
-import view.MidMenuBar.ImageBar.CropButton;
+import view.midmenubar.imagebar.CropButton;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

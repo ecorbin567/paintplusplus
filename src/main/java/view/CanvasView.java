@@ -12,12 +12,7 @@ import interface_adapter.changecolor.ColorController;
 
 import interface_adapter.image.import_image.ImportController;
 import interface_adapter.topmenu.TopMenuFacade;
-import interface_adapter.topmenu.TopMenuFacadeImpl;
 import interface_adapter.topmenu.history.HistoryController;
-import view.MidMenuBar.ImageBar.ImportButton;
-import view.MidMenuBar.MidMenuBarBuilder;
-import view.TopMenuBar.MenuActionListener;
-import view.TopMenuBar.TopMenuBarBuilder;
 import view.midmenubar.imagebar.ImportButton;
 import view.midmenubar.MidMenuBarBuilder;
 import view.topmenubar.MenuActionListener;
