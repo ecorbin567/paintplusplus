@@ -1,5 +1,7 @@
 package entity;
 
+import use_case.newselection.NewSelectionInputData;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -20,7 +22,7 @@ public class CanvasState {
     private Image currentImage;
 
     //ActionHistory
-    private final ActionHistory actionHistory = new ActionHistory();
+    private ActionHistory actionHistory = new ActionHistory();
 
     //importedImage
     private final List<Image> importedImages = new ArrayList<>();
@@ -69,6 +71,7 @@ public class CanvasState {
     public ActionHistory getActionHistory() {
         return this.actionHistory;
     }
+    public void setActionHistory(ActionHistory actionHistory) { this.actionHistory = actionHistory; }
     public void addActionHistory(Drawable drawable) {
         this.actionHistory.push(drawable);
     }
