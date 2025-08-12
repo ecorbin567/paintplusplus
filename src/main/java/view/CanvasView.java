@@ -8,18 +8,14 @@ import interface_adapter.goback.GoBackController;
 import interface_adapter.goback.GoBackState;
 import interface_adapter.goback.GoBackViewModel;
 import interface_adapter.midmenu.image.ImageFacade;
-import interface_adapter.midmenu.image.crop.CropController;
 import interface_adapter.changecolor.ColorController;
 
 import interface_adapter.midmenu.image.import_image.ImportController;
-import interface_adapter.midmenu.image.resize.ResizeController;
-import interface_adapter.midmenu.image.rotate.RotateController;
 import interface_adapter.topmenu.TopMenuFacade;
-import interface_adapter.topmenu.TopMenuFacadeImpl;
-import view.MidMenuBar.ImageBar.ImportButton;
-import view.MidMenuBar.MidMenuBarBuilder;
-import view.TopMenuBar.MenuActionListener;
-import view.TopMenuBar.TopMenuBarBuilder;
+import view.midmenubar.imagebar.ImportButton;
+import view.midmenubar.MidMenuBarBuilder;
+import view.topmenubar.MenuActionListener;
+import view.topmenubar.TopMenuBarBuilder;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
