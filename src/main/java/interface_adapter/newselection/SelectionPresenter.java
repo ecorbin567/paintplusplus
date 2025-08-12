@@ -1,12 +1,12 @@
-package interface_adapter;
+package interface_adapter.newselection;
 
-import use_case.mouseui.SelectOutputBoundary;
+import use_case.newselection.NewSelectionOutputBoundary;
 import use_case.mouseui.SelectOutputData;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class SelectionPresenter implements SelectOutputBoundary {
+public class SelectionPresenter implements NewSelectionOutputBoundary {
     SelectionViewModel selectionViewModel;
     public SelectionPresenter(SelectionViewModel selectionViewModel) {
         this.selectionViewModel = selectionViewModel;

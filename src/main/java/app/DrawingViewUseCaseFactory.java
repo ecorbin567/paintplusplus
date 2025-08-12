@@ -1,6 +1,6 @@
 package app;
 
-import interface_adapter.SelectionViewModel;
+import interface_adapter.newselection.SelectionViewModel;
 import interface_adapter.canvas.CanvasController;
 import interface_adapter.canvas.CanvasRenderer;
 import interface_adapter.canvas.DrawingViewModel;

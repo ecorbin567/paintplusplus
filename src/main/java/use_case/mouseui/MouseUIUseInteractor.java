@@ -31,13 +31,17 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
 
     @Override
     public void mouseIsPressed(MouseUIInputData inputData) {
+        if (canvasState.getToolState() == ToolEnum.SELECT){
+            sendMouseOutputData();
+            return;
+        }
         ToolEnum toolstate = canvasState.getToolState();
         switch(toolstate) {
             case PENCIL, ERASER, CHANGECOLOR -> handleDrawingTool(toolstate, inputData);
-            case SELECT -> {
-                handleSelectTool(inputData);
-                sendSelectionOutputData();
-            }
+//            case SELECT -> {
+//                handleSelectTool(inputData);
+//                sendSelectionOutputData();
+//            }
         }
         sendMouseOutputData();
     }
@@ -93,13 +97,17 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
 
     @Override
     public void mouseIsDragged(MouseUIInputData inputData) {
+        if (canvasState.getToolState() == ToolEnum.SELECT){
+            sendMouseOutputData();
+            return;
+        }
         ToolEnum toolstate = canvasState.getToolState();
         switch(toolstate) {
             case PENCIL, ERASER -> mouseDragPencilEraser(inputData);
-            case SELECT -> {
-                mouseDragSelect(inputData);
-                sendSelectionOutputData();
-            }
+//            case SELECT -> {
+//                mouseDragSelect(inputData);
+//                sendSelectionOutputData();
+//            }
         }
         sendMouseOutputData();
     }
@@ -146,15 +154,19 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
 
     @Override
     public void mouseIsReleased(MouseUIInputData inputData) {
-        ToolEnum toolstate = canvasState.getToolState();
-        Point p = inputData.getPoint();
-        boolean draggingSelection = this.canvasState.getDraggingSelection();
-        BufferedImage image = inputData.getImage();
-
-        if (toolstate == ToolEnum.SELECT){
-            releasingMouse(draggingSelection, selectionTool, p, image);
-            sendSelectionOutputData();
+        if (canvasState.getToolState() == ToolEnum.SELECT){
+            sendMouseOutputData();
+            return;
         }
+//        ToolEnum toolstate = canvasState.getToolState();
+//        Point p = inputData.getPoint();
+//        boolean draggingSelection = this.canvasState.getDraggingSelection();
+//        BufferedImage image = inputData.getImage();
+//
+//        if (toolstate == ToolEnum.SELECT){
+//            releasingMouse(draggingSelection, selectionTool, p, image);
+//            sendSelectionOutputData();
+//        }
 
         sendMouseOutputData();
     }
