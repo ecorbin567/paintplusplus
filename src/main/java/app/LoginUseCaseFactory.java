@@ -1,10 +1,10 @@
 package app;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.newcanvas.NewCanvasViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.newcanvas.NewCanvasViewModel;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
@@ -29,7 +29,7 @@ public final class LoginUseCaseFactory {
      * @param loginViewModel               the LoginViewModel to inject into the LoginView
      * @param canvasViewModel              the NewCanvasViewModel to inject into the LoginView
      * @param userDataAccessObject         the LoginUserDataAccessInterface to inject into the LoginView
-     * @param newCanvasDataAccessInterface
+     * @param newCanvasDataAccessInterface the NewCanvasUserDataAccessInterface
      * @return the LoginView created for the provided input classes
      */
     public static LoginView create(

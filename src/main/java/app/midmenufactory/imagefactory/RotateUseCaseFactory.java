@@ -9,10 +9,16 @@ import use_case.image.rotate.RotateInteractor;
 import use_case.image.rotate.RotateOutputBoundary;
 
 public class RotateUseCaseFactory {
+    /**
+     * Factory function for creating the Rotate Use Case.
+     * @param canvasState the CanvasState
+     * @param drawingViewModel the DrawingViewModel
+     * @return the RotateController created
+     */
     public static RotateController create(CanvasState canvasState,
                                           DrawingViewModel drawingViewModel) {
-        RotateOutputBoundary presenter = new RotatePresenter(drawingViewModel);
-        RotateInputBoundary interactor = new RotateInteractor(canvasState, presenter);
+        final RotateOutputBoundary presenter = new RotatePresenter(drawingViewModel);
+        final RotateInputBoundary interactor = new RotateInteractor(canvasState, presenter);
         return new RotateController(interactor);
     }
 }
