@@ -148,7 +148,7 @@ public class Main {
         final CanvasView canvasView = CanvasUseCaseFactory.create(viewManagerModel, goBackViewModel,
                 newCanvasViewModel, signupViewModel, imageFacade,
                 colorController, canvasDataAccessObject,
-                drawingView, canvasController, canvasViewModel, topMenuFacade);
+                drawingView, canvasController, canvasViewModel, topMenuFacade, historyController);
 
         views.add(canvasView, canvasView.getViewName());
 

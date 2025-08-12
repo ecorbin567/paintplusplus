@@ -12,6 +12,12 @@ import interface_adapter.changecolor.ColorController;
 
 import interface_adapter.image.import_image.ImportController;
 import interface_adapter.topmenu.TopMenuFacade;
+import interface_adapter.topmenu.TopMenuFacadeImpl;
+import interface_adapter.topmenu.history.HistoryController;
+import view.MidMenuBar.ImageBar.ImportButton;
+import view.MidMenuBar.MidMenuBarBuilder;
+import view.TopMenuBar.MenuActionListener;
+import view.TopMenuBar.TopMenuBarBuilder;
 import view.midmenubar.imagebar.ImportButton;
 import view.midmenubar.MidMenuBarBuilder;
 import view.topmenubar.MenuActionListener;
@@ -42,6 +48,9 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
 
     private final ImportButton importButton;
 
+    private final HistoryController historyController;
+    private final DrawingView drawingView;
+
     public CanvasView(CanvasViewModel canvasViewModel,
                       GoBackViewModel goBackViewModel,
                       GoBackController goBackController,
@@ -49,7 +58,8 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
                       ColorController colorController,
                       DrawingView drawingView,
                       CanvasController controller,
-                      TopMenuFacade controllers) {
+                      TopMenuFacade controllers,
+                      HistoryController historyController) {
         // TODO: Josh: I don't know a better way to import when getting canvases
         // store the import button and then press it when we log in with an existing canvas.
 
@@ -58,6 +68,8 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
 
         // JOSH: listen for changes in canvas state
         this.canvasViewModel = canvasViewModel;
+        this.historyController = historyController;
+        this.drawingView = drawingView;
         this.canvasViewModel.addPropertyChangeListener(this);
 
         this.setLayout(new BorderLayout());
@@ -122,6 +134,10 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
         final CanvasUserState state = (CanvasUserState) evt.getNewValue();
         if ("import".equals(evt.getPropertyName())) {
             pressImportButton(this.importButton, state.getInitialImportedImage());
+        } else if ("clearhistory".equals(evt.getPropertyName())) {
+            System.out.println("Clear History call received.");
+            historyController.clearHistory();
+            drawingView.simulateMousePress();
         }
     }
 }

@@ -63,6 +63,11 @@ public class HistoryInteractor implements HistoryInputBoundary{
         presenter.setCurrentDrawable(outputData);
     }
 
+    @Override
+    public void clearHistory() {
+        actionHistory.clearHistory();
+    }
+
     private void rebuildStateFromHistory(){
         canvasState.getCommitedSelections().clear();
         canvasState.getClearRegions().clear();

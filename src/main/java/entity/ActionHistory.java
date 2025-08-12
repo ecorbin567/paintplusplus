@@ -60,4 +60,13 @@ public class ActionHistory {
     public Stack<Drawable> getUndoStack() {
         return undoStack;
     }
+
+    /**
+     * Clear the action history.
+     */
+    public void clearHistory() {
+        System.out.println("Clear Action History.");
+        undoStack.clear();
+        redoStack.clear();
+    }
 }

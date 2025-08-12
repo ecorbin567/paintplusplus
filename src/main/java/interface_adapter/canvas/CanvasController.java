@@ -16,8 +16,6 @@ public class CanvasController {
     ToolUseInputBoundary toolUseInputBoundary;
     NewSelectionInputBoundary selectionInputBoundary;
 
-    // TODO: Oscar's changes removed TopMenuInputBoundary.
-    //  Josh's save online needed it. Need to redelete it
     public CanvasController(MouseUIUseInputBoundary mouseUIUseInputBoundary,
                             ToolUseInputBoundary toolUseInputBoundary,
                             NewSelectionInputBoundary selectionInputBoundary) {

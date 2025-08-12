@@ -12,6 +12,7 @@ import interface_adapter.image.ImageFacade;
 import interface_adapter.newcanvas.NewCanvasViewModel;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.topmenu.TopMenuFacade;
+import interface_adapter.topmenu.history.HistoryController;
 import use_case.goback.GoBackInputBoundary;
 import use_case.goback.GoBackInteractor;
 import use_case.goback.GoBackOutputBoundary;
@@ -36,7 +37,7 @@ public final class CanvasUseCaseFactory {
      * @param canvasViewModel   the CanvasViewModel to inject into the CanvasView
      * @param signupViewModel      the SignupViewModel to inject into the CanvasView
      * @param goBackViewModel the GoBackViewModel to inject into the CanvasView
-     * @param userDataAccessObject the GoBackUserDataAccessInterface to inject into the CanvasView
+     * @param canvasDataAccessObject the GoBackUserDataAccessInterface to inject into the CanvasView
      * @param imageFacade the ImageFacade
      * @param colorController the ColorController
      * @param drawingView the DrawingView
@@ -55,13 +56,14 @@ public final class CanvasUseCaseFactory {
             CanvasDataAccessInterface canvasDataAccessObject,
             DrawingView drawingView, CanvasController controller,
             CanvasViewModel canvasViewModel,
-            TopMenuFacade topMenuFacade) {
+            TopMenuFacade topMenuFacade,
+            HistoryController historyController) {
 
         final GoBackController goBackController = createGoBackUseCase(viewManagerModel, newCanvasViewModel,
                 signupViewModel, canvasDataAccessObject);
 
         return new CanvasView(canvasViewModel, goBackViewModel, goBackController,
-                imageFacade, colorController, drawingView, controller, topMenuFacade);
+                imageFacade, colorController, drawingView, controller, topMenuFacade, historyController);
     }
 
     private static GoBackController createGoBackUseCase(

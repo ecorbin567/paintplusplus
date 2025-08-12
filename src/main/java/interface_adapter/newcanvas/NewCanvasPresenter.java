@@ -43,6 +43,7 @@ public class NewCanvasPresenter implements NewCanvasOutputBoundary {
         }
         this.canvasViewModel.setState(canvasState);
         this.canvasViewModel.firePropertyChanged();
+        this.canvasViewModel.firePropertyChanged("clearhistory");
 
         this.viewManagerModel.setState(canvasViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
