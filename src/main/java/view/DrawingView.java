@@ -76,6 +76,16 @@ public class DrawingView extends JPanel implements MouseListener, MouseMotionLis
         }
     }
 
+    /**
+     * Josh added this to simulate mouse press
+     */
+    public void simulateMousePress() {
+        controller.handleMousePressed(new Point());
+        renderCanvasView();
+        renderer.updateAntsTimer(antsTimer, selectionViewModel);
+        repaint();
+    }
+
     public void renderCanvasView(){
         if (this.viewModel.getRepaintState()){
             repaint();

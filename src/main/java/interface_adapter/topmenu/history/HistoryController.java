@@ -17,4 +17,11 @@ public class HistoryController {
         interactor.redoDrawable();
     }
 
+    /**
+     * Clear action history.
+     */
+    public void clearHistory() {
+        interactor.clearHistory();
+    }
+
 }
