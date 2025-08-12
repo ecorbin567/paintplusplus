@@ -1,7 +1,6 @@
 package app;
 
 import entity.CanvasState;
-import interface_adapter.newselection.SelectionController;
 import interface_adapter.newselection.SelectionPresenter;
 import interface_adapter.newselection.SelectionViewModel;
 import interface_adapter.canvas.CanvasController;

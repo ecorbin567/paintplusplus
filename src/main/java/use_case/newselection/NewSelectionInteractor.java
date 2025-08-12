@@ -1,7 +1,6 @@
 package use_case.newselection;
 
 import entity.*;
-import use_case.mouseui.SelectOutputData;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -152,7 +151,7 @@ public class NewSelectionInteractor implements NewSelectionInputBoundary {
     }
 
     private void sendSelectionOutput() {
-        SelectOutputData d = new SelectOutputData(
+        NewSelectionOutputData d = new NewSelectionOutputData(
                 canvasState.getSelectionImage(),
                 canvasState.getSelectionBounds(),
                 canvasState.getHasSelection(),
