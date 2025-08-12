@@ -7,10 +7,10 @@ import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.goback.GoBackController;
 import interface_adapter.goback.GoBackState;
 import interface_adapter.goback.GoBackViewModel;
-import interface_adapter.midmenu.image.ImageFacade;
+import interface_adapter.image.ImageFacade;
 import interface_adapter.changecolor.ColorController;
 
-import interface_adapter.midmenu.image.import_image.ImportController;
+import interface_adapter.image.import_image.ImportController;
 import interface_adapter.topmenu.TopMenuFacade;
 import view.midmenubar.imagebar.ImportButton;
 import view.midmenubar.MidMenuBarBuilder;

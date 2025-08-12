@@ -1,4 +1,4 @@
-package view.MidMenuBar.PencilButtonGroup;
+package view.midmenubar.pencilbuttongroup;
 
 import entity.ToolEnum;
 import interface_adapter.canvas.CanvasController;

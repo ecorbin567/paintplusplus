@@ -2,8 +2,8 @@ package app.midmenufactory.imagefactory;
 
 import entity.CanvasState;
 import interface_adapter.canvas.DrawingViewModel;
-import interface_adapter.midmenu.image.resize.ResizeController;
-import interface_adapter.midmenu.image.resize.ResizePresenter;
+import interface_adapter.image.resize.ResizeController;
+import interface_adapter.image.resize.ResizePresenter;
 import use_case.image.resize.ResizeInputBoundary;
 import use_case.image.resize.ResizeInteractor;
 import use_case.image.resize.ResizeOutputBoundary;
