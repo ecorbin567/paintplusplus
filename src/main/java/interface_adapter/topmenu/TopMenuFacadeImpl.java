@@ -35,6 +35,11 @@ public class TopMenuFacadeImpl implements TopMenuFacade {
     }
 
     @Override
+    public void saveOnline(BufferedImage image, String username) {
+        saveController.handleSaveOnlineButtonPress(image, username);
+    }
+
+    @Override
     public void undo() {
         historyController.handleUndoButtonPress();
     }

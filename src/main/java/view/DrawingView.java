@@ -105,4 +105,21 @@ public class DrawingView extends JPanel implements MouseListener, MouseMotionLis
     public void mouseExited(MouseEvent e) {
         // We don't need these, but must include them
     }
+
+    /**
+     * Get username of currently logged-in user
+     * @return username as String
+     */
+    public String getUsername() {
+        return this.viewModel.getCurrentUser();
+    }
+
+    /**
+     * Set username of currently logged-in user
+     */
+    public void setUsername(String username) {
+        this.viewModel.setCurrentUser(username);
+    }
+
+
 }

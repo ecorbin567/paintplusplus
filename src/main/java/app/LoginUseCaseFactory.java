@@ -1,6 +1,8 @@
 package app;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.canvas.DrawingViewModel;
+import interface_adapter.goback.GoBackViewModel;
 import interface_adapter.newcanvas.NewCanvasViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
@@ -29,7 +31,8 @@ public final class LoginUseCaseFactory {
      * @param loginViewModel               the LoginViewModel to inject into the LoginView
      * @param canvasViewModel              the NewCanvasViewModel to inject into the LoginView
      * @param userDataAccessObject         the LoginUserDataAccessInterface to inject into the LoginView
-     * @param newCanvasDataAccessInterface
+     * @param newCanvasDataAccessInterface data access interface
+     * @param drawingViewModel             drawing view model
      * @return the LoginView created for the provided input classes
      */
     public static LoginView create(
@@ -37,11 +40,13 @@ public final class LoginUseCaseFactory {
             LoginViewModel loginViewModel,
             NewCanvasViewModel canvasViewModel,
             LoginUserDataAccessInterface userDataAccessObject,
-            NewCanvasUserDataAccessInterface newCanvasDataAccessInterface) {
+            NewCanvasUserDataAccessInterface newCanvasDataAccessInterface,
+            DrawingViewModel drawingViewModel,
+            GoBackViewModel goBackViewModel) {
 
         final LoginController loginController = createLoginUseCase(viewManagerModel, loginViewModel,
                 canvasViewModel, userDataAccessObject,
-                newCanvasDataAccessInterface);
+                newCanvasDataAccessInterface, drawingViewModel, goBackViewModel);
         return new LoginView(loginViewModel, loginController);
 
     }
@@ -51,10 +56,12 @@ public final class LoginUseCaseFactory {
             LoginViewModel loginViewModel,
             NewCanvasViewModel canvasViewModel,
             LoginUserDataAccessInterface userDataAccessObject,
-            NewCanvasUserDataAccessInterface canvasDataAccessInterface) {
+            NewCanvasUserDataAccessInterface canvasDataAccessInterface,
+            DrawingViewModel drawingViewModel,
+            GoBackViewModel goBackViewModel) {
 
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
-                canvasViewModel, loginViewModel);
+                canvasViewModel, loginViewModel, drawingViewModel, goBackViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
                 userDataAccessObject, loginOutputBoundary, canvasDataAccessInterface);
 

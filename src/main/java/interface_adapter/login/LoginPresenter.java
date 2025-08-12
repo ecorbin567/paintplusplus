@@ -1,6 +1,9 @@
 package interface_adapter.login;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.canvas.DrawingViewModel;
+import interface_adapter.goback.GoBackState;
+import interface_adapter.goback.GoBackViewModel;
 import interface_adapter.newcanvas.NewCanvasState;
 import interface_adapter.newcanvas.NewCanvasViewModel;
 import use_case.login.LoginOutputBoundary;
@@ -16,14 +19,18 @@ public class LoginPresenter implements LoginOutputBoundary {
 
     private final LoginViewModel loginViewModel;
     private final NewCanvasViewModel newCanvasViewModel;
+    private final DrawingViewModel drawingViewModel; // need to update drawing view model
+    private final GoBackViewModel goBackViewModel; // lol
     private final ViewManagerModel viewManagerModel;
 
     public LoginPresenter(ViewManagerModel viewManagerModel,
                           NewCanvasViewModel canvasViewModel,
-                          LoginViewModel loginViewModel) {
+                          LoginViewModel loginViewModel, DrawingViewModel drawingViewModel, GoBackViewModel goBackViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.newCanvasViewModel = canvasViewModel;
         this.loginViewModel = loginViewModel;
+        this.drawingViewModel = drawingViewModel;
+        this.goBackViewModel = goBackViewModel;
     }
 
     @Override
@@ -45,6 +52,13 @@ public class LoginPresenter implements LoginOutputBoundary {
         this.newCanvasViewModel.setState(myCanvasState);
         this.newCanvasViewModel.setCanvases(userCanvases);
         this.newCanvasViewModel.firePropertyChanged();
+
+        // Upon login success, notify drawing view of new username login
+        this.drawingViewModel.setCurrentUser(response.getUsername());
+
+        // This is getting out of hand
+        GoBackState goBackState = this.goBackViewModel.getState();
+        goBackState.setUsername(response.getUsername());
 
         this.viewManagerModel.setState(newCanvasViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
