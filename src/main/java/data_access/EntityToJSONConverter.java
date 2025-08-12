@@ -1,11 +1,12 @@
 package data_access;
 
-import entity.*;
+import java.awt.*;
+import java.util.Stack;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.awt.*;
-import java.util.Stack;
+import entity.*;
 
 public class EntityToJSONConverter {
 
@@ -16,15 +17,21 @@ public class EntityToJSONConverter {
      * @return a JSONObject representing the user
      */
     public static JSONObject convertUserToJSON(User user) {
-        JSONObject json = new JSONObject();
+        final JSONObject json = new JSONObject();
         json.put("username", user.getUsername());
         json.put("password", user.getPassword());
         return json;
     }
 
+    /**
+     * Converts a JSON object into a User.
+     *
+     * @param json the JSONObject to convert
+     * @return the corresponding User
+     */
     public static User convertJSONToUser(JSONObject json) {
-        String username = json.getString("username");
-        String password = json.getString("password");
+        final String username = json.getString("username");
+        final String password = json.getString("password");
         return new CommonUser(username, password);
     }
 
@@ -35,13 +42,13 @@ public class EntityToJSONConverter {
      * @return a JSONObject representing the document
      */
     public static JSONObject convertActionHistoryToJSON(ActionHistory history) {
-        // TODO: Must be reconfigured for a general Drawable since this is 
-        //  dependent on the Drawable being specifically a StrokeRecord. 
-        JSONObject result = new JSONObject();
+        // TODO: Must be reconfigured for a general Drawable since this is
+        //  dependent on the Drawable being specifically a StrokeRecord.
+        final JSONObject result = new JSONObject();
 
         // Serialize undo stack
-        JSONArray undoStackJson = new JSONArray();
-        Stack<Drawable> undoStack = history.getUndoStack();
+        final JSONArray undoStackJson = new JSONArray();
+        final Stack<Drawable> undoStack = history.getUndoStack();
         for (Drawable d : undoStack) {
             if (d instanceof StrokeRecord) {
                 undoStackJson.put(convertStrokeRecordToJSON((StrokeRecord) d));
@@ -50,29 +57,36 @@ public class EntityToJSONConverter {
         result.put("undoStack", undoStackJson);
 
         // Serialize current state
-        Drawable current = history.getCurrentState();
+        final Drawable current = history.getCurrentState();
         if (current instanceof StrokeRecord) {
             result.put("currentState", convertStrokeRecordToJSON((StrokeRecord) current));
-        } else {
+        }
+        else {
             result.put("currentState", JSONObject.NULL);
         }
 
         return result;
     }
 
+    /**
+     * Converts a StrokeRecord object into a JSON representation.
+     *
+     * @param stroke the StrokeRecord object to convert
+     * @return a JSONObject representing the StrokeRecord
+     */
     public static JSONObject convertStrokeRecordToJSON(StrokeRecord stroke) {
-        JSONObject json = new JSONObject();
+        final JSONObject json = new JSONObject();
 
         // Stroke width
-        json.put("width", stroke.width);
+        json.put("width", stroke.getWidth());
 
         // Colour as hex (e.g., "#ff00aa")
-        json.put("colour", colorToHex(stroke.colour));
+        json.put("colour", colorToHex(stroke.getColour()));
 
         // List of points
-        JSONArray pointsArray = new JSONArray();
-        for (Point pt : stroke.pts) {
-            JSONObject pointJson = new JSONObject();
+        final JSONArray pointsArray = new JSONArray();
+        for (Point pt : stroke.getPts()) {
+            final JSONObject pointJson = new JSONObject();
             pointJson.put("x", pt.x);
             pointJson.put("y", pt.y);
             pointsArray.put(pointJson);
@@ -85,14 +99,5 @@ public class EntityToJSONConverter {
 
     private static String colorToHex(Color c) {
         return String.format("#%02x%02x%02x", c.getRed(), c.getGreen(), c.getBlue());
-    }
-
-    /**
-     * Example usage.
-     */
-    public static void main(String[] args) {
-        User user = new CommonUser("alice", "securepassword123");
-//        JSONObject userJson = convertUserToJSON(user);
-//        System.out.println(userJson.toString(2)); // Pretty print with indentation
     }
 }

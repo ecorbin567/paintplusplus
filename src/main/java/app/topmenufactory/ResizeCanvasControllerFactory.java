@@ -8,11 +8,16 @@ import use_case.topmenu.canvassize.SizeInputBoundary;
 import use_case.topmenu.canvassize.SizeInteractor;
 import use_case.topmenu.canvassize.SizeOutputBoundary;
 
-
 public class ResizeCanvasControllerFactory {
-    public static ResizeCanvasController create(CanvasState canvasState, DrawingViewModel drawingViewModel){
-        SizeOutputBoundary presenter = new ResizeCanvasPresenter(drawingViewModel);
-        SizeInputBoundary interactor = new SizeInteractor(canvasState, presenter);
+    /**
+     * Factory function for creating the Resize Canvas Controller.
+     * @param canvasState the CanvasState
+     * @param drawingViewModel the DrawingViewModel
+     * @return the ResizeCanvasController created
+     */
+    public static ResizeCanvasController create(CanvasState canvasState, DrawingViewModel drawingViewModel) {
+        final SizeOutputBoundary presenter = new ResizeCanvasPresenter(drawingViewModel);
+        final SizeInputBoundary interactor = new SizeInteractor(canvasState, presenter);
         return new ResizeCanvasController(interactor);
     }
 }

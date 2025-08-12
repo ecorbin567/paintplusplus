@@ -8,10 +8,20 @@ import use_case.image.crop.CropInputBoundary;
 import use_case.image.crop.CropInteractor;
 import use_case.image.crop.CropOutputBoundary;
 
+/**
+ * This class contains the static factory function for creating the Crop Use Case.
+ */
 public class CropUseCaseFactory {
+
+    /**
+     * Factory function for creating the Crop Use Case.
+     * @param canvasState the CanvasState
+     * @param drawingViewModel the DrawingViewModel
+     * @return the CropController created
+     */
     public static CropController create(CanvasState canvasState, DrawingViewModel drawingViewModel) {
-        CropOutputBoundary presenter = new CropPresenter(drawingViewModel);
-        CropInputBoundary interactor = new CropInteractor(canvasState, presenter);
+        final CropOutputBoundary presenter = new CropPresenter(drawingViewModel);
+        final CropInputBoundary interactor = new CropInteractor(canvasState, presenter);
         return new CropController(interactor);
     }
 }

@@ -8,10 +8,14 @@ import use_case.topmenu.save.SaveInputBoundary;
 import use_case.topmenu.save.SaveInteractor;
 
 public class SaveControllerFactory {
-    public static SaveController create(CanvasState canvasState,
-                                        SaveFileGateway imageSaveGateway,
-                                        CanvasDataAccessInterface canvasDataAccessObject) {
-        SaveInputBoundary interactor = new SaveInteractor(canvasState, imageSaveGateway, canvasDataAccessObject);
+    /**
+     * Factory function for creating the Save Controller.
+     * @param canvasState the CanvasState
+     * @param imageSaveGateway the SaveFileGateway
+     * @return the SaveController created
+     */
+    public static SaveController create(CanvasState canvasState, SaveFileGateway imageSaveGateway) {
+        final SaveInputBoundary interactor = new SaveInteractor(canvasState, imageSaveGateway);
         return new SaveController(interactor);
     }
 }

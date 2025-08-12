@@ -13,17 +13,23 @@ import use_case.tooluse.ToolUseInputBoundary;
 import use_case.tooluse.ToolUseInteractor;
 
 public class CanvasControllerFactory {
+    /**
+     * Factory function for creating the Canvas Controller.
+     * @param canvasState the CanvasState
+     * @param drawingViewModel the DrawingViewModel
+     * @param selectionViewModel the SelectionViewModel
+     * @return the SaveController created
+     */
     public static CanvasController createCanvasController(CanvasState canvasState,
                                                           DrawingViewModel drawingViewModel,
-                                                          SelectionViewModel selectionViewModel){
+                                                          SelectionViewModel selectionViewModel) {
+        final CanvasPresenter canvasPresenter = new CanvasPresenter(drawingViewModel);
+        final SelectionPresenter selectionPresenter = new SelectionPresenter(selectionViewModel);
 
-        CanvasPresenter canvasPresenter = new CanvasPresenter(drawingViewModel);
-        SelectionPresenter selectionPresenter = new SelectionPresenter(selectionViewModel);
-
-        MouseUIUseInputBoundary mouseInteractor = new MouseUIUseInteractor(canvasState,
+        final MouseUIUseInputBoundary mouseInteractor = new MouseUIUseInteractor(canvasState,
                 canvasPresenter, selectionPresenter);
 
-        ToolUseInputBoundary toolUseInteractor = new ToolUseInteractor(canvasState);
+        final ToolUseInputBoundary toolUseInteractor = new ToolUseInteractor(canvasState);
 
         // TODO: controller constructor messed up with merge conflict
         return new CanvasController(mouseInteractor, toolUseInteractor);

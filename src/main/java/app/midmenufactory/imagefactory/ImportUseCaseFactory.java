@@ -10,11 +10,18 @@ import use_case.image.import_image.ImportInteractor;
 import use_case.image.import_image.ImportOutputBoundary;
 
 public class ImportUseCaseFactory {
+    /**
+     * Factory function for creating the Import Use Case.
+     * @param canvasState the CanvasState
+     * @param drawingViewModel the DrawingViewModel
+     * @param imageLoader the ImageLoader
+     * @return the ImportController created
+     */
     public static ImportController create(CanvasState canvasState,
                                           DrawingViewModel drawingViewModel,
                                           LocalImageLoader imageLoader) {
-        ImportOutputBoundary presenter = new ImportPresenter(drawingViewModel);
-        ImportInputBoundary interactor = new ImportInteractor(imageLoader, presenter, canvasState);
+        final ImportOutputBoundary presenter = new ImportPresenter(drawingViewModel);
+        final ImportInputBoundary interactor = new ImportInteractor(imageLoader, presenter, canvasState);
         return new ImportController(interactor);
     }
 }

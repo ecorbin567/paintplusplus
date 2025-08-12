@@ -2,7 +2,8 @@ package data_access;
 
 import entity.User;
 
-/** Primary interface for accessing user information
+/**
+ * Primary interface for accessing user information
  */
 public interface UserDataAccessInterface {
     /**
@@ -33,15 +34,6 @@ public interface UserDataAccessInterface {
      */
     boolean deleteUser(String username);
 
-    /**
-     * Authenticates user login credentials.
-     * @param username the input username
-     * @param password the input password (already hashed or plain, up to your design)
-     * @return true if credentials are correct
-     */
-    boolean verifyCredentials(String username, String password);
-
-
     // COMBINED WITH LOGIN/SIGNUP
     /**
      * Checks if the given username exists.
@@ -55,13 +47,5 @@ public interface UserDataAccessInterface {
      * @param name the username to set
      */
     void setCurrentUser(String name);
-    // JOSH: why is this a String? it works tho so I'll stick with it
-
-    /**
-     * Returns the current user's name.
-     * @return name the username of the current user
-     */
-    String getCurrentUser();
-
 }
 
