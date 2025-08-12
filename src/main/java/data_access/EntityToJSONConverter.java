@@ -78,14 +78,14 @@ public class EntityToJSONConverter {
         final JSONObject json = new JSONObject();
 
         // Stroke width
-        json.put("width", stroke.width);
+        json.put("width", stroke.getWidth());
 
         // Colour as hex (e.g., "#ff00aa")
-        json.put("colour", colorToHex(stroke.colour));
+        json.put("colour", colorToHex(stroke.getColour()));
 
         // List of points
         final JSONArray pointsArray = new JSONArray();
-        for (Point pt : stroke.pts) {
+        for (Point pt : stroke.getPts()) {
             final JSONObject pointJson = new JSONObject();
             pointJson.put("x", pt.x);
             pointJson.put("y", pt.y);

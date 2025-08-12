@@ -72,7 +72,7 @@ public class CanvasRenderer {
             r = selectionViewModel.getSelectionBounds();
         }
 
-        if (r != null && r.width>0 && r.height>0){
+        if (r != null && r.getWidth()>0 && r.height>0){
             Stroke oldStroke = graphics2D.getStroke();
             Color oldColor = graphics2D.getColor();
             // dark dashes
@@ -96,13 +96,13 @@ public class CanvasRenderer {
 
     private void drawDrawable(Graphics2D g2, Drawable d) {
         if (d instanceof StrokeRecord s) {
-            g2.setColor(s.colour);
-            g2.setStroke(new BasicStroke(s.width,
+            g2.setColor(s.getColour());
+            g2.setStroke(new BasicStroke(s.getWidth(),
                     BasicStroke.CAP_ROUND,
                     BasicStroke.JOIN_ROUND));
-            for (int i = 1; i < s.pts.size(); i++) {
-                Point p1 = s.pts.get(i - 1);
-                Point p2 = s.pts.get(i);
+            for (int i = 1; i < s.getPts().size(); i++) {
+                Point p1 = s.getPts().get(i - 1);
+                Point p2 = s.getPts().get(i);
                 g2.drawLine(p1.x, p1.y, p2.x, p2.y);
             }
         } else if (d instanceof PasteRecord pr) {

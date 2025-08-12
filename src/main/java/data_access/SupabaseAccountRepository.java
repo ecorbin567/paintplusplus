@@ -162,11 +162,4 @@ public class SupabaseAccountRepository implements UserDataAccessInterface,
             return false;
         }
     }
-
-    @Override
-    public boolean verifyCredentials(String username, String password) {
-        User user = getUser(username);
-        return user != null && password.equals(user.getPassword());
-    }
-
 }

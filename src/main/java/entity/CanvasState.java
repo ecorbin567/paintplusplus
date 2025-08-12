@@ -42,7 +42,7 @@ public class CanvasState {
     private File savedImageFile = null;
 
     public CanvasState() {
-        //Nothing is instantiated this ist more or less just a record class.
+        //Nothing is instantiated this is more or less just a record class.
     }
 
     public void setButtonPressed(String buttonName) {
