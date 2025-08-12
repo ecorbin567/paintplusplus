@@ -1,6 +1,5 @@
 package app;
 
-import data_access.InMemoryUserDataAccessObject;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.newcanvas.NewCanvasController;
@@ -29,6 +28,7 @@ public final class NewCanvasUseCaseFactory {
      * @param newCanvasViewModel the NewCanvasViewModel to inject into the NewCanvasView
      * @param canvasViewModel the CanvasViewModel to inject into the NewCanvasView
      * @param canvasDataAccessObject the NewCanvasUserDataAccessInterface to inject into the NewCanvasView
+     * @param signupViewModel the SignupViewModel
      * @return the NewCanvasView created for the provided input classes
      */
     public static MyCanvasesView create(

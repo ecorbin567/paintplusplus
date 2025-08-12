@@ -9,9 +9,15 @@ import use_case.topmenu.history.HistoryInteractor;
 import use_case.topmenu.history.HistoryOutputBoundary;
 
 public class HistoryControllerFactory {
-    public static HistoryController create(CanvasState canvasState, DrawingViewModel drawingViewModel){
-        HistoryOutputBoundary presenter = new HistoryPresenter(drawingViewModel);
-        HistoryInputBoundary interactor = new HistoryInteractor(canvasState, presenter);
+    /**
+     * Factory function for creating the History Controller.
+     * @param canvasState the CanvasState
+     * @param drawingViewModel the DrawingViewModel
+     * @return the HistoryController created
+     */
+    public static HistoryController create(CanvasState canvasState, DrawingViewModel drawingViewModel) {
+        final HistoryOutputBoundary presenter = new HistoryPresenter(drawingViewModel);
+        final HistoryInputBoundary interactor = new HistoryInteractor(canvasState, presenter);
         return new HistoryController(interactor);
     }
 }

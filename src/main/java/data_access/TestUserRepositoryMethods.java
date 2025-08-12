@@ -1,15 +1,16 @@
 package data_access;
 
-import entity.CommonUser;
-import entity.User;
-import use_case.newcanvas.NewCanvasUserDataAccessInterface;
-
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+
+import javax.imageio.ImageIO;
+
+import entity.CommonUser;
+import entity.User;
+import use_case.newcanvas.NewCanvasUserDataAccessInterface;
 
 public class TestUserRepositoryMethods {
     private static final UserDataAccessInterface service = new SupabaseAccountRepository();
@@ -61,8 +62,8 @@ public class TestUserRepositoryMethods {
         }
 
         String newPassword = "swaggy";
-        service.updateUserPassword(user.getName(), newPassword);
-        User retrievedUser = service.getUser(user.getName());
+        service.updateUserPassword(user.getUsername(), newPassword);
+        User retrievedUser = service.getUser(user.getUsername());
 
         if (newPassword.equals(retrievedUser.getPassword())) {
             System.out.println("✅ User password updated to: " + retrievedUser.getPassword());
@@ -106,5 +107,4 @@ public class TestUserRepositoryMethods {
             i++;
         }
     }
-
 }

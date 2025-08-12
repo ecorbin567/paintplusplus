@@ -7,6 +7,14 @@ import interface_adapter.canvas.DrawingViewModel;
 import view.DrawingView;
 
 public class DrawingViewUseCaseFactory {
+    /**
+     * Factory function for creating the Drawing View Use Case.
+     * @param controller the CanvasController
+     * @param renderer the CanvasRenderer
+     * @param selectionViewModel the SelectionViewModel
+     * @param drawingViewModel the DrawingViewModel
+     * @return the DrawingView created
+     */
     public static DrawingView create(CanvasController controller,
                                      CanvasRenderer renderer,
                                      SelectionViewModel selectionViewModel,

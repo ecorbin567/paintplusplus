@@ -9,18 +9,12 @@ import java.util.List;
  */
 public interface CanvasDataAccessInterface {
     /**
-     * Add new document to user's repository
+     * Add new document to user's repository.
+     * @param username The user's username
      * @param image is the image to upload
-     * @return
+     * @return a boolean indicating whether username is null
      */
     boolean saveCanvas(String username, BufferedImage image);
-
-    /**
-     * Get a certain project from user's repository.
-     * @param id of the canvas
-     * @return the action history of the desired drawing
-     */
-    BufferedImage findCanvasById(String username, int id);
 
     /**
      * Get all projects from user's repository.
