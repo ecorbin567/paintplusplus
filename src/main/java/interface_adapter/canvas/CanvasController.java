@@ -6,17 +6,17 @@ import use_case.tooluse.ToolUseInputData;
 import use_case.mouseui.MouseUIUseInputBoundary;
 import use_case.mouseui.MouseUIInputData;
 import use_case.topmenu.TopMenuInputBoundary;
-import use_case.topmenu.TopMenuInputData;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 
 public class CanvasController {
     MouseUIUseInputBoundary mouseUIUseInputBoundary;
     ToolUseInputBoundary toolUseInputBoundary;
     TopMenuInputBoundary topMenuInputBoundary;
 
+    // TODO: Oscar's changes removed TopMenuInputBoundary.
+    //  Josh's save online needed it. Need to redelete it
     public CanvasController(MouseUIUseInputBoundary mouseUIUseInputBoundary,
                             ToolUseInputBoundary toolUseInputBoundary,
                             TopMenuInputBoundary topMenuInputBoundary) {
@@ -47,37 +47,10 @@ public class CanvasController {
         toolUseInputBoundary.setSize(inputData);
     }
 
-    public void handleUndoButtonPress(ToolEnum tool){
-        System.out.println("Undo Button Controller");
-        TopMenuInputData inputData = new TopMenuInputData(tool);
-        topMenuInputBoundary.undoDrawable(inputData);
-    }
-
-    public void handleRedoButtonPress(ToolEnum tool){
-        TopMenuInputData inputData = new TopMenuInputData(tool);
-        topMenuInputBoundary.redoDrawable(inputData);
-    }
-
-    public void handleSaveButtonPress(ToolEnum tool, BufferedImage image, File file){
-        TopMenuInputData inputData = new TopMenuInputData(tool, image, file);
-        topMenuInputBoundary.setBufferedImage(inputData);
-        topMenuInputBoundary.setFile(inputData);
-        topMenuInputBoundary.save(inputData);
-    }
-
+    // TODO: Weasel way out
     public void handleSaveOnlineButtonPress(BufferedImage image, String username){
         TopMenuInputData inputData = new TopMenuInputData(null, image, null, username);
         topMenuInputBoundary.saveOnline(inputData);
-    }
-
-    public void handleZoomInButtonPress(ToolEnum tool){
-        TopMenuInputData inputData = new TopMenuInputData(tool);
-        topMenuInputBoundary.zoomIn(inputData);
-    }
-
-    public void handleZoomOutButtonPress(ToolEnum tool){
-        TopMenuInputData inputData = new TopMenuInputData(tool);
-        topMenuInputBoundary.zoomOut(inputData);
     }
 
     public void handleMousePressed(Point point){

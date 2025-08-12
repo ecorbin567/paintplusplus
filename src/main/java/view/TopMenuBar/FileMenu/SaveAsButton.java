@@ -1,8 +1,7 @@
 package view.TopMenuBar.FileMenu;
 
-import entity.ToolEnum;
-import interface_adapter.canvas.CanvasController;
-import view.CanvasView;
+import interface_adapter.topmenu.TopMenuFacade;
+import interface_adapter.topmenu.TopMenuFacadeImpl;
 import view.DrawingView;
 
 import javax.swing.*;
@@ -11,11 +10,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class SaveAsButton{
-    private static final ToolEnum toolName = ToolEnum.SAVE;
     private final JMenuItem menuItem;
 
 
-    public SaveAsButton(DrawingView drawingView, CanvasController canvasController) {
+    public SaveAsButton(DrawingView drawingView, TopMenuFacade controller) {
         menuItem = new JMenuItem("Save As");
         menuItem.setMnemonic(KeyEvent.VK_A);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
@@ -30,10 +28,10 @@ public class SaveAsButton{
 
             if (result == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
-                if (file.getName().endsWith(".png")) {
+                if (!file.getName().endsWith(".png")) {
                     file = new File(file.getAbsolutePath() + ".png");
                 }
-                canvasController.handleSaveButtonPress(toolName, image, file);
+                controller.save(image, file);
             }
             else {
                 System.out.println("No file selected");

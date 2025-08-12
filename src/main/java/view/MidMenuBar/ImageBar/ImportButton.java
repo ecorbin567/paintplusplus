@@ -1,6 +1,7 @@
 package view.MidMenuBar.ImageBar;
 
-import interface_adapter.image.import_image.ImportController;
+import interface_adapter.midmenu.image.ImageFacade;
+import interface_adapter.midmenu.image.import_image.ImportController;
 import view.DrawingView;
 import view.MidMenuBar.SelectionToolButton;
 
@@ -14,8 +15,8 @@ public class ImportButton {
     private final JButton button;
     private ImportController importController;
 
-    public ImportButton(ImportController controller, DrawingView drawingView) {
-        this.importController = controller;
+    public ImportButton(ImageFacade controller, DrawingView drawingView) {
+        this.importController = controller.getImportController();
         button = new JButton();
 
         ImageIcon icon = new ImageIcon(SelectionToolButton.class.getResource("/images/ImageIcon.png"));
@@ -33,7 +34,7 @@ public class ImportButton {
             int result = fileChooser.showOpenDialog(null);
             if (result == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
-                controller.execute(selectedFile);
+                controller.importImage(selectedFile);
                 drawingView.repaint();
             }
         });

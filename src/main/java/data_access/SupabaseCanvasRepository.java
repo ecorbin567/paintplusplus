@@ -45,10 +45,10 @@ public class SupabaseCanvasRepository implements NewCanvasUserDataAccessInterfac
 
             // 6. Handle response
             int responseCode = connection.getResponseCode();
-            System.out.println("Upload response code: " + responseCode);
+//            System.out.println("Upload response code: " + responseCode);
 
             if (responseCode >= 200 && responseCode < 300) {
-                System.out.println("Upload successful: " + fileName);
+//                System.out.println("Upload successful: " + fileName);
             } else {
                 try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getErrorStream()))) {
                     in.lines().forEach(System.err::println);

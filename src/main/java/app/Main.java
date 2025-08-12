@@ -1,5 +1,12 @@
 package app;
 
+import app.midmenufactory.imagefactory.CropUseCaseFactory;
+import app.midmenufactory.imagefactory.ImportUseCaseFactory;
+import app.midmenufactory.imagefactory.ResizeUseCaseFactory;
+import app.midmenufactory.imagefactory.RotateUseCaseFactory;
+import app.topmenufactory.HistoryControllerFactory;
+import app.topmenufactory.ResizeCanvasControllerFactory;
+import app.topmenufactory.SaveControllerFactory;
 import app.ImageFactory.CropUseCaseFactory;
 import app.ImageFactory.ImportUseCaseFactory;
 import app.ImageFactory.ResizeUseCaseFactory;
@@ -11,6 +18,7 @@ import data_access.SupabaseCanvasRepository;
 import entity.CanvasState;
 import interface_adapter.SelectionViewModel;
 import com.formdev.flatlaf.FlatLightLaf;
+import data_access.*;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.canvas.CanvasController;
 import interface_adapter.canvas.CanvasRenderer;
@@ -18,14 +26,20 @@ import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.canvas.DrawingViewModel;
 import interface_adapter.changecolor.ColorController;
 import interface_adapter.goback.GoBackViewModel;
-import interface_adapter.image.crop.CropController;
-import interface_adapter.image.import_image.ImportController;
-import interface_adapter.image.resize.ResizeController;
-import interface_adapter.image.rotate.RotateController;
+import interface_adapter.midmenu.image.ImageFacade;
+import interface_adapter.midmenu.image.ImageFacadeImple;
+import interface_adapter.midmenu.image.crop.CropController;
+import interface_adapter.midmenu.image.import_image.ImportController;
+import interface_adapter.midmenu.image.resize.ResizeController;
+import interface_adapter.midmenu.image.rotate.RotateController;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.newcanvas.NewCanvasViewModel;
-import use_case.topmenu.ImageFileSaveGateway;
+import interface_adapter.topmenu.TopMenuFacade;
+import interface_adapter.topmenu.canvassize.ResizeCanvasController;
+import interface_adapter.topmenu.history.HistoryController;
+import interface_adapter.topmenu.save.SaveController;
+import interface_adapter.topmenu.TopMenuFacadeImpl;
 import view.*;
 
 import javax.swing.*;
@@ -85,9 +99,19 @@ public class Main {
         //Entity Layer:
         CanvasState canvasState = new CanvasState();
 
+        //Presentation
+        DrawingViewModel drawingViewModel = new DrawingViewModel();
+
         //Gateways
         LocalImageLoader localImageLoader = new LocalImageLoader();
-        ImageFileSaveGateway imageFileSaveGateway = new ImageFileSaveGateway();
+        ImageSaveGateway imageSaveGateway = new ImageSaveGateway();
+
+        //TopMenu
+        HistoryController historyController = HistoryControllerFactory.create(canvasState, drawingViewModel);
+        ResizeCanvasController resizeCanvasController = ResizeCanvasControllerFactory.create(canvasState, drawingViewModel);
+        SaveController saveController = SaveControllerFactory.create(canvasState, imageSaveGateway);
+        TopMenuFacade topMenuFacade = new TopMenuFacadeImpl(resizeCanvasController, saveController, historyController);
+        //MidMenu
 
         //Presentation Layer:
         DrawingViewModel drawingViewModel = new DrawingViewModel();
@@ -97,7 +121,12 @@ public class Main {
         RotateController rotateController = RotateUseCaseFactory.create(canvasState, drawingViewModel);
         CanvasController canvasController = CanvasControllerFactory.createCanvasController(canvasState, drawingViewModel,
                 imageFileSaveGateway, selectionViewModel, canvasDataAccessObject);
+        CanvasController canvasController = CanvasControllerFactory.createCanvasController(canvasState, drawingViewModel, selectionViewModel);
         ColorController colorController = ColorUseCaseFactory.create(canvasState);
+
+        ImageFacade imageFacade = new ImageFacadeImple(resizeController, rotateController,
+                                                        importController, cropcontroller);
+
 
         //Renderer
         CanvasRenderer canvasRenderer = new CanvasRenderer();
@@ -116,9 +145,8 @@ public class Main {
 
         final CanvasView canvasView = CanvasUseCaseFactory.create(viewManagerModel, goBackViewModel,
                 newCanvasViewModel, signupViewModel,
-                canvasDataAccessObject, cropcontroller, importController,
-                resizeController, rotateController, colorController,
-                drawingView, canvasController, canvasViewModel);
+                userDataAccessObject, imageFacade, colorController,
+                drawingView, canvasController, canvasViewModel, topMenuFacade);
 
         views.add(canvasView, canvasView.getViewName());
 

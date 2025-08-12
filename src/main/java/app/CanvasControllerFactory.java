@@ -28,11 +28,13 @@ public class CanvasControllerFactory {
         MouseUIUseInputBoundary mouseInteractor = new MouseUIUseInteractor(canvasState,
                 canvasPresenter, selectionPresenter);
 
+        // TODO: also a merge conflict byproduct
         TopMenuInputBoundary topMenuInteractor = new TopMenuInteractor(canvasState,
                 canvasPresenter, saveGateway, canvasDataAccessObject);
 
         ToolUseInputBoundary toolUseInteractor = new ToolUseInteractor(canvasState);
 
+        // TODO: controller constructor messed up with merge conflict
         return new CanvasController(mouseInteractor, toolUseInteractor,
                 topMenuInteractor);
     }

@@ -84,8 +84,6 @@ public class TestUserRepositoryMethods {
 
         List<BufferedImage> images = canvasService.getAllCanvases(username);
 
-        System.out.println(images);
-
         // Assert we retrieved at least one image
         if (images == null) {
             System.out.println("Image list should not be null");
