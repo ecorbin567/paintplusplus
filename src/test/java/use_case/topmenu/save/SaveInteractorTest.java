@@ -1,6 +1,5 @@
 package use_case.topmenu.save;
 
-import data_access.CanvasDataAccessInterface;
 import entity.CanvasState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,79 +9,76 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests for SaveInteractor.
+ */
 class SaveInteractorTest {
 
-    private FakeSaveFileGateway fileSaveGateway;
-    private FakeCanvasDAO canvasDAO;
     private CanvasState canvasState;
+    private FakeSaveFileGateway fileGateway;
     private SaveInteractor interactor;
 
     @BeforeEach
     void setUp() {
-        fileSaveGateway = new FakeSaveFileGateway();
-        canvasDAO = new FakeCanvasDAO();
         canvasState = new CanvasState();
-        interactor = new SaveInteractor(canvasState, fileSaveGateway);
+        fileGateway = new FakeSaveFileGateway();
+        interactor = new SaveInteractor(canvasState, fileGateway);
     }
 
     @Test
     void save_success_updatesCanvasState_andCallsGateway(@TempDir Path tempDir) {
+        // Arrange
         BufferedImage image = new BufferedImage(4, 4, BufferedImage.TYPE_INT_ARGB);
         File file = tempDir.resolve("out.png").toFile();
         SaveInputData input = new SaveInputData(image, file);
 
+        // Precondition
         assertNull(canvasState.getSavedImage());
         assertNull(canvasState.getSavedImageFile());
-        assertEquals(0, fileSaveGateway.calls);
+        assertEquals(0, fileGateway.calls);
 
+        // Act
         interactor.save(input);
 
-        assertEquals(1, fileSaveGateway.calls);
-        assertSame(image, fileSaveGateway.lastImage);
-        assertEquals(file, fileSaveGateway.lastFile);
+        // Assert: gateway called with same args
+        assertEquals(1, fileGateway.calls);
+        assertSame(image, fileGateway.lastImage);
+        assertEquals(file, fileGateway.lastFile);
 
-        assertSame(image, canvasState.getSavedImage(), "CanvasState gets Save Image");
-        assertEquals(file, canvasState.getSavedImageFile(), "CanvasState gets File");
+        // Assert: state updated only after successful save
+        assertSame(image, canvasState.getSavedImage(), "Saved image should be set");
+        assertEquals(file, canvasState.getSavedImageFile(), "File path should be set");
     }
 
     @Test
     void save_whenGatewayThrowsIOException_doesNotMutateCanvasState(@TempDir Path tempDir) {
+        // Arrange
         BufferedImage image = new BufferedImage(4, 4, BufferedImage.TYPE_INT_ARGB);
         File file = tempDir.resolve("out.png").toFile();
         SaveInputData input = new SaveInputData(image, file);
+        fileGateway.throwOnSave = true;
 
-        fileSaveGateway.throwOnSave = true;
-
+        // Precondition
         assertNull(canvasState.getSavedImage());
         assertNull(canvasState.getSavedImageFile());
 
+        // Act: should catch internally (no exception thrown to caller)
         interactor.save(input);
 
-        assertEquals(1, fileSaveGateway.calls);
-        assertSame(image, fileSaveGateway.lastImage);
-        assertEquals(file, fileSaveGateway.lastFile);
+        // Assert: gateway attempted
+        assertEquals(1, fileGateway.calls);
+        assertSame(image, fileGateway.lastImage);
+        assertEquals(file, fileGateway.lastFile);
 
-        assertNull(canvasState.getSavedImage(), "Saved image should remain null");
-        assertNull(canvasState.getSavedImageFile(), "File path should remain null");
+        // Assert: state unchanged due to exception
+        assertNull(canvasState.getSavedImage(), "Saved image should remain null if save fails");
+        assertNull(canvasState.getSavedImageFile(), "File path should remain null if save fails");
     }
 
-    /*
-    @Test
-    void saveCanvasOnline_delegatesToDAO() {
-
-        String username = "alice";
-        BufferedImage image = new BufferedImage(2, 2, BufferedImage.TYPE_INT_ARGB);
-
-        interactor.saveCanvasOnline(username, image);
-
-        assertEquals(1, canvasDAO.calls);
-        assertEquals(username, canvasDAO.lastUsername);
-        assertSame(image, canvasDAO.lastImage);
-    }*/
+    // --------- Test double (no Mockito needed) ---------
 
     private static class FakeSaveFileGateway implements SaveFileGateway {
         int calls = 0;
@@ -95,26 +91,10 @@ class SaveInteractorTest {
             calls++;
             lastImage = image;
             lastFile = file;
-            if (throwOnSave) throw new IOException("boom");
-        }
-    }
-
-    private static class FakeCanvasDAO implements CanvasDataAccessInterface {
-        int calls = 0;
-        String lastUsername;
-        BufferedImage lastImage;
-
-        @Override
-        public boolean saveCanvas(String username, BufferedImage image) {
-            calls++;
-            lastUsername = username;
-            lastImage = image;
-            return false;
-        }
-
-        @Override
-        public List<BufferedImage> getAllCanvases(String username) {
-            return List.of();
+            if (throwOnSave) {
+                throw new IOException("boom");
+            }
+            // No actual disk write.
         }
     }
 }
