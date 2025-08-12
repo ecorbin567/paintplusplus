@@ -23,6 +23,10 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
         return actionHistory;
     }
 
+    public void setCurrentState(Drawable drawable) {
+        this.actionHistory.setCurrentState(drawable);
+    }
+
     @Override
     public void mouseIsPressed(MouseUIInputData inputData) {
         if (canvasState.getToolState() == ToolEnum.SELECT){

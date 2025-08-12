@@ -8,4 +8,5 @@ public interface HistoryOutputBoundary {
     void setDrawables(HistoryOutputData outputData);
     void setCurrentDrawable(HistoryOutputData outputData);
     void setRepaintState(HistoryOutputData outputData);
+    Drawable getCurrentDrawable();
 }
