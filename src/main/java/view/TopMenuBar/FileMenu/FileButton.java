@@ -1,7 +1,6 @@
 package view.TopMenuBar.FileMenu;
 
 import interface_adapter.topmenu.TopMenuFacade;
-import interface_adapter.topmenu.TopMenuFacadeImpl;
 import view.DrawingView;
 import view.TopMenuBar.MenuActionListener;
 
@@ -14,19 +13,21 @@ public class FileButton {
     private final GoBackButton goBackButton;
     private final LogOutButton logOutButton;
 
-
     public FileButton(DrawingView drawingView, TopMenuFacade controller) {
         SaveAsButton saveAsButton = new SaveAsButton(drawingView, controller);
         goBackButton = new GoBackButton();
         logOutButton = new LogOutButton();
+        SaveOnlineButton saveOnlineButton = new SaveOnlineButton(drawingView, controller);
 
         JMenuItem saveAsMenu = saveAsButton.getMenuItem();
         JMenuItem goBackMenu = goBackButton.getMenuItem();
         JMenuItem logOutMenu = logOutButton.getMenuItem();
+        JMenuItem saveOnlineMenu = saveOnlineButton.getMenuItem();
 
         menu = new JMenu("File");
 
         menu.add(saveAsMenu);
+        menu.add(saveOnlineMenu);
         menu.add(goBackMenu);
         menu.add(logOutMenu);
 

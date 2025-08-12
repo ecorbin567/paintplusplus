@@ -1,5 +1,6 @@
 package app;
 
+import data_access.CanvasDataAccessInterface;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.canvas.CanvasController;
 import interface_adapter.canvas.CanvasViewModel;
@@ -51,14 +52,14 @@ public final class CanvasUseCaseFactory {
             GoBackViewModel goBackViewModel,
             NewCanvasViewModel newCanvasViewModel,
             SignupViewModel signupViewModel,
-            GoBackUserDataAccessInterface userDataAccessObject,
             ImageFacade imageFacade, ColorController colorController,
+            CanvasDataAccessInterface canvasDataAccessObject,
             DrawingView drawingView, CanvasController controller,
             CanvasViewModel canvasViewModel,
             TopMenuFacade topMenuFacade) {
 
         final GoBackController goBackController = createGoBackUseCase(viewManagerModel, newCanvasViewModel,
-                signupViewModel, userDataAccessObject);
+                signupViewModel, canvasDataAccessObject);
 
         return new CanvasView(canvasViewModel, goBackViewModel, goBackController,
                 imageFacade, colorController, drawingView, controller, topMenuFacade);
@@ -68,13 +69,13 @@ public final class CanvasUseCaseFactory {
             ViewManagerModel viewManagerModel,
             NewCanvasViewModel newCanvasViewModel,
             SignupViewModel signupViewModel,
-            GoBackUserDataAccessInterface userDataAccessObject) {
+            CanvasDataAccessInterface canvasDataAccessObject) {
 
         final GoBackOutputBoundary goBackOutputBoundary = new GoBackPresenter(viewManagerModel,
                 newCanvasViewModel,
                 signupViewModel);
         final GoBackInputBoundary goBackInteractor = new GoBackInteractor(
-                userDataAccessObject, goBackOutputBoundary);
+                canvasDataAccessObject, goBackOutputBoundary);
 
         return new GoBackController(goBackInteractor);
     }

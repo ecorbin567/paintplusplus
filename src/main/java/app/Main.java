@@ -142,13 +142,21 @@ public class Main {
         // Renderer
         final CanvasRenderer canvasRenderer = new CanvasRenderer();
 
-        final DrawingView drawingView = DrawingViewUseCaseFactory.create(
-                canvasController, canvasRenderer,
+        final SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel,
+                signupViewModel, userDataAccessObject);
+        views.add(signupView, signupView.getViewName());
+
+        final LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel,
+                newCanvasViewModel, userDataAccessObject,
+                canvasDataAccessObject, drawingViewModel, goBackViewModel);
+        views.add(loginView, loginView.getViewName());
+
+        final DrawingView drawingView = DrawingViewUseCaseFactory.create(canvasController, canvasRenderer,
                 selectionViewModel, drawingViewModel);
 
         final CanvasView canvasView = CanvasUseCaseFactory.create(viewManagerModel, goBackViewModel,
-                newCanvasViewModel, signupViewModel,
-                userDataAccessObject, imageFacade, colorController,
+                newCanvasViewModel, signupViewModel, imageFacade,
+                colorController, canvasDataAccessObject,
                 drawingView, canvasController, canvasViewModel, topMenuFacade);
 
         views.add(canvasView, canvasView.getViewName());

@@ -68,3 +68,5 @@ canvas image data is fed through the login use case interface adapter, since the
 General description: The canvas select screen in the previous entry was non-functional. Now, when you click
 on a canvas, it immediately imports that image.
 Details in pull request #77 (?)
+
+2025-08-11 create save online button

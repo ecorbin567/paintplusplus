@@ -13,6 +13,7 @@ public class DrawingViewModel {
     private double scale = 1.0;
     private List<Image> images = new ArrayList<>();
     private Drawable currentDrawable;
+    private String currentUser;
 
     //Only Repaint if there are things in ActionHistoryUndoStack
     public void shouldRepaint(boolean stackEmpty) {this.stackEmpty = stackEmpty;}
@@ -33,4 +34,7 @@ public class DrawingViewModel {
     //Image
     public void setImageList(List<Image> images) {this.images = images;}
     public List<Image> getImageList() {return this.images;}
+
+    public void setCurrentUser(String username) {this.currentUser = username;}
+    public String getCurrentUser() {return currentUser;}
 }

@@ -63,6 +63,7 @@ public class DrawingView extends JPanel implements MouseListener, MouseMotionLis
         controller.handleMouseReleased(e.getPoint(), getImage());
         renderCanvasView();
         renderer.updateAntsTimer(antsTimer, selectionViewModel);
+        repaint();
     }
 
     @Override
@@ -71,6 +72,7 @@ public class DrawingView extends JPanel implements MouseListener, MouseMotionLis
             controller.handleMousePressed(e.getPoint());
             renderCanvasView();
             renderer.updateAntsTimer(antsTimer, selectionViewModel);
+            repaint();
         }
     }
 
@@ -81,9 +83,14 @@ public class DrawingView extends JPanel implements MouseListener, MouseMotionLis
     }
 
     public BufferedImage getImage() {
+        // try only base snapshot: no selection overlay, no more overlay
         BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = image.createGraphics();
-        this.paint(g2d);
+//        this.paint(g2d);
+        renderer.resize(g2d, viewModel);
+        renderer.drawImage(g2d, viewModel); // background strokes
+        renderer.renderDraw(g2d, viewModel); // commited strokes
+        renderer.layeringDraw(g2d, viewModel); // currentstroke head
         g2d.dispose();
         return image;
     }
@@ -105,4 +112,21 @@ public class DrawingView extends JPanel implements MouseListener, MouseMotionLis
     public void mouseExited(MouseEvent e) {
         // We don't need these, but must include them
     }
+
+    /**
+     * Get username of currently logged-in user
+     * @return username as String
+     */
+    public String getUsername() {
+        return this.viewModel.getCurrentUser();
+    }
+
+    /**
+     * Set username of currently logged-in user
+     */
+    public void setUsername(String username) {
+        this.viewModel.setCurrentUser(username);
+    }
+
+
 }

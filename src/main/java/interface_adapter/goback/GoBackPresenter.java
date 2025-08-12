@@ -6,6 +6,10 @@ import interface_adapter.newcanvas.NewCanvasViewModel;
 import interface_adapter.signup.SignupState;
 import interface_adapter.signup.SignupViewModel;
 import use_case.goback.GoBackOutputBoundary;
+import use_case.goback.GoBackOutputData;
+
+import java.awt.image.BufferedImage;
+import java.util.List;
 
 /**
  * The Presenter for the Go Back Use Case.
@@ -25,10 +29,13 @@ public class GoBackPresenter implements GoBackOutputBoundary {
     }
 
     @Override
-    public void prepareSuccessView(String command) {
+    public void prepareSuccessView(String command, GoBackOutputData outputData) {
         if (command.equals("goBack")) {
             final NewCanvasState canvasState = this.newCanvasViewModel.getState();
+            List<BufferedImage> updatedCanvases = outputData.getUpdatedCanvases();
+            canvasState.setCanvases(updatedCanvases);
             this.newCanvasViewModel.setState(canvasState);
+            this.newCanvasViewModel.setCanvases(updatedCanvases);
             this.newCanvasViewModel.firePropertyChanged();
 
             this.viewManagerModel.setState(newCanvasViewModel.getViewName());
