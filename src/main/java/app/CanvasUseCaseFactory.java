@@ -9,18 +9,12 @@ import interface_adapter.goback.GoBackController;
 import interface_adapter.goback.GoBackPresenter;
 import interface_adapter.goback.GoBackViewModel;
 import interface_adapter.midmenu.image.ImageFacade;
-import interface_adapter.midmenu.image.crop.CropController;
-import interface_adapter.midmenu.image.import_image.ImportController;
-import interface_adapter.midmenu.image.resize.ResizeController;
-import interface_adapter.midmenu.image.rotate.RotateController;
 import interface_adapter.newcanvas.NewCanvasViewModel;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.topmenu.TopMenuFacade;
 import use_case.goback.GoBackInputBoundary;
 import use_case.goback.GoBackInteractor;
 import use_case.goback.GoBackOutputBoundary;
-import use_case.goback.GoBackUserDataAccessInterface;
-import interface_adapter.topmenu.TopMenuFacadeImpl;
 import view.CanvasView;
 import view.DrawingView;
 
@@ -43,7 +37,7 @@ public final class CanvasUseCaseFactory {
      * @param newCanvasViewModel   the CanvasViewModel to inject into the CanvasView
      * @param signupViewModel      the SignupViewModel to inject into the CanvasView
      * @param canvasDataAccessObject the GoBackUserDataAccessInterface to inject into the CanvasView
-     * @param canvasViewModel
+     * @param canvasViewModel       the canvasViewModel
      * @return the CanvasView created for the provided input classes
      */
 
@@ -53,13 +47,8 @@ public final class CanvasUseCaseFactory {
             GoBackViewModel goBackViewModel,
             NewCanvasViewModel newCanvasViewModel,
             SignupViewModel signupViewModel,
-            GoBackUserDataAccessInterface userDataAccessObject,
             ImageFacade imageFacade, ColorController colorController,
             CanvasDataAccessInterface canvasDataAccessObject,
-            CropController cropController,
-            ImportController importController,
-            ResizeController resizeController,
-            RotateController rotateController, ColorController colorController,
             DrawingView drawingView, CanvasController controller,
             CanvasViewModel canvasViewModel,
             TopMenuFacade topMenuFacade) {

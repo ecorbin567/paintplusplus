@@ -1,5 +1,6 @@
 package use_case.topmenu.save;
 
+import data_access.CanvasDataAccessInterface;
 import entity.CanvasState;
 
 import java.awt.image.BufferedImage;
@@ -12,11 +13,13 @@ public class SaveInteractor implements SaveInputBoundary{
     private final CanvasState canvasState;
     private final SaveFileGateway fileSaveGateway;
     private static final Logger logger = Logger.getLogger(SaveInteractor.class.getName());
+    private final CanvasDataAccessInterface  canvasDataAccessObject;
 
     public SaveInteractor(CanvasState canvasState,
-                          SaveFileGateway fileSaveGateway) {
+                          SaveFileGateway fileSaveGateway, CanvasDataAccessInterface canvasDataAccessObject) {
         this.canvasState = canvasState;
         this.fileSaveGateway = fileSaveGateway;
+        this.canvasDataAccessObject = canvasDataAccessObject;
     }
 
     @Override
@@ -33,6 +36,11 @@ public class SaveInteractor implements SaveInputBoundary{
         catch(IOException e){
             logger.log(Level.SEVERE, "Error saving image", e);
         }
+    }
+
+    @Override
+    public void saveCanvasOnline(String username, BufferedImage image) {
+        canvasDataAccessObject.saveCanvas(username, image);
     }
 
     private void setBufferedImage(SaveInputData inputData) {

@@ -7,10 +7,6 @@ import app.midmenufactory.imagefactory.RotateUseCaseFactory;
 import app.topmenufactory.HistoryControllerFactory;
 import app.topmenufactory.ResizeCanvasControllerFactory;
 import app.topmenufactory.SaveControllerFactory;
-import app.ImageFactory.CropUseCaseFactory;
-import app.ImageFactory.ImportUseCaseFactory;
-import app.ImageFactory.ResizeUseCaseFactory;
-import app.ImageFactory.RotateUseCaseFactory;
 import data_access.InMemoryCanvasDataAccessObject;
 import data_access.LocalImageLoader;
 import data_access.SupabaseAccountRepository;
@@ -109,19 +105,17 @@ public class Main {
         //TopMenu
         HistoryController historyController = HistoryControllerFactory.create(canvasState, drawingViewModel);
         ResizeCanvasController resizeCanvasController = ResizeCanvasControllerFactory.create(canvasState, drawingViewModel);
-        SaveController saveController = SaveControllerFactory.create(canvasState, imageSaveGateway);
+        SaveController saveController = SaveControllerFactory.create(canvasState, imageSaveGateway, canvasDataAccessObject);
         TopMenuFacade topMenuFacade = new TopMenuFacadeImpl(resizeCanvasController, saveController, historyController);
         //MidMenu
 
         //Presentation Layer:
-        DrawingViewModel drawingViewModel = new DrawingViewModel();
         CropController cropcontroller = CropUseCaseFactory.create(canvasState, drawingViewModel);
         ImportController importController = ImportUseCaseFactory.create(canvasState, drawingViewModel, localImageLoader);
         ResizeController resizeController = ResizeUseCaseFactory.create(canvasState, drawingViewModel);
         RotateController rotateController = RotateUseCaseFactory.create(canvasState, drawingViewModel);
-        CanvasController canvasController = CanvasControllerFactory.createCanvasController(canvasState, drawingViewModel,
-                imageFileSaveGateway, selectionViewModel, canvasDataAccessObject);
-        CanvasController canvasController = CanvasControllerFactory.createCanvasController(canvasState, drawingViewModel, selectionViewModel);
+        CanvasController canvasController = CanvasControllerFactory.createCanvasController(
+                canvasState, drawingViewModel, selectionViewModel);
         ColorController colorController = ColorUseCaseFactory.create(canvasState);
 
         ImageFacade imageFacade = new ImageFacadeImple(resizeController, rotateController,
@@ -144,8 +138,8 @@ public class Main {
                 selectionViewModel, drawingViewModel);
 
         final CanvasView canvasView = CanvasUseCaseFactory.create(viewManagerModel, goBackViewModel,
-                newCanvasViewModel, signupViewModel,
-                userDataAccessObject, imageFacade, colorController,
+                newCanvasViewModel, signupViewModel, imageFacade,
+                colorController, canvasDataAccessObject,
                 drawingView, canvasController, canvasViewModel, topMenuFacade);
 
         views.add(canvasView, canvasView.getViewName());

@@ -11,16 +11,11 @@ import use_case.mouseui.MouseUIUseInputBoundary;
 import use_case.mouseui.MouseUIUseInteractor;
 import use_case.tooluse.ToolUseInputBoundary;
 import use_case.tooluse.ToolUseInteractor;
-import use_case.topmenu.ImageFileSaveGateway;
-import use_case.topmenu.TopMenuInputBoundary;
-import use_case.topmenu.TopMenuInteractor;
 
 public class CanvasControllerFactory {
     public static CanvasController createCanvasController(CanvasState canvasState,
                                                           DrawingViewModel drawingViewModel,
-                                                          ImageFileSaveGateway saveGateway,
-                                                          SelectionViewModel selectionViewModel,
-                                                          CanvasDataAccessInterface canvasDataAccessObject){
+                                                          SelectionViewModel selectionViewModel){
 
         CanvasPresenter canvasPresenter = new CanvasPresenter(drawingViewModel);
         SelectionPresenter selectionPresenter = new SelectionPresenter(selectionViewModel);
@@ -28,15 +23,10 @@ public class CanvasControllerFactory {
         MouseUIUseInputBoundary mouseInteractor = new MouseUIUseInteractor(canvasState,
                 canvasPresenter, selectionPresenter);
 
-        // TODO: also a merge conflict byproduct
-        TopMenuInputBoundary topMenuInteractor = new TopMenuInteractor(canvasState,
-                canvasPresenter, saveGateway, canvasDataAccessObject);
-
         ToolUseInputBoundary toolUseInteractor = new ToolUseInteractor(canvasState);
 
         // TODO: controller constructor messed up with merge conflict
-        return new CanvasController(mouseInteractor, toolUseInteractor,
-                topMenuInteractor);
+        return new CanvasController(mouseInteractor, toolUseInteractor);
     }
 }
 

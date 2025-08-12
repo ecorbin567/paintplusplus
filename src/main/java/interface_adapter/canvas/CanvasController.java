@@ -5,7 +5,6 @@ import use_case.tooluse.ToolUseInputBoundary;
 import use_case.tooluse.ToolUseInputData;
 import use_case.mouseui.MouseUIUseInputBoundary;
 import use_case.mouseui.MouseUIInputData;
-import use_case.topmenu.TopMenuInputBoundary;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -13,16 +12,13 @@ import java.awt.image.BufferedImage;
 public class CanvasController {
     MouseUIUseInputBoundary mouseUIUseInputBoundary;
     ToolUseInputBoundary toolUseInputBoundary;
-    TopMenuInputBoundary topMenuInputBoundary;
 
     // TODO: Oscar's changes removed TopMenuInputBoundary.
     //  Josh's save online needed it. Need to redelete it
     public CanvasController(MouseUIUseInputBoundary mouseUIUseInputBoundary,
-                            ToolUseInputBoundary toolUseInputBoundary,
-                            TopMenuInputBoundary topMenuInputBoundary) {
+                            ToolUseInputBoundary toolUseInputBoundary) {
         this.mouseUIUseInputBoundary = mouseUIUseInputBoundary;
         this.toolUseInputBoundary = toolUseInputBoundary;
-        this.topMenuInputBoundary = topMenuInputBoundary;
     }
 
     public void handlePencilButtonPress(ToolEnum tool){
@@ -45,12 +41,6 @@ public class CanvasController {
         ToolUseInputData inputData = new ToolUseInputData(tool, value);
         toolUseInputBoundary.setTool(inputData);
         toolUseInputBoundary.setSize(inputData);
-    }
-
-    // TODO: Weasel way out
-    public void handleSaveOnlineButtonPress(BufferedImage image, String username){
-        TopMenuInputData inputData = new TopMenuInputData(null, image, null, username);
-        topMenuInputBoundary.saveOnline(inputData);
     }
 
     public void handleMousePressed(Point point){

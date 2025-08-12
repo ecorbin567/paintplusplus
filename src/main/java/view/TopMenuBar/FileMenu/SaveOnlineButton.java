@@ -1,23 +1,19 @@
 package view.TopMenuBar.FileMenu;
 
-import entity.ToolEnum;
-import interface_adapter.canvas.CanvasController;
+import interface_adapter.topmenu.TopMenuFacade;
 import view.DrawingView;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
 
 /**
  * For saving to My Canvases
  */
 public class SaveOnlineButton {
-    private static final ToolEnum toolName = ToolEnum.SAVE;
     private final JMenuItem menuItem;
 
-
-    public SaveOnlineButton(DrawingView drawingView, CanvasController canvasController) {
+    public SaveOnlineButton(DrawingView drawingView, TopMenuFacade controller) {
 
         menuItem = new JMenuItem("Save Online");
         menuItem.setMnemonic(KeyEvent.VK_S);
@@ -29,7 +25,7 @@ public class SaveOnlineButton {
             String currentUserUsername = drawingView.getUsername();
 
             // Save to user thing in database
-            canvasController.handleSaveOnlineButtonPress(image, currentUserUsername);
+            controller.saveOnline(image, currentUserUsername);
         });
     }
     public JMenuItem getMenuItem() {
