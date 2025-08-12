@@ -34,7 +34,7 @@ import java.io.IOException;
  */
 public class CanvasView extends JPanel implements ActionListener, MenuActionListener,
         PropertyChangeListener {
-    private final String viewName = "canvas";
+    private final String viewNaviewNameme = "canvas";
     private final CanvasViewModel canvasViewModel;
 
     private final GoBackViewModel goBackViewModel;

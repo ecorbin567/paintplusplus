@@ -9,24 +9,24 @@ import view.topmenubar.viewmenu.ViewButton;
 import javax.swing.*;
 
 public class TopMenuBarBuilder {
-    FileButton FileButton;
-    EditButton EditButton;
-    ViewButton ViewButton;
+    FileButton fileButton;
+    EditButton editButton;
+    ViewButton viewButton;
 
     JMenuBar menuBar;
     public TopMenuBarBuilder(DrawingView drawingView, TopMenuFacade controllers) {
         menuBar = new JMenuBar();
 
-        FileButton = new FileButton(drawingView, controllers);
-        JMenu fileMenu = FileButton.getMenu();
+        fileButton = new FileButton(drawingView, controllers);
+        JMenu fileMenu = fileButton.getMenu();
         menuBar.add(fileMenu);
 
-        EditButton = new EditButton(drawingView, controllers);
-        JMenu editMenu = EditButton.getEditMenu();
+        editButton = new EditButton(drawingView, controllers);
+        JMenu editMenu = editButton.getEditMenu();
         menuBar.add(editMenu);
 
-        ViewButton = new ViewButton(drawingView, controllers);
-        JMenu viewMenu = ViewButton.getViewMenu();
+        viewButton = new ViewButton(drawingView, controllers);
+        JMenu viewMenu = viewButton.getViewMenu();
         menuBar.add(viewMenu);
     }
 
@@ -35,7 +35,7 @@ public class TopMenuBarBuilder {
     }
 
     public void setMenuActionListener(MenuActionListener listener) {
-        FileButton.setMenuActionListener(listener);
+        fileButton.setMenuActionListener(listener);
     }
 }
 
