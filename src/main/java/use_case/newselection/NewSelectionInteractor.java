@@ -49,7 +49,6 @@ public class NewSelectionInteractor implements NewSelectionInputBoundary {
         if (hasSel && sel != null && sel.contains(p)) {
             // Start dragging existing selection.
             canvasState.setDraggingSelection(true);
-            canvasState.setHasCutOut(false);
             canvasState.setDragAnchor(new Point(p.x - sel.x, p.y - sel.y));
         } else if (hasSel) {
             // Clicked outside -> deselect (commit move if moved).
@@ -57,6 +56,7 @@ public class NewSelectionInteractor implements NewSelectionInputBoundary {
         } else {
             // Begin drawing a new selection box.
             canvasState.setDraggingSelection(false);
+            canvasState.setHasCutOut(false); // make the first drag create only one cutrecord (not while dragging)
             tool.start(p);
             canvasState.setIsDrawing(true);
         }
@@ -148,6 +148,7 @@ public class NewSelectionInteractor implements NewSelectionInputBoundary {
         canvasState.setSelectionOriginalBounds(null);
         canvasState.setDragAnchor(null);
         canvasState.setIsDrawing(false);
+        canvasState.setHasCutOut(false); // reset the flag to false
     }
 
     private void sendSelectionOutput() {
