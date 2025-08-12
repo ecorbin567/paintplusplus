@@ -17,13 +17,4 @@ public class SaveController {
         SaveInputData inputData = new SaveInputData(image, file);
         interactor.save(inputData);
     }
-
-    /**
-     * Save online button press
-     * @param image to save
-     * @param username of user
-     */
-    public void handleSaveOnlineButtonPress(BufferedImage image, String username) {
-        interactor.saveCanvasOnline(username, image);
-    }
 }

@@ -3,18 +3,22 @@ package interface_adapter.topmenu;
 import interface_adapter.topmenu.canvassize.ResizeCanvasController;
 import interface_adapter.topmenu.history.HistoryController;
 import interface_adapter.topmenu.save.SaveController;
+import interface_adapter.topmenu.saveonline.save.SaveOnlineController;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class TopMenuFacadeImpl implements TopMenuFacade {
     private final ResizeCanvasController sizeController;
     private final SaveController saveController;
+    private final SaveOnlineController saveOnlineController;
     private final HistoryController historyController;
 
-    public TopMenuFacadeImpl(ResizeCanvasController resize, SaveController save,
+    public TopMenuFacadeImpl(ResizeCanvasController resize, SaveController save, SaveOnlineController saveOnlineController,
                              HistoryController history) {
         sizeController = resize;
         saveController = save;
+        this.saveOnlineController = saveOnlineController;
         historyController = history;
     }
 
@@ -36,7 +40,7 @@ public class TopMenuFacadeImpl implements TopMenuFacade {
 
     @Override
     public void saveOnline(BufferedImage image, String username) {
-        saveController.handleSaveOnlineButtonPress(image, username);
+        saveOnlineController.handleSaveOnlineButtonPress(image, username);
     }
 
     @Override

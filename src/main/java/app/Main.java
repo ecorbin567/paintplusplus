@@ -11,6 +11,7 @@ import app.midmenufactory.imagefactory.RotateUseCaseFactory;
 import app.topmenufactory.HistoryControllerFactory;
 import app.topmenufactory.ResizeCanvasControllerFactory;
 import app.topmenufactory.SaveControllerFactory;
+import app.topmenufactory.SaveOnlineControllerFactory;
 import com.formdev.flatlaf.FlatLightLaf;
 import data_access.ImageSaveGateway;
 import data_access.LocalImageLoader;
@@ -39,6 +40,7 @@ import interface_adapter.topmenu.TopMenuFacadeImpl;
 import interface_adapter.topmenu.canvassize.ResizeCanvasController;
 import interface_adapter.topmenu.history.HistoryController;
 import interface_adapter.topmenu.save.SaveController;
+import interface_adapter.topmenu.saveonline.save.SaveOnlineController;
 import view.*;
 
 /**
@@ -109,9 +111,10 @@ public class Main {
         final ResizeCanvasController resizeCanvasController = ResizeCanvasControllerFactory.create(
                 canvasState, drawingViewModel);
         final SaveController saveController = SaveControllerFactory.create(
-                canvasState, imageSaveGateway, canvasDataAccessObject);
+                canvasState, imageSaveGateway);
+        final SaveOnlineController saveOnlineController = SaveOnlineControllerFactory.create(canvasDataAccessObject);
         final TopMenuFacade topMenuFacade = new TopMenuFacadeImpl(
-                resizeCanvasController, saveController, historyController);
+                resizeCanvasController, saveController, saveOnlineController, historyController);
         // MidMenu
 
         // Presentation Layer
