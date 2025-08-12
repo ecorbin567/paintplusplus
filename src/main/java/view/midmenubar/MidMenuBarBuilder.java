@@ -1,23 +1,19 @@
-package view.MidMenuBar;
+package view.midmenubar;
 
 import java.util.List;
 
 import interface_adapter.canvas.CanvasController;
 import interface_adapter.changecolor.ColorController;
-import interface_adapter.midmenu.image.ImageFacade;
-import interface_adapter.midmenu.image.crop.CropController;
-import interface_adapter.midmenu.image.import_image.ImportController;
-import interface_adapter.midmenu.image.resize.ResizeController;
-import interface_adapter.midmenu.image.rotate.RotateController;
+import interface_adapter.image.ImageFacade;
 import view.DrawingView;
 
-import view.MidMenuBar.ColorButtonsBar.*;
-import view.MidMenuBar.EraserButtonGroup.EraseButton;
-import view.MidMenuBar.ImageBar.CropButton;
-import view.MidMenuBar.ImageBar.ImportButton;
-import view.MidMenuBar.ImageBar.ResizeImageButton;
-import view.MidMenuBar.ImageBar.RotateButton;
-import view.MidMenuBar.PencilButtonGroup.PencilButton;
+import view.midmenubar.colorbuttonsbar.*;
+import view.midmenubar.eraserbuttongroup.EraseButton;
+import view.midmenubar.imagebar.CropButton;
+import view.midmenubar.imagebar.ImportButton;
+import view.midmenubar.imagebar.ResizeImageButton;
+import view.midmenubar.imagebar.RotateButton;
+import view.midmenubar.pencilbuttongroup.PencilButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -132,13 +128,6 @@ public class MidMenuBarBuilder {
 
     public JPanel getPanel() {
         return panel;
-    }
-    public JButton getPencilButton() {
-        return pButton;
-    }
-
-    public JButton getEraseButton() {
-        return eButton;
     }
 
     /**

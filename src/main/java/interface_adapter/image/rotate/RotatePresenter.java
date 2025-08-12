@@ -1,4 +1,4 @@
-package interface_adapter.midmenu.image.rotate;
+package interface_adapter.image.rotate;
 
 import interface_adapter.canvas.DrawingViewModel;
 import use_case.image.rotate.RotateOutputBoundary;

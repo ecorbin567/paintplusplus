@@ -1,4 +1,4 @@
-package interface_adapter.midmenu.image.crop;
+package interface_adapter.image.crop;
 
 import use_case.image.crop.CropInputBoundary;
 import use_case.image.crop.CropRequestModel;

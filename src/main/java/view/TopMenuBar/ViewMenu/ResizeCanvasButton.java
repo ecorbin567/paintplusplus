@@ -1,4 +1,4 @@
-package view.TopMenuBar.ViewMenu;
+package view.topmenubar.viewmenu;
 
 import interface_adapter.topmenu.TopMenuFacade;
 import interface_adapter.topmenu.TopMenuFacadeImpl;

@@ -1,11 +1,10 @@
-package view.TopMenuBar;
+package view.topmenubar;
 
 import interface_adapter.topmenu.TopMenuFacade;
-import interface_adapter.topmenu.TopMenuFacadeImpl;
 import view.DrawingView;
-import view.TopMenuBar.EditMenu.EditButton;
-import view.TopMenuBar.FileMenu.FileButton;
-import view.TopMenuBar.ViewMenu.ViewButton;
+import view.topmenubar.editmenu.EditButton;
+import view.topmenubar.filemenu.FileButton;
+import view.topmenubar.viewmenu.ViewButton;
 
 import javax.swing.*;
 

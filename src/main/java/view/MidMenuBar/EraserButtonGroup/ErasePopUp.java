@@ -1,4 +1,4 @@
-package view.MidMenuBar.EraserButtonGroup;
+package view.midmenubar.eraserbuttongroup;
 
 import entity.ToolEnum;
 import interface_adapter.canvas.CanvasController;

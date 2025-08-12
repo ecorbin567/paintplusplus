@@ -1,6 +1,6 @@
-package view.MidMenuBar.ImageBar;
+package view.midmenubar.imagebar;
 
-import interface_adapter.midmenu.image.ImageFacade;
+import interface_adapter.image.ImageFacade;
 import view.DrawingView;
 
 import javax.swing.*;

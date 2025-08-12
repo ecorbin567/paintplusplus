@@ -1,7 +1,6 @@
-package view.TopMenuBar.FileMenu;
+package view.topmenubar.filemenu;
 
 import interface_adapter.topmenu.TopMenuFacade;
-import interface_adapter.topmenu.TopMenuFacadeImpl;
 import view.DrawingView;
 
 import javax.swing.*;
