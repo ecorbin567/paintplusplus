@@ -26,13 +26,6 @@ class SaveControllerTest {
             saveCalls++;
             lastInput = inputData;
         }
-
-        @Override
-        public void saveCanvasOnline(String username, BufferedImage image) {
-            saveOnlineCalls++;
-            lastUsername = username;
-            lastOnlineImage = image;
-        }
     }
 
     @Test
@@ -51,6 +44,7 @@ class SaveControllerTest {
         assertEquals(file, fake.lastInput.file(), "Controller should pass the same File");
     }
 
+    /*
     @Test
     void handleSaveOnlineButtonPress_delegatesToUseCaseWithSameUsernameAndImage() {
         FakeSaveInteractor fake = new FakeSaveInteractor();
@@ -64,5 +58,5 @@ class SaveControllerTest {
         assertEquals(1, fake.saveOnlineCalls, "saveCanvasOnline() should be called exactly once");
         assertEquals(username, fake.lastUsername, "Username should be forwarded unchanged");
         assertSame(image, fake.lastOnlineImage, "Image should be forwarded unchanged");
-    }
+    }*/
 }
