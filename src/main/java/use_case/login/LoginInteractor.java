@@ -37,13 +37,13 @@ public class LoginInteractor implements LoginInputBoundary {
             else {
 
                 final User user = userDataAccessObject.getUser(loginInputData.getUsername());
-                userDataAccessObject.setCurrentUser(user.getName());
+                userDataAccessObject.setCurrentUser(user.getUsername());
 
                 // Aug 5: feed presenter with user canvas data
                 final LoginOutputData loginOutputData = new LoginOutputData(
-                        user.getName(),
+                        user.getUsername(),
                         false,
-                        canvasDataAccessInterface.getAllCanvases(user.getName())
+                        canvasDataAccessInterface.getAllCanvases(user.getUsername())
                 );
 
                 loginPresenter.prepareSuccessView(loginOutputData);

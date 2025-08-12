@@ -62,8 +62,8 @@ public class TestUserRepositoryMethods {
         }
 
         String newPassword = "swaggy";
-        service.updateUserPassword(user.getName(), newPassword);
-        User retrievedUser = service.getUser(user.getName());
+        service.updateUserPassword(user.getUsername(), newPassword);
+        User retrievedUser = service.getUser(user.getUsername());
 
         if (newPassword.equals(retrievedUser.getPassword())) {
             System.out.println("✅ User password updated to: " + retrievedUser.getPassword());

@@ -93,15 +93,6 @@ public class Main {
 
         final SupabaseCanvasRepository canvasDataAccessObject = new SupabaseCanvasRepository();
 
-        final SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel,
-                signupViewModel, userDataAccessObject);
-        views.add(signupView, signupView.getViewName());
-
-        final LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel,
-                newCanvasViewModel, userDataAccessObject,
-                canvasDataAccessObject);
-        views.add(loginView, loginView.getViewName());
-
         // Entity Layer
         final CanvasState canvasState = new CanvasState();
 
@@ -118,7 +109,7 @@ public class Main {
         final ResizeCanvasController resizeCanvasController = ResizeCanvasControllerFactory.create(
                 canvasState, drawingViewModel);
         final SaveController saveController = SaveControllerFactory.create(
-                canvasState, imageSaveGateway);
+                canvasState, imageSaveGateway, canvasDataAccessObject);
         final TopMenuFacade topMenuFacade = new TopMenuFacadeImpl(
                 resizeCanvasController, saveController, historyController);
         // MidMenu
