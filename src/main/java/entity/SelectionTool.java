@@ -8,6 +8,7 @@ public class SelectionTool implements Drawable {
     private Point currentPoint; // end point of the selection on the canvas
 
     public SelectionTool() {
+        //Don't Need To Set Points
     }
 
     public void start(Point p) {

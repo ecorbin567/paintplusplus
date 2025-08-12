@@ -5,13 +5,19 @@ import interface_adapter.canvas.CanvasController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
+import java.util.Objects;
 
 public class SelectionToolButton {
     ToolEnum toolName = ToolEnum.SELECT;
     JButton button;
     public SelectionToolButton(CanvasController canvasController) {
         button = new JButton();
-        ImageIcon icon = new ImageIcon(SelectionToolButton.class.getResource("/images/SelectIcon.png"));
+        URL url = Objects.requireNonNull(
+                SelectionToolButton.class.getResource("/images/wheel.png"),
+                "Missing resource: /images/wheel.png"
+        );
+        ImageIcon icon = new ImageIcon(url);
         Image image = icon.getImage();
         Image newImage = image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         icon = new ImageIcon(newImage);

@@ -86,9 +86,9 @@ public class HistoryInteractor implements HistoryInputBoundary{
             this.canvasState.getClearRegions().add(new Rectangle(cr.bounds));
 
         } else if (d instanceof  MoveRecord mr){
-            this.canvasState.getClearRegions().add(new Rectangle(mr.from));
+            this.canvasState.getClearRegions().add(new Rectangle(mr.from()));
             this.canvasState.getCommitedSelections().add(
-                    new CanvasState.Pair<>(mr.image, new Rectangle(mr.to)));
+                    new CanvasState.Pair<>(mr.image(), new Rectangle(mr.to())));
         }
     }
 }

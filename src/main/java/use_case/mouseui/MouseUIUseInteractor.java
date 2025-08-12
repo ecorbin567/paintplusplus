@@ -47,8 +47,8 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
             return;
         }
         ToolEnum toolState = canvasState.getToolState();
-        switch(toolState) {
-            case PENCIL, ERASER -> mouseDragPencilEraser(inputData);
+        if (toolState == ToolEnum.SELECT || toolState == ToolEnum.ERASER || toolState == ToolEnum.PENCIL){
+            mouseDragPencilEraser(inputData);
         }
         sendMouseOutputData();
     }
@@ -75,10 +75,6 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
 
     @Override
     public void mouseIsReleased(MouseUIInputData inputData) {
-        if (canvasState.getToolState() == ToolEnum.SELECT) {
-            sendMouseOutputData();
-            return;
-        }
         sendMouseOutputData();
     }
 

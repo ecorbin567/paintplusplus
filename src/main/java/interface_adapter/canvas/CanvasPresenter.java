@@ -15,19 +15,19 @@ public class CanvasPresenter implements MouseUIOutputBoundary {
 
     @Override
     public void setRepaintState(MouseUIOutputData outputData) {
-        boolean state = outputData.getState();
+        boolean state = outputData.state();
         this.drawingViewModel.shouldRepaint(state);
     }
 
     @Override
     public void setDrawableState(MouseUIOutputData outputData) {
-        Stack<Drawable> drawables = outputData.getDrawables();
+        Stack<Drawable> drawables = outputData.drawables();
         this.drawingViewModel.setDrawables(drawables);
     }
 
     @Override
     public void setCurrentDrawable(MouseUIOutputData outputData) {
-        Drawable currentDrawable = outputData.getDrawable();
+        Drawable currentDrawable = outputData.drawable();
         this.drawingViewModel.setDrawable(currentDrawable);
     }
 }

@@ -34,8 +34,8 @@ public class ColorWheelPanel extends JPanel{
     }
 
     private void updateSelectedColor(Point mousePoint){
-        double dx = mousePoint.x - center.x;
-        double dy = mousePoint.y - center.y;
+        double dx = mousePoint.x - (double) center.x;
+        double dy = mousePoint.y - (double ) center.y;
         double distance = center.distance(mousePoint);
 
         if (distance <= radius){

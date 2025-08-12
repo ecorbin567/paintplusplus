@@ -8,10 +8,11 @@ import java.awt.*;
 import java.util.Stack;
 
 public class CanvasRenderer {
-    private final float[] ANTS_DASH = {4f, 4f}; // dash, gap in px scaled with the canvas
-    private static final float antsPhase = 0f;
+    private final float[] antsDash = {4f, 4f}; // dash, gap in px scaled with the canvas
+    private static final float ANTS_PHASE = 0f;
 
     public CanvasRenderer() {
+        //Don't need to instantiate
     }
 
     public void updateAntsTimer(Timer timer, SelectionViewModel selectionViewModel){
@@ -77,14 +78,14 @@ public class CanvasRenderer {
             Color oldColor = graphics2D.getColor();
             // dark dashes
             Stroke dark = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER,
-                    10f, ANTS_DASH, antsPhase);
+                    10f, antsDash, ANTS_PHASE);
             graphics2D.setStroke(dark);
             graphics2D.setColor(Color.DARK_GRAY);
             graphics2D.drawRect(r.x, r.y, r.width - 1, r.height - 1);
 
             // light dashes shifted by one dash length to fill the gaps
             Stroke light = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER,
-                    10f, ANTS_DASH, antsPhase + ANTS_DASH[0]);
+                    10f, antsDash, ANTS_PHASE + antsDash[0]);
             graphics2D.setStroke(light);
             graphics2D.setColor(new Color(230, 230, 230)); // very light gray
             graphics2D.drawRect(r.x, r.y, r.width - 1, r.height - 1);
@@ -118,12 +119,12 @@ public class CanvasRenderer {
         } else if (d instanceof MoveRecord mr) {
             /* blank the old rectangle */
             g2.setColor(Color.WHITE);
-            g2.fillRect(mr.from.x, mr.from.y, mr.from.width, mr.from.height);
+            g2.fillRect(mr.from().x, mr.from().y, mr.from().width, mr.from().height);
 
             /* draw the bitmap at its new spot */
-            g2.drawImage(mr.image,
-                    mr.to.x, mr.to.y,
-                    mr.to.width, mr.to.height,
+            g2.drawImage(mr.image(),
+                    mr.to().x, mr.to().y,
+                    mr.to().width, mr.to().height,
                     null);
         }
     }

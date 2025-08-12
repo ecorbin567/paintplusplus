@@ -14,13 +14,13 @@ public class HistoryPresenter implements HistoryOutputBoundary {
 
     @Override
     public void setDrawables(HistoryOutputData outputData) {
-        Stack<Drawable> undoStack = outputData.getDrawableStack();
+        Stack<Drawable> undoStack = outputData.drawableStack();
         this.drawingViewModel.setDrawables(undoStack);
     }
 
     @Override
     public void setCurrentDrawable(HistoryOutputData outputData) {
-        Drawable drawable = outputData.getCurrentDrawable();
+        Drawable drawable = outputData.currentDrawable();
         this.drawingViewModel.setDrawable(drawable);
     }
 
@@ -32,7 +32,7 @@ public class HistoryPresenter implements HistoryOutputBoundary {
 
     @Override
     public void setRepaintState(HistoryOutputData outputData) {
-        boolean status = outputData.getStackEmpty();
+        boolean status = outputData.stackEmpty();
         this.drawingViewModel.shouldRepaint(status);
     }
 }

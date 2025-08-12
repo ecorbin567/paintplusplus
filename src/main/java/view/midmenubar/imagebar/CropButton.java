@@ -5,6 +5,8 @@ import view.DrawingView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
+import java.util.Objects;
 
 
 public class CropButton {
@@ -12,7 +14,11 @@ public class CropButton {
 
     public CropButton(ImageFacade imageFacade, DrawingView drawingView) {
         button = new JButton();
-        ImageIcon icon = new ImageIcon(CropButton.class.getResource("/images/CropIcon.png"));
+        URL url = Objects.requireNonNull(
+                CropButton.class.getResource("/images/wheel.png"),
+                "Missing resource: /images/wheel.png"
+        );
+        ImageIcon icon = new ImageIcon(url);
         Image image = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         icon = new ImageIcon(image);
         button.setIcon(icon);

@@ -15,6 +15,9 @@ import use_case.tooluse.ToolUseInputBoundary;
 import use_case.tooluse.ToolUseInteractor;
 
 public class CanvasControllerFactory {
+    private CanvasControllerFactory(){
+        //Unneeded
+    }
     /**
      * Factory function for creating the Canvas Controller.
      * @param canvasState the CanvasState

@@ -36,7 +36,7 @@ public class TestUserRepositoryMethods {
         User user = service.getUser(username);
 
         if (user != null) {
-            System.out.println("Found: " + user.getUsername() + " / " + user.getPassword());
+            System.out.println("Found: " + user.getUsername() + " / " + user.password());
         } else {
             System.out.println("User not found.");
         }
@@ -65,8 +65,8 @@ public class TestUserRepositoryMethods {
         service.updateUserPassword(user.getUsername(), newPassword);
         User retrievedUser = service.getUser(user.getUsername());
 
-        if (newPassword.equals(retrievedUser.getPassword())) {
-            System.out.println("✅ User password updated to: " + retrievedUser.getPassword());
+        if (newPassword.equals(retrievedUser.password())) {
+            System.out.println("✅ User password updated to: " + retrievedUser.password());
         } else {
             System.out.println("❌ Failed to update user");
         }

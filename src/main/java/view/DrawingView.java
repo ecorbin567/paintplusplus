@@ -17,10 +17,10 @@ public class DrawingView extends JPanel implements MouseListener, MouseMotionLis
     private final CanvasController controller;
     private final CanvasRenderer renderer;
     private final SelectionViewModel selectionViewModel;
-    private final float[] ANTS_DASH = {4f, 4f}; // dash, gap in px scaled with the canvas
+    private final float[] antsDash = {4f, 4f}; // dash, gap in px scaled with the canvas
     private float antsPhase = 0f;
     private final javax.swing.Timer antsTimer = new javax.swing.Timer(60, e -> {
-        antsPhase = (antsPhase +1f) % (ANTS_DASH[0] + ANTS_DASH[1]);
+        antsPhase = (antsPhase +1f) % (antsDash[0] + antsDash[1]);
         repaint();
     });
 
@@ -96,7 +96,6 @@ public class DrawingView extends JPanel implements MouseListener, MouseMotionLis
         // try only base snapshot: no selection overlay, no more overlay
         BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = image.createGraphics();
-//        this.paint(g2d);
         renderer.resize(g2d, viewModel);
         renderer.drawImage(g2d, viewModel); // background strokes
         renderer.renderDraw(g2d, viewModel); // commited strokes

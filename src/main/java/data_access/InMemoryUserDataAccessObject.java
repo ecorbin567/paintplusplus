@@ -88,7 +88,7 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     public boolean verifyCredentials(String username, String password) {
         if (users.get(username) != null) {
             User u = users.get(username);
-            return password.equals(u.getPassword());
+            return password.equals(u.password());
         } else {
             return false;
         }

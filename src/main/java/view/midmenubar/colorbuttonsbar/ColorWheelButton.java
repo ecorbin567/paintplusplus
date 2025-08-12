@@ -6,6 +6,8 @@ import view.midmenubar.SelectionToolButton;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
+import java.util.Objects;
 
 public class ColorWheelButton extends CircularButton{
     ImageIcon imageIcon;
@@ -15,8 +17,14 @@ public class ColorWheelButton extends CircularButton{
                             UpperColorChooserButton upperColorChooserButton,
                             LowerColorChooserButton lowerColorChooserButton) {
         super(36);
-        imageIcon = new ImageIcon(
-                SelectionToolButton.class.getResource("/images/wheel.png"));
+
+        URL url = Objects.requireNonNull(
+                SelectionToolButton.class.getResource("/images/wheel.png"),
+                "Missing resource: /images/wheel.png"
+        );
+
+        imageIcon = new ImageIcon(url);
+
 
         Image image = imageIcon.getImage();
         Image newImage = image.getScaledInstance(36, 36, Image.SCALE_SMOOTH);

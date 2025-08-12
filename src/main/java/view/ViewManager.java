@@ -8,21 +8,32 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * The View Manager for the program. It listens for property change events
- * in the ViewManagerModel and updates which View should be visible.
+ * Manages visible views using a CardLayout.
+ * Listens to the ViewManagerModel and switches the shown view by name.
  */
 public class ViewManager implements PropertyChangeListener {
     private final CardLayout cardLayout;
     private final JPanel views;
-    private final ViewManagerModel viewManagerModel;
 
+    /**
+     * Creates a view manager.
+     *
+     * @param views the container holding all views (cards)
+     * @param cardLayout the CardLayout controlling the container
+     * @param viewManagerModel the model emitting view name changes
+     */
     public ViewManager(JPanel views, CardLayout cardLayout, ViewManagerModel viewManagerModel) {
         this.views = views;
         this.cardLayout = cardLayout;
-        this.viewManagerModel = viewManagerModel;
-        this.viewManagerModel.addPropertyChangeListener(this);
+        viewManagerModel.addPropertyChangeListener(this);
     }
 
+    /**
+     * Responds to model changes and shows the requested view.
+     * Expects property name "state" with a String view name.
+     *
+     * @param evt the property change event
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("state")) {

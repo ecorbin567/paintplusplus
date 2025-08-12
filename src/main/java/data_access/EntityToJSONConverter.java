@@ -10,6 +10,10 @@ import entity.*;
 
 public class EntityToJSONConverter {
 
+    private EntityToJSONConverter() {
+        //To Prevent Instantiation
+    }
+
     /**
      * Converts a User object into a JSON representation.
      *
@@ -19,7 +23,7 @@ public class EntityToJSONConverter {
     public static JSONObject convertUserToJSON(User user) {
         final JSONObject json = new JSONObject();
         json.put("username", user.getUsername());
-        json.put("password", user.getPassword());
+        json.put("password", user.password());
         return json;
     }
 

@@ -17,25 +17,24 @@ import java.beans.PropertyChangeListener;
  * The View for when the user is logging into the program.
  */
 public class LoginView extends JPanel implements ActionListener, PropertyChangeListener {
-
-    private final String viewName = "log in";
-    private final LoginViewModel loginViewModel;
-
     private final JTextField usernameInputField = new JTextField(15);
     private final JLabel usernameErrorField = new JLabel();
 
     private final JPasswordField passwordInputField = new JPasswordField(15);
-    private final JLabel passwordErrorField = new JLabel();
 
     private final JButton logIn;
-    private final JButton cancel;
     private final LoginController loginController;
 
+    /**
+     * Creates the login view, wires listeners, and lays out components.
+     *
+     * @param loginViewModel the view model providing state and errors
+     * @param controller the controller that executes the login use case
+     */
     public LoginView(LoginViewModel loginViewModel, LoginController controller) {
         this.setPreferredSize(new Dimension(400, 400));
         this.loginController = controller;
-        this.loginViewModel = loginViewModel;
-        this.loginViewModel.addPropertyChangeListener(this);
+        loginViewModel.addPropertyChangeListener(this);
 
         final JLabel title = new JLabel("Log In to Paint++");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -48,20 +47,18 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         final JPanel buttons = new JPanel();
         logIn = new JButton("log in");
         buttons.add(logIn);
-        cancel = new JButton("cancel");
+        JButton cancel = new JButton("cancel");
         buttons.add(cancel);
 
         logIn.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(logIn)) {
-                            final LoginState currentState = loginViewModel.getState();
+                evt -> {
+                    if (evt.getSource().equals(logIn)) {
+                        final LoginState currentState = loginViewModel.getState();
 
-                            loginController.execute(
-                                    currentState.getUsername(),
-                                    currentState.getPassword()
-                            );
-                        }
+                        loginController.execute(
+                                currentState.getUsername(),
+                                currentState.getPassword()
+                        );
                     }
                 }
         );
@@ -126,13 +123,19 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     }
 
     /**
-     * React to a button click that results in evt.
-     * @param evt the ActionEvent to react to
+     * Reacts to a button click.
+     *
+     * @param evt the action event
      */
     public void actionPerformed(ActionEvent evt) {
-
+        //Not Used
     }
 
+    /**
+     * Receives updates from the view model and refreshes the fields.
+     *
+     * @param evt the property change event
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final LoginState state = (LoginState) evt.getNewValue();
@@ -140,11 +143,21 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         usernameErrorField.setText(state.getLoginError());
     }
 
+    /**
+     * Updates input fields based on the given state.
+     *
+     * @param state the current login state
+     */
     private void setFields(LoginState state) {
         usernameInputField.setText(state.getUsername());
     }
 
+    /**
+     * Returns the logical name of this view.
+     *
+     * @return the view name
+     */
     public String getViewName() {
-        return viewName;
+        return "log in";
     }
 }

@@ -7,15 +7,14 @@ import javax.swing.*;
 import javax.swing.event.ChangeListener;
 
 public class ErasePopUp {
-    private final ToolEnum toolName = ToolEnum.ERASER;
+    private static final ToolEnum toolName = ToolEnum.ERASER;
     private final JPopupMenu popupMenu;
-    private final JSlider slider;
 
     public ErasePopUp(CanvasController canvasController) {
         popupMenu = new JPopupMenu();
         popupMenu.setOpaque(true);
 
-        slider = new JSlider(SwingConstants.VERTICAL, 0, 100, 0);
+        JSlider slider = new JSlider(SwingConstants.VERTICAL, 0, 100, 0);
         slider.setSize(100, 100);
         slider.setMajorTickSpacing(10);
         slider.setPaintTicks(true);

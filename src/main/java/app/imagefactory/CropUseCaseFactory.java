@@ -1,4 +1,4 @@
-package app.midmenufactory.imagefactory;
+package app.imagefactory;
 
 import entity.CanvasState;
 import interface_adapter.canvas.DrawingViewModel;
@@ -12,6 +12,9 @@ import use_case.image.crop.CropOutputBoundary;
  * This class contains the static factory function for creating the Crop Use Case.
  */
 public class CropUseCaseFactory {
+    private CropUseCaseFactory(){
+        //Unneeded
+    }
 
     /**
      * Factory function for creating the Crop Use Case.

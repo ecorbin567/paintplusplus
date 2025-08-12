@@ -3,8 +3,6 @@ package use_case.login;
 import entity.User;
 import use_case.newcanvas.NewCanvasUserDataAccessInterface;
 
-import java.awt.image.BufferedImage;
-import java.util.List;
 
 /**
  * The Login Interactor.
@@ -30,7 +28,7 @@ public class LoginInteractor implements LoginInputBoundary {
             loginPresenter.prepareFailView(username + ": Account does not exist.");
         }
         else {
-            final String pwd = userDataAccessObject.getUser(username).getPassword();
+            final String pwd = userDataAccessObject.getUser(username).password();
             if (!password.equals(pwd)) {
                 loginPresenter.prepareFailView("Incorrect password for \"" + username + "\".");
             }

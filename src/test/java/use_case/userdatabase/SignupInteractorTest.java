@@ -52,7 +52,7 @@ public class SignupInteractorTest {
 
         assertNotNull(retrievedUser);
         assertEquals(testUserName, retrievedUser.getUsername());
-        assertEquals(testPswd, retrievedUser.getPassword());
+        assertEquals(testPswd, retrievedUser.password());
 
         assertTrue(userDataAccessInterface.verifyCredentials(
                 testUserName,

@@ -11,29 +11,23 @@ import java.awt.image.BufferedImage;
  */
 public class Image implements Drawable, Cloneable {
 
-    private BufferedImage image;
-    private int x, y;
-    private int width, height;
+    private BufferedImage bufferedImage;
+    private int x;
+    private int y;
+    private int width;
+    private int height;
     private double rotation = 0.0;
 
     /**
      * Constructs an Image entity from a BufferedImage.
-     * @param image The BufferedImage to wrap in this entity.
+     * @param bufferedImage The BufferedImage to wrap in this entity.
      */
-    public Image(BufferedImage image) {
-        this.image = image;
-        this.width = image.getWidth();
-        this.height = image.getHeight();
+    public Image(BufferedImage bufferedImage) {
+        this.bufferedImage = bufferedImage;
+        this.width = bufferedImage.getWidth();
+        this.height = bufferedImage.getHeight();
         this.x = 0;
         this.y = 0;
-    }
-
-    /**
-     * Returns the underlying BufferedImage.
-     * @return The raw BufferedImage data.
-     */
-    public BufferedImage getBufferedImage() {
-        return image;
     }
 
     /**
@@ -67,7 +61,7 @@ public class Image implements Drawable, Cloneable {
      * @param cropHeight The height of the crop area.
      */
     public void crop(int cropX, int cropY, int cropWidth, int cropHeight) {
-        image = image.getSubimage(cropX, cropY, cropWidth, cropHeight);
+        bufferedImage = bufferedImage.getSubimage(cropX, cropY, cropWidth, cropHeight);
         this.width = cropWidth;
         this.height = cropHeight;
     }
@@ -85,7 +79,7 @@ public class Image implements Drawable, Cloneable {
         int centerY = y + height / 2;
 
         g2d.rotate(Math.toRadians(rotation), centerX, centerY);
-        g2d.drawImage(image, x, y, width, height, null);
+        g2d.drawImage(bufferedImage, x, y, width, height, null);
 
         g2d.dispose();
     }
@@ -101,13 +95,13 @@ public class Image implements Drawable, Cloneable {
     @Override
     public Image clone() {
         BufferedImage copy = new BufferedImage(
-                image.getWidth(),
-                image.getHeight(),
-                image.getType()
+                bufferedImage.getWidth(),
+                bufferedImage.getHeight(),
+                bufferedImage.getType()
         );
 
         Graphics2D g = copy.createGraphics();
-        g.drawImage(image, 0, 0, null);
+        g.drawImage(bufferedImage, 0, 0, null);
         g.dispose();
 
         Image cloned = new Image(copy);

@@ -31,7 +31,7 @@ public class ResizeInteractor implements ResizeInputBoundary {
             Image newImage = originalImage.clone();
 
             // 2. Modify the new clone with the resize changes
-            newImage.resize(requestModel.getNewWidth(), requestModel.getNewHeight());
+            newImage.resize(requestModel.newWidth(), requestModel.newHeight());
 
             // 3. Push the new, modified state to the history
             CropInteractor.updateCurrentImage(originalImage, newImage, actionHistory, canvas);

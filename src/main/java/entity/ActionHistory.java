@@ -28,7 +28,7 @@ public class ActionHistory {
         if (undoStack.isEmpty()){ // first action on canvas
             redoStack.push(currentState); // save it for redo
             currentState = null;
-            return currentState;
+            return null;
         }
         // code below from before
         redoStack.push(currentState);
@@ -65,7 +65,6 @@ public class ActionHistory {
      * Clear the action history.
      */
     public void clearHistory() {
-        System.out.println("Clear Action History.");
         undoStack.clear();
         redoStack.clear();
     }

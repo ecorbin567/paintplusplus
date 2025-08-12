@@ -21,7 +21,7 @@ public final class LoginUseCaseFactory {
 
     /** Prevent instantiation. */
     private LoginUseCaseFactory() {
-
+        //Unneeded
     }
 
     /**

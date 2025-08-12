@@ -1,13 +1,15 @@
 package app;
 
 import java.awt.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.*;
 
-import app.midmenufactory.imagefactory.CropUseCaseFactory;
-import app.midmenufactory.imagefactory.ImportUseCaseFactory;
-import app.midmenufactory.imagefactory.ResizeUseCaseFactory;
-import app.midmenufactory.imagefactory.RotateUseCaseFactory;
+import app.imagefactory.CropUseCaseFactory;
+import app.imagefactory.ImportUseCaseFactory;
+import app.imagefactory.ResizeUseCaseFactory;
+import app.imagefactory.RotateUseCaseFactory;
 import app.topmenufactory.HistoryControllerFactory;
 import app.topmenufactory.ResizeCanvasControllerFactory;
 import app.topmenufactory.SaveControllerFactory;
@@ -45,6 +47,7 @@ import view.*;
  * The main class for starting the program.
  */
 public class Main {
+    private static final Logger logger = Logger.getLogger(Main.class.getName());
 
     /**
      * The main method for starting the program.
@@ -60,7 +63,7 @@ public class Main {
             UIManager.setLookAndFeel(new FlatLightLaf());
         }
         catch (UnsupportedLookAndFeelException e) {
-            System.err.println("Failed to initialize FlatLaf Light L&F");
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
 
         // The main application window.
