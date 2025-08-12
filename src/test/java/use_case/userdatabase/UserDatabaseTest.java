@@ -21,7 +21,7 @@ public class UserDatabaseTest {
         System.out.println("Added user " + user.getUsername() + " / " + user.getPassword());
 
         // clean up
-        boolean delResult = service.deleteUser(user.getName());
+        boolean delResult = service.deleteUser(user.getUsername());
         assertTrue(delResult);
         System.out.println("Deleted user " + user.getUsername() + " / " + user.getPassword());
     }
@@ -38,13 +38,13 @@ public class UserDatabaseTest {
         User user = createTempUser();
 
         // update user
-        boolean result = service.updateUserPassword(user.getName(), "abcdefgh");
+        boolean result = service.updateUserPassword(user.getUsername(), "abcdefgh");
         assertTrue(result);
 
         // check if updated user in the db is different
-        User updatedUser = service.getUser(user.getName());
+        User updatedUser = service.getUser(user.getUsername());
         assertNotNull(updatedUser);
-        assertEquals(user.getName(), updatedUser.getName());
+        assertEquals(user.getUsername(), updatedUser.getUsername());
         assertNotEquals(updatedUser.getPassword(), user.getPassword());
 
         // clean up
@@ -56,13 +56,13 @@ public class UserDatabaseTest {
         User user = createTempUser();
 
         // basic case
-        assertTrue(service.verifyCredentials(user.getName(), user.getPassword()));
+        assertTrue(service.verifyCredentials(user.getUsername(), user.getPassword()));
 
         // update user
-        service.updateUserPassword(user.getName(), "abcdefgh");
+        service.updateUserPassword(user.getUsername(), "abcdefgh");
 
         // case 2: changed password
-        assertFalse(service.verifyCredentials(user.getName(), user.getPassword()));
+        assertFalse(service.verifyCredentials(user.getUsername(), user.getPassword()));
 
         deleteTempUser(user);
     }

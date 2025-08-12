@@ -12,10 +12,13 @@ public class SaveControllerFactory {
      * Factory function for creating the Save Controller.
      * @param canvasState the CanvasState
      * @param imageSaveGateway the SaveFileGateway
+     * @param canvasDataAccessObject the CanvasDataAccessInterface object
      * @return the SaveController created
      */
-    public static SaveController create(CanvasState canvasState, SaveFileGateway imageSaveGateway) {
-        final SaveInputBoundary interactor = new SaveInteractor(canvasState, imageSaveGateway);
+    public static SaveController create(CanvasState canvasState,
+                                        SaveFileGateway imageSaveGateway,
+                                        CanvasDataAccessInterface canvasDataAccessObject) {
+        SaveInputBoundary interactor = new SaveInteractor(canvasState, imageSaveGateway, canvasDataAccessObject);
         return new SaveController(interactor);
     }
 }

@@ -1,22 +1,27 @@
 package data_access;
 
 import java.net.URI;
-import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import entity.CommonUser;
 import entity.User;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import use_case.goback.GoBackUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
+import java.net.http.HttpClient;
+import java.net.http.HttpResponse;
+
 /**
- * In supabase, store json of user data, user action history.
+ * In supabase, store json of user data, user action history
  */
+
+// TODO: COMPLETELY UNIMPLEMENTED!!!!
+//  TODO: user get and set methods
+//  TODO: verify and stuff
+
 public class SupabaseAccountRepository implements UserDataAccessInterface,
         LoginUserDataAccessInterface, SignupUserDataAccessInterface, GoBackUserDataAccessInterface {
     // You should never store API keys like this. But I don't care.
@@ -37,7 +42,7 @@ public class SupabaseAccountRepository implements UserDataAccessInterface,
     // the following 3 methods are from signup/login data access interfaces.
     @Override
     public boolean existsByName(String username) {
-        return getUser(username) != null;
+        return (getUser(username) != null);
     }
 
     @Override
@@ -55,10 +60,10 @@ public class SupabaseAccountRepository implements UserDataAccessInterface,
     public boolean addUser(User user) {
         try {
             // Convert the user to a JSON string
-            final JSONObject json = EntityToJSONConverter.convertUserToJSON(user);
+            JSONObject json = EntityToJSONConverter.convertUserToJSON(user);
 
             // Build the request
-            final HttpRequest request = HttpRequest.newBuilder()
+            HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(USER_DATABASE_URL))
                     .header("apikey", API_KEY)
                     .header("Authorization", "Bearer " + API_KEY)
@@ -68,13 +73,12 @@ public class SupabaseAccountRepository implements UserDataAccessInterface,
                     .build();
 
             // Send the request
-            final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             // Check if insert succeeded
             return response.statusCode() == 201;
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -84,10 +88,10 @@ public class SupabaseAccountRepository implements UserDataAccessInterface,
     public User getUser(String username) {
         try {
             // Supabase filter format: ?username=eq.<value>
-            final String encodedUsername = encodeUsername(username);
-            final String url = USER_DATABASE_URL + "?username=" + encodedUsername;
+            String encodedUsername = encodeUsername(username);
+            String url = USER_DATABASE_URL + "?username=" + encodedUsername;
 
-            final HttpRequest request = HttpRequest.newBuilder()
+            HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
                     .header("apikey", API_KEY)
                     .header("Authorization", "Bearer " + API_KEY)
@@ -95,25 +99,22 @@ public class SupabaseAccountRepository implements UserDataAccessInterface,
                     .GET()
                     .build();
 
-            final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() == 200) {
-                final JSONArray results = new JSONArray(response.body());
+                JSONArray results = new JSONArray(response.body());
                 if (results.length() > 0) {
-                    final JSONObject userJson = results.getJSONObject(0);
+                    JSONObject userJson = results.getJSONObject(0);
                     return EntityToJSONConverter.convertJSONToUser(userJson);
+                } else {
+                    return null; // user not found
                 }
-                else {
-                    return null;
-                }
-            }
-            else {
+            } else {
                 System.err.println("Error: " + response.statusCode() + "\n" + response.body());
                 return null;
             }
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -122,11 +123,10 @@ public class SupabaseAccountRepository implements UserDataAccessInterface,
     @Override
     public boolean updateUserPassword(String username, String newPassword) {
         try {
-            final boolean status1 = deleteUser(username);
-            final boolean status2 = addUser(new CommonUser(username, newPassword));
+            boolean status1 = deleteUser(username);
+            boolean status2 = addUser(new CommonUser(username, newPassword));
             return status1 && status2;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -136,10 +136,10 @@ public class SupabaseAccountRepository implements UserDataAccessInterface,
     public boolean deleteUser(String username) {
         try {
             // Supabase filter format: ?username=eq.<value>
-            final String encodedUsername = encodeUsername(username);
-            final String url = USER_DATABASE_URL + "?username=" + encodedUsername;
+            String encodedUsername = encodeUsername(username);
+            String url = USER_DATABASE_URL + "?username=" + encodedUsername;
 
-            final HttpRequest request = HttpRequest.newBuilder()
+            HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
                     .header("apikey", API_KEY)
                     .header("Authorization", "Bearer " + API_KEY)
@@ -147,14 +147,20 @@ public class SupabaseAccountRepository implements UserDataAccessInterface,
                     .DELETE()
                     .build();
 
-            final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            return response.statusCode() == 204;
+            return response.statusCode() == 204; // 204 No Content = successfully deleted
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
+
+    @Override
+    public boolean verifyCredentials(String username, String password) {
+        User user = getUser(username);
+        return user != null && password.equals(user.getPassword());
+    }
+
 }
