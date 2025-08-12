@@ -29,13 +29,4 @@ public class UpperColorChooserButton extends CircularButton{
     public JToggleButton getButton(){
         return this;
     }
-
-//                upperChooserButton.addActionListener(e -> {
-//        // immediately set brush to whatever color the upper chooser is showing:
-//        primaryInteractor.changeColor(
-//                new ChangeColorInputData(
-//                        upperChooserButton.getUpperCurrentColor()
-//                )
-//        );
-//    });
 }

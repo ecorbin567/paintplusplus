@@ -1,4 +1,4 @@
-package interface_adapter;
+package interface_adapter.newselection;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

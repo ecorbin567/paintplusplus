@@ -41,25 +41,6 @@ public class ColorWheelButton extends CircularButton{
             }
             this.setSelected(false);
         });
-
-//        colorWheelButton.addActionListener(e -> {
-//            ColorWheelPopUpWindow popUpWindow =
-//                    new ColorWheelPopUpWindow(
-//                            SwingUtilities.getWindowAncestor(panel)
-//                    );
-//            popUpWindow.setVisible(true);
-//
-//            if (popUpWindow.isConfirmed()) {
-//                Color picked = popUpWindow.getSelectedColor();
-//
-//                if (upperColorChooserButton.isSelected()) {
-//                    primaryInteractor.changeColor(new ChangeColorInputData(picked));
-//                } else {
-//                    secondaryInteractor.changeColor(new ChangeColorInputData(picked));
-//                }
-//            }
-//            colorWheelButton.setSelected(false); // after toggling wheel button, toggle button off
-//        });
     }
 
 

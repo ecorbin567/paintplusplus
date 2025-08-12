@@ -20,14 +20,6 @@ public class LowerColorChooserButton extends CircularButton{
             colorController.handleColorChangeButton(toolName, lowerCurrentColor, buttonName));
 
     }
-//            lowerChooserButton.addActionListener(e -> {
-//        // immediately set brush to whatever color the lower chooser is showing:
-//        secondaryInteractor.changeColor(
-//                new ChangeColorInputData(
-//                        lowerChooserButton.getLowerCurrentColor()
-//                )
-//        );
-//    });
 
     public Color getLowerCurrentColor(){
         return this.lowerCurrentColor;
