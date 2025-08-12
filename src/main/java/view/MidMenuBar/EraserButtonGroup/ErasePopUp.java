@@ -2,8 +2,6 @@ package view.midmenubar.eraserbuttongroup;
 
 import entity.ToolEnum;
 import interface_adapter.canvas.CanvasController;
-import use_case.tooluse.ToolUseInputBoundary;
-import use_case.tooluse.ToolUseInputData;
 
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
