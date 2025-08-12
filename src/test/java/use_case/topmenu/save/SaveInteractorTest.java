@@ -26,7 +26,7 @@ class SaveInteractorTest {
         fileSaveGateway = new FakeSaveFileGateway();
         canvasDAO = new FakeCanvasDAO();
         canvasState = new CanvasState();
-        interactor = new SaveInteractor(canvasState, fileSaveGateway, canvasDAO);
+        interactor = new SaveInteractor(canvasState, fileSaveGateway);
     }
 
     @Test
@@ -70,6 +70,7 @@ class SaveInteractorTest {
         assertNull(canvasState.getSavedImageFile(), "File path should remain null");
     }
 
+    /*
     @Test
     void saveCanvasOnline_delegatesToDAO() {
 
@@ -81,7 +82,7 @@ class SaveInteractorTest {
         assertEquals(1, canvasDAO.calls);
         assertEquals(username, canvasDAO.lastUsername);
         assertSame(image, canvasDAO.lastImage);
-    }
+    }*/
 
     private static class FakeSaveFileGateway implements SaveFileGateway {
         int calls = 0;
