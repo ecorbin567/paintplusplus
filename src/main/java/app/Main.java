@@ -1,5 +1,9 @@
 package app;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import app.midmenufactory.imagefactory.CropUseCaseFactory;
 import app.midmenufactory.imagefactory.ImportUseCaseFactory;
 import app.midmenufactory.imagefactory.ResizeUseCaseFactory;
@@ -7,14 +11,13 @@ import app.midmenufactory.imagefactory.RotateUseCaseFactory;
 import app.topmenufactory.HistoryControllerFactory;
 import app.topmenufactory.ResizeCanvasControllerFactory;
 import app.topmenufactory.SaveControllerFactory;
-import data_access.InMemoryCanvasDataAccessObject;
+import com.formdev.flatlaf.FlatLightLaf;
+import data_access.ImageSaveGateway;
 import data_access.LocalImageLoader;
 import data_access.SupabaseAccountRepository;
 import data_access.SupabaseCanvasRepository;
 import entity.CanvasState;
 import interface_adapter.SelectionViewModel;
-import com.formdev.flatlaf.FlatLightLaf;
-import data_access.*;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.canvas.CanvasController;
 import interface_adapter.canvas.CanvasRenderer;
@@ -22,29 +25,30 @@ import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.canvas.DrawingViewModel;
 import interface_adapter.changecolor.ColorController;
 import interface_adapter.goback.GoBackViewModel;
+import interface_adapter.login.LoginViewModel;
 import interface_adapter.midmenu.image.ImageFacade;
 import interface_adapter.midmenu.image.ImageFacadeImple;
 import interface_adapter.midmenu.image.crop.CropController;
 import interface_adapter.midmenu.image.import_image.ImportController;
 import interface_adapter.midmenu.image.resize.ResizeController;
 import interface_adapter.midmenu.image.rotate.RotateController;
-import interface_adapter.login.LoginViewModel;
-import interface_adapter.signup.SignupViewModel;
 import interface_adapter.newcanvas.NewCanvasViewModel;
+import interface_adapter.signup.SignupViewModel;
 import interface_adapter.topmenu.TopMenuFacade;
+import interface_adapter.topmenu.TopMenuFacadeImpl;
 import interface_adapter.topmenu.canvassize.ResizeCanvasController;
 import interface_adapter.topmenu.history.HistoryController;
 import interface_adapter.topmenu.save.SaveController;
-import interface_adapter.topmenu.TopMenuFacadeImpl;
 import view.*;
 
-import javax.swing.*;
-import java.awt.*;
-
+/**
+ * The main class for starting the program.
+ */
 public class Main {
 
     /**
      * The main method for starting the program.
+     *
      * @param args input to main
      */
     public static void main(String[] args) {
@@ -54,7 +58,8 @@ public class Main {
         try {
             // Set FlatLaf Light look and feel
             UIManager.setLookAndFeel(new FlatLightLaf());
-        } catch (UnsupportedLookAndFeelException e) {
+        }
+        catch (UnsupportedLookAndFeelException e) {
             System.err.println("Failed to initialize FlatLaf Light L&F");
         }
 
@@ -83,47 +88,50 @@ public class Main {
         final NewCanvasViewModel newCanvasViewModel = new NewCanvasViewModel();
         final GoBackViewModel goBackViewModel = new GoBackViewModel();
         final SelectionViewModel selectionViewModel = new SelectionViewModel();
-        /* Josh: The below should be UserDataAccessInterface for generality, but it gets messy and I just want
-        to test the signup/login functionality with the database
 
-        If you want to test the signup/login with the DB, uncomment the line below and comment out
-        the InMemory version. user/pswd for testing DB: "beabadoobee" / "plaintext123" */
         final SupabaseAccountRepository userDataAccessObject = new SupabaseAccountRepository();
 
         final SupabaseCanvasRepository canvasDataAccessObject = new SupabaseCanvasRepository();
 
-        //Entity Layer:
-        CanvasState canvasState = new CanvasState();
+        // Entity Layer
+        final CanvasState canvasState = new CanvasState();
 
-        //Presentation
-        DrawingViewModel drawingViewModel = new DrawingViewModel();
+        // Presentation
+        final DrawingViewModel drawingViewModel = new DrawingViewModel();
 
-        //Gateways
-        LocalImageLoader localImageLoader = new LocalImageLoader();
-        ImageSaveGateway imageSaveGateway = new ImageSaveGateway();
+        // Gateways
+        final LocalImageLoader localImageLoader = new LocalImageLoader();
+        final ImageSaveGateway imageSaveGateway = new ImageSaveGateway();
 
-        //TopMenu
-        HistoryController historyController = HistoryControllerFactory.create(canvasState, drawingViewModel);
-        ResizeCanvasController resizeCanvasController = ResizeCanvasControllerFactory.create(canvasState, drawingViewModel);
-        SaveController saveController = SaveControllerFactory.create(canvasState, imageSaveGateway, canvasDataAccessObject);
-        TopMenuFacade topMenuFacade = new TopMenuFacadeImpl(resizeCanvasController, saveController, historyController);
-        //MidMenu
+        // TopMenu
+        final HistoryController historyController = HistoryControllerFactory.create(
+                canvasState, drawingViewModel);
+        final ResizeCanvasController resizeCanvasController = ResizeCanvasControllerFactory.create(
+                canvasState, drawingViewModel);
+        final SaveController saveController = SaveControllerFactory.create(
+                canvasState, imageSaveGateway, canvasDataAccessObject);
+        final TopMenuFacade topMenuFacade = new TopMenuFacadeImpl(
+                resizeCanvasController, saveController, historyController);
+        // MidMenu
 
-        //Presentation Layer:
-        CropController cropcontroller = CropUseCaseFactory.create(canvasState, drawingViewModel);
-        ImportController importController = ImportUseCaseFactory.create(canvasState, drawingViewModel, localImageLoader);
-        ResizeController resizeController = ResizeUseCaseFactory.create(canvasState, drawingViewModel);
-        RotateController rotateController = RotateUseCaseFactory.create(canvasState, drawingViewModel);
-        CanvasController canvasController = CanvasControllerFactory.createCanvasController(
+        // Presentation Layer
+        final CropController cropcontroller = CropUseCaseFactory.create(
+                canvasState, drawingViewModel);
+        final ImportController importController = ImportUseCaseFactory.create(
+                canvasState, drawingViewModel, localImageLoader);
+        final ResizeController resizeController = ResizeUseCaseFactory.create(
+                canvasState, drawingViewModel);
+        final RotateController rotateController = RotateUseCaseFactory.create(
+                canvasState, drawingViewModel);
+        final CanvasController canvasController = CanvasControllerFactory.createCanvasController(
                 canvasState, drawingViewModel, selectionViewModel);
-        ColorController colorController = ColorUseCaseFactory.create(canvasState);
+        final ColorController colorController = ColorUseCaseFactory.create(canvasState);
 
-        ImageFacade imageFacade = new ImageFacadeImple(resizeController, rotateController,
-                importController, cropcontroller);
+        final ImageFacade imageFacade = new ImageFacadeImple(resizeController, rotateController,
+                                                        importController, cropcontroller);
 
-
-        //Renderer
-        CanvasRenderer canvasRenderer = new CanvasRenderer();
+        // Renderer
+        final CanvasRenderer canvasRenderer = new CanvasRenderer();
 
         final SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel,
                 signupViewModel, userDataAccessObject);
@@ -144,7 +152,8 @@ public class Main {
 
         views.add(canvasView, canvasView.getViewName());
 
-        final MyCanvasesView myCanvasesView = NewCanvasUseCaseFactory.create(viewManagerModel, newCanvasViewModel,
+        final MyCanvasesView myCanvasesView = NewCanvasUseCaseFactory.create(
+                viewManagerModel, newCanvasViewModel,
                 canvasViewModel, signupViewModel, canvasDataAccessObject);
 
         views.add(myCanvasesView, myCanvasesView.getViewName());

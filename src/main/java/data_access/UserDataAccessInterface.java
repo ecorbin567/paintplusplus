@@ -47,5 +47,13 @@ public interface UserDataAccessInterface {
      * @param name the username to set
      */
     void setCurrentUser(String name);
+
+    /**
+     * Authenticates user login credentials. Readded because of the tests. Can remove later.
+     * @param username the input username
+     * @param password the input password
+     * @return true if credentials are correct
+     */
+    boolean verifyCredentials(String username, String password);
 }
 

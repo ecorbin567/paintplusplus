@@ -68,7 +68,7 @@ public class UserDatabaseTest {
     }
 
     private void deleteTempUser(User user) {
-        boolean delResult = service.deleteUser(user.getName());
+        boolean delResult = service.deleteUser(user.getUsername());
         assertTrue(delResult);
         System.out.println("Deleted user " + user.getUsername() + " / " + user.getPassword());
     }
