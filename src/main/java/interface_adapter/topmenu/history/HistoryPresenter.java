@@ -24,6 +24,12 @@ public class HistoryPresenter implements HistoryOutputBoundary {
         this.drawingViewModel.setDrawable(drawable);
     }
 
+    // for unit testing
+    @Override
+    public Drawable getCurrentDrawable() {
+        return this.drawingViewModel.getDrawable();
+    }
+
     @Override
     public void setRepaintState(HistoryOutputData outputData) {
         boolean status = outputData.getStackEmpty();

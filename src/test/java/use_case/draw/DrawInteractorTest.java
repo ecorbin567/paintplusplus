@@ -24,17 +24,18 @@ public class DrawInteractorTest {
 
     @Test
     void mouseIsPressed() {
-        Drawable initialState = mouseInteractor.getActionHistory().getCurrentState();
-        assertNull(initialState);
+        mouseInteractor.setCurrentState(new StrokeRecord(Color.BLACK, 3f));
         mouseInteractor.mouseIsPressed(new MouseUIInputData(new Point(10, 10)));
         assertSame(PENCIL, canvasState.getToolState());
         Drawable currentState = mouseInteractor.getActionHistory().getCurrentState();
         Stack<Drawable> undoStack = mouseInteractor.getActionHistory().getUndoStack();
         assertNotNull(currentState);
+        assertFalse(undoStack.isEmpty());
     }
 
     @Test
     void mouseIsDragged() {
+        mouseInteractor.setCurrentState(new StrokeRecord(Color.BLACK, 3f));
         mouseInteractor.mouseIsPressed(new MouseUIInputData(new Point(10, 10)));
         mouseInteractor.mouseIsDragged(new MouseUIInputData(new Point(11, 11)));
         mouseInteractor.mouseIsDragged(new MouseUIInputData(new Point(12, 12)));
@@ -42,10 +43,12 @@ public class DrawInteractorTest {
         Drawable currentState = mouseInteractor.getActionHistory().getCurrentState();
         Stack<Drawable> undoStack = mouseInteractor.getActionHistory().getUndoStack();
         assertNotNull(currentState);
+        assertFalse(undoStack.isEmpty());
     }
 
     @Test
     void mouseIsReleased() {
+        mouseInteractor.setCurrentState(new StrokeRecord(Color.BLACK, 3f));
         mouseInteractor.mouseIsPressed(new MouseUIInputData(new Point(10, 10)));
         mouseInteractor.mouseIsDragged(new MouseUIInputData(new Point(11, 11)));
         mouseInteractor.mouseIsDragged(new MouseUIInputData(new Point(12, 12)));
@@ -54,5 +57,6 @@ public class DrawInteractorTest {
         Drawable currentState = mouseInteractor.getActionHistory().getCurrentState();
         Stack<Drawable> undoStack = mouseInteractor.getActionHistory().getUndoStack();
         assertNotNull(currentState);
+        assertFalse(undoStack.isEmpty());
     }
 }

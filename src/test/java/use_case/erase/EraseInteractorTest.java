@@ -12,7 +12,6 @@ import java.awt.*;
 import java.util.Stack;
 
 import static entity.ToolEnum.ERASER;
-import static entity.ToolEnum.PENCIL;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class EraseInteractorTest {
@@ -26,36 +25,38 @@ public class EraseInteractorTest {
     @Test
     void mouseIsPressed() {
         this.canvasState.setToolState(ERASER);
-        Drawable initialState = mouseInteractor.getActionHistory().getCurrentState();
-        assertNull(initialState);
+        mouseInteractor.setCurrentState(new StrokeRecord(Color.BLACK, 3f));
         mouseInteractor.mouseIsPressed(new MouseUIInputData(new Point(10, 10)));
+        assertSame(ERASER, canvasState.getToolState());
         Drawable currentState = mouseInteractor.getActionHistory().getCurrentState();
         Stack<Drawable> undoStack = mouseInteractor.getActionHistory().getUndoStack();
         assertNotNull(currentState);
-        assertTrue(undoStack.isEmpty());
+        assertFalse(undoStack.isEmpty());
     }
 
     @Test
     void mouseIsDragged() {
         this.canvasState.setToolState(ERASER);
+        mouseInteractor.setCurrentState(new StrokeRecord(Color.BLACK, 3f));
         mouseInteractor.mouseIsPressed(new MouseUIInputData(new Point(10, 10)));
         mouseInteractor.mouseIsDragged(new MouseUIInputData(new Point(11, 11)));
         mouseInteractor.mouseIsDragged(new MouseUIInputData(new Point(12, 12)));
-        assertSame(PENCIL, canvasState.getToolState());
+        assertSame(ERASER, canvasState.getToolState());
         Drawable currentState = mouseInteractor.getActionHistory().getCurrentState();
         Stack<Drawable> undoStack = mouseInteractor.getActionHistory().getUndoStack();
         assertNotNull(currentState);
-        assertTrue(undoStack.isEmpty());
+        assertFalse(undoStack.isEmpty());
     }
 
     @Test
     void mouseIsReleased() {
         this.canvasState.setToolState(ERASER);
+        mouseInteractor.setCurrentState(new StrokeRecord(Color.BLACK, 3f));
         mouseInteractor.mouseIsPressed(new MouseUIInputData(new Point(10, 10)));
         mouseInteractor.mouseIsDragged(new MouseUIInputData(new Point(11, 11)));
         mouseInteractor.mouseIsDragged(new MouseUIInputData(new Point(12, 12)));
         mouseInteractor.mouseIsReleased(new MouseUIInputData(new Point(13, 13)));
-        assertSame(PENCIL, canvasState.getToolState());
+        assertSame(ERASER, canvasState.getToolState());
         Drawable currentState = mouseInteractor.getActionHistory().getCurrentState();
         Stack<Drawable> undoStack = mouseInteractor.getActionHistory().getUndoStack();
         assertNotNull(currentState);
