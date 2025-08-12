@@ -8,13 +8,17 @@ import java.util.*;
 public class ActionHistory {
     private final Stack<Drawable> undoStack;
     private final Stack<Drawable> redoStack;
-    private Drawable currentState = null;
+    private Drawable currentState;
 
     public ActionHistory() {
         this.undoStack = new Stack<>();
         this.redoStack = new Stack<>();
     }
 
+    /**
+     * Adds a new action (in the form of a drawable) to the undo stack.
+     * @param newState the new drawable to push to the undo stack
+     */
     public void push(Drawable newState) {
         if (currentState != null) {
             undoStack.push(currentState);
@@ -23,40 +27,50 @@ public class ActionHistory {
         redoStack.clear();
     }
 
+    /**
+     * Undoes the previous action.
+     * @return Drawable the undone action
+     */
     public Drawable undo() {
-        if (currentState == null) return null; // nothing to do
-        if (undoStack.isEmpty()){ // first action on canvas
-            redoStack.push(currentState); // save it for redo
-            currentState = null;
-            return currentState;
+        if (currentState == null) {
+            return null;
         }
-        // code below from before
+        if (undoStack.isEmpty()) {
+            redoStack.push(currentState);
+            return null;
+        }
         redoStack.push(currentState);
         currentState = undoStack.pop();
         return currentState;
     }
 
+    /**
+     * Redoes the previously undone action.
+     * @return Drawable the redone action
+     */
     public Drawable redo() {
-        if (redoStack.isEmpty()) return null;
-        if (currentState != null) { // might be null after the first redo
+        if (redoStack.isEmpty()) {
+            return null;
+        }
+        if (currentState != null) {
             undoStack.push(currentState);
         }
         currentState = redoStack.pop();
         return currentState;
     }
 
+    /**
+     * Returns the current action.
+     * @return Drawable the current action
+     */
     public Drawable getCurrentState() {
         return currentState;
     }
 
-    public void setCurrentState(Drawable currentState) {
-        this.currentState = currentState;
-        if (!(undoStack.isEmpty())) {
-            undoStack.pop();
-        }
-        push(currentState);
-    }
-
+    /**
+     * Returns the undo stack.
+     * @return Stack(Drawable) the undo stack.
+     */
     public Stack<Drawable> getUndoStack() {
         return undoStack;
     }

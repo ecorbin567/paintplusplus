@@ -3,15 +3,17 @@ package entity;
 /**
  * An eraser.
  */
-public class Eraser implements Tool{
+public class Eraser implements Tool {
 
     private float width;
 
     public Eraser(float width) {
+
         this.width = width;
     }
 
-    public Eraser(){
+    public Eraser() {
+
         this.width = 3f;
     }
 
