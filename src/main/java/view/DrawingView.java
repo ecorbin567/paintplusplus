@@ -1,6 +1,6 @@
 package view;
 
-import interface_adapter.SelectionViewModel;
+import interface_adapter.newselection.SelectionViewModel;
 import interface_adapter.canvas.CanvasController;
 import interface_adapter.canvas.CanvasRenderer;
 import interface_adapter.canvas.DrawingViewModel;
@@ -48,8 +48,8 @@ public class DrawingView extends JPanel implements MouseListener, MouseMotionLis
         renderer.drawImage(g2, viewModel);
         renderer.renderDraw(g2, viewModel);
         renderer.layeringDraw(g2, viewModel);
-        renderer.selectionDraw(g2, selectionViewModel);
-        renderer.moveSelectionWindow(g2, selectionViewModel);
+        renderer.moveSelectionWindow(g2, selectionViewModel); //draw the content
+        renderer.selectionDraw(g2, selectionViewModel); // draw the border on top
     }
 
     @Override

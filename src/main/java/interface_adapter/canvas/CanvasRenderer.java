@@ -2,7 +2,7 @@ package interface_adapter.canvas;
 
 import entity.*;
 import entity.Image;
-import interface_adapter.SelectionViewModel;
+import interface_adapter.newselection.SelectionViewModel;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Stack;

@@ -27,13 +27,4 @@ public class SingleColorButton extends CircularButton {
     public AbstractButton getButton(){
         return this;
     }
-
-//                swatch.addActionListener(e -> {
-//        if (upperColorChooserButton.isSelected()){
-//            primaryInteractor.changeColor(new ChangeColorInputData(solidColor));
-//        } else {
-//            secondaryInteractor.changeColor((new ChangeColorInputData(solidColor)));
-//        }
-//        swatch.setSelected(false); // clear toggle state so it doesn't stay
-//    });
 }
