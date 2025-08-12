@@ -8,264 +8,179 @@ import java.util.List;
 
 public class CanvasState {
     private double scale = 1;
-
-    // ToolUse
-    private final Paintbrush paintbrush = new Paintbrush(3f, Color.BLACK);
+    //ToolUse
+    private final Paintbrush paintbrush = new Paintbrush(3f, Color.BLACK );
     private final Eraser eraser = new Eraser();
     private final SelectionTool selectionTool = new SelectionTool();
 
-    // ToolState
+    //ToolState
     private ToolEnum toolState = ToolEnum.PENCIL;
     private ToolEnum buttonState = ToolEnum.PENCIL;
     private String buttonPressed = "UpperColorChooserButton";
     private Image currentImage;
 
-    // ActionHistory
+    //ActionHistory
     private final ActionHistory actionHistory = new ActionHistory();
 
-    // importedImage
+    //importedImage
     private final List<Image> importedImages = new ArrayList<>();
 
-    // Selection Stuff
-    private BufferedImage selectionImage;
-    private Rectangle selectionBounds;
+    //Selection Stuff
+    private BufferedImage selectionImage = null;
+    private Rectangle selectionBounds = null;
     private Rectangle selectionOriginalBounds;
-    private boolean hasSelection;
-    private boolean draggingSelection;
-    private boolean hasCutOut;
-    private boolean isDrawing;
-    private Point dragAnchor;
+    private boolean hasSelection = false;
+    private boolean draggingSelection = false;
+    private boolean hasCutOut = false;
+    private boolean isDrawing = false;
+    private Point dragAnchor = null;
     private final List<Rectangle> clearRegions = new ArrayList<>();
     private final List<CanvasState.Pair<BufferedImage, Rectangle>> commitedSelections = new ArrayList<>();
 
-    // Database + Save
-    private BufferedImage savedImage;
-    private File savedImageFile;
+    //Database + Save
+    private BufferedImage savedImage = null;
+    private File savedImageFile = null;
 
     public CanvasState() {
-        // Nothing is instantiated this ist more or less just a record class.
-    }
-
-    // ActionHistory Stuff
-    public ActionHistory getActionHistory() {
-        return this.actionHistory;
+        //Nothing is instantiated this ist more or less just a record class.
     }
 
     public void setButtonPressed(String buttonName) {
-
         this.buttonPressed = buttonName;
     }
-
     public String getButtonPressed() {
-
         return this.buttonPressed;
     }
 
     public File getSavedImageFile() {
-
         return this.savedImageFile;
     }
 
-    // PaintBrush
-
-    public Paintbrush getPaintbrush() {
-        return paintbrush;
-    }
-
-    /**
-     * Sets the size of the paintbrush.
-     * @param size the size to set the paintbrush to
-     */
-    public void setPaintBrushSize(float size) {
-
-        this.paintbrush.setWidth(size);
-    }
-
-    /**
-     * Sets the colour of the paintbrush.
-     * @param color the colour to set the paintbrush to
-     */
-    public void setPaintBrushColor(Color color) {
-
-        this.paintbrush.setColour(color);
-    }
-
-    // Eraser
-    /**
-     * Sets the size of the eraser.
-     * @param size the size to set the eraser to
-     */
-    public void setEraserSize(float size) {
-
-        this.eraser.setWidth(size);
-    }
-
-    public Eraser getEraser() {
-        return eraser;
-    }
-
-    // Image
-
-    public void setCurrentImage(Image image) {
-
-        this.currentImage = image;
-    }
-
-    public Image getCurrentImage() {
-
-        return this.currentImage;
-    }
-
-    public List<Image> getImportedImages() {
-        return this.importedImages;
-    }
-
-    // Setting ToolState
-
-    public void setToolState(ToolEnum toolState) {
-
-        this.toolState = toolState;
-    }
-
-    public ToolEnum getToolState() {
-
-        return this.toolState;
-    }
-
-    // Resize Window:
-
-    public void setScale(double scale) {
-
-        this.scale = scale;
-    }
-
-    public double getScale() {
-
-        return this.scale;
-    }
-
-    // Save Image
-
-    public void setSavedImage(BufferedImage savedImage) {
-
-        this.savedImage = savedImage;
-    }
-
-    public BufferedImage getSavedImage() {
-
-        return this.savedImage;
-    }
-
-    public void setFilePath(File file) {
-        this.savedImageFile = file;
-    }
-
-    // Selection Tool
-
-    public boolean getHasSelection() {
-
-        return this.hasSelection;
-    }
-
-    public void setHasSelection(boolean hasSelection) {
-
-        this.hasSelection = hasSelection;
-    }
-
-    public boolean getHasCutOut() {
-
-        return this.hasCutOut;
-    }
-
-    public void setHasCutOut(boolean hasCutOut) {
-
-        this.hasCutOut = hasCutOut;
-    }
-
-    public boolean getDraggingSelection() {
-
-        return this.draggingSelection;
-    }
-
-    public void setDraggingSelection(boolean draggingSelection) {
-
-        this.draggingSelection = draggingSelection;
-    }
-
-    public boolean getIsDrawing() {
-
-        return this.isDrawing;
-    }
-
-    public void setIsDrawing(boolean drawing) {
-
-        this.isDrawing = drawing;
-    }
-
-    public Rectangle getSelectionBounds() {
-
-        return this.selectionBounds;
-    }
-
-    public void setSelectionBounds(Rectangle selectionBounds) {
-
-        this.selectionBounds = selectionBounds;
-    }
-
-    public Point getDragAnchor() {
-        return this.dragAnchor;
-    }
-
-    public void setDragAnchor(Point dragAnchor) {
-        this.dragAnchor = dragAnchor;
-    }
-
-    public List<Rectangle> getClearRegions() {
-        return this.clearRegions;
-    }
-
-    public Rectangle getSelectionOriginalBounds() {
-        return this.selectionOriginalBounds;
-    }
-
-    public void setSelectionOriginalBounds(Rectangle selectionOriginalBounds) {
-        this.selectionOriginalBounds = selectionOriginalBounds;
-    }
-
-    public BufferedImage getSelectionImage() {
-        return this.selectionImage;
-    }
-
-    public void setSelectionImage(BufferedImage selectionImage) {
-
-        this.selectionImage = selectionImage;
-    }
-
-    public SelectionTool getSelectionTool() {
-
-        return this.selectionTool;
-    }
-
-    public List<CanvasState.Pair<BufferedImage, Rectangle>> getCommitedSelections() {
-
-        return this.commitedSelections;
-    }
-
-    public static class Pair<A, B> {
-        private final A first;
-        private final B second;
-
+    public static class Pair<A,B> {
+        final A first;
+        final B second;
         public Pair(A first, B second) {
             this.first = first;
             this.second = second;
         }
-
-        public A getFirst() {
-            return this.first;
-        }
-
-        public B getSecond() {
-            return this.second;
-        }
     }
+
+    //ActionHistory Stuff
+    public ActionHistory getActionHistory() {
+        return this.actionHistory;
+    }
+    public void addActionHistory(Drawable drawable) {
+        this.actionHistory.push(drawable);
+    }
+
+    //PaintBrush
+    public Paintbrush getPaintbrush() {return paintbrush;}
+    public void setPaintBrushSize(float size) {
+        this.paintbrush.setWidth(size);
+    }
+    public void setPaintBrushColor(Color color){
+        this.paintbrush.setColour(color);
+    }
+
+    //Eraser
+    public void setEraserSize(float size) {
+        this.eraser.setWidth(size);
+    }
+    public Eraser getEraser() {return eraser;}
+
+    //Image
+    public void setCurrentImage(Image image) {
+        this.currentImage = image;
+    }
+    public Image getCurrentImage() {
+        return this.currentImage;
+    }
+    public List<Image> getImportedImages() {return this.importedImages;}
+
+    //Setting ToolState
+    public void setToolState(ToolEnum toolState) {
+        this.toolState = toolState;
+    }
+    public ToolEnum getToolState() {
+        return this.toolState;
+    }
+
+    //Resize Window:
+    public void setScale(double scale) {
+        this.scale = scale;
+    }
+    public double getScale() {
+        return this.scale;
+    }
+
+    //Save Image
+    public void setSavedImage(BufferedImage savedImage) {
+        this.savedImage = savedImage;
+    }
+    public BufferedImage getSavedImage() {
+        return this.savedImage;
+    }
+    public void setFilePath(File file){
+        this.savedImageFile = file;
+    }
+
+    //Selection Tool
+    public boolean getHasSelection() {
+        return this.hasSelection;
+    }
+    public void setHasSelection(boolean hasSelection) {
+        this.hasSelection = hasSelection;
+    }
+
+    public boolean getHasCutOut() {
+        return this.hasCutOut;
+    }
+    public void setHasCutOut(boolean hasCutOut) {
+        this.hasCutOut = hasCutOut;
+    }
+
+    public boolean getDraggingSelection() {
+        return this.draggingSelection;
+    }
+    public void setDraggingSelection(boolean draggingSelection) {
+        this.draggingSelection = draggingSelection;
+    }
+
+    public boolean getIsDrawing() {
+        return this.isDrawing;
+    }
+    public void setIsDrawing(boolean drawing) {
+        this.isDrawing = drawing;
+    }
+
+    public Rectangle getSelectionBounds(){
+        return this.selectionBounds;
+    }
+    public void setSelectionBounds(Rectangle selectionBounds) {
+        this.selectionBounds = selectionBounds;
+    }
+
+    public Point getDragAnchor(){return this.dragAnchor;}
+    public void setDragAnchor(Point dragAnchor){this.dragAnchor = dragAnchor;}
+
+    public List<Rectangle> getClearRegions() {return this.clearRegions;}
+
+    public Rectangle getSelectionOriginalBounds() {return this.selectionOriginalBounds;}
+    public void setSelectionOriginalBounds(Rectangle selectionOriginalBounds) {
+        this.selectionOriginalBounds = selectionOriginalBounds;
+    }
+
+    public BufferedImage getSelectionImage() {return this.selectionImage;}
+    public void setSelectionImage(BufferedImage selectionImage) {
+        this.selectionImage = selectionImage;
+    }
+
+    public SelectionTool getSelectionTool() {
+        return this.selectionTool;
+    }
+
+    public List<CanvasState.Pair<BufferedImage, Rectangle>> getCommitedSelections() {
+        return this.commitedSelections;
+    }
+
 }

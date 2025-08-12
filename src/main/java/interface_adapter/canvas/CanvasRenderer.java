@@ -96,34 +96,34 @@ public class CanvasRenderer {
 
     private void drawDrawable(Graphics2D g2, Drawable d) {
         if (d instanceof StrokeRecord s) {
-            g2.setColor(s.getColour());
-            g2.setStroke(new BasicStroke(s.getWidth(),
+            g2.setColor(s.colour);
+            g2.setStroke(new BasicStroke(s.width,
                     BasicStroke.CAP_ROUND,
                     BasicStroke.JOIN_ROUND));
-            for (int i = 1; i < s.getPts().size(); i++) {
-                Point p1 = s.getPts().get(i - 1);
-                Point p2 = s.getPts().get(i);
+            for (int i = 1; i < s.pts.size(); i++) {
+                Point p1 = s.pts.get(i - 1);
+                Point p2 = s.pts.get(i);
                 g2.drawLine(p1.x, p1.y, p2.x, p2.y);
             }
         } else if (d instanceof PasteRecord pr) {
-            g2.drawImage(pr.getImage(),
-                    pr.getBounds().x, pr.getBounds().y,
-                    pr.getBounds().width, pr.getBounds().height,
+            g2.drawImage(pr.image,
+                    pr.bounds.x, pr.bounds.y,
+                    pr.bounds.width, pr.bounds.height,
                     null);
         } else if (d instanceof CutRecord cr) {
             g2.setColor(Color.WHITE);
-            g2.fillRect(cr.getBounds().x, cr.getBounds().y,
-                    cr.getBounds().width, cr.getBounds().height);
+            g2.fillRect(cr.bounds.x, cr.bounds.y,
+                    cr.bounds.width, cr.bounds.height);
 
         } else if (d instanceof MoveRecord mr) {
             /* blank the old rectangle */
             g2.setColor(Color.WHITE);
-            g2.fillRect(mr.getFrom().x, mr.getFrom().y, mr.getFrom().width, mr.getFrom().height);
+            g2.fillRect(mr.from.x, mr.from.y, mr.from.width, mr.from.height);
 
             /* draw the bitmap at its new spot */
-            g2.drawImage(mr.getImage(),
-                    mr.getTo().x, mr.getTo().y,
-                    mr.getTo().width, mr.getTo().height,
+            g2.drawImage(mr.image,
+                    mr.to.x, mr.to.y,
+                    mr.to.width, mr.to.height,
                     null);
         }
     }

@@ -140,7 +140,7 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
         }
 
         StrokeRecord currentStroke = new StrokeRecord(color, size);
-        currentStroke.getPts().add(inputData.getPoint());
+        currentStroke.pts.add(inputData.getPoint());
         actionHistory.push(currentStroke);
     }
 
@@ -180,7 +180,7 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
     private void mouseDragPencilEraser(MouseUIInputData inputData) {
         Drawable drawable = actionHistory.getCurrentState();
         if (drawable instanceof StrokeRecord strokeRecord) {
-            strokeRecord.getPts().add(inputData.getPoint());
+            strokeRecord.pts.add(inputData.getPoint());
         }
     }
     private void sendSelectionOutputData() {
