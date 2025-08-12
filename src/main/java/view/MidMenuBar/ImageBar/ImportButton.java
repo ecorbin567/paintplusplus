@@ -1,9 +1,9 @@
-package view.MidMenuBar.ImageBar;
+package view.midmenubar.imagebar;
 
-import interface_adapter.midmenu.image.ImageFacade;
-import interface_adapter.midmenu.image.import_image.ImportController;
+import interface_adapter.image.ImageFacade;
+import interface_adapter.image.import_image.ImportController;
 import view.DrawingView;
-import view.MidMenuBar.SelectionToolButton;
+import view.midmenubar.SelectionToolButton;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;

@@ -1,4 +1,4 @@
-package view.TopMenuBar.FileMenu;
+package view.topmenubar.filemenu;
 
 import interface_adapter.topmenu.TopMenuFacade;
 import view.DrawingView;

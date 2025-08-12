@@ -1,6 +1,6 @@
-package interface_adapter.midmenu.image;
+package interface_adapter.image;
 
-import interface_adapter.midmenu.image.import_image.ImportController;
+import interface_adapter.image.import_image.ImportController;
 
 import java.io.File;
 

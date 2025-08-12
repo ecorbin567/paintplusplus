@@ -2,21 +2,14 @@ package entity;
 
 import java.awt.Rectangle;
 
-public class CutRecord implements Drawable {
-    private final Rectangle bounds;
-
-    public CutRecord(Rectangle rect) {
-
-        this.bounds = rect;
-    }
-
-    public Rectangle getBounds() {
-        return bounds;
+public class CutRecord implements Drawable{
+    public final Rectangle bounds;
+    public CutRecord(Rectangle b){
+        this.bounds = b;
     }
 
     @Override
-    public String toString() {
-
+    public String toString(){
         return "CutRecord [bounds=" + bounds + "]";
     }
 }

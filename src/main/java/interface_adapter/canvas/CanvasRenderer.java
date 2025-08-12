@@ -72,7 +72,7 @@ public class CanvasRenderer {
             r = selectionViewModel.getSelectionBounds();
         }
 
-        if (r != null && r.width>0 && r.height>0){
+        if (r != null && r.getWidth()>0 && r.height>0){
             Stroke oldStroke = graphics2D.getStroke();
             Color oldColor = graphics2D.getColor();
             // dark dashes
@@ -106,24 +106,24 @@ public class CanvasRenderer {
                 g2.drawLine(p1.x, p1.y, p2.x, p2.y);
             }
         } else if (d instanceof PasteRecord pr) {
-            g2.drawImage(pr.getImage(),
-                    pr.getBounds().x, pr.getBounds().y,
-                    pr.getBounds().width, pr.getBounds().height,
+            g2.drawImage(pr.image,
+                    pr.bounds.x, pr.bounds.y,
+                    pr.bounds.width, pr.bounds.height,
                     null);
         } else if (d instanceof CutRecord cr) {
             g2.setColor(Color.WHITE);
-            g2.fillRect(cr.getBounds().x, cr.getBounds().y,
-                    cr.getBounds().width, cr.getBounds().height);
+            g2.fillRect(cr.bounds.x, cr.bounds.y,
+                    cr.bounds.width, cr.bounds.height);
 
         } else if (d instanceof MoveRecord mr) {
             /* blank the old rectangle */
             g2.setColor(Color.WHITE);
-            g2.fillRect(mr.getFrom().x, mr.getFrom().y, mr.getFrom().width, mr.getFrom().height);
+            g2.fillRect(mr.from.x, mr.from.y, mr.from.width, mr.from.height);
 
             /* draw the bitmap at its new spot */
-            g2.drawImage(mr.getImage(),
-                    mr.getTo().x, mr.getTo().y,
-                    mr.getTo().width, mr.getTo().height,
+            g2.drawImage(mr.image,
+                    mr.to.x, mr.to.y,
+                    mr.to.width, mr.to.height,
                     null);
         }
     }

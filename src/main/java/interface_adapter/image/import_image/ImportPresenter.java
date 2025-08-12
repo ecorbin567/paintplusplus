@@ -1,4 +1,4 @@
-package interface_adapter.midmenu.image.import_image;
+package interface_adapter.image.import_image;
 
 import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.canvas.DrawingViewModel;

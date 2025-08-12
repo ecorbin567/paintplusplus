@@ -1,4 +1,4 @@
-package interface_adapter.midmenu.image.resize;
+package interface_adapter.image.resize;
 
 import interface_adapter.canvas.DrawingViewModel;
 import use_case.image.resize.ResizeOutputBoundary;

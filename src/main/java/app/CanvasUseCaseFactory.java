@@ -8,7 +8,7 @@ import interface_adapter.changecolor.ColorController;
 import interface_adapter.goback.GoBackController;
 import interface_adapter.goback.GoBackPresenter;
 import interface_adapter.goback.GoBackViewModel;
-import interface_adapter.midmenu.image.ImageFacade;
+import interface_adapter.image.ImageFacade;
 import interface_adapter.newcanvas.NewCanvasViewModel;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.topmenu.TopMenuFacade;

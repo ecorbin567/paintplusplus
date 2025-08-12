@@ -1,6 +1,6 @@
-package view.TopMenuBar.FileMenu;
+package view.topmenubar.filemenu;
 
-import view.TopMenuBar.MenuActionListener;
+import view.topmenubar.MenuActionListener;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

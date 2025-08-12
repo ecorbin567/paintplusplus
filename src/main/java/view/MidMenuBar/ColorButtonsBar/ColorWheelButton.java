@@ -1,8 +1,8 @@
-package view.MidMenuBar.ColorButtonsBar;
+package view.midmenubar.colorbuttonsbar;
 
 import entity.ToolEnum;
 import interface_adapter.changecolor.ColorController;
-import view.MidMenuBar.SelectionToolButton;
+import view.midmenubar.SelectionToolButton;
 
 import javax.swing.*;
 import java.awt.*;

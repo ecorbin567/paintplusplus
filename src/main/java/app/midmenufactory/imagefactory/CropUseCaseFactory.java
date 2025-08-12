@@ -2,8 +2,8 @@ package app.midmenufactory.imagefactory;
 
 import entity.CanvasState;
 import interface_adapter.canvas.DrawingViewModel;
-import interface_adapter.midmenu.image.crop.CropController;
-import interface_adapter.midmenu.image.crop.CropPresenter;
+import interface_adapter.image.crop.CropController;
+import interface_adapter.image.crop.CropPresenter;
 import use_case.image.crop.CropInputBoundary;
 import use_case.image.crop.CropInteractor;
 import use_case.image.crop.CropOutputBoundary;

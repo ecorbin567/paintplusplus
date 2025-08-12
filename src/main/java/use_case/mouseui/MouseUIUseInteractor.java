@@ -18,15 +18,24 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
         this.actionHistory = canvasState.getActionHistory();
     }
 
+    // getter method for testing
+    public ActionHistory getActionHistory() {
+        return actionHistory;
+    }
+
+    public void setCurrentState(Drawable drawable) {
+        this.actionHistory.setCurrentState(drawable);
+    }
+
     @Override
     public void mouseIsPressed(MouseUIInputData inputData) {
         if (canvasState.getToolState() == ToolEnum.SELECT){
             sendMouseOutputData();
             return;
         }
-        ToolEnum toolstate = canvasState.getToolState();
-        switch(toolstate) {
-            case PENCIL, ERASER, CHANGECOLOR -> handleDrawingTool(toolstate, inputData);
+        ToolEnum toolState = canvasState.getToolState();
+        switch(toolState) {
+            case PENCIL, ERASER, CHANGECOLOR -> handleDrawingTool(toolState, inputData);
         }
         sendMouseOutputData();
     }
@@ -37,23 +46,23 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
             sendMouseOutputData();
             return;
         }
-        ToolEnum toolstate = canvasState.getToolState();
-        switch(toolstate) {
+        ToolEnum toolState = canvasState.getToolState();
+        switch(toolState) {
             case PENCIL, ERASER -> mouseDragPencilEraser(inputData);
         }
         sendMouseOutputData();
     }
 
-    private void handleDrawingTool(ToolEnum toolstate, MouseUIInputData inputData) {
+    private void handleDrawingTool(ToolEnum toolState, MouseUIInputData inputData) {
         Color color = Color.BLACK;
         float size = 3f;
 
-        if (toolstate == ToolEnum.PENCIL || toolstate == ToolEnum.CHANGECOLOR) {
+        if (toolState == ToolEnum.PENCIL || toolState == ToolEnum.CHANGECOLOR) {
             Paintbrush paintbrush = this.canvasState.getPaintbrush();
             color = paintbrush.getColour();
             size = paintbrush.getWidth();
         }
-        else if (toolstate == ToolEnum.ERASER) {
+        else if (toolState == ToolEnum.ERASER) {
             Eraser eraser = this.canvasState.getEraser();
             color = Color.WHITE;
             size = eraser.getWidth();
@@ -61,12 +70,12 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
 
         StrokeRecord currentStroke = new StrokeRecord(color, size);
         currentStroke.getPts().add(inputData.getPoint());
-        actionHistory.push(currentStroke);
+        this.actionHistory.push(currentStroke);
     }
 
     @Override
     public void mouseIsReleased(MouseUIInputData inputData) {
-        if (canvasState.getToolState() == ToolEnum.SELECT){
+        if (canvasState.getToolState() == ToolEnum.SELECT) {
             sendMouseOutputData();
             return;
         }

@@ -1,6 +1,4 @@
-package view.MidMenuBar.ColorButtonsBar;
-
-import jdk.jfr.FlightRecorderListener;
+package view.midmenubar.colorbuttonsbar;
 
 import javax.swing.*;
 import java.awt.*;

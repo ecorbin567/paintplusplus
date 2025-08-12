@@ -81,14 +81,14 @@ public class HistoryInteractor implements HistoryInputBoundary{
     private void addFromDrawable(Drawable d) {
         if (d instanceof PasteRecord pr) {
             this.canvasState.getCommitedSelections().add(
-                    new CanvasState.Pair<>(pr.getImage(), new Rectangle(pr.getBounds())));
+                    new CanvasState.Pair<>(pr.image, new Rectangle(pr.bounds)));
         } else if (d instanceof CutRecord cr) {
-            this.canvasState.getClearRegions().add(new Rectangle(cr.getBounds()));
+            this.canvasState.getClearRegions().add(new Rectangle(cr.bounds));
 
         } else if (d instanceof  MoveRecord mr){
-            this.canvasState.getClearRegions().add(new Rectangle(mr.getFrom()));
+            this.canvasState.getClearRegions().add(new Rectangle(mr.from));
             this.canvasState.getCommitedSelections().add(
-                    new CanvasState.Pair<>(mr.getImage(), new Rectangle(mr.getTo())));
+                    new CanvasState.Pair<>(mr.image, new Rectangle(mr.to)));
         }
     }
 }

@@ -1,4 +1,4 @@
-package interface_adapter.midmenu.image.import_image;
+package interface_adapter.image.import_image;
 
 import use_case.image.import_image.ImportInputBoundary;
 import use_case.image.import_image.ImportRequestModel;

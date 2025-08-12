@@ -1,8 +1,8 @@
-package view.TopMenuBar.FileMenu;
+package view.topmenubar.filemenu;
 
 import interface_adapter.topmenu.TopMenuFacade;
 import view.DrawingView;
-import view.TopMenuBar.MenuActionListener;
+import view.topmenubar.MenuActionListener;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;

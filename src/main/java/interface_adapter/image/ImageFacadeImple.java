@@ -1,9 +1,9 @@
-package interface_adapter.midmenu.image;
+package interface_adapter.image;
 
-import interface_adapter.midmenu.image.crop.CropController;
-import interface_adapter.midmenu.image.import_image.ImportController;
-import interface_adapter.midmenu.image.resize.ResizeController;
-import interface_adapter.midmenu.image.rotate.RotateController;
+import interface_adapter.image.crop.CropController;
+import interface_adapter.image.import_image.ImportController;
+import interface_adapter.image.resize.ResizeController;
+import interface_adapter.image.rotate.RotateController;
 
 import java.io.File;
 

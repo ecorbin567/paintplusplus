@@ -1,4 +1,4 @@
-package view.TopMenuBar;
+package view.topmenubar;
 
 public interface MenuActionListener {
     void onMenuItemSelected(String command);

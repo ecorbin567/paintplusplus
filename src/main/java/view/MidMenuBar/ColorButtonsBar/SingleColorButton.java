@@ -1,4 +1,4 @@
-package view.MidMenuBar.ColorButtonsBar;
+package view.midmenubar.colorbuttonsbar;
 
 import entity.ToolEnum;
 import interface_adapter.changecolor.ColorController;

@@ -14,13 +14,19 @@ public class CommonUser implements User {
     }
 
     @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
     public String getPassword() {
         return password;
     }
 
     @Override
     public String getUsername() {
-        return name;
+        // TODO: remove this and refactor at some point. this is for compatibility with Josh's code
+        return getName();
     }
 
 }
