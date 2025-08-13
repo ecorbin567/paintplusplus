@@ -32,14 +32,11 @@ Paint++ uses Clean Architecture and follows the SOLID Design Principles for the 
 - Box select and drag sections of the canvas (developed by Victor)
 
 ### Supabase API
-Paint++ has a signup and login system supported by Supabase API, but you can also run Paint++
-on your own device's memory. See [Running Paint++](#running-paint) for more details. In addition,
+Paint++ has a signup and login system supported by Supabase API. See [Running Paint++](#running-paint) for more details. In addition,
 Supabase API also supports storing each user's past canvases.
 
 ## Running Paint++
 To launch Paint++, run the main method in src/main/java/app/Main.java.
-If you want to use your own device's memory rather than the Supabase API so that your login
-information is not stored, run the main method in src/main/java/app/MainInMemory.java.
 
 ## Using Paint++
 When you open the application, you will see a signup screen, where you
