@@ -56,7 +56,7 @@ public class RotateInteractorTest {
         assertNull(canvasState.getCurrentImage());
         assertTrue(presenter.errorCalled);
         assertNotNull(presenter.errorMessage);
-        assertEquals("No image to rotate", presenter.errorMessage);
+        assertEquals("No image to rotate.", presenter.errorMessage);
     }
 
     public static class TestRotatePresenter implements RotateOutputBoundary {

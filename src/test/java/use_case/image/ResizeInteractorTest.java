@@ -61,7 +61,7 @@ public class ResizeInteractorTest {
         assertNull(canvasState.getCurrentImage());
         assertTrue(presenter.errorCalled);
         assertNotNull(presenter.errorMessage);
-        assertEquals("No image to resize", presenter.errorMessage);
+        assertEquals("No image to resize.", presenter.errorMessage);
     }
 
     public static class TestResizePresenter implements ResizeOutputBoundary {
