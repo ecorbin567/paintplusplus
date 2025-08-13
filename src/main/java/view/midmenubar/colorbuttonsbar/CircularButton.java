@@ -60,7 +60,8 @@ public class CircularButton extends JToggleButton {
     public boolean contains(int x, int y) {
         //true if only coordinates inside the drawn circle
         int radius = getWidth() / 2;
-        int dx = x - radius, dy = y - radius;
+        int dx = x - radius;
+        int dy = y - radius;
         return dx * dx + dy * dy <= radius * radius;
     }
     @Override

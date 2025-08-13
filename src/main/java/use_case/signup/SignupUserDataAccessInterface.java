@@ -19,7 +19,6 @@ public interface SignupUserDataAccessInterface extends UserDataAccessInterface {
      * Saves the user.
      *
      * @param user the user to save
-     * @return
      */
     boolean addUser(User user);
 }

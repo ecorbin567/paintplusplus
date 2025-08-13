@@ -4,7 +4,7 @@ import entity.Drawable;
 import use_case.mouseui.MouseUIOutputBoundary;
 import use_case.mouseui.MouseUIOutputData;
 
-import java.util.Stack;
+import java.util.Deque;
 
 public class CanvasPresenter implements MouseUIOutputBoundary {
     private final DrawingViewModel drawingViewModel;
@@ -15,19 +15,19 @@ public class CanvasPresenter implements MouseUIOutputBoundary {
 
     @Override
     public void setRepaintState(MouseUIOutputData outputData) {
-        boolean state = outputData.getState();
+        boolean state = outputData.state();
         this.drawingViewModel.shouldRepaint(state);
     }
 
     @Override
     public void setDrawableState(MouseUIOutputData outputData) {
-        Stack<Drawable> drawables = outputData.getDrawables();
+        Deque<Drawable> drawables = outputData.drawables();
         this.drawingViewModel.setDrawables(drawables);
     }
 
     @Override
     public void setCurrentDrawable(MouseUIOutputData outputData) {
-        Drawable currentDrawable = outputData.getDrawable();
+        Drawable currentDrawable = outputData.drawable();
         this.drawingViewModel.setDrawable(currentDrawable);
     }
 }

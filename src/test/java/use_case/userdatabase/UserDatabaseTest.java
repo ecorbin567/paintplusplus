@@ -18,19 +18,19 @@ public class UserDatabaseTest {
         User user = new CommonUser(testUserName, testPswd);
         boolean result = service.addUser(user);
         assertTrue(result);
-        System.out.println("Added user " + user.getUsername() + " / " + user.getPassword());
+        System.out.println("Added user " + user.getUsername() + " / " + user.password());
 
         // clean up
         boolean delResult = service.deleteUser(user.getUsername());
         assertTrue(delResult);
-        System.out.println("Deleted user " + user.getUsername() + " / " + user.getPassword());
+        System.out.println("Deleted user " + user.getUsername() + " / " + user.password());
     }
 
     @Test
     public void testUserGet() {
         User user = service.getUser("beabadoobee");
         assertNotNull(user);
-        System.out.println("Testing user retrieval: Found: " + user.getUsername() + " / " + user.getPassword());
+        System.out.println("Testing user retrieval: Found: " + user.getUsername() + " / " + user.password());
     }
 
     @Test
@@ -45,7 +45,7 @@ public class UserDatabaseTest {
         User updatedUser = service.getUser(user.getUsername());
         assertNotNull(updatedUser);
         assertEquals(user.getUsername(), updatedUser.getUsername());
-        assertNotEquals(updatedUser.getPassword(), user.getPassword());
+        assertNotEquals(updatedUser.password(), user.password());
 
         // clean up
         deleteTempUser(user);
@@ -56,13 +56,13 @@ public class UserDatabaseTest {
         User user = createTempUser();
 
         // basic case
-        assertTrue(service.verifyCredentials(user.getUsername(), user.getPassword()));
+        assertTrue(service.verifyCredentials(user.getUsername(), user.password()));
 
         // update user
         service.updateUserPassword(user.getUsername(), "abcdefgh");
 
         // case 2: changed password
-        assertFalse(service.verifyCredentials(user.getUsername(), user.getPassword()));
+        assertFalse(service.verifyCredentials(user.getUsername(), user.password()));
 
         deleteTempUser(user);
     }
@@ -70,14 +70,14 @@ public class UserDatabaseTest {
     private void deleteTempUser(User user) {
         boolean delResult = service.deleteUser(user.getUsername());
         assertTrue(delResult);
-        System.out.println("Deleted user " + user.getUsername() + " / " + user.getPassword());
+        System.out.println("Deleted user " + user.getUsername() + " / " + user.password());
     }
 
     private User createTempUser() {
         User user = new CommonUser(testUserName, testPswd);
         boolean result = service.addUser(user);
         assertTrue(result);
-        System.out.println("Added user " + user.getUsername() + " / " + user.getPassword());
+        System.out.println("Added user " + user.getUsername() + " / " + user.password());
 
         return user;
     }

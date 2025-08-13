@@ -10,6 +10,7 @@ import use_case.topmenu.save.SaveFileGateway;
 
 public class ImageSaveGateway implements SaveFileGateway {
 
+
     @Override
     public void saveImage(BufferedImage image, File file) throws IOException {
         try {

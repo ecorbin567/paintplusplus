@@ -23,9 +23,7 @@ public class ColorWheelPopUpWindow extends JDialog{
             confirmed = true;
             dispose();
         });
-        cancel.addActionListener(e -> {
-            dispose();
-        });
+        cancel.addActionListener(e -> dispose());
 
         JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 5));
         buttons.add(ok);

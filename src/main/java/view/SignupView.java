@@ -14,10 +14,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * The View for the Signup Use Case.
+ * View for the sign-up use case.
  */
 public class SignupView extends JPanel implements ActionListener, PropertyChangeListener {
-    private final String viewName = "sign up";
+    private static final String VIEW_NAME = "sign up";
 
     private final SignupViewModel signupViewModel;
     private final JTextField usernameInputField = new JTextField(15);
@@ -26,9 +26,13 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
     private final SignupController signupController;
 
     private final JButton signUp;
-    private final JButton cancel;
-    private final JButton toLogin;
 
+    /**
+     * Creates the sign-up view and wires listeners.
+     *
+     * @param controller controller to execute actions
+     * @param signupViewModel view model providing state and errors
+     */
     public SignupView(SignupController controller, SignupViewModel signupViewModel) {
 
         this.signupController = controller;
@@ -46,39 +50,25 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                 new JLabel(SignupViewModel.REPEAT_PASSWORD_LABEL), repeatPasswordInputField);
 
         final JPanel buttons = new JPanel();
-        toLogin = new JButton(SignupViewModel.TO_LOGIN_BUTTON_LABEL);
-        buttons.add(toLogin);
+        buttons.add(new JButton(SignupViewModel.TO_LOGIN_BUTTON_LABEL));
         signUp = new JButton(SignupViewModel.SIGNUP_BUTTON_LABEL);
         buttons.add(signUp);
-        cancel = new JButton(SignupViewModel.CANCEL_BUTTON_LABEL);
-        buttons.add(cancel);
+        buttons.add(new JButton(SignupViewModel.CANCEL_BUTTON_LABEL));
 
-        signUp.addActionListener(
-                // This creates an anonymous subclass of ActionListener and instantiates it.
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(signUp)) {
-                            final SignupState currentState = signupViewModel.getState();
+        signUp.addActionListener(evt -> {
+            if (evt.getSource().equals(signUp)) {
+                final SignupState currentState = signupViewModel.getState();
+                signupController.execute(
+                        currentState.getUsername(),
+                        currentState.getPassword(),
+                        currentState.getRepeatPassword()
+                );
+            }
+        });
 
-                            signupController.execute(
-                                    currentState.getUsername(),
-                                    currentState.getPassword(),
-                                    currentState.getRepeatPassword()
-                            );
-                        }
-                    }
-                }
-        );
+        new JButton(SignupViewModel.TO_LOGIN_BUTTON_LABEL).addActionListener(evt -> signupController.switchToLoginView());
 
-        toLogin.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        signupController.switchToLoginView();
-                    }
-                }
-        );
-
-        cancel.addActionListener(this);
+        new JButton(SignupViewModel.CANCEL_BUTTON_LABEL).addActionListener(this);
 
         addUsernameListener();
         addPasswordListener();
@@ -104,19 +94,13 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
             }
 
             @Override
-            public void insertUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
+            public void insertUpdate(DocumentEvent e) { documentListenerHelper(); }
 
             @Override
-            public void removeUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
+            public void removeUpdate(DocumentEvent e) { documentListenerHelper(); }
 
             @Override
-            public void changedUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
+            public void changedUpdate(DocumentEvent e) { documentListenerHelper(); }
         });
     }
 
@@ -130,19 +114,13 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
             }
 
             @Override
-            public void insertUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
+            public void insertUpdate(DocumentEvent e) { documentListenerHelper(); }
 
             @Override
-            public void removeUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
+            public void removeUpdate(DocumentEvent e) { documentListenerHelper(); }
 
             @Override
-            public void changedUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
+            public void changedUpdate(DocumentEvent e) { documentListenerHelper(); }
         });
     }
 
@@ -156,27 +134,31 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
             }
 
             @Override
-            public void insertUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
+            public void insertUpdate(DocumentEvent e) { documentListenerHelper(); }
 
             @Override
-            public void removeUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
+            public void removeUpdate(DocumentEvent e) { documentListenerHelper(); }
 
             @Override
-            public void changedUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
+            public void changedUpdate(DocumentEvent e) { documentListenerHelper(); }
         });
     }
 
+    /**
+     * Handles the Cancel button action.
+     *
+     * @param evt action event
+     */
     @Override
     public void actionPerformed(ActionEvent evt) {
         JOptionPane.showMessageDialog(this, "Cancel not implemented yet.");
     }
 
+    /**
+     * Receives state changes from the view model.
+     *
+     * @param evt property change event with a SignupState as new value
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final SignupState state = (SignupState) evt.getNewValue();
@@ -185,7 +167,12 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         }
     }
 
+    /**
+     * Returns the logical name of this view.
+     *
+     * @return view name
+     */
     public String getViewName() {
-        return viewName;
+        return VIEW_NAME;
     }
 }

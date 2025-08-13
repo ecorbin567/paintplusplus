@@ -29,7 +29,7 @@ public class ImportInteractor implements ImportInputBoundary {
 
     @Override
     public void execute(ImportRequestModel request) {
-        File file = request.getFile();
+        File file = request.file();
         List<Image> importedImages = this.canvasState.getImportedImages();
 
         try {

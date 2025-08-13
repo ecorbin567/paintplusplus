@@ -1,4 +1,4 @@
-package app.midmenufactory.imagefactory;
+package app.imagefactory;
 
 import data_access.LocalImageLoader;
 import entity.CanvasState;
@@ -10,6 +10,9 @@ import use_case.image.import_image.ImportInteractor;
 import use_case.image.import_image.ImportOutputBoundary;
 
 public class ImportUseCaseFactory {
+    private ImportUseCaseFactory(){
+        //Unneded
+    }
     /**
      * Factory function for creating the Import Use Case.
      * @param canvasState the CanvasState

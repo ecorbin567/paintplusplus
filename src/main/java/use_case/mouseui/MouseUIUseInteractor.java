@@ -3,7 +3,7 @@ package use_case.mouseui;
 import entity.*;
 
 import java.awt.*;
-import java.util.Stack;
+import java.util.Deque;
 
 
 public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
@@ -47,8 +47,8 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
             return;
         }
         ToolEnum toolState = canvasState.getToolState();
-        switch(toolState) {
-            case PENCIL, ERASER -> mouseDragPencilEraser(inputData);
+        if (toolState == ToolEnum.SELECT || toolState == ToolEnum.ERASER || toolState == ToolEnum.PENCIL){
+            mouseDragPencilEraser(inputData);
         }
         sendMouseOutputData();
     }
@@ -75,10 +75,6 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
 
     @Override
     public void mouseIsReleased(MouseUIInputData inputData) {
-        if (canvasState.getToolState() == ToolEnum.SELECT) {
-            sendMouseOutputData();
-            return;
-        }
         sendMouseOutputData();
     }
 
@@ -90,7 +86,7 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
     }
 
     private void sendMouseOutputData() {
-        Stack<Drawable> undoStack = this.actionHistory.getUndoStack();
+        Deque<Drawable> undoStack = this.actionHistory.getUndoStack();
         boolean state = !undoStack.isEmpty();
         Drawable currentDrawable = actionHistory.getCurrentState();
         MouseUIOutputData outputData = new MouseUIOutputData(undoStack, state, currentDrawable);

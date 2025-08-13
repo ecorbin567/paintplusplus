@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
  */
 public class CanvasViewModel extends ViewModel<CanvasUserState> {
 
-
     public CanvasViewModel() {
         super("canvas");
         setState(new CanvasUserState());

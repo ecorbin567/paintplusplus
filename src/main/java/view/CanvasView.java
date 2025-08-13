@@ -35,9 +35,6 @@ import java.io.IOException;
  */
 public class CanvasView extends JPanel implements ActionListener, MenuActionListener,
         PropertyChangeListener {
-    private final String viewNaviewNameme = "canvas";
-    private final CanvasViewModel canvasViewModel;
-
     private final GoBackViewModel goBackViewModel;
     private final GoBackController goBackController;
 
@@ -55,17 +52,15 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
                       CanvasController controller,
                       TopMenuFacade controllers,
                       HistoryController historyController) {
-        // TODO: Josh: I don't know a better way to import when getting canvases
         // store the import button and then press it when we log in with an existing canvas.
 
         this.goBackViewModel = goBackViewModel;
         this.goBackController = goBackController;
 
         // JOSH: listen for changes in canvas state
-        this.canvasViewModel = canvasViewModel;
         this.historyController = historyController;
         this.drawingView = drawingView;
-        this.canvasViewModel.addPropertyChangeListener(this);
+        canvasViewModel.addPropertyChangeListener(this);
 
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(800, 600));
@@ -88,6 +83,7 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
     }
 
     public void actionPerformed(ActionEvent evt) {
+        //Is Not Used Even Though JPanel Needs it
     }
 
     public String getViewName() {
@@ -110,14 +106,13 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
     /**
      * Helper for propertyChange(). Directly accesses the import controller with a specific image
      */
-    private void pressImportButton(ImportButton importButtonObject, BufferedImage initialImportedImage) {
+    private void pressImportButton(ImportButton importButtonObject, BufferedImage initialImportedImage) throws IOException {
         ImportController controller = importButtonObject.getController();
         File outputFile = new File("imageToImport.png");
         try {
             ImageIO.write(initialImportedImage, "png", outputFile);
         } catch (IOException e) {
-            System.out.println("Failed to import initial image.");
-            throw new RuntimeException(e);
+            throw new IOException(e);
         }
 
         controller.execute(outputFile);
@@ -125,12 +120,14 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        // System.out.println(evt.getPropertyName());
         final CanvasUserState state = (CanvasUserState) evt.getNewValue();
         if ("import".equals(evt.getPropertyName())) {
-            pressImportButton(this.importButton, state.getInitialImportedImage());
+            try {
+                pressImportButton(this.importButton, state.getInitialImportedImage());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         } else if ("clearhistory".equals(evt.getPropertyName())) {
-            System.out.println("Clear History call received.");
             historyController.clearHistory();
             drawingView.simulateMousePress();
         }

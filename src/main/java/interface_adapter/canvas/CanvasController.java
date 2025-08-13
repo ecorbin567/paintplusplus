@@ -24,23 +24,12 @@ public class CanvasController {
         this.selectionInputBoundary = selectionInputBoundary;
     }
 
-    public void handlePencilButtonPress(ToolEnum tool){
+    public void handleTools(ToolEnum tool){
         ToolUseInputData inputData = new ToolUseInputData(tool);
         toolUseInputBoundary.setTool(inputData);
     }
 
-    public void handlePencilSliderButton(ToolEnum tool, float value){
-        ToolUseInputData inputData = new ToolUseInputData(tool, value);
-        toolUseInputBoundary.setTool(inputData);
-        toolUseInputBoundary.setSize(inputData);
-    }
-
-    public void handleEraserButtonPress(ToolEnum tool){
-        ToolUseInputData inputData = new ToolUseInputData(tool);
-        toolUseInputBoundary.setTool(inputData);
-    }
-
-    public void handleEraserSliderButton(ToolEnum tool, float value){
+    public void handleSlider(ToolEnum tool, float value){
         ToolUseInputData inputData = new ToolUseInputData(tool, value);
         toolUseInputBoundary.setTool(inputData);
         toolUseInputBoundary.setSize(inputData);
@@ -71,11 +60,6 @@ public class CanvasController {
         // legacy mouseui code
         MouseUIInputData inputData = new MouseUIInputData(point, image);
         mouseUIUseInputBoundary.mouseIsReleased(inputData);
-    }
-
-    public void handleSelectButtonPress(ToolEnum tool){
-        ToolUseInputData inputData = new ToolUseInputData(tool);
-        toolUseInputBoundary.setTool(inputData);
     }
 }
 

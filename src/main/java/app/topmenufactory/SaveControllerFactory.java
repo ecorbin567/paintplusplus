@@ -1,6 +1,5 @@
 package app.topmenufactory;
 
-import data_access.CanvasDataAccessInterface;
 import entity.CanvasState;
 import interface_adapter.topmenu.save.SaveController;
 import use_case.topmenu.save.SaveFileGateway;
@@ -15,9 +14,8 @@ public class SaveControllerFactory {
      * @return the SaveController created
      */
     public static SaveController create(CanvasState canvasState,
-                                        SaveFileGateway imageSaveGateway,
-                                        CanvasDataAccessInterface canvasDataAccessObject) {
-        final SaveInputBoundary interactor = new SaveInteractor(canvasState, imageSaveGateway, canvasDataAccessObject);
+                                        SaveFileGateway imageSaveGateway) {
+        final SaveInputBoundary interactor = new SaveInteractor(canvasState, imageSaveGateway);
         return new SaveController(interactor);
     }
 }

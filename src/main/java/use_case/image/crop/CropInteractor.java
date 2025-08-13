@@ -30,7 +30,7 @@ public class CropInteractor implements CropInputBoundary {
             }
 
             Image newImage = originalImage.clone();
-            newImage.crop(requestModel.getX(), requestModel.getY(), requestModel.getWidth(), requestModel.getHeight());
+            newImage.crop(requestModel.x(), requestModel.y(), requestModel.width(), requestModel.height());
             updateCurrentImage(originalImage, newImage, actionHistory, canvas);
             List<Image> importedImages = canvas.getImportedImages();
 

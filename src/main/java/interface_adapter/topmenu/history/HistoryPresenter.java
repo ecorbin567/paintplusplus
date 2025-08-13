@@ -4,7 +4,8 @@ import entity.Drawable;
 import interface_adapter.canvas.DrawingViewModel;
 import use_case.topmenu.history.HistoryOutputBoundary;
 import use_case.topmenu.history.HistoryOutputData;
-import java.util.Stack;
+
+import java.util.Deque;
 
 public class HistoryPresenter implements HistoryOutputBoundary {
     DrawingViewModel drawingViewModel;
@@ -14,13 +15,13 @@ public class HistoryPresenter implements HistoryOutputBoundary {
 
     @Override
     public void setDrawables(HistoryOutputData outputData) {
-        Stack<Drawable> undoStack = outputData.getDrawableStack();
+        Deque<Drawable> undoStack = outputData.drawableStack();
         this.drawingViewModel.setDrawables(undoStack);
     }
 
     @Override
     public void setCurrentDrawable(HistoryOutputData outputData) {
-        Drawable drawable = outputData.getCurrentDrawable();
+        Drawable drawable = outputData.currentDrawable();
         this.drawingViewModel.setDrawable(drawable);
     }
 
@@ -32,7 +33,7 @@ public class HistoryPresenter implements HistoryOutputBoundary {
 
     @Override
     public void setRepaintState(HistoryOutputData outputData) {
-        boolean status = outputData.getStackEmpty();
+        boolean status = outputData.stackEmpty();
         this.drawingViewModel.shouldRepaint(status);
     }
 }

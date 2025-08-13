@@ -3,9 +3,6 @@ package use_case.tooluse;
 import entity.CanvasState;
 import entity.ToolEnum;
 
-import java.awt.*;
-
-
 public class ToolUseInteractor implements ToolUseInputBoundary {
     private final CanvasState canvasState;
 
@@ -32,11 +29,5 @@ public class ToolUseInteractor implements ToolUseInputBoundary {
         else if (toolName == ToolEnum.ERASER) {
             this.canvasState.setEraserSize(size);
         }
-    }
-
-    @Override
-    public void setColor(ToolUseInputData inputData) {
-        Color color = inputData.getColor();
-        this.canvasState.setPaintBrushColor(color);
     }
 }

@@ -6,13 +6,13 @@ import java.util.*;
  * Stores all past actions in stacks of done and undone actions.
  */
 public class ActionHistory {
-    private final Stack<Drawable> undoStack;
-    private final Stack<Drawable> redoStack;
+    private final Deque<Drawable> undoStack;
+    private final Deque<Drawable> redoStack;
     private Drawable currentState = null;
 
     public ActionHistory() {
-        this.undoStack = new Stack<>();
-        this.redoStack = new Stack<>();
+        this.undoStack = new ArrayDeque<>();
+        this.redoStack = new ArrayDeque<>();
     }
 
     public void push(Drawable newState) {
@@ -28,7 +28,7 @@ public class ActionHistory {
         if (undoStack.isEmpty()){ // first action on canvas
             redoStack.push(currentState); // save it for redo
             currentState = null;
-            return currentState;
+            return null;
         }
         // code below from before
         redoStack.push(currentState);
@@ -57,7 +57,7 @@ public class ActionHistory {
         push(currentState);
     }
 
-    public Stack<Drawable> getUndoStack() {
+    public Deque<Drawable> getUndoStack() {
         return undoStack;
     }
 
@@ -65,7 +65,6 @@ public class ActionHistory {
      * Clear the action history.
      */
     public void clearHistory() {
-        System.out.println("Clear Action History.");
         undoStack.clear();
         redoStack.clear();
     }

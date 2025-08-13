@@ -37,13 +37,6 @@ public class LoginPresenter implements LoginOutputBoundary {
     public void prepareSuccessView(LoginOutputData response) {
         // On success, switch to the logged in view.
 
-//        final LoggedInState loggedInState = loggedInViewModel.getState();
-//        loggedInState.setUsername(response.getUsername());
-//        this.loggedInViewModel.setState(loggedInState);
-//        this.loggedInViewModel.firePropertyChanged();
-//
-//        this.viewManagerModel.setState(loggedInViewModel.getViewName());
-//        this.viewManagerModel.firePropertyChanged();
         final NewCanvasState myCanvasState = this.newCanvasViewModel.getState();
 
         // Upon login success, update "canvas select screen" with user's canvases.

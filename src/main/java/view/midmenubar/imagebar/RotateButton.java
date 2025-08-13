@@ -4,6 +4,8 @@ import interface_adapter.image.ImageFacade;
 import view.DrawingView;
 
 import javax.swing.*;
+import java.net.URL;
+import java.util.Objects;
 
 public class RotateButton {
 
@@ -11,7 +13,11 @@ public class RotateButton {
 
     public RotateButton(ImageFacade controller, DrawingView drawingView) {
         button = new JButton();
-        ImageIcon icon = new ImageIcon(RotateButton.class.getResource("/images/RotateIcon.png"));
+        URL url = Objects.requireNonNull(
+                RotateButton.class.getResource("/images/RotateIcon.png"),
+                "Missing resource: /images/RotateIcon.png"
+        );
+        ImageIcon icon = new ImageIcon(url);
         java.awt.Image image = icon.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
         button.setIcon(new ImageIcon(image));
         button.setPreferredSize(new java.awt.Dimension(60, 60));

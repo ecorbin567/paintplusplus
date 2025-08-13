@@ -10,19 +10,15 @@ public class LowerColorChooserButton extends CircularButton{
 
     private Color lowerCurrentColor = Color.WHITE;
     private static final ToolEnum toolName = ToolEnum.PENCIL;
-    private final String buttonName = "LowerColorChooserButton";
+    private static final String BUTTON = "LowerColorChooserButton";
 
     public LowerColorChooserButton(ColorController colorController) {
         super(30);
 
         setBackground(lowerCurrentColor);
         this.addActionListener(e->
-            colorController.handleColorChangeButton(toolName, lowerCurrentColor, buttonName));
+            colorController.handleColorChangeButton(toolName, lowerCurrentColor, BUTTON));
 
-    }
-
-    public Color getLowerCurrentColor(){
-        return this.lowerCurrentColor;
     }
 
     public void setCurrentColor(Color c){

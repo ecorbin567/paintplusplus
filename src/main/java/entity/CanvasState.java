@@ -1,7 +1,5 @@
 package entity;
 
-import use_case.newselection.NewSelectionInputData;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -50,9 +48,6 @@ public class CanvasState {
     public void setButtonPressed(String buttonName) {
         this.buttonPressed = buttonName;
     }
-    public String getButtonPressed() {
-        return this.buttonPressed;
-    }
 
     public File getSavedImageFile() {
         return this.savedImageFile;
@@ -72,17 +67,11 @@ public class CanvasState {
         return this.actionHistory;
     }
     public void setActionHistory(ActionHistory actionHistory) { this.actionHistory = actionHistory; }
-    public void addActionHistory(Drawable drawable) {
-        this.actionHistory.push(drawable);
-    }
 
     //PaintBrush
     public Paintbrush getPaintbrush() {return paintbrush;}
     public void setPaintBrushSize(float size) {
         this.paintbrush.setWidth(size);
-    }
-    public void setPaintBrushColor(Color color){
-        this.paintbrush.setColour(color);
     }
 
     //Eraser

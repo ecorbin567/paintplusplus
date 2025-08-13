@@ -4,13 +4,19 @@ import interface_adapter.image.ImageFacade;
 import view.DrawingView;
 
 import javax.swing.*;
+import java.net.URL;
+import java.util.Objects;
 
 public class ResizeImageButton {
     private final JButton button;
 
     public ResizeImageButton(ImageFacade controller, DrawingView drawingView) {
         button = new JButton();
-        ImageIcon icon = new ImageIcon(ResizeImageButton.class.getResource("/images/ResizeIcon.png"));
+        URL url = Objects.requireNonNull(
+                ResizeImageButton.class.getResource("/images/ResizeIcon.png"),
+                "Missing resource: /images/ResizeIcon.png"
+        );
+        ImageIcon icon = new ImageIcon(url);
         java.awt.Image image = icon.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
         button.setIcon(new ImageIcon(image));
         button.setPreferredSize(new java.awt.Dimension(60, 60));

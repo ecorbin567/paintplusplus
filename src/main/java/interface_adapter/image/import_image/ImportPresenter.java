@@ -1,6 +1,5 @@
 package interface_adapter.image.import_image;
 
-import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.canvas.DrawingViewModel;
 import use_case.image.import_image.ImportOutputBoundary;
 import use_case.image.import_image.ImportResponseModel;
@@ -20,7 +19,7 @@ public class ImportPresenter implements ImportOutputBoundary {
 
     @Override
     public void present(ImportResponseModel response) {
-        drawingViewModel.setImageList(response.getImage());
+        drawingViewModel.setImageList(response.image());
     }
 
     @Override

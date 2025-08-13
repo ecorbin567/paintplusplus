@@ -11,14 +11,14 @@ public class UpperColorChooserButton extends CircularButton{
 
     private Color upperCurrentColor = Color.BLACK;
     private static final ToolEnum toolName = ToolEnum.PENCIL;
-    private static final String buttonName = "UpperColorChooserButton";
+    private static final String BUTTON = "UpperColorChooserButton";
 
     public UpperColorChooserButton(ColorController colorController){
 
         super(30);
         setBackground(upperCurrentColor); // default color
         this.addActionListener(e-> colorController.handleColorChangeButton(toolName,
-                    upperCurrentColor, buttonName));
+                    upperCurrentColor, BUTTON));
     }
 
     public void setCurrentColor(Color c){

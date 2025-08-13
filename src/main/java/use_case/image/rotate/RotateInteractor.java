@@ -31,7 +31,7 @@ public class RotateInteractor implements RotateInputBoundary {
             Image newImage = originalImage.clone();
 
             // 2. Modify the new clone with the rotation changes
-            newImage.rotate(requestModel.getDegrees());
+            newImage.rotate(requestModel.degrees());
 
             // 3. Push the new, modified state to the history
             CropInteractor.updateCurrentImage(originalImage, newImage, actionHistory, canvasState);

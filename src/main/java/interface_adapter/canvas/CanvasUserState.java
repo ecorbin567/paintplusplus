@@ -10,6 +10,7 @@ public class CanvasUserState {
 
     // Because of the previous copy constructor, the default constructor must be explicit.
     public CanvasUserState() {
+        //Nothing to Add Here
     }
 
     public BufferedImage getInitialImportedImage() {

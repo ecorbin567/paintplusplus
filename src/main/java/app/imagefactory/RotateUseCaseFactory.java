@@ -1,4 +1,4 @@
-package app.midmenufactory.imagefactory;
+package app.imagefactory;
 
 import entity.CanvasState;
 import interface_adapter.canvas.DrawingViewModel;
@@ -9,6 +9,9 @@ import use_case.image.rotate.RotateInteractor;
 import use_case.image.rotate.RotateOutputBoundary;
 
 public class RotateUseCaseFactory {
+    private RotateUseCaseFactory(){
+        //Unneeded
+    }
     /**
      * Factory function for creating the Rotate Use Case.
      * @param canvasState the CanvasState
