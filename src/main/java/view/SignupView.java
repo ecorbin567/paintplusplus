@@ -26,6 +26,8 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
     private final SignupController signupController;
 
     private final JButton signUp;
+    private final JButton switchToLogin;
+    private final JButton cancel;
 
     /**
      * Creates the sign-up view and wires listeners.
@@ -50,10 +52,12 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                 new JLabel(SignupViewModel.REPEAT_PASSWORD_LABEL), repeatPasswordInputField);
 
         final JPanel buttons = new JPanel();
-        buttons.add(new JButton(SignupViewModel.TO_LOGIN_BUTTON_LABEL));
+        switchToLogin = new JButton(SignupViewModel.TO_LOGIN_BUTTON_LABEL);
+        buttons.add(switchToLogin);
         signUp = new JButton(SignupViewModel.SIGNUP_BUTTON_LABEL);
         buttons.add(signUp);
-        buttons.add(new JButton(SignupViewModel.CANCEL_BUTTON_LABEL));
+        cancel = new JButton(SignupViewModel.CANCEL_BUTTON_LABEL);
+        buttons.add(cancel);
 
         signUp.addActionListener(evt -> {
             if (evt.getSource().equals(signUp)) {
@@ -66,9 +70,11 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
             }
         });
 
-        new JButton(SignupViewModel.TO_LOGIN_BUTTON_LABEL).addActionListener(evt -> signupController.switchToLoginView());
+        switchToLogin.addActionListener(evt -> {
+            signupController.switchToLoginView();
+                });
 
-        new JButton(SignupViewModel.CANCEL_BUTTON_LABEL).addActionListener(this);
+        cancel.addActionListener(this);
 
         addUsernameListener();
         addPasswordListener();
