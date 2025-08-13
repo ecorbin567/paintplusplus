@@ -29,7 +29,7 @@ public class DrawInteractorTest {
         mouseInteractor.mouseIsPressed(new MouseUIInputData(new Point(10, 10)));
         assertSame(PENCIL, canvasState.getToolState());
         Drawable currentState = mouseInteractor.getActionHistory().getCurrentState();
-        Deque<Drawable> undoStack = mouseInteractor.getActionHistory().getUndoStack();
+        Stack<Drawable> undoStack = mouseInteractor.getActionHistory().getUndoStack();
         assertNotNull(currentState);
         assertFalse(undoStack.isEmpty());
     }
@@ -42,7 +42,7 @@ public class DrawInteractorTest {
         mouseInteractor.mouseIsDragged(new MouseUIInputData(new Point(12, 12)));
         assertSame(PENCIL, canvasState.getToolState());
         Drawable currentState = mouseInteractor.getActionHistory().getCurrentState();
-        Deque<Drawable> undoStack = mouseInteractor.getActionHistory().getUndoStack();
+        Stack<Drawable> undoStack = mouseInteractor.getActionHistory().getUndoStack();
         assertNotNull(currentState);
         assertFalse(undoStack.isEmpty());
     }
@@ -56,7 +56,7 @@ public class DrawInteractorTest {
         mouseInteractor.mouseIsReleased(new MouseUIInputData(new Point(13, 13)));
         assertSame(PENCIL, canvasState.getToolState());
         Drawable currentState = mouseInteractor.getActionHistory().getCurrentState();
-        Deque<Drawable> undoStack = mouseInteractor.getActionHistory().getUndoStack();
+        Stack<Drawable> undoStack = mouseInteractor.getActionHistory().getUndoStack();
         assertNotNull(currentState);
         assertFalse(undoStack.isEmpty());
     }

@@ -5,7 +5,7 @@ import entity.Image;
 import interface_adapter.newselection.SelectionViewModel;
 import javax.swing.*;
 import java.awt.*;
-import java.util.Deque;
+import java.util.Stack;
 
 public class CanvasRenderer {
     private final float[] antsDash = {4f, 4f}; // dash, gap in px scaled with the canvas
@@ -25,7 +25,7 @@ public class CanvasRenderer {
 
     public void renderDraw(Graphics2D graphics2D, DrawingViewModel drawingViewModel){
         if(drawingViewModel.getRepaintState()){
-            Deque<Drawable> drawables = drawingViewModel.getDrawables();
+            Stack<Drawable> drawables = drawingViewModel.getDrawables();
             for (Drawable drawable: drawables) {
                 drawDrawable(graphics2D, drawable);
             }

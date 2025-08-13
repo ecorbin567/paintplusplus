@@ -3,7 +3,7 @@ package use_case.mouseui;
 import entity.*;
 
 import java.awt.*;
-import java.util.Deque;
+import java.util.Stack;
 
 
 public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
@@ -86,7 +86,7 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
     }
 
     private void sendMouseOutputData() {
-        Deque<Drawable> undoStack = this.actionHistory.getUndoStack();
+        Stack<Drawable> undoStack = this.actionHistory.getUndoStack();
         boolean state = !undoStack.isEmpty();
         Drawable currentDrawable = actionHistory.getCurrentState();
         MouseUIOutputData outputData = new MouseUIOutputData(undoStack, state, currentDrawable);

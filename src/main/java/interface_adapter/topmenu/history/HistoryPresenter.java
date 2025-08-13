@@ -5,7 +5,7 @@ import interface_adapter.canvas.DrawingViewModel;
 import use_case.topmenu.history.HistoryOutputBoundary;
 import use_case.topmenu.history.HistoryOutputData;
 
-import java.util.Deque;
+import java.util.Stack;
 
 public class HistoryPresenter implements HistoryOutputBoundary {
     DrawingViewModel drawingViewModel;
@@ -15,7 +15,7 @@ public class HistoryPresenter implements HistoryOutputBoundary {
 
     @Override
     public void setDrawables(HistoryOutputData outputData) {
-        Deque<Drawable> undoStack = outputData.drawableStack();
+        Stack<Drawable> undoStack = outputData.drawableStack();
         this.drawingViewModel.setDrawables(undoStack);
     }
 

@@ -6,13 +6,13 @@ import java.util.*;
  * Stores all past actions in stacks of done and undone actions.
  */
 public class ActionHistory {
-    private final Deque<Drawable> undoStack;
-    private final Deque<Drawable> redoStack;
+    private final Stack<Drawable> undoStack;
+    private final Stack<Drawable> redoStack;
     private Drawable currentState = null;
 
     public ActionHistory() {
-        this.undoStack = new ArrayDeque<>();
-        this.redoStack = new ArrayDeque<>();
+        this.undoStack = new Stack<>();
+        this.redoStack = new Stack<>();
     }
 
     public void push(Drawable newState) {
@@ -57,7 +57,7 @@ public class ActionHistory {
         push(currentState);
     }
 
-    public Deque<Drawable> getUndoStack() {
+    public Stack<Drawable> getUndoStack() {
         return undoStack;
     }
 

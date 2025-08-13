@@ -147,7 +147,7 @@ public class SelectionInteractorTest {
         int n = 0;
         Drawable cur = h.getCurrentState();
         if (cur instanceof CutRecord) n++;
-        Deque<Drawable> s = h.getUndoStack();
+        Stack<Drawable> s = h.getUndoStack();
         for (Drawable d : s){
             if (d instanceof CutRecord){
                 n++;
