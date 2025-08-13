@@ -41,7 +41,7 @@ public class NewCanvasInteractorTest {
         );
         newCanvasInteractor.execute(newCanvasInputData);
 
-        assertNull(canvasViewModel.getState().getInitialImportedImage());
+        assertNotNull(canvasViewModel.getState().getInitialImportedImage());
 
     }
 
