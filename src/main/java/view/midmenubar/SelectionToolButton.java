@@ -14,8 +14,8 @@ public class SelectionToolButton {
     public SelectionToolButton(CanvasController canvasController) {
         button = new JButton();
         URL url = Objects.requireNonNull(
-                SelectionToolButton.class.getResource("/images/wheel.png"),
-                "Missing resource: /images/wheel.png"
+                SelectionToolButton.class.getResource("/images/SelectIcon.png"),
+                "Missing resource: /images/SelectIcon.png"
         );
         ImageIcon icon = new ImageIcon(url);
         Image image = icon.getImage();
@@ -23,7 +23,7 @@ public class SelectionToolButton {
         icon = new ImageIcon(newImage);
         button.setIcon(icon);
         button.setPreferredSize(new Dimension(60, 60));
-        button.addActionListener(e -> canvasController.handleSelectButtonPress(toolName));
+        button.addActionListener(e -> canvasController.handleTools(toolName));
     }
 
     public JButton getButton() {

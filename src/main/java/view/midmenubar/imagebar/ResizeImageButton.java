@@ -13,8 +13,8 @@ public class ResizeImageButton {
     public ResizeImageButton(ImageFacade controller, DrawingView drawingView) {
         button = new JButton();
         URL url = Objects.requireNonNull(
-                ResizeImageButton.class.getResource("/images/wheel.png"),
-                "Missing resource: /images/wheel.png"
+                ResizeImageButton.class.getResource("/images/ResizeIcon.png"),
+                "Missing resource: /images/ResizeIcon.png"
         );
         ImageIcon icon = new ImageIcon(url);
         java.awt.Image image = icon.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);

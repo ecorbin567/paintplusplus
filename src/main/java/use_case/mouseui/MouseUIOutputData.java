@@ -2,7 +2,7 @@ package use_case.mouseui;
 
 import entity.Drawable;
 
-import java.util.Stack;
+import java.util.Deque;
 
-public record MouseUIOutputData(Stack<Drawable> drawables, boolean state, Drawable drawable) {
+public record MouseUIOutputData(Deque<Drawable> drawables, boolean state, Drawable drawable) {
 }

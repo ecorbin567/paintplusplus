@@ -18,8 +18,8 @@ public class EraseButton {
         ErasePopUp erasePopUp = new ErasePopUp(canvasController);
         button = new JButton();
         URL url = Objects.requireNonNull(
-                EraseButton.class.getResource("/images/wheel.png"),
-                "Missing resource: /images/wheel.png"
+                EraseButton.class.getResource("/images/EraseIcon.png"),
+                "Missing resource: /images/EraseIcon.png"
         );
         imageIcon = new ImageIcon(url);
         Image image = imageIcon.getImage();
@@ -28,7 +28,7 @@ public class EraseButton {
         button.setIcon(imageIcon);
         button.setPreferredSize(new Dimension(60, 60));
 
-        button.addActionListener(event -> canvasController.handleEraserButtonPress(toolName));
+        button.addActionListener(event -> canvasController.handleTools(toolName));
 
          button.addActionListener(e -> erasePopUp.getPopupMenu().show(button, button.getWidth(), button.getHeight()));
     }

@@ -1,6 +1,5 @@
 package app;
 
-import data_access.CanvasDataAccessInterface;
 import entity.CanvasState;
 import interface_adapter.newselection.SelectionPresenter;
 import interface_adapter.newselection.SelectionViewModel;
@@ -38,7 +37,6 @@ public class CanvasControllerFactory {
         final NewSelectionInputBoundary selectionInteractor = new NewSelectionInteractor(canvasState,
                 selectionPresenter);
 
-        // TODO: controller constructor messed up with merge conflict
         return new CanvasController(mouseInteractor, toolUseInteractor, selectionInteractor);
     }
 }

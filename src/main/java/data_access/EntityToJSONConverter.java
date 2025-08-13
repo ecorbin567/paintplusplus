@@ -1,7 +1,7 @@
 package data_access;
 
 import java.awt.*;
-import java.util.Stack;
+import java.util.Deque;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -52,18 +52,18 @@ public class EntityToJSONConverter {
 
         // Serialize undo stack
         final JSONArray undoStackJson = new JSONArray();
-        final Stack<Drawable> undoStack = history.getUndoStack();
+        final Deque<Drawable> undoStack = history.getUndoStack();
         for (Drawable d : undoStack) {
-            if (d instanceof StrokeRecord) {
-                undoStackJson.put(convertStrokeRecordToJSON((StrokeRecord) d));
+            if (d instanceof StrokeRecord strokeRecord) {
+                undoStackJson.put(convertStrokeRecordToJSON(strokeRecord));
             }
         }
         result.put("undoStack", undoStackJson);
 
         // Serialize current state
         final Drawable current = history.getCurrentState();
-        if (current instanceof StrokeRecord) {
-            result.put("currentState", convertStrokeRecordToJSON((StrokeRecord) current));
+        if (current instanceof StrokeRecord strokeRecord) {
+            result.put("currentState", convertStrokeRecordToJSON(strokeRecord));
         }
         else {
             result.put("currentState", JSONObject.NULL);

@@ -14,8 +14,8 @@ public class RotateButton {
     public RotateButton(ImageFacade controller, DrawingView drawingView) {
         button = new JButton();
         URL url = Objects.requireNonNull(
-                RotateButton.class.getResource("/images/wheel.png"),
-                "Missing resource: /images/wheel.png"
+                RotateButton.class.getResource("/images/RotateIcon.png"),
+                "Missing resource: /images/RotateIcon.png"
         );
         ImageIcon icon = new ImageIcon(url);
         java.awt.Image image = icon.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);

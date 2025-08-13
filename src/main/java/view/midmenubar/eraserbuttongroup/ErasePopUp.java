@@ -22,7 +22,7 @@ public class ErasePopUp {
         ChangeListener cl = e ->{
             JSlider sliderValue = (JSlider) e.getSource();
             float value = sliderValue.getValue();
-            canvasController.handleEraserSliderButton(toolName, value);
+            canvasController.handleSlider(toolName, value);
         };
 
         slider.addChangeListener(cl);

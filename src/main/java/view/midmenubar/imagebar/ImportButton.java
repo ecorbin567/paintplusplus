@@ -21,8 +21,8 @@ public class ImportButton {
         button = new JButton();
 
         URL url = Objects.requireNonNull(
-                ImportButton.class.getResource("/images/wheel.png"),
-                "Missing resource: /images/wheel.png"
+                ImportButton.class.getResource("/images/ImageIcon.png"),
+                "Missing resource: /images/ImageIcon.png"
         );
         ImageIcon icon = new ImageIcon(url);
 

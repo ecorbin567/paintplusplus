@@ -15,8 +15,8 @@ public class CropButton {
     public CropButton(ImageFacade imageFacade, DrawingView drawingView) {
         button = new JButton();
         URL url = Objects.requireNonNull(
-                CropButton.class.getResource("/images/wheel.png"),
-                "Missing resource: /images/wheel.png"
+                CropButton.class.getResource("/images/CropIcon.png"),
+                "Missing resource: /images/CropIcon.png"
         );
         ImageIcon icon = new ImageIcon(url);
         Image image = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
