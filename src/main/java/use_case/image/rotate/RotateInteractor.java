@@ -7,6 +7,9 @@ import use_case.image.crop.CropInteractor;
 
 import java.util.List;
 
+/**
+ * The Rotate Image interactor.
+ */
 public class RotateInteractor implements RotateInputBoundary {
     private final CanvasState canvasState;
     private final RotateOutputBoundary presenter;

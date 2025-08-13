@@ -4,7 +4,7 @@ import entity.CanvasState;
 import entity.Paintbrush;
 
 /**
- * The Change Colour Interactor.
+ * The Change Color Interactor.
  */
 public class ChangeColorInteractor implements ChangeColorInputBoundary{
 
