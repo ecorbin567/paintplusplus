@@ -20,6 +20,15 @@ public interface NewCanvasInputBoundary {
      */
     void executeImportExistingCanvas(NewCanvasInputData newCanvasInputData);
 
+    /**
+     * Switch.
+     */
     void switchToSignupView();
+
+    /**
+     * Self-explanatory.
+     * @param newCanvasInputData data
+     * @return list of canvases
+     */
     List<BufferedImage> getUserCanvases(NewCanvasInputData newCanvasInputData);
 }

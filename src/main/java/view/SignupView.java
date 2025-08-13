@@ -1,17 +1,25 @@
 package view;
 
-import interface_adapter.signup.SignupController;
-import interface_adapter.signup.SignupState;
-import interface_adapter.signup.SignupViewModel;
-
-import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+import interface_adapter.signup.SignupController;
+import interface_adapter.signup.SignupState;
+import interface_adapter.signup.SignupViewModel;
 
 /**
  * View for the sign-up use case.
@@ -72,7 +80,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
         switchToLogin.addActionListener(evt -> {
             signupController.switchToLoginView();
-                });
+        });
 
         cancel.addActionListener(this);
 
@@ -87,7 +95,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         this.add(passwordInfo);
         this.add(repeatPasswordInfo);
         this.add(buttons);
-        this.setPreferredSize(new Dimension(400, 400));
+        this.setPreferredSize(new Dimension(ViewConstants.FOUR_HUNDRED, ViewConstants.FOUR_HUNDRED));
     }
 
     private void addUsernameListener() {
@@ -100,13 +108,19 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
             }
 
             @Override
-            public void insertUpdate(DocumentEvent e) { documentListenerHelper(); }
+            public void insertUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
 
             @Override
-            public void removeUpdate(DocumentEvent e) { documentListenerHelper(); }
+            public void removeUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
 
             @Override
-            public void changedUpdate(DocumentEvent e) { documentListenerHelper(); }
+            public void changedUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
         });
     }
 
@@ -120,13 +134,19 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
             }
 
             @Override
-            public void insertUpdate(DocumentEvent e) { documentListenerHelper(); }
+            public void insertUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
 
             @Override
-            public void removeUpdate(DocumentEvent e) { documentListenerHelper(); }
+            public void removeUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
 
             @Override
-            public void changedUpdate(DocumentEvent e) { documentListenerHelper(); }
+            public void changedUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
         });
     }
 
@@ -140,13 +160,19 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
             }
 
             @Override
-            public void insertUpdate(DocumentEvent e) { documentListenerHelper(); }
+            public void insertUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
 
             @Override
-            public void removeUpdate(DocumentEvent e) { documentListenerHelper(); }
+            public void removeUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
 
             @Override
-            public void changedUpdate(DocumentEvent e) { documentListenerHelper(); }
+            public void changedUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
         });
     }
 

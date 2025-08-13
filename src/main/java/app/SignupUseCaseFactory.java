@@ -20,7 +20,7 @@ public final class SignupUseCaseFactory {
 
     /** Prevent instantiation. */
     private SignupUseCaseFactory() {
-        //Uneeded
+
     }
 
     /**
