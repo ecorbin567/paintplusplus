@@ -44,8 +44,8 @@ class SaveInteractorTest {
         assertSame(image, fileGateway.lastImage);
         assertEquals(file, fileGateway.lastFile);
 
-        assertSame(image, canvasState.getSavedImage(), "Saved image should be set");
-        assertEquals(file, canvasState.getSavedImageFile(), "File path should be set");
+        assertSame(image, canvasState.getSavedImage());
+        assertEquals(file, canvasState.getSavedImageFile());
     }
 
     @Test
@@ -64,8 +64,8 @@ class SaveInteractorTest {
         assertSame(image, fileGateway.lastImage);
         assertEquals(file, fileGateway.lastFile);
 
-        assertNull(canvasState.getSavedImage(), "Saved image should remain null if save fails");
-        assertNull(canvasState.getSavedImageFile(), "File path should remain null if save fails");
+        assertNull(canvasState.getSavedImage());
+        assertNull(canvasState.getSavedImageFile());
     }
 
     private static class FakeSaveFileGateway implements SaveFileGateway {

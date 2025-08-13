@@ -7,7 +7,7 @@ import java.util.*;
 
 public class DrawingViewModel {
     private boolean stackEmpty = true;
-    private Deque<Drawable> drawables = new ArrayDeque<>();
+    private Stack<Drawable> drawables = new Stack<>();
     private double scale = 1.0;
     private List<Image> images = new ArrayList<>();
     private Drawable currentDrawable;
@@ -18,8 +18,8 @@ public class DrawingViewModel {
     public boolean getRepaintState() {return this.stackEmpty;}
 
     //Retrieves ActionHistoryUndoStack
-    public void setDrawables(Deque<Drawable> drawables) {this.drawables = drawables;}
-    public Deque<Drawable> getDrawables() {return this.drawables;}
+    public void setDrawables(Stack<Drawable> drawables) {this.drawables = drawables;}
+    public Stack<Drawable> getDrawables() {return this.drawables;}
 
     //Retrieves Stack Head
     public void setDrawable(Drawable drawable) {this.currentDrawable = drawable;}

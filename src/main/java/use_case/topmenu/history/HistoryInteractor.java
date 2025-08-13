@@ -4,7 +4,7 @@ import entity.*;
 import entity.Image;
 
 import java.awt.*;
-import java.util.Deque;
+import java.util.Stack;
 import java.util.List;
 
 public class HistoryInteractor implements HistoryInputBoundary{
@@ -30,7 +30,7 @@ public class HistoryInteractor implements HistoryInputBoundary{
             this.canvasState.setCurrentImage(image);
         }
         boolean undoStackEmpty = !actionHistory.getUndoStack().isEmpty();
-        Deque<Drawable> undoStack = actionHistory.getUndoStack();
+        Stack<Drawable> undoStack = actionHistory.getUndoStack();
 
         HistoryOutputData outputData = new HistoryOutputData(undoStack, undoStackEmpty, prevState);
         presenter.setRepaintState(outputData);
@@ -55,7 +55,7 @@ public class HistoryInteractor implements HistoryInputBoundary{
         }
 
         boolean undoStackEmpty = !actionHistory.getUndoStack().isEmpty();
-        Deque<Drawable> undoStack = actionHistory.getUndoStack();
+        Stack<Drawable> undoStack = actionHistory.getUndoStack();
 
         HistoryOutputData outputData = new HistoryOutputData(undoStack, undoStackEmpty, nextState);
         presenter.setDrawables(outputData);

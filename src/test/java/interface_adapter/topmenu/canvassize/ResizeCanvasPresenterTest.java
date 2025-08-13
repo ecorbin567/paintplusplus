@@ -10,23 +10,23 @@ class ResizeCanvasPresenterTest {
 
     @Test
     void setScale_updatesViewModel() {
-        DrawingViewModel vm = new DrawingViewModel();
-        ResizeCanvasPresenter presenter = new ResizeCanvasPresenter(vm);
+        DrawingViewModel viewModel = new DrawingViewModel();
+        ResizeCanvasPresenter presenter = new ResizeCanvasPresenter(viewModel);
 
         presenter.setScale(new SizeOutputData(1.25));
 
-        assertEquals(1.25, vm.getScale(), 1e-9);
+        assertEquals(1.25, viewModel.getScale());
     }
 
     @Test
     void setScale_whenCalledMultipleTimes_reflectsLatestValue() {
-        DrawingViewModel vm = new DrawingViewModel();
-        ResizeCanvasPresenter presenter = new ResizeCanvasPresenter(vm);
+        DrawingViewModel viewModel = new DrawingViewModel();
+        ResizeCanvasPresenter presenter = new ResizeCanvasPresenter(viewModel);
 
         presenter.setScale(new SizeOutputData(0.9));
-        assertEquals(0.9, vm.getScale(), 1e-9);
+        assertEquals(0.9, viewModel.getScale());
 
         presenter.setScale(new SizeOutputData(1.3));
-        assertEquals(1.3, vm.getScale(), 1e-9);
+        assertEquals(1.3, viewModel.getScale());
     }
 }

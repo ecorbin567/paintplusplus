@@ -2,7 +2,7 @@ package data_access;
 
 import java.awt.Color;
 import java.awt.Point;
-import java.util.Deque;
+import java.util.Stack;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -56,7 +56,7 @@ public final class EntityToJSONConverter {
 
         // Serialize undo stack
         final JSONArray undoStackJson = new JSONArray();
-        final Deque<Drawable> undoStack = history.getUndoStack();
+        final Stack<Drawable> undoStack = history.getUndoStack();
         for (Drawable d : undoStack) {
             if (d instanceof StrokeRecord strokeRecord) {
                 undoStackJson.put(convertStrokeRecordToJSON(strokeRecord));
