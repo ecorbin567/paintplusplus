@@ -7,7 +7,7 @@ import use_case.newselection.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Deque;
+import java.util.Stack;
 
 import static org.junit.jupiter.api.Assertions.*;
 
