@@ -26,9 +26,9 @@ Paint++ uses Clean Architecture and follows the SOLID Design Principles for the 
 - Accessing past canvases and storing new ones (developed by Josh)
 - Import, resize, crop, and rotate images (developed by Lauren)
 - Save canvas to your computer (developed by Oscar)
-- Resize canvas (developed by Oscar)
 - Zoom in and out (developed by Oscar)
-- Change the size and colour of the paintbrush (developed by Victor)
+- Change the size of the paintbrush (developed by Oscar)
+- Change the colour of the paintbrush (developed by Victor)
 - Box select and drag sections of the canvas (developed by Victor)
 
 ### Supabase API
