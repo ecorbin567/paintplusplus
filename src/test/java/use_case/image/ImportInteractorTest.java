@@ -2,8 +2,6 @@ package use_case.image;
 
 import entity.CanvasState;
 import entity.Image;
-import interface_adapter.canvas.DrawingViewModel;
-import interface_adapter.image.import_image.ImportPresenter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import use_case.image.import_image.*;
@@ -11,11 +9,10 @@ import use_case.image.import_image.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ImportInteractorTest {
+public class ImportInteractorTest {
 
     private CanvasState canvasState;
     private TestImportGateway gateway;
@@ -32,64 +29,46 @@ class ImportInteractorTest {
 
     @Test
     void testSuccessfulImport() {
-        // 1. Arrange
-        File dummyFile = new File("dummy/path/image.png");
-        ImportRequestModel requestModel = new ImportRequestModel(dummyFile);
+        interactor.execute(new ImportRequestModel(new File("dummy/path/image.png")));
 
-        // 2. Act
-        interactor.execute(requestModel);
+        Image image = canvasState.getCurrentImage();
+        assertNotNull(image);
+        assertEquals(1, canvasState.getImportedImages().size());
+        assertEquals(image, canvasState.getImportedImages().get(0));
+        assertEquals(image, canvasState.getActionHistory().getCurrentState());
 
-        // 3. Assert
-        Image currentImage = canvasState.getCurrentImage();
-        assertNotNull(currentImage, "Image should be imported and set as current image.");
-
-        List<Image> importedImages = canvasState.getImportedImages();
-        assertEquals(1, importedImages.size(), "Imported images list should contain one image.");
-        assertEquals(currentImage, importedImages.get(0), "Imported image should match the current image.");
-
-        assertEquals(currentImage, canvasState.getActionHistory().getCurrentState(), "Action history should reflect current image.");
-
-        assertTrue(presenter.successCalled, "Presenter's present() should be called on success.");
-        assertNull(presenter.errorMessage, "No error message should be set on success.");
+        assertTrue(presenter.successCalled);
+        assertNull(presenter.errorMessage);
     }
 
     @Test
     void testImportFailsWithIOException() {
-        // 1. Arrange
-        File badFile = new File("fail/this/import.png");
         gateway.setShouldFail(true);
-        ImportRequestModel requestModel = new ImportRequestModel(badFile);
+        interactor.execute(new ImportRequestModel(new File("fail/path/image.png")));
 
-        // 2. Act
-        interactor.execute(requestModel);
+        assertNull(canvasState.getCurrentImage());
+        assertTrue(canvasState.getImportedImages().isEmpty());
 
-        // 3. Assert
-        assertNull(canvasState.getCurrentImage(), "No image should be imported on failure.");
-        assertEquals(0, canvasState.getImportedImages().size(), "Imported images list should remain empty.");
-
-        assertTrue(presenter.errorCalled, "Presenter's presentError() should be called on failure.");
-        assertNotNull(presenter.errorMessage, "An error message should be reported.");
-        assertTrue(presenter.errorMessage.startsWith("Failed to import image"), "Error message should mention failure.");
+        assertTrue(presenter.errorCalled);
+        assertNotNull(presenter.errorMessage);
+        assertTrue(presenter.errorMessage.startsWith("Failed to import image"));
     }
 
-    static class TestImportGateway implements ImportGateway {
-        private boolean shouldFail = false;
+    public static class TestImportGateway implements ImportGateway {
+        private boolean fail = false;
 
-        public void setShouldFail(boolean fail) {
-            this.shouldFail = fail;
+        void setShouldFail(boolean shouldFail) {
+            this.fail = shouldFail;
         }
 
         @Override
         public Image loadImage(File file) throws IOException {
-            if (shouldFail) {
-                throw new IOException("Simulated load failure.");
-            }
-            BufferedImage dummyImage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
-            return new Image(dummyImage);
+            if (fail) throw new IOException("Simulated failure");
+            return new Image(new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB));
         }
     }
 
-    static class TestImportPresenter implements ImportOutputBoundary {
+    public static class TestImportPresenter implements ImportOutputBoundary {
         boolean successCalled = false;
         boolean errorCalled = false;
         String errorMessage = null;
