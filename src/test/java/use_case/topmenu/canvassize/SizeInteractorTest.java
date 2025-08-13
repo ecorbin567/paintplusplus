@@ -29,15 +29,15 @@ class SizeInteractorTest {
     void zoomIn_increasesScaleByPointOne_andUpdatesViewModel() {
         interactor.zoomIn();
 
-        assertEquals(1.1, canvasState.getScale(), 1e-9);
-        assertEquals(1.1, drawingViewModel.getScale(), 1e-9);
+        assertEquals(1.1, canvasState.getScale());
+        assertEquals(1.1, drawingViewModel.getScale());
     }
 
     @Test
     void zoomOut_decreasesScaleByPointOne_andUpdatesViewModel() {
         interactor.zoomOut();
 
-        assertEquals(0.9, canvasState.getScale(), 1e-9);
-        assertEquals(0.9, drawingViewModel.getScale(), 1e-9);
+        assertEquals(0.9, canvasState.getScale());
+        assertEquals(0.9, drawingViewModel.getScale());
     }
 }

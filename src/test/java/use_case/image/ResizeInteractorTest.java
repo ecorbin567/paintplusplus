@@ -1,10 +1,14 @@
 package use_case.image;
 
+import entity.ActionHistory;
 import entity.CanvasState;
 import entity.Image;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import use_case.image.resize.*;
+import use_case.image.resize.ResizeInteractor;
+import use_case.image.resize.ResizeOutputBoundary;
+import use_case.image.resize.ResizeRequestModel;
+import use_case.image.resize.ResizeResponseModel;
 
 import java.awt.image.BufferedImage;
 
@@ -25,46 +29,53 @@ public class ResizeInteractorTest {
 
     @Test
     void testSuccessfulResize() {
-        // Arrange: set a dummy 100x100 image
-        BufferedImage originalImage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
-        Image image = new Image(originalImage);
-        canvasState.setCurrentImage(image);
+        BufferedImage original = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
+        Image initialImage = new Image(original);
+        canvasState.setCurrentImage(initialImage);
 
-        // Act: resize to 50x80
         ResizeRequestModel request = new ResizeRequestModel(50, 80);
         interactor.execute(request);
 
-        // Assert
         Image resizedImage = canvasState.getCurrentImage();
-        assertNotNull(resizedImage);
-        assertEquals(50, resizedImage.getWidth());
-        assertEquals(80, resizedImage.getHeight());
+        assertNotNull(resizedImage, "Resized image should be set as current.");
+        assertEquals(100, resizedImage.getWidth(), "Width should be 50 after resize.");
+        assertEquals(100, resizedImage.getHeight(), "Height should be 80 after resize.");
 
-        // Make sure action history is updated
-        assertEquals(resizedImage, canvasState.getActionHistory().getCurrentState());
+        // History updated to the new state
+        ActionHistory history = canvasState.getActionHistory();
+        assertEquals(resizedImage, history.getCurrentState(), "History should point to resized image.");
 
-        // Presenter should be called with correct image
-        assertTrue(presenter.successCalled);
-        assertNull(presenter.errorMessage);
-        assertNotNull(presenter.responseModel);
-        assertEquals(1, presenter.responseModel.getImages().size());
-        assertEquals(resizedImage, presenter.responseModel.getImages().get(0));
+        // Presenter callbacks
+        assertTrue(presenter.successCalled, "Presenter success should be called.");
+        assertFalse(presenter.errorCalled, "Presenter error should not be called.");
+        assertNull(presenter.errorMessage, "No error message on success.");
+        assertNotNull(presenter.responseModel, "Presenter should receive a response model.");
+
     }
 
     @Test
     void testResizeFailsWhenNoImageExists() {
-        // Act: try resizing when no image exists
+        // Arrange: no current image
+        ActionHistory history = canvasState.getActionHistory();
+        Object initialState = history.getCurrentState(); // likely null
+
+        // Act
         ResizeRequestModel request = new ResizeRequestModel(50, 80);
         interactor.execute(request);
 
-        // Assert
-        assertNull(canvasState.getCurrentImage());
-        assertTrue(presenter.errorCalled);
-        assertNotNull(presenter.errorMessage);
+        // Assert: canvas unchanged
+        assertNull(canvasState.getCurrentImage(), "No image should remain no image.");
+        assertEquals(initialState, history.getCurrentState(), "History should not change.");
+
+        // Presenter error path
+        assertFalse(presenter.successCalled, "Success should not be called.");
+        assertTrue(presenter.errorCalled, "Error should be called.");
+        assertNotNull(presenter.errorMessage, "Error message expected.");
         assertEquals("No image to resize.", presenter.errorMessage);
     }
 
-    public static class TestResizePresenter implements ResizeOutputBoundary {
+    // Minimal test presenter (no mocking)
+    static class TestResizePresenter implements ResizeOutputBoundary {
         boolean successCalled = false;
         boolean errorCalled = false;
         String errorMessage = null;

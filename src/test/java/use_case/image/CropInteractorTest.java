@@ -9,61 +9,68 @@ import use_case.image.crop.CropInteractor;
 import use_case.image.crop.CropOutputBoundary;
 import use_case.image.crop.CropRequestModel;
 
-// Using JUnit 5 (Jupiter)
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.awt.image.BufferedImage;
 
-/**
- * A simple unit test for the CropInteractor, styled after EraseInteractorTest.
- */
+import static org.junit.jupiter.api.Assertions.*;
+
 public class CropInteractorTest {
 
-    // Initialize components as fields, similar to the provided example
-    DrawingViewModel drawingViewModel = new DrawingViewModel();
-    CanvasState canvasState = new CanvasState();
-    CropOutputBoundary presenter = new CropPresenter(drawingViewModel);
-    CropInteractor interactor = new CropInteractor(canvasState, presenter);
+    private DrawingViewModel drawingViewModel;
+    private CanvasState canvasState;
+    private CropOutputBoundary presenter;
+    private CropInteractor interactor;
+
+    @BeforeEach
+    void setUp() {
+        drawingViewModel = new DrawingViewModel();
+        canvasState = new CanvasState();
+        presenter = new CropPresenter(drawingViewModel); // real presenter; no mocking
+        interactor = new CropInteractor(canvasState, presenter);
+    }
 
     @Test
     void testSuccessfulCrop() {
-        // 1. Arrange: Set up the initial state
-        BufferedImage dummyBufferedImage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
+        // Arrange
+        BufferedImage dummyBufferedImage =
+                new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
         Image initialImage = new Image(dummyBufferedImage);
         canvasState.setCurrentImage(initialImage);
         canvasState.getImportedImages().add(initialImage);
 
-        // 2. Act: Run the method we want to test
+        // Act
         CropRequestModel requestModel = new CropRequestModel(10, 10, 50, 50);
         interactor.execute(requestModel);
 
-        // 3. Assert: Check if the results are correct
+        // Assert
         Image croppedImage = canvasState.getCurrentImage();
-        ActionHistory actionHistory = canvasState.getActionHistory();
+        ActionHistory history = canvasState.getActionHistory();
 
-        assertNotNull(croppedImage, "The current image should not be null after a successful crop.");
-        assertNotEquals(initialImage, croppedImage, "The current image should be a new, cropped image.");
-        assertEquals(croppedImage, actionHistory.getCurrentState(), "The action history's current state should be the new cropped image.");
+        assertNotNull(croppedImage, "Current image should exist after crop.");
+        assertNotSame(initialImage, croppedImage, "Crop should replace with a new Image instance.");
+        assertEquals(croppedImage, history.getCurrentState(),
+                "ActionHistory current state should point to the cropped image.");
 
-        // Check that the new image has the correct cropped dimensions
-        assertEquals(50, croppedImage.getWidth(), "Cropped image width should be 50.");
-        assertEquals(50, croppedImage.getHeight(), "Cropped image height should be 50.");
+        assertEquals(50, croppedImage.getWidth(), "Cropped width should be 50.");
+        assertEquals(50, croppedImage.getHeight(), "Cropped height should be 50.");
     }
 
     @Test
     void testCropFailureWhenNoImageExists() {
-        // 1. Arrange
-        // The canvasState is created with no current image by default.
-        ActionHistory actionHistory = canvasState.getActionHistory();
-        Object initialHistoryState = actionHistory.getCurrentState();
+        // Arrange
+        ActionHistory history = canvasState.getActionHistory();
+        Object initialHistoryState = history.getCurrentState(); // likely null
 
-        // 2. Act
+        // Act
         CropRequestModel requestModel = new CropRequestModel(10, 10, 50, 50);
         interactor.execute(requestModel);
 
-        // 3. Assert
-        assertNull(canvasState.getCurrentImage(), "The current image should still be null.");
-        assertEquals(initialHistoryState, actionHistory.getCurrentState(), "The action history should not have changed.");
+        // Assert
+        assertNull(canvasState.getCurrentImage(),
+                "Current image should remain null when cropping with no image.");
+        assertEquals(initialHistoryState, history.getCurrentState(),
+                "ActionHistory state should remain unchanged.");
     }
 }
