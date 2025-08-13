@@ -1,7 +1,6 @@
 package use_case.userdatabase;
 
 import data_access.SupabaseCanvasRepository;
-import data_access.TestUserRepositoryMethods;
 import entity.CommonUser;
 import entity.User;
 import org.junit.jupiter.api.Test;
@@ -23,7 +22,7 @@ public class CanvasDatabaseTest {
     public void testSaveCanvas() {
         User user = new CommonUser(testUserName, testPswd);
         try {
-            InputStream is = TestUserRepositoryMethods.class.getResource("/images/wheel.png").openStream();
+            InputStream is = CanvasDatabaseTest.class.getResource("/images/wheel.png").openStream();
             BufferedImage image = ImageIO.read(is);
 
             boolean result = service.saveCanvas(testUserName, image);

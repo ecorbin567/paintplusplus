@@ -1,7 +1,12 @@
 package data_access;
 
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -24,6 +29,7 @@ public class SupabaseCanvasRepository implements NewCanvasUserDataAccessInterfac
                     + "IsImV4cCI6MjA2ODk3NDM3Mn0.410etuDXZxk"
                     + "RBwnHi76oei7I_djIJWFw3e3RkL6Aw3I";
     private static final String BUCKET_NAME = "canvasimages";
+    private static final String BACKSLASH = "/";
 
     private void uploadImage(String parentFolderName, BufferedImage image) {
         // 1. Convert BufferedImage to byte array
@@ -34,12 +40,12 @@ public class SupabaseCanvasRepository implements NewCanvasUserDataAccessInterfac
             final byte[] imageData = baos.toByteArray();
 
             // 2. Construct a unique filename
-            final String fileName = parentFolderName + "/" + UUID.randomUUID() + ".png";
+            final String fileName = parentFolderName + BACKSLASH + UUID.randomUUID() + ".png";
 
             // 3. Create upload URL
             final URL url = new URL(
                     CANVAS_DATABASE_URL
-                            + "/storage/v1/object/" + BUCKET_NAME + "/" + fileName);
+                            + "/storage/v1/object/" + BUCKET_NAME + BACKSLASH + fileName);
             final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             // 4. Configure request
@@ -56,7 +62,7 @@ public class SupabaseCanvasRepository implements NewCanvasUserDataAccessInterfac
             // 6. Handle response
             final int responseCode = connection.getResponseCode();
 
-            if (responseCode >= 200 && responseCode < 300) {
+            if (responseCode >= HttpResponseCodes.SUCCESS_OK && responseCode < HttpResponseCodes.REDIRECTION_MC) {
                 System.out.println("Upload successful: " + fileName);
             }
             else {
@@ -65,8 +71,8 @@ public class SupabaseCanvasRepository implements NewCanvasUserDataAccessInterfac
                 }
             }
         }
-        catch (IOException e) {
-            throw new RuntimeException(e);
+        catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
     }
 
@@ -76,7 +82,7 @@ public class SupabaseCanvasRepository implements NewCanvasUserDataAccessInterfac
             final List<BufferedImage> images = new ArrayList<>();
 
             for (String path : imagePaths) {
-                final BufferedImage img = downloadImage(username + "/" + path);
+                final BufferedImage img = downloadImage(username + BACKSLASH + path);
                 if (img != null) {
                     images.add(img);
                 }
@@ -84,8 +90,8 @@ public class SupabaseCanvasRepository implements NewCanvasUserDataAccessInterfac
 
             return images;
         }
-        catch (IOException e) {
-            throw new RuntimeException(e);
+        catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
     }
 
@@ -105,9 +111,9 @@ public class SupabaseCanvasRepository implements NewCanvasUserDataAccessInterfac
 
         List<String> paths = new ArrayList<>();
         final int status = conn.getResponseCode();
-        if (status == 200) {
+        if (status == HttpResponseCodes.SUCCESS_OK) {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
-                final String response = reader.lines().reduce("", (a, b) -> a + b);
+                final String response = reader.lines().reduce("", (aaa, bbb) -> aaa + bbb);
                 paths = parsePathsFromJson(response);
             }
         }
@@ -123,7 +129,7 @@ public class SupabaseCanvasRepository implements NewCanvasUserDataAccessInterfac
         final List<String> paths = new ArrayList<>();
         int idx = 0;
         while ((idx = json.indexOf("\"name\":\"", idx)) != -1) {
-            idx += 8;
+            idx += HttpResponseCodes.EIGHT;
             final int end = json.indexOf("\"", idx);
             final String path = json.substring(idx, end);
             if (path.endsWith(".png") || path.endsWith(".jpg") || path.endsWith(".jpeg")) {
@@ -135,14 +141,16 @@ public class SupabaseCanvasRepository implements NewCanvasUserDataAccessInterfac
     }
 
     private static BufferedImage downloadImage(String path) {
-        final String imageUrl = CANVAS_DATABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + "/" + path;
+        BufferedImage toReturn;
+        final String imageUrl = CANVAS_DATABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + BACKSLASH + path;
         try (InputStream in = new URL(imageUrl).openStream()) {
-            return ImageIO.read(in);
+            toReturn = ImageIO.read(in);
         }
-        catch (IOException e) {
+        catch (IOException ex) {
             System.err.println("Failed to download: " + imageUrl);
-            return null;
+            toReturn = null;
         }
+        return toReturn;
     }
 
     @Override

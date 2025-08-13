@@ -1,17 +1,18 @@
 package interface_adapter.topmenu.saveonline.save;
 
-import use_case.topmenu.save.SaveOnlineInputBoundary;
-
 import java.awt.image.BufferedImage;
 
+import use_case.topmenu.save.SaveOnlineInputBoundary;
+
 public class SaveOnlineController {
-    SaveOnlineInputBoundary interactor;
+    private final SaveOnlineInputBoundary interactor;
+
     public SaveOnlineController(SaveOnlineInputBoundary interactor) {
         this.interactor = interactor;
     }
 
     /**
-     * Save online button press
+     * Save online button press.
      * @param image to save
      * @param username of user
      */

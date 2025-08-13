@@ -1,10 +1,11 @@
 package use_case.newcanvas;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+
+import javax.imageio.ImageIO;
 
 /**
  * The New Canvas Interactor.
@@ -23,7 +24,7 @@ public class NewCanvasInteractor implements NewCanvasInputBoundary {
     @Override
     public void execute(NewCanvasInputData newCanvasInputData) {
         // this was once an inline variable, but the below code was added and then removed.
-        String username = newCanvasInputData.getUsername();
+        final String username = newCanvasInputData.getUsername();
 
         // Make sure to import a blank white canvas to reset lol
 
@@ -32,24 +33,25 @@ public class NewCanvasInteractor implements NewCanvasInputBoundary {
 
             image = ImageIO.read(
                     Objects.requireNonNull(getClass().getResource("/images/BLANK_WHITE.png")));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        }
+        catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
 
-        BufferedImage white_canvas = image;
+        final BufferedImage whiteCanvas = image;
 
         newCanvasPresenter.prepareSuccessView(
-                new NewCanvasOutputData(username, white_canvas)
+                new NewCanvasOutputData(username, whiteCanvas)
         );
     }
 
     /**
-     * Alternative execution where a canvas is immediately imported
+     * Alternative execution where a canvas is immediately imported.
      * @param newCanvasInputData input data
      */
     public void executeImportExistingCanvas(NewCanvasInputData newCanvasInputData) {
-        String username = newCanvasInputData.getUsername();
-        BufferedImage importedCanvas = newCanvasInputData.getImportedCanvas();
+        final String username = newCanvasInputData.getUsername();
+        final BufferedImage importedCanvas = newCanvasInputData.getImportedCanvas();
 
         newCanvasPresenter.prepareSuccessView(
                 new NewCanvasOutputData(username, importedCanvas)
@@ -63,8 +65,7 @@ public class NewCanvasInteractor implements NewCanvasInputBoundary {
 
     @Override
     public List<BufferedImage> getUserCanvases(NewCanvasInputData newCanvasInputData) {
-        String username = newCanvasInputData.getUsername();
-        String password = newCanvasInputData.getPassword();
+        final String username = newCanvasInputData.getUsername();
 
         return canvasDataAccessObject.getAllCanvases(username);
     }

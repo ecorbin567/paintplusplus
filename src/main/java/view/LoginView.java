@@ -1,17 +1,24 @@
 package view;
 
-import interface_adapter.login.LoginController;
-import interface_adapter.login.LoginState;
-import interface_adapter.login.LoginViewModel;
-
-import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+import interface_adapter.login.LoginController;
+import interface_adapter.login.LoginState;
+import interface_adapter.login.LoginViewModel;
 
 /**
  * The View for when the user is logging into the program.
@@ -32,7 +39,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
      * @param controller the controller that executes the login use case
      */
     public LoginView(LoginViewModel loginViewModel, LoginController controller) {
-        this.setPreferredSize(new Dimension(400, 400));
+        this.setPreferredSize(new Dimension(ViewConstants.FOUR_HUNDRED, ViewConstants.FOUR_HUNDRED));
         this.loginController = controller;
         loginViewModel.addPropertyChangeListener(this);
 
@@ -47,7 +54,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         final JPanel buttons = new JPanel();
         logIn = new JButton("log in");
         buttons.add(logIn);
-        JButton cancel = new JButton("cancel");
+        final JButton cancel = new JButton("cancel");
         buttons.add(cancel);
 
         logIn.addActionListener(
@@ -128,7 +135,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
      * @param evt the action event
      */
     public void actionPerformed(ActionEvent evt) {
-        //Not Used
+
     }
 
     /**

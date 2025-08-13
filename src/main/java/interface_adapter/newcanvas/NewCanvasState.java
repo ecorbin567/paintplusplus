@@ -36,6 +36,10 @@ public class NewCanvasState {
         this.canvases = canvases;
     }
 
+    /**
+     * Add a canvas.
+     * @param canvas to add
+     */
     public void addCanvas(BufferedImage canvas) {
         this.canvases.add(canvas);
     }

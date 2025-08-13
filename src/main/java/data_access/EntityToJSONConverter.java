@@ -1,17 +1,22 @@
 package data_access;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Point;
 import java.util.Deque;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import entity.*;
+import entity.ActionHistory;
+import entity.CommonUser;
+import entity.Drawable;
+import entity.StrokeRecord;
+import entity.User;
 
-public class EntityToJSONConverter {
+public final class EntityToJSONConverter {
 
     private EntityToJSONConverter() {
-        //To Prevent Instantiation
+        // To Prevent Instantiation
     }
 
     /**
@@ -46,8 +51,7 @@ public class EntityToJSONConverter {
      * @return a JSONObject representing the document
      */
     public static JSONObject convertActionHistoryToJSON(ActionHistory history) {
-        // TODO: Must be reconfigured for a general Drawable since this is
-        //  dependent on the Drawable being specifically a StrokeRecord.
+        // TODO: Delete these
         final JSONObject result = new JSONObject();
 
         // Serialize undo stack
@@ -101,7 +105,7 @@ public class EntityToJSONConverter {
         return json;
     }
 
-    private static String colorToHex(Color c) {
-        return String.format("#%02x%02x%02x", c.getRed(), c.getGreen(), c.getBlue());
+    private static String colorToHex(Color color) {
+        return String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
     }
 }
