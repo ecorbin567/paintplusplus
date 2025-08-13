@@ -84,6 +84,14 @@ public class Image implements Drawable, Cloneable {
         g2d.dispose();
     }
 
+    public int getWidth() {
+        return bufferedImage.getWidth();
+    }
+
+    public int getHeight() {
+        return bufferedImage.getHeight();
+    }
+
     /**
      * Creates and returns a deep copy of this Image object.
      * This method creates a new BufferedImage with a copy of the pixel data.
