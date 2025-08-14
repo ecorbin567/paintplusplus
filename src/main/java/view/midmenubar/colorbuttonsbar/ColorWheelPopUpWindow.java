@@ -21,8 +21,8 @@ public class ColorWheelPopUpWindow extends JDialog {
         wheel = new ColorWheelPanel(300);
         getContentPane().add(wheel, BorderLayout.CENTER);
         // button row
-        JButton ok = new JButton("OK");
-        JButton cancel = new JButton("Cancel");
+        final JButton ok = new JButton("OK");
+        final JButton cancel = new JButton("Cancel");
 
         ok.addActionListener(e -> {
             confirmed = true;
@@ -30,7 +30,7 @@ public class ColorWheelPopUpWindow extends JDialog {
         });
         cancel.addActionListener(e -> dispose());
 
-        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+        final JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 5));
         buttons.add(ok);
         buttons.add(cancel);
         add(buttons, BorderLayout.SOUTH);

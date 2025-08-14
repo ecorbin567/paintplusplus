@@ -11,7 +11,7 @@ public class RotateController {
     }
 
     public void execute(double degrees) {
-        RotateRequestModel request = new RotateRequestModel(degrees);
+        final RotateRequestModel request = new RotateRequestModel(degrees);
         interactor.execute(request);
     }
 }

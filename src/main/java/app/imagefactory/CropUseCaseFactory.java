@@ -11,7 +11,7 @@ import use_case.image.crop.CropOutputBoundary;
 /**
  * This class contains the static factory function for creating the Crop Use Case.
  */
-public class CropUseCaseFactory {
+public final class CropUseCaseFactory {
     private CropUseCaseFactory() {
         // Unneeded
     }

@@ -17,15 +17,15 @@ public class EraseButton {
     ImageIcon imageIcon;
 
     public EraseButton(CanvasController canvasController) {
-        ErasePopUp erasePopUp = new ErasePopUp(canvasController);
+        final ErasePopUp erasePopUp = new ErasePopUp(canvasController);
         button = new JButton();
-        URL url = Objects.requireNonNull(
+        final URL url = Objects.requireNonNull(
                 EraseButton.class.getResource("/images/EraseIcon.png"),
                 "Missing resource: /images/EraseIcon.png"
         );
         imageIcon = new ImageIcon(url);
-        Image image = imageIcon.getImage();
-        Image newimage = image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        final Image image = imageIcon.getImage();
+        final Image newimage = image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimage);
         button.setIcon(imageIcon);
         button.setPreferredSize(new Dimension(60, 60));

@@ -8,7 +8,7 @@ import use_case.image.resize.ResizeInputBoundary;
 import use_case.image.resize.ResizeInteractor;
 import use_case.image.resize.ResizeOutputBoundary;
 
-public class ResizeUseCaseFactory {
+public final class ResizeUseCaseFactory {
     private ResizeUseCaseFactory() {
         // Unneeded
     }

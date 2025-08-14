@@ -30,7 +30,7 @@ public class ChangeColorInteractor implements ChangeColorInputBoundary {
 
     @Override
     public void setButton(ChangeColorInputData inputData) {
-        String buttonName = inputData.getButtonName();
+        final String buttonName = inputData.getButtonName();
         this.canvasState.setButtonPressed(buttonName);
     }
 }

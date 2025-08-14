@@ -8,7 +8,7 @@ import use_case.image.rotate.RotateInputBoundary;
 import use_case.image.rotate.RotateInteractor;
 import use_case.image.rotate.RotateOutputBoundary;
 
-public class RotateUseCaseFactory {
+public final class RotateUseCaseFactory {
     private RotateUseCaseFactory() {
         // Unneeded
     }

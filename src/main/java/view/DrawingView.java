@@ -48,7 +48,7 @@ public class DrawingView extends JPanel implements MouseListener, MouseMotionLis
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g.create();
+        final Graphics2D g2 = (Graphics2D) g.create();
         renderer.resize(g2, viewModel);
         renderer.drawImage(g2, viewModel);
         renderer.renderDraw(g2, viewModel);
@@ -99,8 +99,8 @@ public class DrawingView extends JPanel implements MouseListener, MouseMotionLis
 
     public BufferedImage getImage() {
         // try only base snapshot: no selection overlay, no more overlay
-        BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = image.createGraphics();
+        final BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+        final Graphics2D g2d = image.createGraphics();
         renderer.resize(g2d, viewModel);
         renderer.drawImage(g2d, viewModel); // background strokes
         renderer.renderDraw(g2d, viewModel); // commited strokes

@@ -25,12 +25,12 @@ public class CanvasController {
     }
 
     public void handleTools(ToolEnum tool) {
-        ToolUseInputData inputData = new ToolUseInputData(tool);
+        final ToolUseInputData inputData = new ToolUseInputData(tool);
         toolUseInputBoundary.setTool(inputData);
     }
 
     public void handleSlider(ToolEnum tool, float value) {
-        ToolUseInputData inputData = new ToolUseInputData(tool, value);
+        final ToolUseInputData inputData = new ToolUseInputData(tool, value);
         toolUseInputBoundary.setTool(inputData);
         toolUseInputBoundary.setSize(inputData);
     }
@@ -40,7 +40,7 @@ public class CanvasController {
                 new NewSelectionInputData(NewSelectionInputData.Action.START, point, null)
         );
         // legacy mouseui code
-        MouseUIInputData inputData = new MouseUIInputData(point);
+        final MouseUIInputData inputData = new MouseUIInputData(point);
         mouseUIUseInputBoundary.mouseIsPressed(inputData);
     }
 
@@ -49,7 +49,7 @@ public class CanvasController {
                 new NewSelectionInputData(NewSelectionInputData.Action.DRAG, point, null)
         );
         // legacy mouseui code
-        MouseUIInputData inputData = new MouseUIInputData(point);
+        final MouseUIInputData inputData = new MouseUIInputData(point);
         mouseUIUseInputBoundary.mouseIsDragged(inputData);
     }
 
@@ -58,7 +58,7 @@ public class CanvasController {
                 new NewSelectionInputData(NewSelectionInputData.Action.COMMIT, point, image)
         );
         // legacy mouseui code
-        MouseUIInputData inputData = new MouseUIInputData(point, image);
+        final MouseUIInputData inputData = new MouseUIInputData(point, image);
         mouseUIUseInputBoundary.mouseIsReleased(inputData);
     }
 }

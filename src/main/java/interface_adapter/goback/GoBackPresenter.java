@@ -32,7 +32,7 @@ public class GoBackPresenter implements GoBackOutputBoundary {
     public void prepareSuccessView(String command, GoBackOutputData outputData) {
         if (command.equals("goBack")) {
             final NewCanvasState canvasState = this.newCanvasViewModel.getState();
-            List<BufferedImage> updatedCanvases = outputData.getUpdatedCanvases();
+            final List<BufferedImage> updatedCanvases = outputData.getUpdatedCanvases();
             canvasState.setCanvases(updatedCanvases);
             this.newCanvasViewModel.setState(canvasState);
             this.newCanvasViewModel.setCanvases(updatedCanvases);

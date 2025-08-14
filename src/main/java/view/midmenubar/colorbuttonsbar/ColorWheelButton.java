@@ -23,7 +23,7 @@ public class ColorWheelButton extends CircularButton {
                             LowerColorChooserButton lowerColorChooserButton) {
         super(36);
 
-        URL url = Objects.requireNonNull(
+        final URL url = Objects.requireNonNull(
                 SelectionToolButton.class.getResource("/images/wheel.png"),
                 "Missing resource: /images/wheel.png"
         );
@@ -31,19 +31,19 @@ public class ColorWheelButton extends CircularButton {
         imageIcon = new ImageIcon(url);
 
 
-        Image image = imageIcon.getImage();
-        Image newImage = image.getScaledInstance(36, 36, Image.SCALE_SMOOTH);
+        final Image image = imageIcon.getImage();
+        final Image newImage = image.getScaledInstance(36, 36, Image.SCALE_SMOOTH);
 
         imageIcon = new ImageIcon(newImage);
         setIcon(imageIcon);
         this.addActionListener(e -> {
-            ColorWheelPopUpWindow popUpWIndow = new ColorWheelPopUpWindow(
+            final ColorWheelPopUpWindow popUpWIndow = new ColorWheelPopUpWindow(
                     SwingUtilities.getWindowAncestor(panel));
 
             popUpWIndow.setVisible(true);
 
             if (popUpWIndow.isConfirmed()) {
-                Color picked = popUpWIndow.getSelectedColor();
+                final Color picked = popUpWIndow.getSelectedColor();
                 colorController.handleColorChangeButton(toolName, picked);
                 if (upperColorChooserButton.isSelected()) {
                     upperColorChooserButton.setCurrentColor(picked);

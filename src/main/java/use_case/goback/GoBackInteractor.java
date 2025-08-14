@@ -20,8 +20,8 @@ public class GoBackInteractor implements GoBackInputBoundary {
 
     @Override
     public void execute(GoBackInputData goBackInputData, String command) {
-        String username = goBackInputData.getUsername();
-        List<BufferedImage> newListOfImages = canvasDataAccessObject.getAllCanvases(username);
+        final String username = goBackInputData.getUsername();
+        final List<BufferedImage> newListOfImages = canvasDataAccessObject.getAllCanvases(username);
 
         System.out.println(username);
         System.out.println(newListOfImages);

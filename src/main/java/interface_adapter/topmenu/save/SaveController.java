@@ -14,7 +14,7 @@ public class SaveController {
     }
 
     public void handleSaveButtonPress(BufferedImage image, File file) {
-        SaveInputData inputData = new SaveInputData(image, file);
+        final SaveInputData inputData = new SaveInputData(image, file);
         interactor.save(inputData);
     }
 }

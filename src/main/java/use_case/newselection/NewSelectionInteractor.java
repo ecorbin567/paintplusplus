@@ -56,8 +56,8 @@ public class NewSelectionInteractor implements NewSelectionInputBoundary {
         if (p == null) {
             return;
         }
-        boolean hasSel = canvasState.getHasSelection();
-        Rectangle sel = canvasState.getSelectionBounds();
+        final boolean hasSel = canvasState.getHasSelection();
+        final Rectangle sel = canvasState.getSelectionBounds();
 
         if (hasSel && sel != null && sel.contains(p)) {
             // Start dragging existing selection.
@@ -89,13 +89,13 @@ public class NewSelectionInteractor implements NewSelectionInputBoundary {
 
         if (canvasState.getDraggingSelection()) {
             if (!canvasState.getHasCutOut()) {
-                Rectangle hole = new Rectangle(canvasState.getSelectionBounds());
+                final Rectangle hole = new Rectangle(canvasState.getSelectionBounds());
                 clearRegions.add(hole);
                 actionHistory.push(new CutRecord(hole));
                 canvasState.setHasCutOut(true);
             }
-            Rectangle sel = canvasState.getSelectionBounds();
-            Point anchor = canvasState.getDragAnchor();
+            final Rectangle sel = canvasState.getSelectionBounds();
+            final Point anchor = canvasState.getDragAnchor();
             if (sel != null && anchor != null) {
                 sel.x = p.x - anchor.x;
                 sel.y = p.y - anchor.y;
@@ -113,14 +113,14 @@ public class NewSelectionInteractor implements NewSelectionInputBoundary {
         if (!canvasState.getDraggingSelection()) {
             tool.finish(p);
             canvasState.setIsDrawing(false);
-            Rectangle rect = tool.getBounds();
+            final Rectangle rect = tool.getBounds();
 
             if (rect.width > 0 && rect.height > 0 && base != null) {
                 // Guard against out-of-bounds
-                Rectangle imgBounds = new Rectangle(0, 0, base.getWidth(), base.getHeight());
-                Rectangle clipped = rect.intersection(imgBounds);
+                final Rectangle imgBounds = new Rectangle(0, 0, base.getWidth(), base.getHeight());
+                final Rectangle clipped = rect.intersection(imgBounds);
                 if (clipped.width > 0 && clipped.height > 0) {
-                    BufferedImage sub = base.getSubimage(clipped.x, clipped.y, clipped.width, clipped.height);
+                    final BufferedImage sub = base.getSubimage(clipped.x, clipped.y, clipped.width, clipped.height);
                     canvasState.setSelectionImage(sub);
                     canvasState.setSelectionBounds(new Rectangle(clipped));
                     canvasState.setSelectionOriginalBounds(new Rectangle(clipped));
@@ -157,9 +157,9 @@ public class NewSelectionInteractor implements NewSelectionInputBoundary {
             actionHistory.undo();
         }
 
-        Rectangle src = canvasState.getSelectionOriginalBounds();
-        Rectangle dest = canvasState.getSelectionBounds();
-        BufferedImage img = canvasState.getSelectionImage();
+        final Rectangle src = canvasState.getSelectionOriginalBounds();
+        final Rectangle dest = canvasState.getSelectionBounds();
+        final BufferedImage img = canvasState.getSelectionImage();
 
         if (img != null && src != null && dest != null && !dest.equals(src)) {
             actionHistory.push(new MoveRecord(img, new Rectangle(src), new Rectangle(dest)));
@@ -182,7 +182,7 @@ public class NewSelectionInteractor implements NewSelectionInputBoundary {
     }
 
     private void sendSelectionOutput() {
-        NewSelectionOutputData d = new NewSelectionOutputData(
+        final NewSelectionOutputData d = new NewSelectionOutputData(
                 canvasState.getSelectionImage(),
                 canvasState.getSelectionBounds(),
                 canvasState.getHasSelection(),

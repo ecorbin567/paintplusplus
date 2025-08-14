@@ -24,16 +24,16 @@ public class CropInteractor implements CropInputBoundary {
     @Override
     public void execute(CropRequestModel requestModel) {
         try {
-            Image originalImage = canvas.getCurrentImage();
+            final Image originalImage = canvas.getCurrentImage();
             if (originalImage == null) {
                 presenter.presentError("No image to modify."); // Use a generic error
                 return;
             }
 
-            Image newImage = originalImage.clone();
+            final Image newImage = originalImage.clone();
             newImage.crop(requestModel.x(), requestModel.y(), requestModel.width(), requestModel.height());
             updateCurrentImage(originalImage, newImage, actionHistory, canvas);
-            List<Image> importedImages = canvas.getImportedImages();
+            final List<Image> importedImages = canvas.getImportedImages();
 
             presenter.present(new CropResponseModel(importedImages));
 
@@ -47,8 +47,8 @@ public class CropInteractor implements CropInputBoundary {
                                           CanvasState canvas) {
         actionHistory.push(newImage);
 
-        List<Image> importedImages = canvas.getImportedImages();
-        int index = importedImages.indexOf(originalImage);
+        final List<Image> importedImages = canvas.getImportedImages();
+        final int index = importedImages.indexOf(originalImage);
         if (index != -1) {
             importedImages.set(index, newImage);
         }

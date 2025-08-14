@@ -20,15 +20,15 @@ public class TopMenuBarBuilder {
         menuBar = new JMenuBar();
 
         fileButton = new FileButton(drawingView, controllers);
-        JMenu fileMenu = fileButton.getMenu();
+        final JMenu fileMenu = fileButton.getMenu();
         menuBar.add(fileMenu);
 
         editButton = new EditButton(drawingView, controllers);
-        JMenu editMenu = editButton.getEditMenu();
+        final JMenu editMenu = editButton.getEditMenu();
         menuBar.add(editMenu);
 
         viewButton = new ViewButton(drawingView, controllers);
-        JMenu viewMenu = viewButton.getViewMenu();
+        final JMenu viewMenu = viewButton.getViewMenu();
         menuBar.add(viewMenu);
     }
 

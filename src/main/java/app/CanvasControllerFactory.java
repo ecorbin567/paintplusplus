@@ -14,7 +14,7 @@ import use_case.newselection.NewSelectionInteractor;
 import use_case.tooluse.ToolUseInputBoundary;
 import use_case.tooluse.ToolUseInteractor;
 
-public class CanvasControllerFactory {
+public final class CanvasControllerFactory {
     private CanvasControllerFactory() {
         // Unneeded
     }

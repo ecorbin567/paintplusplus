@@ -21,8 +21,8 @@ public class SaveInteractor implements SaveInputBoundary {
 
     @Override
     public void save(SaveInputData inputData) {
-        File file = inputData.file();
-        BufferedImage image = inputData.image();
+        final File file = inputData.file();
+        final BufferedImage image = inputData.image();
         try {
             this.fileSaveGateway.saveImage(image, file);
             setBufferedImage(inputData);
@@ -35,12 +35,12 @@ public class SaveInteractor implements SaveInputBoundary {
     }
 
     private void setBufferedImage(SaveInputData inputData) {
-        BufferedImage image = inputData.image();
+        final BufferedImage image = inputData.image();
         this.canvasState.setSavedImage(image);
     }
 
     private void setFile(SaveInputData inputData) {
-        File file = inputData.file();
+        final File file = inputData.file();
         this.canvasState.setFilePath(file);
     }
 }

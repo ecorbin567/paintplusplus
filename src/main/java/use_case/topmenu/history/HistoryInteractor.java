@@ -25,8 +25,8 @@ public class HistoryInteractor implements HistoryInputBoundary {
 
     @Override
     public void undoDrawable() {
-        Drawable prevState = actionHistory.undo();
-        List<Image> importedImages = canvasState.getImportedImages();
+        final Drawable prevState = actionHistory.undo();
+        final List<Image> importedImages = canvasState.getImportedImages();
         importedImages.clear();
         rebuildStateFromHistory();
 
@@ -34,10 +34,10 @@ public class HistoryInteractor implements HistoryInputBoundary {
             importedImages.add(image);
             this.canvasState.setCurrentImage(image);
         }
-        boolean undoStackEmpty = !actionHistory.getUndoStack().isEmpty();
-        Stack<Drawable> undoStack = actionHistory.getUndoStack();
+        final boolean undoStackEmpty = !actionHistory.getUndoStack().isEmpty();
+        final Stack<Drawable> undoStack = actionHistory.getUndoStack();
 
-        HistoryOutputData outputData = new HistoryOutputData(undoStack, undoStackEmpty, prevState);
+        final HistoryOutputData outputData = new HistoryOutputData(undoStack, undoStackEmpty, prevState);
         presenter.setRepaintState(outputData);
         presenter.setDrawables(outputData);
         presenter.setCurrentDrawable(outputData);
@@ -46,12 +46,12 @@ public class HistoryInteractor implements HistoryInputBoundary {
 
     @Override
     public void redoDrawable() {
-        Drawable nextState = actionHistory.redo();
+        final Drawable nextState = actionHistory.redo();
         if (nextState == null) {
             return;
         }
 
-        List<Image> importedImages = canvasState.getImportedImages();
+        final List<Image> importedImages = canvasState.getImportedImages();
         importedImages.clear();
         rebuildStateFromHistory();
 
@@ -60,10 +60,10 @@ public class HistoryInteractor implements HistoryInputBoundary {
             canvasState.setCurrentImage(image);
         }
 
-        boolean undoStackEmpty = !actionHistory.getUndoStack().isEmpty();
-        Stack<Drawable> undoStack = actionHistory.getUndoStack();
+        final boolean undoStackEmpty = !actionHistory.getUndoStack().isEmpty();
+        final Stack<Drawable> undoStack = actionHistory.getUndoStack();
 
-        HistoryOutputData outputData = new HistoryOutputData(undoStack, undoStackEmpty, nextState);
+        final HistoryOutputData outputData = new HistoryOutputData(undoStack, undoStackEmpty, nextState);
         presenter.setDrawables(outputData);
         presenter.setRepaintState(outputData);
         presenter.setCurrentDrawable(outputData);

@@ -27,7 +27,7 @@ public final class MouseUILoggingDecorator implements MouseUIUseInputBoundary {
      */
     @Override
     public void mouseIsPressed(MouseUIInputData inputData) {
-        long start = System.nanoTime();
+        final long start = System.nanoTime();
         LOG.log(Level.FINE, "mouseIsPressed: point={0}",
                 inputData != null ? inputData.getPoint() : null);
         inner.mouseIsPressed(inputData);
@@ -42,7 +42,7 @@ public final class MouseUILoggingDecorator implements MouseUIUseInputBoundary {
      */
     @Override
     public void mouseIsDragged(MouseUIInputData inputData) {
-        long start = System.nanoTime();
+        final long start = System.nanoTime();
         LOG.log(Level.FINER, "mouseIsDragged: point={0}",
                 inputData != null ? inputData.getPoint() : null);
         inner.mouseIsDragged(inputData);
@@ -57,7 +57,7 @@ public final class MouseUILoggingDecorator implements MouseUIUseInputBoundary {
      */
     @Override
     public void mouseIsReleased(MouseUIInputData inputData) {
-        long start = System.nanoTime();
+        final long start = System.nanoTime();
         LOG.log(Level.FINE, "mouseIsReleased: point={0}",
                 inputData != null ? inputData.getPoint() : null);
         inner.mouseIsReleased(inputData);

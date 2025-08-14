@@ -6,7 +6,7 @@ import interface_adapter.canvas.DrawingViewModel;
 import interface_adapter.newselection.SelectionViewModel;
 import view.DrawingView;
 
-public class DrawingViewUseCaseFactory {
+public final class DrawingViewUseCaseFactory {
     private DrawingViewUseCaseFactory() {
         // Unnnedded
     }

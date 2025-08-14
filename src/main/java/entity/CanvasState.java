@@ -50,24 +50,6 @@ public class CanvasState {
         // Nothing is instantiated this is more or less just a record class.
     }
 
-    public void setButtonPressed(String buttonName) {
-        this.buttonPressed = buttonName;
-    }
-
-    public File getSavedImageFile() {
-        return this.savedImageFile;
-    }
-
-    public static class Pair<A, B> {
-        final A first;
-        final B second;
-
-        public Pair(A first, B second) {
-            this.first = first;
-            this.second = second;
-        }
-    }
-
     // ActionHistory Stuff
     public ActionHistory getActionHistory() {
         return this.actionHistory;
@@ -216,5 +198,21 @@ public class CanvasState {
         return this.commitedSelections;
     }
 
+    public void setButtonPressed(String buttonName) {
+        this.buttonPressed = buttonName;
+    }
 
+    public File getSavedImageFile() {
+        return this.savedImageFile;
+    }
+
+    public static class Pair<A, B> {
+        final A first;
+        final B second;
+
+        public Pair(A first, B second) {
+            this.first = first;
+            this.second = second;
+        }
+    }
 }

@@ -15,19 +15,19 @@ public class SizeInteractor implements SizeInputBoundary {
 
     @Override
     public void zoomIn() {
-        double scale = canvasState.getScale() + 0.1;
+        final double scale = canvasState.getScale() + 0.1;
         setScaleOutput(scale);
     }
 
     @Override
     public void zoomOut() {
-        double scale = canvasState.getScale() - 0.1;
+        final double scale = canvasState.getScale() - 0.1;
         setScaleOutput(scale);
     }
 
     private void setScaleOutput(double scale) {
         canvasState.setScale(scale);
-        SizeOutputData outputData = new SizeOutputData(scale);
+        final SizeOutputData outputData = new SizeOutputData(scale);
         presenter.setScale(outputData);
     }
 }

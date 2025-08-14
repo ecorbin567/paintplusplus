@@ -12,11 +12,11 @@ public class EditButton {
     private final JMenu menu;
 
     public EditButton(DrawingView drawingView, TopMenuFacade controllers) {
-        RedoButton redoButton = new RedoButton(drawingView, controllers);
-        UndoButton undoButton = new UndoButton(drawingView, controllers);
+        final RedoButton redoButton = new RedoButton(drawingView, controllers);
+        final UndoButton undoButton = new UndoButton(drawingView, controllers);
 
-        JMenuItem undoMenuItem = undoButton.getMenuItem();
-        JMenuItem redoMenuItem = redoButton.getMenuItem();
+        final JMenuItem undoMenuItem = undoButton.getMenuItem();
+        final JMenuItem redoMenuItem = redoButton.getMenuItem();
 
         menu = new JMenu("Edit");
         menu.setMnemonic(KeyEvent.VK_E);

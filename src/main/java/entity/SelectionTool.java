@@ -44,10 +44,10 @@ public class SelectionTool implements Drawable {
         if (startPoint == null || currentPoint == null) {
             return new Rectangle();
         }
-        int x = Math.min(startPoint.x, currentPoint.x);
-        int y = Math.min(startPoint.y, currentPoint.y);
-        int w = Math.abs(startPoint.x - currentPoint.x);
-        int h = Math.abs(startPoint.y - currentPoint.y);
+        final int x = Math.min(startPoint.x, currentPoint.x);
+        final int y = Math.min(startPoint.y, currentPoint.y);
+        final int w = Math.abs(startPoint.x - currentPoint.x);
+        final int h = Math.abs(startPoint.y - currentPoint.y);
         return new Rectangle(x, y, w, h);
     }
 }

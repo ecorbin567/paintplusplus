@@ -14,14 +14,14 @@ public class ColorController {
     }
 
     public void handleColorChangeButton(ToolEnum toolName, Color color, String buttonName) {
-        ChangeColorInputData inputData = new ChangeColorInputData(toolName, color, buttonName);
+        final ChangeColorInputData inputData = new ChangeColorInputData(toolName, color, buttonName);
         changeColorInteractor.changeColor(inputData);
         changeColorInteractor.setTool(inputData);
         changeColorInteractor.setButton(inputData);
     }
 
     public void handleColorChangeButton(ToolEnum toolName, Color color) {
-        ChangeColorInputData inputData = new ChangeColorInputData(toolName, color);
+        final ChangeColorInputData inputData = new ChangeColorInputData(toolName, color);
         changeColorInteractor.changeColor(inputData);
         changeColorInteractor.setTool(inputData);
     }

@@ -27,9 +27,9 @@ public class CanvasRenderer {
     }
 
     public void updateAntsTimer(Timer timer, SelectionViewModel selectionViewModel) {
-        boolean isDrawing = selectionViewModel.getIsDrawing();
-        boolean hasSelection = selectionViewModel.getHasSelection();
-        boolean shouldRun = (isDrawing || hasSelection);
+        final boolean isDrawing = selectionViewModel.getIsDrawing();
+        final boolean hasSelection = selectionViewModel.getHasSelection();
+        final boolean shouldRun = (isDrawing || hasSelection);
         if (shouldRun && !timer.isRunning()) {
             timer.start();
         }
@@ -40,7 +40,7 @@ public class CanvasRenderer {
 
     public void renderDraw(Graphics2D graphics2D, DrawingViewModel drawingViewModel) {
         if (drawingViewModel.getRepaintState()) {
-            Stack<Drawable> drawables = drawingViewModel.getDrawables();
+            final Stack<Drawable> drawables = drawingViewModel.getDrawables();
             for (Drawable drawable : drawables) {
                 drawDrawable(graphics2D, drawable);
             }
@@ -58,7 +58,7 @@ public class CanvasRenderer {
     }
 
     public void layeringDraw(Graphics2D graphics2D, DrawingViewModel drawingViewModel) {
-        Drawable head = drawingViewModel.getDrawable();
+        final Drawable head = drawingViewModel.getDrawable();
         if (head != null) {
             drawDrawable(graphics2D, head);
         }
@@ -92,17 +92,17 @@ public class CanvasRenderer {
         }
 
         if (r != null && r.getWidth() > 0 && r.height > 0) {
-            Stroke oldStroke = graphics2D.getStroke();
-            Color oldColor = graphics2D.getColor();
+            final Stroke oldStroke = graphics2D.getStroke();
+            final Color oldColor = graphics2D.getColor();
             // dark dashes
-            Stroke dark = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER,
+            final Stroke dark = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER,
                     10f, antsDash, ANTS_PHASE);
             graphics2D.setStroke(dark);
             graphics2D.setColor(Color.DARK_GRAY);
             graphics2D.drawRect(r.x, r.y, r.width - 1, r.height - 1);
 
             // light dashes shifted by one dash length to fill the gaps
-            Stroke light = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER,
+            final Stroke light = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER,
                     10f, antsDash, ANTS_PHASE + antsDash[0]);
             graphics2D.setStroke(light);
             graphics2D.setColor(new Color(230, 230, 230)); // very light gray
@@ -120,8 +120,8 @@ public class CanvasRenderer {
                     BasicStroke.CAP_ROUND,
                     BasicStroke.JOIN_ROUND));
             for (int i = 1; i < s.getPts().size(); i++) {
-                Point p1 = s.getPts().get(i - 1);
-                Point p2 = s.getPts().get(i);
+                final Point p1 = s.getPts().get(i - 1);
+                final Point p2 = s.getPts().get(i);
                 g2.drawLine(p1.x, p1.y, p2.x, p2.y);
             }
         }

@@ -57,7 +57,7 @@ import view.ViewManager;
 /**
  * The main class for starting the program.
  */
-public class Main {
+public final class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
 
     /**

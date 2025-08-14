@@ -5,7 +5,7 @@ import interface_adapter.topmenu.saveonline.save.SaveOnlineController;
 import use_case.topmenu.save.SaveOnlineInputBoundary;
 import use_case.topmenu.save.SaveOnlineInteractor;
 
-public class SaveOnlineControllerFactory {
+public final class SaveOnlineControllerFactory {
     /**
      * Factory function for creating the Save Controller.
      *

@@ -16,7 +16,7 @@ public class ImportController {
     }
 
     public void execute(File selectedFile) {
-        ImportRequestModel request = new ImportRequestModel(selectedFile);
+        final ImportRequestModel request = new ImportRequestModel(selectedFile);
         interactor.execute(request);
     }
 

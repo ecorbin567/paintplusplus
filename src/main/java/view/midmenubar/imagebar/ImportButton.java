@@ -24,26 +24,26 @@ public class ImportButton {
         this.importController = controller.getImportController();
         button = new JButton();
 
-        URL url = Objects.requireNonNull(
+        final URL url = Objects.requireNonNull(
                 ImportButton.class.getResource("/images/ImageIcon.png"),
                 "Missing resource: /images/ImageIcon.png"
         );
-        ImageIcon icon = new ImageIcon(url);
+        final ImageIcon icon = new ImageIcon(url);
 
-        Image image = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        final Image image = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         button.setIcon(new ImageIcon(image));
         button.setPreferredSize(new Dimension(60, 60));
 
         button.addActionListener(e -> {
-            JFileChooser fileChooser = new JFileChooser();
+            final JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Import PNG or PDF");
 
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Files", "png");
+            final FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Files", "png");
             fileChooser.setFileFilter(filter);
 
-            int result = fileChooser.showOpenDialog(null);
+            final int result = fileChooser.showOpenDialog(null);
             if (result == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = fileChooser.getSelectedFile();
+                final File selectedFile = fileChooser.getSelectedFile();
                 controller.importImage(selectedFile);
                 drawingView.repaint();
             }

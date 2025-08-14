@@ -8,7 +8,7 @@ import use_case.topmenu.canvassize.SizeInputBoundary;
 import use_case.topmenu.canvassize.SizeInteractor;
 import use_case.topmenu.canvassize.SizeOutputBoundary;
 
-public class ResizeCanvasControllerFactory {
+public final class ResizeCanvasControllerFactory {
     /**
      * Factory function for creating the Resize Canvas Controller.
      *

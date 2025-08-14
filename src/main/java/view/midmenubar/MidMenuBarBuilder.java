@@ -51,31 +51,31 @@ public class MidMenuBarBuilder {
 
         this.canvasController = canvasController;
 
-        PencilButton pencilButton = new PencilButton(this.canvasController);
+        final PencilButton pencilButton = new PencilButton(this.canvasController);
         pButton = pencilButton.getButton();
 
-        EraseButton eraseButton = new EraseButton(this.canvasController);
+        final EraseButton eraseButton = new EraseButton(this.canvasController);
         eButton = eraseButton.getButton();
 
-        SelectionToolButton selectButton = new SelectionToolButton(canvasController);
+        final SelectionToolButton selectButton = new SelectionToolButton(canvasController);
         sButton = selectButton.getButton();
 
-        ImportButton imageButton = new ImportButton(imageFacade, drawingView);
+        final ImportButton imageButton = new ImportButton(imageFacade, drawingView);
         iButton = imageButton.getButton();
         this.importButtonObject = imageButton; //  JOSH: Lol store it
 
-        CropButton crop = new CropButton(imageFacade, drawingView);
+        final CropButton crop = new CropButton(imageFacade, drawingView);
         cropButton = crop.getButton();
 
-        ResizeImageButton resize = new ResizeImageButton(imageFacade, drawingView);
+        final ResizeImageButton resize = new ResizeImageButton(imageFacade, drawingView);
         resizeButton = resize.getButton();
 
-        RotateButton rotate = new RotateButton(imageFacade, drawingView);
+        final RotateButton rotate = new RotateButton(imageFacade, drawingView);
 
         rotateButton = rotate.getButton();
 
-        UpperColorChooserButton upperChooserButton = new UpperColorChooserButton(colorController);
-        LowerColorChooserButton lowerChooserButton = new LowerColorChooserButton(colorController);
+        final UpperColorChooserButton upperChooserButton = new UpperColorChooserButton(colorController);
+        final LowerColorChooserButton lowerChooserButton = new LowerColorChooserButton(colorController);
         upperColorChooserButton = upperChooserButton.getButton();
         lowerColorChooserButton = lowerChooserButton.getButton();
 
@@ -83,7 +83,7 @@ public class MidMenuBarBuilder {
         // how we add to the panel on the buttons to the midmenu worry about later on when refractoring
         panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        ColorWheelButton colorWheel = new ColorWheelButton(panel, colorController,
+        final ColorWheelButton colorWheel = new ColorWheelButton(panel, colorController,
                 upperChooserButton, lowerChooserButton);
         colorWheelButton = colorWheel.getColorWheelButton();
 
@@ -107,19 +107,19 @@ public class MidMenuBarBuilder {
         solidColorsPanel = new JPanel(new GridLayout(2, 4, 4, 4)); // panel of small solid colors
 
         // track which chooser (upper or lower color chooser buttons) is active
-        ButtonGroup chooserGroup = new ButtonGroup();
+        final ButtonGroup chooserGroup = new ButtonGroup();
         chooserGroup.add(upperColorChooserButton);
         chooserGroup.add(lowerColorChooserButton);
 
         upperColorChooserButton.setSelected(true);
 
         // handle individual solid color buttons
-        List<Color> solidColors = List.of(
+        final List<Color> solidColors = List.of(
                 Color.BLACK, Color.RED, Color.ORANGE, Color.YELLOW,
                 Color.GREEN, Color.CYAN, Color.BLUE, Color.MAGENTA
         );
         for (Color solidColor : solidColors) {
-            SingleColorButton swatch = new SingleColorButton(solidColor, colorController,
+            final SingleColorButton swatch = new SingleColorButton(solidColor, colorController,
                     upperChooserButton, lowerChooserButton);
             solidColorsPanel.add(swatch);
         }

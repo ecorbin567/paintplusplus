@@ -66,18 +66,18 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(800, 600));
 
-        TopMenuBarBuilder topMenuBarBuilder = new TopMenuBarBuilder(drawingView, controllers);
-        JMenuBar menuBar = topMenuBarBuilder.getMenuBar();
+        final TopMenuBarBuilder topMenuBarBuilder = new TopMenuBarBuilder(drawingView, controllers);
+        final JMenuBar menuBar = topMenuBarBuilder.getMenuBar();
         topMenuBarBuilder.setMenuActionListener(this);
         this.add(menuBar, BorderLayout.NORTH);
 
-        MidMenuBarBuilder midMenuBarBuilder = new MidMenuBarBuilder(controller, imageFacade, colorController,
+        final MidMenuBarBuilder midMenuBarBuilder = new MidMenuBarBuilder(controller, imageFacade, colorController,
                 drawingView);
-        JPanel panel = midMenuBarBuilder.getPanel();
+        final JPanel panel = midMenuBarBuilder.getPanel();
         // store import button for use in login (in property change)
         this.importButton = midMenuBarBuilder.getImportButtonObject();
 
-        JPanel bottomPanel = new JPanel();
+        final JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
         bottomPanel.add(panel);
         bottomPanel.add(drawingView);
@@ -109,8 +109,8 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
      * Helper for propertyChange(). Directly accesses the import controller with a specific image
      */
     private void pressImportButton(ImportButton importButtonObject, BufferedImage initialImportedImage) throws IOException {
-        ImportController controller = importButtonObject.getController();
-        File outputFile = new File("imageToImport.png");
+        final ImportController controller = importButtonObject.getController();
+        final File outputFile = new File("imageToImport.png");
         try {
             ImageIO.write(initialImportedImage, "png", outputFile);
         }

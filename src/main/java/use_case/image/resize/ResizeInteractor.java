@@ -24,21 +24,21 @@ public class ResizeInteractor implements ResizeInputBoundary {
     @Override
     public void execute(ResizeRequestModel requestModel) {
         try {
-            Image originalImage = canvas.getCurrentImage();
+            final Image originalImage = canvas.getCurrentImage();
             if (originalImage == null) {
                 presenter.presentError("No image to resize.");
                 return;
             }
 
             // 1. Create the next state by cloning the original
-            Image newImage = originalImage.clone();
+            final Image newImage = originalImage.clone();
 
             // 2. Modify the new clone with the resize changes
             newImage.resize(requestModel.newWidth(), requestModel.newHeight());
 
             // 3. Push the new, modified state to the history
             CropInteractor.updateCurrentImage(originalImage, newImage, actionHistory, canvas);
-            List<Image> importedImages = canvas.getImportedImages();
+            final List<Image> importedImages = canvas.getImportedImages();
             // 4. Pass the new state to the presenter to update the view
             presenter.present(new ResizeResponseModel(importedImages));
 

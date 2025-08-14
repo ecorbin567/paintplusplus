@@ -19,14 +19,14 @@ public class PencilButton {
 
     public PencilButton(CanvasController canvasController) {
         button = new JButton();
-        PencilPopUp pencilPopUp = new PencilPopUp(canvasController);
-        URL url = Objects.requireNonNull(
+        final PencilPopUp pencilPopUp = new PencilPopUp(canvasController);
+        final URL url = Objects.requireNonNull(
                 EraseButton.class.getResource("/images/PencilIcon.png"),
                 "Missing resource: /images/PencilIcon.png"
         );
         ImageIcon imageIcon = new ImageIcon(url);
-        Image image = imageIcon.getImage();
-        Image newImage = image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        final Image image = imageIcon.getImage();
+        final Image newImage = image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newImage);
         button.setIcon(imageIcon);
         button.setPreferredSize(new Dimension(60, 60));

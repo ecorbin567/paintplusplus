@@ -27,7 +27,7 @@ public class CircularButton extends JToggleButton {
 
     @Override
     protected void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g.create();
+        final Graphics2D g2 = (Graphics2D) g.create();
 
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_OFF);
@@ -54,10 +54,10 @@ public class CircularButton extends JToggleButton {
             g2.drawOval(-3, -3, getWidth() + 6, getHeight() + 6);
         }
         // manually paint the icon
-        Icon icon = getIcon();
+        final Icon icon = getIcon();
         if (icon != null) {
-            int x = (getWidth() - icon.getIconWidth()) / 2;
-            int y = (getHeight() - icon.getIconHeight()) / 2;
+            final int x = (getWidth() - icon.getIconWidth()) / 2;
+            final int y = (getHeight() - icon.getIconHeight()) / 2;
             icon.paintIcon(this, g2, x, y);
         }
 
@@ -67,9 +67,9 @@ public class CircularButton extends JToggleButton {
     @Override
     public boolean contains(int x, int y) {
         // true if only coordinates inside the drawn circle
-        int radius = getWidth() / 2;
-        int dx = x - radius;
-        int dy = y - radius;
+        final int radius = getWidth() / 2;
+        final int dx = x - radius;
+        final int dy = y - radius;
         return dx * dx + dy * dy <= radius * radius;
     }
 

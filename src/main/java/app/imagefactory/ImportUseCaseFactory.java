@@ -9,7 +9,7 @@ import use_case.image.import_image.ImportInputBoundary;
 import use_case.image.import_image.ImportInteractor;
 import use_case.image.import_image.ImportOutputBoundary;
 
-public class ImportUseCaseFactory {
+public final class ImportUseCaseFactory {
     private ImportUseCaseFactory() {
         // Unneded
     }

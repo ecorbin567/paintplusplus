@@ -78,10 +78,10 @@ public class Image implements Drawable, Cloneable {
      * @param g The Graphics2D to put the image on.
      */
     public void draw(Graphics2D g) {
-        Graphics2D g2d = (Graphics2D) g.create();
+        final Graphics2D g2d = (Graphics2D) g.create();
 
-        int centerX = x + width / 2;
-        int centerY = y + height / 2;
+        final int centerX = x + width / 2;
+        final int centerY = y + height / 2;
 
         g2d.rotate(Math.toRadians(rotation), centerX, centerY);
         g2d.drawImage(bufferedImage, x, y, width, height, null);
@@ -108,17 +108,17 @@ public class Image implements Drawable, Cloneable {
      */
     @Override
     public Image clone() {
-        BufferedImage copy = new BufferedImage(
+        final BufferedImage copy = new BufferedImage(
                 bufferedImage.getWidth(),
                 bufferedImage.getHeight(),
                 bufferedImage.getType()
         );
 
-        Graphics2D g = copy.createGraphics();
+        final Graphics2D g = copy.createGraphics();
         g.drawImage(bufferedImage, 0, 0, null);
         g.dispose();
 
-        Image cloned = new Image(copy);
+        final Image cloned = new Image(copy);
         cloned.x = this.x;
         cloned.y = this.y;
         cloned.width = this.width;

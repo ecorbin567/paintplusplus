@@ -17,28 +17,28 @@ public class CropButton {
 
     public CropButton(ImageFacade imageFacade, DrawingView drawingView) {
         button = new JButton();
-        URL url = Objects.requireNonNull(
+        final URL url = Objects.requireNonNull(
                 CropButton.class.getResource("/images/CropIcon.png"),
                 "Missing resource: /images/CropIcon.png"
         );
         ImageIcon icon = new ImageIcon(url);
-        Image image = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        final Image image = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         icon = new ImageIcon(image);
         button.setIcon(icon);
         button.setPreferredSize(new Dimension(60, 60));
 
         button.addActionListener(e -> {
             // Prompt user input
-            String xStr = JOptionPane.showInputDialog("Enter crop X:");
-            String yStr = JOptionPane.showInputDialog("Enter crop Y:");
-            String wStr = JOptionPane.showInputDialog("Enter crop Width:");
-            String hStr = JOptionPane.showInputDialog("Enter crop Height:");
+            final String xStr = JOptionPane.showInputDialog("Enter crop X:");
+            final String yStr = JOptionPane.showInputDialog("Enter crop Y:");
+            final String wStr = JOptionPane.showInputDialog("Enter crop Width:");
+            final String hStr = JOptionPane.showInputDialog("Enter crop Height:");
 
             try {
-                int x = Integer.parseInt(xStr);
-                int y = Integer.parseInt(yStr);
-                int w = Integer.parseInt(wStr);
-                int h = Integer.parseInt(hStr);
+                final int x = Integer.parseInt(xStr);
+                final int y = Integer.parseInt(yStr);
+                final int w = Integer.parseInt(wStr);
+                final int h = Integer.parseInt(hStr);
 
                 imageFacade.crop(x, y, w, h);
                 drawingView.repaint();

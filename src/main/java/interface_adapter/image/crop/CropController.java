@@ -32,7 +32,7 @@ public class CropController {
      * @param height The height of the crop area.
      */
     public void execute(int x, int y, int width, int height) {
-        CropRequestModel request = new CropRequestModel(x, y, width, height);
+        final CropRequestModel request = new CropRequestModel(x, y, width, height);
         interactor.execute(request);
     }
 }

@@ -6,7 +6,7 @@ import use_case.topmenu.save.SaveFileGateway;
 import use_case.topmenu.save.SaveInputBoundary;
 import use_case.topmenu.save.SaveInteractor;
 
-public class SaveControllerFactory {
+public final class SaveControllerFactory {
     /**
      * Factory function for creating the Save Controller.
      *

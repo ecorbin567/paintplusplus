@@ -16,23 +16,23 @@ public class RotateButton {
 
     public RotateButton(ImageFacade controller, DrawingView drawingView) {
         button = new JButton();
-        URL url = Objects.requireNonNull(
+        final URL url = Objects.requireNonNull(
                 RotateButton.class.getResource("/images/RotateIcon.png"),
                 "Missing resource: /images/RotateIcon.png"
         );
-        ImageIcon icon = new ImageIcon(url);
-        java.awt.Image image = icon.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+        final ImageIcon icon = new ImageIcon(url);
+        final java.awt.Image image = icon.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
         button.setIcon(new ImageIcon(image));
         button.setPreferredSize(new java.awt.Dimension(60, 60));
 
         button.addActionListener(e -> {
-            String input = JOptionPane.showInputDialog(null,
+            final String input = JOptionPane.showInputDialog(null,
                     "Enter degrees to rotate (e.g., 90, -45):",
                     "Rotate Image",
                     JOptionPane.PLAIN_MESSAGE);
             if (input != null) {
                 try {
-                    double degrees = Double.parseDouble(input);
+                    final double degrees = Double.parseDouble(input);
                     controller.rotate(degrees);
                     drawingView.repaint();
                 }

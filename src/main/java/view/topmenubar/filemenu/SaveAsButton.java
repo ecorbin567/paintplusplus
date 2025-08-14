@@ -21,11 +21,11 @@ public class SaveAsButton {
                 KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK));
         menuItem.setActionCommand("saveAs");
         menuItem.addActionListener(e -> {
-            BufferedImage image = drawingView.getImage();
-            JFileChooser fileChooser = new JFileChooser();
+            final BufferedImage image = drawingView.getImage();
+            final JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Save As");
             fileChooser.setSelectedFile(new File(System.getProperty("user.dir") + "/untitled.png"));
-            int result = fileChooser.showSaveDialog(null);
+            final int result = fileChooser.showSaveDialog(null);
 
             if (result == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
