@@ -17,6 +17,9 @@ import javax.imageio.ImageIO;
 
 import use_case.newcanvas.NewCanvasUserDataAccessInterface;
 
+/**
+ * Supabase-backed repository for saving and loading user canvases via the Storage API.
+ */
 public class SupabaseCanvasRepository implements NewCanvasUserDataAccessInterface {
 
     private static final String CANVAS_DATABASE_URL = "https:"
@@ -31,6 +34,13 @@ public class SupabaseCanvasRepository implements NewCanvasUserDataAccessInterfac
     private static final String BUCKET_NAME = "canvasimages";
     private static final String BACKSLASH = "/";
 
+    /**
+     * Uploads a PNG-encoded image to Supabase Storage under {@code parentFolderName}.
+     *
+     * @param parentFolderName user/folder prefix (e.g., username)
+     * @param image            buffered image to upload (encoded as PNG)
+     * @throws RuntimeException if an I/O error occurs during upload
+     */
     private void uploadImage(String parentFolderName, BufferedImage image) {
         // 1. Convert BufferedImage to byte array
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -95,6 +105,13 @@ public class SupabaseCanvasRepository implements NewCanvasUserDataAccessInterfac
         }
     }
 
+    /**
+     * Lists object names (filenames) under the user prefix in Supabase Storage.
+     *
+     * @param username the folder/prefix to list (e.g., username)
+     * @return list of filenames (PNG/JPG/JPEG) under the prefix
+     * @throws IOException if the HTTP call fails or returns non-200
+     */
     private static List<String> listImagePaths(String username) throws IOException {
         final String listUrl = CANVAS_DATABASE_URL + "/storage/v1/object/list/" + BUCKET_NAME;
 
@@ -124,6 +141,12 @@ public class SupabaseCanvasRepository implements NewCanvasUserDataAccessInterfac
         return paths;
     }
 
+    /**
+     * Extracts object names from the Supabase list JSON response (very simple parser).
+     *
+     * @param json raw JSON response body returned by Storage list API
+     * @return list of filenames matching PNG/JPG/JPEG extensions
+     */
     private static List<String> parsePathsFromJson(String json) {
         // Extremely primitive path extraction (you may use a real JSON lib instead)
         final List<String> paths = new ArrayList<>();
