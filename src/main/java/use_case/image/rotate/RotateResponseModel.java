@@ -3,6 +3,9 @@ package use_case.image.rotate;
 import entity.Image;
 import java.util.List;
 
+/**
+ * Presents the rotated image.
+ */
 public class RotateResponseModel {
     private final List<Image> rotatedImage;
 

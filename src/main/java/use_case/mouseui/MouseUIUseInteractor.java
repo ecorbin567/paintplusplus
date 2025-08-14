@@ -5,7 +5,9 @@ import entity.*;
 import java.awt.*;
 import java.util.Stack;
 
-
+/**
+ * The MouseUi usecase interactor.
+ */
 public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
     private final CanvasState canvasState;
     private final MouseUIOutputBoundary mouseUIOutputBoundary;

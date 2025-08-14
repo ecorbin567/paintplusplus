@@ -7,6 +7,9 @@ import use_case.image.crop.CropInteractor;
 
 import java.util.List;
 
+/**
+ * The Resize Interactor.
+ */
 public class ResizeInteractor implements ResizeInputBoundary {
     private final CanvasState canvas;
     private final ResizeOutputBoundary presenter;

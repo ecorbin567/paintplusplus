@@ -4,14 +4,15 @@ package use_case.newcanvas;
  * The output boundary for the New Canvas Use Case.
  */
 public interface NewCanvasOutputBoundary {
+
     /**
-     * Prep suc view.
-     * @param newCanvasOutputData data.
+     * Prepares the success view for the new canvas use case.
+     * @param newCanvasOutputData the new canvas output data.
      */
     void prepareSuccessView(NewCanvasOutputData newCanvasOutputData);
 
     /**
-     * Switch.
+     * Prepares the switch to the sign-up view page.
      */
     void switchToSignupView();
 }
