@@ -1,32 +1,28 @@
 package data_access;
 
+import java.io.IOException;
 import java.net.URI;
+import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import entity.CommonUser;
 import entity.User;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import use_case.goback.GoBackUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
-import java.net.http.HttpClient;
-import java.net.http.HttpResponse;
-
 /**
- * In supabase, store json of user data, user action history
+ * User accounts data access object.
  */
-
-// TODO: COMPLETELY UNIMPLEMENTED!!!!
-//  TODO: user get and set methods
-//  TODO: verify and stuff
-
 public class SupabaseAccountRepository implements UserDataAccessInterface,
         LoginUserDataAccessInterface, SignupUserDataAccessInterface, GoBackUserDataAccessInterface {
     // You should never store API keys like this. But I don't care.
-    private final String API_KEY = "sb_secret_ZDGh4GSj6nne_LGHTJ162A__CFUb7sF";
-    private final String USER_DATABASE_URL = "https://jrzhzrsourpuiflfzdgc.supabase.co/rest/v1/Users";
+    private final String apiKey = "sb_secret_ZDGh4GSj6nne_LGHTJ162A__CFUb7sF";
+    private final String userDatabaseUrl = "https://jrzhzrsourpuiflfzdgc.supabase.co/rest/v1/Users";
 
     private final HttpClient client;
     private String currentUser = "";
@@ -42,7 +38,7 @@ public class SupabaseAccountRepository implements UserDataAccessInterface,
     // the following 3 methods are from signup/login data access interfaces.
     @Override
     public boolean existsByName(String username) {
-        return (getUser(username) != null);
+        return getUser(username) != null;
     }
 
     @Override
@@ -52,7 +48,7 @@ public class SupabaseAccountRepository implements UserDataAccessInterface,
 
     @Override
     public boolean verifyCredentials(String username, String password) {
-        User user = getUser(username);
+        final User user = getUser(username);
         return user != null && password.equals(user.password());
     }
 
@@ -64,102 +60,125 @@ public class SupabaseAccountRepository implements UserDataAccessInterface,
     // primary data access interface methods
     @Override
     public boolean addUser(User user) {
+        boolean result;
         try {
             // Convert the user to a JSON string
-            JSONObject json = EntityToJSONConverter.convertUserToJSON(user);
+            final JSONObject json = EntityToJSONConverter.convertUserToJSON(user);
 
             // Build the request
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(USER_DATABASE_URL))
-                    .header("apikey", API_KEY)
-                    .header("Authorization", "Bearer " + API_KEY)
-                    .header("Content-Type", "application/json")
+            final HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(userDatabaseUrl))
+                    .header(HttpResponseCodes.APIKEY, apiKey)
+                    .header(HttpResponseCodes.AUTHORIZATION, HttpResponseCodes.BEARER + apiKey)
+                    .header("Content-Type", HttpResponseCodes.CONTENT_TYPE_JSON)
                     .header("Prefer", "return=representation")
                     .POST(HttpRequest.BodyPublishers.ofString(json.toString()))
                     .build();
 
             // Send the request
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             // Check if insert succeeded
-            return response.statusCode() == 201;
+            result = response.statusCode() == HttpResponseCodes.SUCCESS_CREATED;
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
         }
+        catch (InterruptedException ex) {
+            ex.printStackTrace();
+            result = false;
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
+            result = false;
+        }
+
+        return result;
     }
 
     @Override
     public User getUser(String username) {
+        User userToReturn;
+
         try {
             // Supabase filter format: ?username=eq.<value>
-            String encodedUsername = encodeUsername(username);
-            String url = USER_DATABASE_URL + "?username=" + encodedUsername;
+            final String encodedUsername = encodeUsername(username);
+            final String url = userDatabaseUrl + "?username=" + encodedUsername;
 
-            HttpRequest request = HttpRequest.newBuilder()
+            final HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
-                    .header("apikey", API_KEY)
-                    .header("Authorization", "Bearer " + API_KEY)
-                    .header("Accept", "application/json")
+                    .header(HttpResponseCodes.APIKEY, apiKey)
+                    .header(HttpResponseCodes.AUTHORIZATION, HttpResponseCodes.BEARER + apiKey)
+                    .header("Accept", HttpResponseCodes.CONTENT_TYPE_JSON)
                     .GET()
                     .build();
 
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            if (response.statusCode() == 200) {
-                JSONArray results = new JSONArray(response.body());
+            if (response.statusCode() == HttpResponseCodes.SUCCESS_OK) {
+                final JSONArray results = new JSONArray(response.body());
                 if (results.length() > 0) {
-                    JSONObject userJson = results.getJSONObject(0);
-                    return EntityToJSONConverter.convertJSONToUser(userJson);
-                } else {
-                    return null; // user not found
+                    final JSONObject userJson = results.getJSONObject(0);
+                    userToReturn = EntityToJSONConverter.convertJSONToUser(userJson);
                 }
-            } else {
+                else {
+                    // user not found
+                    userToReturn = null;
+                }
+            }
+            else {
                 System.err.println("Error: " + response.statusCode() + "\n" + response.body());
-                return null;
+                userToReturn = null;
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
         }
+        catch (InterruptedException ex) {
+            ex.printStackTrace();
+            userToReturn = null;
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
+            userToReturn = null;
+        }
+
+        return userToReturn;
     }
 
     @Override
     public boolean updateUserPassword(String username, String newPassword) {
-        try {
-            boolean status1 = deleteUser(username);
-            boolean status2 = addUser(new CommonUser(username, newPassword));
-            return status1 && status2;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        final boolean status1 = deleteUser(username);
+        final boolean status2 = addUser(new CommonUser(username, newPassword));
+        return status1 && status2;
     }
 
     @Override
     public boolean deleteUser(String username) {
+        boolean result;
         try {
             // Supabase filter format: ?username=eq.<value>
-            String encodedUsername = encodeUsername(username);
-            String url = USER_DATABASE_URL + "?username=" + encodedUsername;
+            final String encodedUsername = encodeUsername(username);
+            final String url = userDatabaseUrl + "?username=" + encodedUsername;
 
-            HttpRequest request = HttpRequest.newBuilder()
+            final HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
-                    .header("apikey", API_KEY)
-                    .header("Authorization", "Bearer " + API_KEY)
-                    .header("Content-Type", "application/json")
+                    .header(HttpResponseCodes.APIKEY, apiKey)
+                    .header(HttpResponseCodes.AUTHORIZATION, HttpResponseCodes.BEARER + apiKey)
+                    .header("Content-Type", HttpResponseCodes.CONTENT_TYPE_JSON)
                     .DELETE()
                     .build();
 
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            return response.statusCode() == 204; // 204 No Content = successfully deleted
+            result = response.statusCode() == HttpResponseCodes.SUCCESS_NO_CONTENT;
+            // 204 No Content = successfully deleted
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
         }
+        catch (InterruptedException ex) {
+            ex.printStackTrace();
+            result = false;
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
+            result = false;
+        }
+        return result;
     }
 }

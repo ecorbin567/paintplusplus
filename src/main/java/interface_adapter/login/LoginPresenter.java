@@ -1,5 +1,8 @@
 package interface_adapter.login;
 
+import java.awt.image.BufferedImage;
+import java.util.List;
+
 import interface_adapter.ViewManagerModel;
 import interface_adapter.canvas.DrawingViewModel;
 import interface_adapter.goback.GoBackState;
@@ -9,9 +12,6 @@ import interface_adapter.newcanvas.NewCanvasViewModel;
 import use_case.login.LoginOutputBoundary;
 import use_case.login.LoginOutputData;
 
-import java.awt.image.BufferedImage;
-import java.util.List;
-
 /**
  * The Presenter for the Login Use Case.
  */
@@ -19,13 +19,15 @@ public class LoginPresenter implements LoginOutputBoundary {
 
     private final LoginViewModel loginViewModel;
     private final NewCanvasViewModel newCanvasViewModel;
-    private final DrawingViewModel drawingViewModel; // need to update drawing view model
-    private final GoBackViewModel goBackViewModel; // lol
+    private final DrawingViewModel drawingViewModel;
+    private final GoBackViewModel goBackViewModel;
     private final ViewManagerModel viewManagerModel;
 
     public LoginPresenter(ViewManagerModel viewManagerModel,
                           NewCanvasViewModel canvasViewModel,
-                          LoginViewModel loginViewModel, DrawingViewModel drawingViewModel, GoBackViewModel goBackViewModel) {
+                          LoginViewModel loginViewModel,
+                          DrawingViewModel drawingViewModel,
+                          GoBackViewModel goBackViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.newCanvasViewModel = canvasViewModel;
         this.loginViewModel = loginViewModel;
@@ -40,7 +42,7 @@ public class LoginPresenter implements LoginOutputBoundary {
         final NewCanvasState myCanvasState = this.newCanvasViewModel.getState();
 
         // Upon login success, update "canvas select screen" with user's canvases.
-        List<BufferedImage> userCanvases = response.getUserCanvases();
+        final List<BufferedImage> userCanvases = response.getUserCanvases();
         myCanvasState.setCanvases(userCanvases);
         this.newCanvasViewModel.setState(myCanvasState);
         this.newCanvasViewModel.setCanvases(userCanvases);
@@ -50,7 +52,7 @@ public class LoginPresenter implements LoginOutputBoundary {
         this.drawingViewModel.setCurrentUser(response.getUsername());
 
         // This is getting out of hand
-        GoBackState goBackState = this.goBackViewModel.getState();
+        final GoBackState goBackState = this.goBackViewModel.getState();
         goBackState.setUsername(response.getUsername());
 
         this.viewManagerModel.setState(newCanvasViewModel.getViewName());

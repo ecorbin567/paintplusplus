@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 public interface SaveOnlineInputBoundary {
     /**
-     * Save online button
+     * Save online button.
      * @param username of the user
      * @param image to save
      */

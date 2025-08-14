@@ -1,9 +1,9 @@
 package interface_adapter.newcanvas;
 
+import java.awt.image.BufferedImage;
+
 import use_case.newcanvas.NewCanvasInputBoundary;
 import use_case.newcanvas.NewCanvasInputData;
-
-import java.awt.image.BufferedImage;
 
 /**
  * The controller for the New Canvas Screen Use Case.
@@ -28,6 +28,12 @@ public class NewCanvasController {
         newCanvasUseCaseInteractor.execute(newCanvasInputData);
     }
 
+    /**
+     * Execute new canvas with import.
+     * @param username username
+     * @param password password
+     * @param importedCanvas canvas to give
+     */
     public void execute(String username, String password, BufferedImage importedCanvas) {
         final NewCanvasInputData newCanvasInputData = new NewCanvasInputData(
                 username, password, importedCanvas
@@ -35,6 +41,9 @@ public class NewCanvasController {
         newCanvasUseCaseInteractor.executeImportExistingCanvas(newCanvasInputData);
     }
 
+    /**
+     * Switch to signup view.
+     */
     public void switchToSignupView() {
         newCanvasUseCaseInteractor.switchToSignupView();
     }

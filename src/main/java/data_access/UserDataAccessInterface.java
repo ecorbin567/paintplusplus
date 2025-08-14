@@ -3,7 +3,7 @@ package data_access;
 import entity.User;
 
 /**
- * Primary interface for accessing user information
+ * Primary interface for accessing user information.
  */
 public interface UserDataAccessInterface {
     /**
@@ -23,6 +23,7 @@ public interface UserDataAccessInterface {
     /**
      * Updates an existing user’s password.
      * @param username the updated username
+     * @param newPassword pswd
      * @return true if update was successful
      */
     boolean updateUserPassword(String username, String newPassword);

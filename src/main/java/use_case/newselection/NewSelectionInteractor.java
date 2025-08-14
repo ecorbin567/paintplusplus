@@ -6,6 +6,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
+/**
+ * The New Selection Interactor
+ */
 public class NewSelectionInteractor implements NewSelectionInputBoundary {
 
     private final CanvasState canvasState;

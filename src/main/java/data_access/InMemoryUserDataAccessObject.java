@@ -1,16 +1,15 @@
 package data_access;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import entity.ActionHistory;
 import entity.CommonUser;
 import entity.User;
 import use_case.goback.GoBackUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * In-memory implementation of the DAO for storing user data. This implementation does
@@ -30,11 +29,18 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     }
 
     /* DEPENDENCY INJECTIONS!!!! :DDDDD */
+
+    /**
+     * Create user in memory.
+     * @param user user
+     * @return success
+     */
     public boolean createUser(User user) {
         if (users.get(user.getUsername()) == null) {
             users.put(user.getUsername(), user);
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }
@@ -52,13 +58,16 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
 
     @Override
     public boolean updateUserPassword(String username, String newPassword) {
+        final boolean toReturn;
         if (users.get(username) == null) {
-            return false;
-        } else {
+            toReturn = false;
+        }
+        else {
             users.remove(username);
             users.put(username, new CommonUser(username, newPassword));
-            return true;
+            toReturn = true;
         }
+        return toReturn;
     }
 
     @Override
@@ -76,41 +85,38 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         return this.currentUser;
     }
 
+    /**
+     * Delete user from memory.
+     * @param username the username of the user to delete
+     * @return success
+     */
     public boolean deleteUser(String username) {
+        final boolean toReturn;
         if (users.get(username) != null) {
             users.remove(username);
-            return true;
-        } else {
-            return false;
+            toReturn = true;
         }
+        else {
+            toReturn = false;
+        }
+        return toReturn;
     }
 
+    /**
+     * Yes.
+     * @param username the input username
+     * @param password the input password
+     * @return success.
+     */
     public boolean verifyCredentials(String username, String password) {
+        final boolean toReturn;
         if (users.get(username) != null) {
-            User u = users.get(username);
-            return password.equals(u.password());
-        } else {
-            return false;
+            final User u = users.get(username);
+            toReturn = password.equals(u.password());
         }
-    }
-
-    public boolean saveCanvas(User user, ActionHistory actionHistory) {
-        if (usersDocumentsMap.get(user.getUsername()) == null) {
-            usersDocumentsMap.put(user.getUsername(), new ArrayList<>());
-            usersDocumentsMap.get(user.getUsername()).add(actionHistory);
-            return true;
-        } else {
-            usersDocumentsMap.get(user.getUsername()).add(actionHistory);
-            return false;
+        else {
+            toReturn = false;
         }
-
-    }
-
-    public ActionHistory findCanvasById(User user, int id) {
-        return usersDocumentsMap.get(user.getUsername()).get(id);
-    }
-
-    public List<ActionHistory> getAllCanvases(User user) {
-        return usersDocumentsMap.get(user.getUsername());
+        return toReturn;
     }
 }

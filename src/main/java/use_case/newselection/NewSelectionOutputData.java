@@ -4,6 +4,9 @@ package use_case.newselection;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * Output data for the New Selection use case.
+ */
 public class NewSelectionOutputData {
     private final BufferedImage selectionImage;
     private final Rectangle selectionBounds;
