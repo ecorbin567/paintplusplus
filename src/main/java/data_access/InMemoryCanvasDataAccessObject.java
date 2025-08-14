@@ -13,6 +13,10 @@ import javax.imageio.ImageIO;
 
 import use_case.newcanvas.NewCanvasUserDataAccessInterface;
 
+/**
+ * In-memory implementation of canvas persistence that seeds sample canvases from
+ * {@code /sample-canvases} on classpath and groups saved images by username.
+ */
 public class InMemoryCanvasDataAccessObject implements CanvasDataAccessInterface, NewCanvasUserDataAccessInterface {
 
     private final Map<String, List<BufferedImage>> usersDocumentsMap = new HashMap<>();
@@ -93,6 +97,12 @@ public class InMemoryCanvasDataAccessObject implements CanvasDataAccessInterface
         return usersDocumentsMap.get(username).get(id);
     }
 
+    /**
+     * Returns all canvases for the given user (most-recent appended).
+     *
+     * @param username the user to look up
+     * @return the user’s canvas list, or {@code null} if the user has none
+     */
     @Override
     public List<BufferedImage> getAllCanvases(String username) {
         return usersDocumentsMap.get(username);
