@@ -6,6 +6,7 @@ import interface_adapter.newselection.SelectionViewModel;
 import interface_adapter.canvas.CanvasController;
 import interface_adapter.canvas.CanvasPresenter;
 import interface_adapter.canvas.DrawingViewModel;
+import use_case.mouseui.MouseUILoggingDecorator;
 import use_case.mouseui.MouseUIUseInputBoundary;
 import use_case.mouseui.MouseUIUseInteractor;
 import use_case.newselection.NewSelectionInputBoundary;
@@ -31,8 +32,9 @@ public class CanvasControllerFactory {
         final CanvasPresenter canvasPresenter = new CanvasPresenter(drawingViewModel);
         final SelectionPresenter selectionPresenter = new SelectionPresenter(selectionViewModel);
         // interactors
-        final MouseUIUseInputBoundary mouseInteractor = new MouseUIUseInteractor(canvasState,
-                canvasPresenter);
+        final MouseUIUseInputBoundary mouseInteractor = new MouseUILoggingDecorator(new MouseUIUseInteractor(
+                canvasState, canvasPresenter));
+
         final ToolUseInputBoundary toolUseInteractor = new ToolUseInteractor(canvasState);
         final NewSelectionInputBoundary selectionInteractor = new NewSelectionInteractor(canvasState,
                 selectionPresenter);
