@@ -6,6 +6,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Holds the full mutable state of the canvas, tools, history, and selection for the drawing application.
+ */
 public class CanvasState {
     private double scale = 1;
     //ToolUse
