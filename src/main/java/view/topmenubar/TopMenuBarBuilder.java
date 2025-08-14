@@ -1,12 +1,13 @@
 package view.topmenubar;
 
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+
 import interface_adapter.topmenu.TopMenuFacade;
 import view.DrawingView;
 import view.topmenubar.editmenu.EditButton;
 import view.topmenubar.filemenu.FileButton;
 import view.topmenubar.viewmenu.ViewButton;
-
-import javax.swing.*;
 
 public class TopMenuBarBuilder {
     FileButton fileButton;
@@ -14,6 +15,7 @@ public class TopMenuBarBuilder {
     ViewButton viewButton;
 
     JMenuBar menuBar;
+
     public TopMenuBarBuilder(DrawingView drawingView, TopMenuFacade controllers) {
         menuBar = new JMenuBar();
 

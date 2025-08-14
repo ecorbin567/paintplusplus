@@ -1,15 +1,19 @@
 package view.midmenubar.imagebar;
 
-import interface_adapter.image.ImageFacade;
-import interface_adapter.image.import_image.ImportController;
-import view.DrawingView;
-
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Image;
 import java.io.File;
 import java.net.URL;
 import java.util.Objects;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import interface_adapter.image.ImageFacade;
+import interface_adapter.image.import_image.ImportController;
+import view.DrawingView;
 
 public class ImportButton {
 

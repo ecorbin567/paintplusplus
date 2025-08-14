@@ -1,13 +1,14 @@
 package use_case.topmenu.canvassize;
+
 import entity.CanvasState;
 
-public class SizeInteractor implements SizeInputBoundary{
+public class SizeInteractor implements SizeInputBoundary {
 
     private final CanvasState canvasState;
     private final SizeOutputBoundary presenter;
 
     public SizeInteractor(CanvasState canvasState,
-                             SizeOutputBoundary presenter) {
+                          SizeOutputBoundary presenter) {
         this.canvasState = canvasState;
         this.presenter = presenter;
     }

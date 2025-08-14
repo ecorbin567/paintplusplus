@@ -1,9 +1,9 @@
 package use_case.goback;
 
-import data_access.CanvasDataAccessInterface;
-
 import java.awt.image.BufferedImage;
 import java.util.List;
+
+import data_access.CanvasDataAccessInterface;
 
 /**
  * The Go Back Interactor.

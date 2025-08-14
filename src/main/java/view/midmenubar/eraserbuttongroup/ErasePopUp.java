@@ -1,10 +1,12 @@
 package view.midmenubar.eraserbuttongroup;
 
+import javax.swing.JPopupMenu;
+import javax.swing.JSlider;
+import javax.swing.SwingConstants;
+import javax.swing.event.ChangeListener;
+
 import entity.ToolEnum;
 import interface_adapter.canvas.CanvasController;
-
-import javax.swing.*;
-import javax.swing.event.ChangeListener;
 
 public class ErasePopUp {
     private static final ToolEnum toolName = ToolEnum.ERASER;
@@ -19,7 +21,7 @@ public class ErasePopUp {
         slider.setMajorTickSpacing(10);
         slider.setPaintTicks(true);
         slider.setPaintLabels(true);
-        ChangeListener cl = e ->{
+        ChangeListener cl = e -> {
             JSlider sliderValue = (JSlider) e.getSource();
             float value = sliderValue.getValue();
             canvasController.handleSlider(toolName, value);
@@ -30,7 +32,7 @@ public class ErasePopUp {
 
     }
 
-    public JPopupMenu getPopupMenu(){
+    public JPopupMenu getPopupMenu() {
         return this.popupMenu;
     }
 }

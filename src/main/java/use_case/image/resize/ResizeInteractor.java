@@ -1,11 +1,11 @@
 package use_case.image.resize;
 
+import java.util.List;
+
 import entity.ActionHistory;
 import entity.CanvasState;
 import entity.Image;
 import use_case.image.crop.CropInteractor;
-
-import java.util.List;
 
 /**
  * The Resize Interactor.
@@ -42,7 +42,8 @@ public class ResizeInteractor implements ResizeInputBoundary {
             // 4. Pass the new state to the presenter to update the view
             presenter.present(new ResizeResponseModel(importedImages));
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             presenter.presentError("Resize failed: " + e.getMessage());
         }
     }

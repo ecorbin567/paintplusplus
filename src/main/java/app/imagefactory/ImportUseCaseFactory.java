@@ -10,14 +10,16 @@ import use_case.image.import_image.ImportInteractor;
 import use_case.image.import_image.ImportOutputBoundary;
 
 public class ImportUseCaseFactory {
-    private ImportUseCaseFactory(){
-        //Unneded
+    private ImportUseCaseFactory() {
+        // Unneded
     }
+
     /**
      * Factory function for creating the Import Use Case.
-     * @param canvasState the CanvasState
+     *
+     * @param canvasState      the CanvasState
      * @param drawingViewModel the DrawingViewModel
-     * @param imageLoader the ImageLoader
+     * @param imageLoader      the ImageLoader
      * @return the ImportController created
      */
     public static ImportController create(CanvasState canvasState,

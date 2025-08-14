@@ -1,11 +1,12 @@
 package use_case.mouseui;
 
-import entity.Drawable;
-
 import java.util.Stack;
+
+import entity.Drawable;
 
 /**
  * Output data for the mouse ui use case.
+ *
  * @param drawables
  * @param state
  * @param drawable

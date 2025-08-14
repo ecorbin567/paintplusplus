@@ -7,6 +7,7 @@ public interface NewCanvasOutputBoundary {
 
     /**
      * Prepares the success view for the new canvas use case.
+     *
      * @param newCanvasOutputData the new canvas output data.
      */
     void prepareSuccessView(NewCanvasOutputData newCanvasOutputData);

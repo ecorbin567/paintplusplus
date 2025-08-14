@@ -1,15 +1,20 @@
 package view.midmenubar.colorbuttonsbar;
 
+import java.awt.Color;
+import java.awt.Image;
+import java.net.URL;
+import java.util.Objects;
+
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.JToggleButton;
+import javax.swing.SwingUtilities;
+
 import entity.ToolEnum;
 import interface_adapter.changecolor.ColorController;
 import view.midmenubar.SelectionToolButton;
 
-import javax.swing.*;
-import java.awt.*;
-import java.net.URL;
-import java.util.Objects;
-
-public class ColorWheelButton extends CircularButton{
+public class ColorWheelButton extends CircularButton {
     ImageIcon imageIcon;
     private static final ToolEnum toolName = ToolEnum.PENCIL;
 
@@ -43,7 +48,7 @@ public class ColorWheelButton extends CircularButton{
                 if (upperColorChooserButton.isSelected()) {
                     upperColorChooserButton.setCurrentColor(picked);
                 }
-                else{
+                else {
                     lowerColorChooserButton.setCurrentColor(picked);
                 }
             }
@@ -51,8 +56,7 @@ public class ColorWheelButton extends CircularButton{
         });
     }
 
-
-    public JToggleButton getColorWheelButton(){
+    public JToggleButton getColorWheelButton() {
         return this;
     }
 }

@@ -1,8 +1,8 @@
 package interface_adapter.canvas;
 
-import interface_adapter.ViewModel;
-
 import java.awt.image.BufferedImage;
+
+import interface_adapter.ViewModel;
 
 /**
  * The View Model for the Canvas View.

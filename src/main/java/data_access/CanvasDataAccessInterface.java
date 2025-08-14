@@ -10,14 +10,16 @@ import java.util.List;
 public interface CanvasDataAccessInterface {
     /**
      * Add new document to user's repository.
+     *
      * @param username The user's username
-     * @param image is the image to upload
+     * @param image    is the image to upload
      * @return a boolean indicating whether username is null
      */
     boolean saveCanvas(String username, BufferedImage image);
 
     /**
      * Get all projects from user's repository.
+     *
      * @param username name of said user
      * @return the screenshot of the projects
      */

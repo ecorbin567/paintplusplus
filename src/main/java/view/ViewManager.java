@@ -1,11 +1,12 @@
 package view;
 
-import interface_adapter.ViewManagerModel;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.CardLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import javax.swing.JPanel;
+
+import interface_adapter.ViewManagerModel;
 
 /**
  * Manages visible views using a CardLayout.
@@ -18,8 +19,8 @@ public class ViewManager implements PropertyChangeListener {
     /**
      * Creates a view manager.
      *
-     * @param views the container holding all views (cards)
-     * @param cardLayout the CardLayout controlling the container
+     * @param views            the container holding all views (cards)
+     * @param cardLayout       the CardLayout controlling the container
      * @param viewManagerModel the model emitting view name changes
      */
     public ViewManager(JPanel views, CardLayout cardLayout, ViewManagerModel viewManagerModel) {

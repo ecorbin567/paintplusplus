@@ -1,21 +1,23 @@
 package view.midmenubar.pencilbuttongroup;
 
-import entity.ToolEnum;
-
-import interface_adapter.canvas.CanvasController;
-import view.midmenubar.eraserbuttongroup.EraseButton;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Image;
 import java.net.URL;
 import java.util.Objects;
 
-public class PencilButton{
-    //ImageIcon is for Images of the PencilButton
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+
+import entity.ToolEnum;
+import interface_adapter.canvas.CanvasController;
+import view.midmenubar.eraserbuttongroup.EraseButton;
+
+public class PencilButton {
+    // ImageIcon is for Images of the PencilButton
     private static final ToolEnum tool = ToolEnum.PENCIL;
     private final JButton button;
 
-    public PencilButton (CanvasController canvasController) {
+    public PencilButton(CanvasController canvasController) {
         button = new JButton();
         PencilPopUp pencilPopUp = new PencilPopUp(canvasController);
         URL url = Objects.requireNonNull(

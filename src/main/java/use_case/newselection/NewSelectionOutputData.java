@@ -1,7 +1,6 @@
 package use_case.newselection;
 
-
-import java.awt.*;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 /**
@@ -37,7 +36,7 @@ public class NewSelectionOutputData {
         return selectionBounds;
     }
 
-    public boolean getIsDraggingSelection(){
+    public boolean getIsDraggingSelection() {
         return draggingSelection;
     }
 

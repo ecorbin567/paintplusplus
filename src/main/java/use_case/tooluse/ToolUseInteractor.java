@@ -26,8 +26,10 @@ public class ToolUseInteractor implements ToolUseInputBoundary {
             this.canvasState.setPaintBrushSize(size);
         }
 
-        else if (toolName == ToolEnum.ERASER) {
-            this.canvasState.setEraserSize(size);
+        else {
+            if (toolName == ToolEnum.ERASER) {
+                this.canvasState.setEraserSize(size);
+            }
         }
     }
 }

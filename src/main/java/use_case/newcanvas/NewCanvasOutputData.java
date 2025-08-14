@@ -21,6 +21,7 @@ public class NewCanvasOutputData {
 
     /**
      * Get the initially imported canvas.
+     *
      * @return Canvas to import, possibly null
      */
     public BufferedImage getImportedCanvas() {

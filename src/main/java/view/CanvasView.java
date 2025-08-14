@@ -1,27 +1,7 @@
 package view;
 
-import interface_adapter.canvas.CanvasController;
-
-import interface_adapter.canvas.CanvasUserState;
-import interface_adapter.canvas.CanvasViewModel;
-import interface_adapter.goback.GoBackController;
-import interface_adapter.goback.GoBackState;
-import interface_adapter.goback.GoBackViewModel;
-import interface_adapter.image.ImageFacade;
-import interface_adapter.changecolor.ColorController;
-
-import interface_adapter.image.import_image.ImportController;
-import interface_adapter.topmenu.TopMenuFacade;
-import interface_adapter.topmenu.history.HistoryController;
-import view.midmenubar.imagebar.ImportButton;
-import view.midmenubar.MidMenuBarBuilder;
-import view.topmenubar.MenuActionListener;
-import view.topmenubar.TopMenuBarBuilder;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -29,6 +9,27 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
+import javax.swing.JMenuBar;
+import javax.swing.JPanel;
+
+import interface_adapter.canvas.CanvasController;
+import interface_adapter.canvas.CanvasUserState;
+import interface_adapter.canvas.CanvasViewModel;
+import interface_adapter.changecolor.ColorController;
+import interface_adapter.goback.GoBackController;
+import interface_adapter.goback.GoBackState;
+import interface_adapter.goback.GoBackViewModel;
+import interface_adapter.image.ImageFacade;
+import interface_adapter.image.import_image.ImportController;
+import interface_adapter.topmenu.TopMenuFacade;
+import interface_adapter.topmenu.history.HistoryController;
+import view.midmenubar.MidMenuBarBuilder;
+import view.midmenubar.imagebar.ImportButton;
+import view.topmenubar.MenuActionListener;
+import view.topmenubar.TopMenuBarBuilder;
 
 /**
  * The View for when the user is drawing on a canvas.
@@ -70,7 +71,8 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
         topMenuBarBuilder.setMenuActionListener(this);
         this.add(menuBar, BorderLayout.NORTH);
 
-        MidMenuBarBuilder midMenuBarBuilder = new MidMenuBarBuilder(controller, imageFacade, colorController, drawingView);
+        MidMenuBarBuilder midMenuBarBuilder = new MidMenuBarBuilder(controller, imageFacade, colorController,
+                drawingView);
         JPanel panel = midMenuBarBuilder.getPanel();
         // store import button for use in login (in property change)
         this.importButton = midMenuBarBuilder.getImportButtonObject();
@@ -83,7 +85,7 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
     }
 
     public void actionPerformed(ActionEvent evt) {
-        //Is Not Used Even Though JPanel Needs it
+        // Is Not Used Even Though JPanel Needs it
     }
 
     public String getViewName() {
@@ -111,7 +113,8 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
         File outputFile = new File("imageToImport.png");
         try {
             ImageIO.write(initialImportedImage, "png", outputFile);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             throw new IOException(e);
         }
 
@@ -124,12 +127,16 @@ public class CanvasView extends JPanel implements ActionListener, MenuActionList
         if ("import".equals(evt.getPropertyName())) {
             try {
                 pressImportButton(this.importButton, state.getInitialImportedImage());
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        } else if ("clearhistory".equals(evt.getPropertyName())) {
-            historyController.clearHistory();
-            drawingView.simulateMousePress();
+        }
+        else {
+            if ("clearhistory".equals(evt.getPropertyName())) {
+                historyController.clearHistory();
+                drawingView.simulateMousePress();
+            }
         }
     }
 }

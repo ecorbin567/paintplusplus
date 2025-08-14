@@ -1,10 +1,10 @@
 package interface_adapter.image.import_image;
 
+import javax.swing.JOptionPane;
+
 import interface_adapter.canvas.DrawingViewModel;
 import use_case.image.import_image.ImportOutputBoundary;
 import use_case.image.import_image.ImportResponseModel;
-
-import javax.swing.*;
 
 /**
  * The presenter for the Import Use Case.

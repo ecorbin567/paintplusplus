@@ -6,6 +6,7 @@ package use_case.newselection;
 public interface NewSelectionInputBoundary {
     /**
      * Executes the new selection use case.
+     *
      * @param inputData the input data.
      */
     void execute(NewSelectionInputData inputData);

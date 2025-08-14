@@ -1,16 +1,20 @@
 package view.midmenubar;
 
-import entity.ToolEnum;
-import interface_adapter.canvas.CanvasController;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Image;
 import java.net.URL;
 import java.util.Objects;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+
+import entity.ToolEnum;
+import interface_adapter.canvas.CanvasController;
 
 public class SelectionToolButton {
     ToolEnum toolName = ToolEnum.SELECT;
     JButton button;
+
     public SelectionToolButton(CanvasController canvasController) {
         button = new JButton();
         URL url = Objects.requireNonNull(

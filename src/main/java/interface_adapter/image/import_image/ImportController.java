@@ -1,9 +1,9 @@
 package interface_adapter.image.import_image;
 
+import java.io.File;
+
 import use_case.image.import_image.ImportInputBoundary;
 import use_case.image.import_image.ImportRequestModel;
-
-import java.io.File;
 
 /**
  * The controller for the Import Use Case.

@@ -9,12 +9,14 @@ import use_case.image.resize.ResizeInteractor;
 import use_case.image.resize.ResizeOutputBoundary;
 
 public class ResizeUseCaseFactory {
-    private ResizeUseCaseFactory(){
-        //Unneeded
+    private ResizeUseCaseFactory() {
+        // Unneeded
     }
+
     /**
      * Factory function for creating the Resize Use Case.
-     * @param canvasState the CanvasState
+     *
+     * @param canvasState      the CanvasState
      * @param drawingViewModel the DrawingViewModel
      * @return the ResizeController created
      */

@@ -1,15 +1,17 @@
 package view.topmenubar.viewmenu;
 
+import java.awt.event.KeyEvent;
+
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
+
 import interface_adapter.topmenu.TopMenuFacade;
 import view.DrawingView;
-
-import javax.swing.*;
-import java.awt.event.KeyEvent;
 
 public class ZoomOutButton {
     private final JMenuItem menuItem;
 
-    public ZoomOutButton(DrawingView drawingView, TopMenuFacade controller){
+    public ZoomOutButton(DrawingView drawingView, TopMenuFacade controller) {
         menuItem = new JMenuItem("Zoom Out");
         menuItem.setMnemonic(KeyEvent.VK_F);
         menuItem.setAccelerator(

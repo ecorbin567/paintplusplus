@@ -1,13 +1,14 @@
 package interface_adapter.newselection;
 
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+
 import use_case.newselection.NewSelectionOutputBoundary;
 import use_case.newselection.NewSelectionOutputData;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-
 public class SelectionPresenter implements NewSelectionOutputBoundary {
     SelectionViewModel selectionViewModel;
+
     public SelectionPresenter(SelectionViewModel selectionViewModel) {
         this.selectionViewModel = selectionViewModel;
     }

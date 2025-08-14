@@ -1,11 +1,18 @@
 package view.midmenubar.imagebar;
 
-import interface_adapter.image.ImageFacade;
-import view.DrawingView;
-
-import javax.swing.*;
 import java.net.URL;
 import java.util.Objects;
+
+import javax.swing.Box;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import interface_adapter.image.ImageFacade;
+import view.DrawingView;
 
 public class ResizeImageButton {
     private final JButton button;
@@ -43,8 +50,10 @@ public class ResizeImageButton {
                     }
                     controller.resize(newWidth, newHeight);
                     drawingView.repaint();
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Please enter valid positive integers.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+                }
+                catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Please enter valid positive integers.", "Invalid Input",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

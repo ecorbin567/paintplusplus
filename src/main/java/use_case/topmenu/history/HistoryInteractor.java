@@ -1,13 +1,18 @@
 package use_case.topmenu.history;
 
-import entity.*;
-import entity.Image;
-
-import java.awt.*;
-import java.util.Stack;
+import java.awt.Rectangle;
 import java.util.List;
+import java.util.Stack;
 
-public class HistoryInteractor implements HistoryInputBoundary{
+import entity.ActionHistory;
+import entity.CanvasState;
+import entity.CutRecord;
+import entity.Drawable;
+import entity.Image;
+import entity.MoveRecord;
+import entity.PasteRecord;
+
+public class HistoryInteractor implements HistoryInputBoundary {
     HistoryOutputBoundary presenter;
     CanvasState canvasState;
     ActionHistory actionHistory;
@@ -38,6 +43,7 @@ public class HistoryInteractor implements HistoryInputBoundary{
         presenter.setCurrentDrawable(outputData);
 
     }
+
     @Override
     public void redoDrawable() {
         Drawable nextState = actionHistory.redo();
@@ -68,10 +74,10 @@ public class HistoryInteractor implements HistoryInputBoundary{
         actionHistory.clearHistory();
     }
 
-    private void rebuildStateFromHistory(){
+    private void rebuildStateFromHistory() {
         canvasState.getCommitedSelections().clear();
         canvasState.getClearRegions().clear();
-        for (Drawable d: actionHistory.getUndoStack()){
+        for (Drawable d : actionHistory.getUndoStack()) {
             addFromDrawable(d);
         }
         addFromDrawable(actionHistory.getCurrentState());
@@ -82,13 +88,19 @@ public class HistoryInteractor implements HistoryInputBoundary{
         if (d instanceof PasteRecord pr) {
             this.canvasState.getCommitedSelections().add(
                     new CanvasState.Pair<>(pr.image, new Rectangle(pr.bounds)));
-        } else if (d instanceof CutRecord cr) {
-            this.canvasState.getClearRegions().add(new Rectangle(cr.bounds));
+        }
+        else {
+            if (d instanceof CutRecord cr) {
+                this.canvasState.getClearRegions().add(new Rectangle(cr.bounds));
 
-        } else if (d instanceof  MoveRecord mr){
-            this.canvasState.getClearRegions().add(new Rectangle(mr.from()));
-            this.canvasState.getCommitedSelections().add(
-                    new CanvasState.Pair<>(mr.image(), new Rectangle(mr.to())));
+            }
+            else {
+                if (d instanceof MoveRecord mr) {
+                    this.canvasState.getClearRegions().add(new Rectangle(mr.from()));
+                    this.canvasState.getCommitedSelections().add(
+                            new CanvasState.Pair<>(mr.image(), new Rectangle(mr.to())));
+                }
+            }
         }
     }
 }

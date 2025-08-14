@@ -1,7 +1,7 @@
 package use_case.mouseui;
 
-import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Logs calls and execution times for a MouseUIUseInputBoundary.

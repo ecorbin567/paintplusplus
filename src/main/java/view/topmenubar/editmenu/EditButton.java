@@ -1,10 +1,12 @@
 package view.topmenubar.editmenu;
 
+import java.awt.event.KeyEvent;
+
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+
 import interface_adapter.topmenu.TopMenuFacade;
 import view.DrawingView;
-
-import javax.swing.*;
-import java.awt.event.KeyEvent;
 
 public class EditButton {
     private final JMenu menu;

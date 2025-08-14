@@ -1,15 +1,17 @@
 package view.topmenubar.viewmenu;
 
+import java.awt.event.KeyEvent;
+
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
+
 import interface_adapter.topmenu.TopMenuFacade;
 import view.DrawingView;
-
-import javax.swing.*;
-import java.awt.event.KeyEvent;
 
 public class ZoomInButton {
     private final JMenuItem menuItem;
 
-    public ZoomInButton(DrawingView drawingView, TopMenuFacade controller){
+    public ZoomInButton(DrawingView drawingView, TopMenuFacade controller) {
         menuItem = new JMenuItem("Zoom In");
         menuItem.setMnemonic(KeyEvent.VK_F);
         menuItem.setAccelerator(

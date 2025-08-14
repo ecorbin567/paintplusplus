@@ -1,10 +1,10 @@
 package interface_adapter.image.crop;
 
+import javax.swing.JOptionPane;
+
 import interface_adapter.canvas.DrawingViewModel;
 import use_case.image.crop.CropOutputBoundary;
 import use_case.image.crop.CropResponseModel;
-
-import javax.swing.*;
 
 /**
  * The presenter for the Crop Use Case.
@@ -24,6 +24,6 @@ public class CropPresenter implements CropOutputBoundary {
 
     @Override
     public void presentError(String error) {
-        JOptionPane.showMessageDialog(null, error,  "Crop Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, error, "Crop Error", JOptionPane.ERROR_MESSAGE);
     }
 }

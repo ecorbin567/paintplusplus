@@ -89,8 +89,9 @@ public class InMemoryCanvasDataAccessObject implements CanvasDataAccessInterface
 
     /**
      * Find canvas by id.
+     *
      * @param username username
-     * @param id id
+     * @param id       id
      * @return the canvas image
      */
     public BufferedImage findCanvasById(String username, int id) {

@@ -1,13 +1,15 @@
 package view.topmenubar.editmenu;
 
-import interface_adapter.topmenu.TopMenuFacade;
-import view.DrawingView;
-
-import javax.swing.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
-public class RedoButton{
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
+
+import interface_adapter.topmenu.TopMenuFacade;
+import view.DrawingView;
+
+public class RedoButton {
     private final JMenuItem menuItem;
 
     public RedoButton(DrawingView drawingView, TopMenuFacade controller) {

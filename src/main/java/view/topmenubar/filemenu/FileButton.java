@@ -1,11 +1,13 @@
 package view.topmenubar.filemenu;
 
+import java.awt.event.KeyEvent;
+
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+
 import interface_adapter.topmenu.TopMenuFacade;
 import view.DrawingView;
 import view.topmenubar.MenuActionListener;
-
-import javax.swing.*;
-import java.awt.event.KeyEvent;
 
 public class FileButton {
 
@@ -34,7 +36,7 @@ public class FileButton {
         menu.setMnemonic(KeyEvent.VK_F);
     }
 
-    public JMenu getMenu(){
+    public JMenu getMenu() {
         return menu;
     }
 

@@ -1,21 +1,23 @@
 package app;
 
-import interface_adapter.newselection.SelectionViewModel;
 import interface_adapter.canvas.CanvasController;
 import interface_adapter.canvas.CanvasRenderer;
 import interface_adapter.canvas.DrawingViewModel;
+import interface_adapter.newselection.SelectionViewModel;
 import view.DrawingView;
 
 public class DrawingViewUseCaseFactory {
-    private DrawingViewUseCaseFactory(){
-        //Unnnedded
+    private DrawingViewUseCaseFactory() {
+        // Unnnedded
     }
+
     /**
      * Factory function for creating the Drawing View Use Case.
-     * @param controller the CanvasController
-     * @param renderer the CanvasRenderer
+     *
+     * @param controller         the CanvasController
+     * @param renderer           the CanvasRenderer
      * @param selectionViewModel the SelectionViewModel
-     * @param drawingViewModel the DrawingViewModel
+     * @param drawingViewModel   the DrawingViewModel
      * @return the DrawingView created
      */
     public static DrawingView create(CanvasController controller,

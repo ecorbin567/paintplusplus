@@ -20,6 +20,7 @@ public class NewCanvasViewModel extends ViewModel<NewCanvasState> {
 
     /**
      * Set displayed canvases and fire property change.
+     *
      * @param canvases the list of canvases
      */
     public void setCanvases(List<BufferedImage> canvases) {

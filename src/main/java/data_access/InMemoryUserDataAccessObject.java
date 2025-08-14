@@ -32,6 +32,7 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
 
     /**
      * Create user in memory.
+     *
      * @param user user
      * @return success
      */
@@ -87,6 +88,7 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
 
     /**
      * Delete user from memory.
+     *
      * @param username the username of the user to delete
      * @return success
      */
@@ -104,6 +106,7 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
 
     /**
      * Yes.
+     *
      * @param username the input username
      * @param password the input password
      * @return success.

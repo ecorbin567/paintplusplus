@@ -1,7 +1,15 @@
 package view.midmenubar.colorbuttonsbar;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.RenderingHints;
+
+import javax.swing.Icon;
+import javax.swing.JToggleButton;
 
 public class CircularButton extends JToggleButton {
 
@@ -58,14 +66,15 @@ public class CircularButton extends JToggleButton {
 
     @Override
     public boolean contains(int x, int y) {
-        //true if only coordinates inside the drawn circle
+        // true if only coordinates inside the drawn circle
         int radius = getWidth() / 2;
         int dx = x - radius;
         int dy = y - radius;
         return dx * dx + dy * dy <= radius * radius;
     }
+
     @Override
-    public void update(Graphics g){
+    public void update(Graphics g) {
         paintComponent(g);
     }
 }

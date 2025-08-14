@@ -40,7 +40,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
     /**
      * Creates the sign-up view and wires listeners.
      *
-     * @param controller controller to execute actions
+     * @param controller      controller to execute actions
      * @param signupViewModel view model providing state and errors
      */
     public SignupView(SignupController controller, SignupViewModel signupViewModel) {

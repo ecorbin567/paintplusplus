@@ -8,16 +8,17 @@ import java.awt.image.BufferedImage;
  * the destination {@code bounds} (in canvas coordinates). Used by the renderer
  * and {@link ActionHistory} to replay and undo/redo pasted content.
  */
-public class PasteRecord implements Drawable{
+public class PasteRecord implements Drawable {
     public final BufferedImage image;
     public final Rectangle bounds;
 
-    public PasteRecord(BufferedImage image, Rectangle where){
+    public PasteRecord(BufferedImage image, Rectangle where) {
         this.image = image;
         this.bounds = where;
     }
+
     @Override
-    public String toString(){
+    public String toString() {
         return "Paste Record: " + bounds.toString();
     }
 }

@@ -1,11 +1,11 @@
 package use_case.image.rotate;
 
+import java.util.List;
+
 import entity.ActionHistory;
 import entity.CanvasState;
 import entity.Image;
 import use_case.image.crop.CropInteractor;
-
-import java.util.List;
 
 /**
  * The Rotate Image interactor.
@@ -43,7 +43,8 @@ public class RotateInteractor implements RotateInputBoundary {
             // 4. Pass the new state to the presenter to update the view
             presenter.present(new RotateResponseModel(importedImages));
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             presenter.presentError("Rotate failed: " + e.getMessage());
         }
     }

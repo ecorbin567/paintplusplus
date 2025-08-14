@@ -1,10 +1,11 @@
 package view.topmenubar.viewmenu;
 
+import java.awt.event.KeyEvent;
+
+import javax.swing.JMenu;
+
 import interface_adapter.topmenu.TopMenuFacade;
 import view.DrawingView;
-
-import javax.swing.*;
-import java.awt.event.KeyEvent;
 
 public class ResizeCanvasButton extends JMenu {
     public ResizeCanvasButton(DrawingView drawingView, TopMenuFacade controller) {

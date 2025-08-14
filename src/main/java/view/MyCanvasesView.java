@@ -39,7 +39,7 @@ public class MyCanvasesView extends JPanel implements ActionListener, PropertyCh
      * Creates the view, wires listeners, and lays out components.
      *
      * @param newCanvasViewModel view model providing user state and canvases
-     * @param controller controller used to create/open canvases and navigate
+     * @param controller         controller used to create/open canvases and navigate
      */
     public MyCanvasesView(NewCanvasViewModel newCanvasViewModel, NewCanvasController controller) {
         this.setPreferredSize(new Dimension(ViewConstants.FOUR_HUNDRED, ViewConstants.FOUR_HUNDRED));

@@ -4,6 +4,7 @@ import use_case.topmenu.history.HistoryInputBoundary;
 
 public class HistoryController {
     HistoryInputBoundary interactor;
+
     public HistoryController(HistoryInputBoundary interactor) {
         this.interactor = interactor;
     }

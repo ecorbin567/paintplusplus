@@ -1,11 +1,13 @@
 package view.topmenubar.editmenu;
 
-import interface_adapter.topmenu.TopMenuFacade;
-import view.DrawingView;
-
-import javax.swing.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
+
+import interface_adapter.topmenu.TopMenuFacade;
+import view.DrawingView;
 
 public class UndoButton {
     private final JMenuItem menuItem;

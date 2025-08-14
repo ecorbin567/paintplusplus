@@ -10,12 +10,14 @@ public interface NewCanvasInputBoundary {
 
     /**
      * Executes the login use case.
+     *
      * @param newCanvasInputData the input data
      */
     void execute(NewCanvasInputData newCanvasInputData);
 
     /**
      * Executes the login use case when importing an existing canvas.
+     *
      * @param newCanvasInputData the input data
      */
     void executeImportExistingCanvas(NewCanvasInputData newCanvasInputData);
@@ -27,6 +29,7 @@ public interface NewCanvasInputBoundary {
 
     /**
      * Self-explanatory.
+     *
      * @param newCanvasInputData data
      * @return list of canvases
      */

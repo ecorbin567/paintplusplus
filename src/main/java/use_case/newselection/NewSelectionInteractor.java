@@ -1,10 +1,16 @@
 package use_case.newselection;
 
-import entity.*;
-
-import java.awt.*;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.List;
+
+import entity.ActionHistory;
+import entity.CanvasState;
+import entity.CutRecord;
+import entity.MoveRecord;
+import entity.SelectionTool;
+import entity.ToolEnum;
 
 /**
  * The New Selection Interactor
@@ -36,16 +42,20 @@ public class NewSelectionInteractor implements NewSelectionInputBoundary {
         }
         switch (in.action()) {
             case START -> onStart(in.point());
-            case DRAG  -> onDrag(in.point());
+            case DRAG -> onDrag(in.point());
             case COMMIT -> onCommit(in.point(), in.baseImage());
             case CANCEL -> onCancel();
         }
         sendSelectionOutput();
     }
 
-    /** Mouse pressed. */
+    /**
+     * Mouse pressed.
+     */
     private void onStart(Point p) {
-        if (p == null) return;
+        if (p == null) {
+            return;
+        }
         boolean hasSel = canvasState.getHasSelection();
         Rectangle sel = canvasState.getSelectionBounds();
 
@@ -53,21 +63,29 @@ public class NewSelectionInteractor implements NewSelectionInputBoundary {
             // Start dragging existing selection.
             canvasState.setDraggingSelection(true);
             canvasState.setDragAnchor(new Point(p.x - sel.x, p.y - sel.y));
-        } else if (hasSel) {
-            // Clicked outside -> deselect (commit move if moved).
-            deselect();
-        } else {
-            // Begin drawing a new selection box.
-            canvasState.setDraggingSelection(false);
-            canvasState.setHasCutOut(false); // make the first drag create only one cutrecord (not while dragging)
-            tool.start(p);
-            canvasState.setIsDrawing(true);
+        }
+        else {
+            if (hasSel) {
+                // Clicked outside -> deselect (commit move if moved).
+                deselect();
+            }
+            else {
+                // Begin drawing a new selection box.
+                canvasState.setDraggingSelection(false);
+                canvasState.setHasCutOut(false); // make the first drag create only one cutrecord (not while dragging)
+                tool.start(p);
+                canvasState.setIsDrawing(true);
+            }
         }
     }
 
-    /** Mouse dragged. */
+    /**
+     * Mouse dragged.
+     */
     private void onDrag(Point p) {
-        if (p == null) return;
+        if (p == null) {
+            return;
+        }
 
         if (canvasState.getDraggingSelection()) {
             if (!canvasState.getHasCutOut()) {
@@ -82,12 +100,15 @@ public class NewSelectionInteractor implements NewSelectionInputBoundary {
                 sel.x = p.x - anchor.x;
                 sel.y = p.y - anchor.y;
             }
-        } else {
+        }
+        else {
             tool.drag(p);
         }
     }
 
-    /** Mouse released: finalize selection or end drag. */
+    /**
+     * Mouse released: finalize selection or end drag.
+     */
     private void onCommit(Point p, BufferedImage base) {
         if (!canvasState.getDraggingSelection()) {
             tool.finish(p);
@@ -104,10 +125,12 @@ public class NewSelectionInteractor implements NewSelectionInputBoundary {
                     canvasState.setSelectionBounds(new Rectangle(clipped));
                     canvasState.setSelectionOriginalBounds(new Rectangle(clipped));
                     canvasState.setHasSelection(true);
-                } else {
+                }
+                else {
                     clearSelectionState();
                 }
-            } else {
+            }
+            else {
                 clearSelectionState();
             }
         }
@@ -115,13 +138,17 @@ public class NewSelectionInteractor implements NewSelectionInputBoundary {
         tool.cancel();
     }
 
-    /** Escape/cancel during draw. */
+    /**
+     * Escape/cancel during draw.
+     */
     private void onCancel() {
         clearSelectionState();
         tool.cancel();
     }
 
-    /** Commit move if position changed; then clear selection. */
+    /**
+     * Commit move if position changed; then clear selection.
+     */
     private void deselect() {
         canvasState.setDraggingSelection(false);
         canvasState.setHasCutOut(false);

@@ -1,14 +1,15 @@
 package interface_adapter.topmenu.history;
 
+import java.util.Stack;
+
 import entity.Drawable;
 import interface_adapter.canvas.DrawingViewModel;
 import use_case.topmenu.history.HistoryOutputBoundary;
 import use_case.topmenu.history.HistoryOutputData;
 
-import java.util.Stack;
-
 public class HistoryPresenter implements HistoryOutputBoundary {
     DrawingViewModel drawingViewModel;
+
     public HistoryPresenter(DrawingViewModel drawingViewModel) {
         this.drawingViewModel = drawingViewModel;
     }

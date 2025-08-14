@@ -1,12 +1,12 @@
 package use_case.image.import_image;
 
-import entity.CanvasState;
-import entity.Image;
-import entity.ActionHistory;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
+import entity.ActionHistory;
+import entity.CanvasState;
+import entity.Image;
 
 /**
  * The Import Interactor.
@@ -41,7 +41,8 @@ public class ImportInteractor implements ImportInputBoundary {
 
             ImportResponseModel response = new ImportResponseModel(importedImages);
             presenter.present(response);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             presenter.presentError("Failed to import image: " + e.getMessage());
         }
     }

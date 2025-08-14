@@ -1,19 +1,25 @@
 package view.midmenubar.colorbuttonsbar;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
-public class ColorWheelPanel extends JPanel{
+import javax.swing.JPanel;
+
+public class ColorWheelPanel extends JPanel {
 
     private final int radius;
     private final Point center;
     private Color selectedColor = Color.WHITE;
     private Point selectionPoint;
 
-    public ColorWheelPanel(int size){
+    public ColorWheelPanel(int size) {
         setPreferredSize(new Dimension(size, size + 50));
         radius = size / 2 - 10;
         center = new Point(size / 2, size / 2);
@@ -24,6 +30,7 @@ public class ColorWheelPanel extends JPanel{
             public void mousePressed(MouseEvent e) {
                 updateSelectedColor(e.getPoint());
             }
+
             @Override
             public void mouseDragged(MouseEvent e) {
                 updateSelectedColor(e.getPoint());
@@ -33,12 +40,12 @@ public class ColorWheelPanel extends JPanel{
         addMouseMotionListener(ma);
     }
 
-    private void updateSelectedColor(Point mousePoint){
+    private void updateSelectedColor(Point mousePoint) {
         double dx = mousePoint.x - (double) center.x;
-        double dy = mousePoint.y - (double ) center.y;
+        double dy = mousePoint.y - (double) center.y;
         double distance = center.distance(mousePoint);
 
-        if (distance <= radius){
+        if (distance <= radius) {
             selectionPoint = new Point(mousePoint);
             // hue based on angle
             double angle = Math.atan2(dy, dx);
@@ -52,19 +59,19 @@ public class ColorWheelPanel extends JPanel{
     }
 
     @Override
-    protected void paintComponent(Graphics g){
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2d  = (Graphics2D) g.create();
+        Graphics2D g2d = (Graphics2D) g.create();
         // anti alsiasing
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         // code for the actual circle/wheel
-        for (int x = -radius; x <= radius; x++){
-            for (int y = -radius; y <= radius; y++){
+        for (int x = -radius; x <= radius; x++) {
+            for (int y = -radius; y <= radius; y++) {
                 Point2D p = new Point2D.Double(x, y);
                 double distance = p.distance(0, 0);
 
-                if (distance <= radius){
+                if (distance <= radius) {
                     double angle = Math.atan2(y, x);
                     double hue = (angle + Math.PI) / (2 * Math.PI);
                     double saturation = distance / radius;
@@ -82,7 +89,7 @@ public class ColorWheelPanel extends JPanel{
         if (selectionPoint != null) {
             g2d.setColor(Color.BLACK);
             int m = 6;
-            g2d.drawOval(selectionPoint.x - m/2, selectionPoint.y - m/2, m, m);
+            g2d.drawOval(selectionPoint.x - m / 2, selectionPoint.y - m / 2, m, m);
         }
         // draw selected color indicator
         g2d.setColor(selectedColor);
@@ -93,7 +100,7 @@ public class ColorWheelPanel extends JPanel{
         g2d.dispose();
     }
 
-    public Color getSelectedColor(){
+    public Color getSelectedColor() {
         return this.selectedColor;
     }
 

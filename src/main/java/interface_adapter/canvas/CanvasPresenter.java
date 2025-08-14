@@ -1,10 +1,10 @@
 package interface_adapter.canvas;
 
+import java.util.Stack;
+
 import entity.Drawable;
 import use_case.mouseui.MouseUIOutputBoundary;
 import use_case.mouseui.MouseUIOutputData;
-
-import java.util.Stack;
 
 public class CanvasPresenter implements MouseUIOutputBoundary {
     private final DrawingViewModel drawingViewModel;

@@ -15,6 +15,7 @@ public class CropController {
 
     /**
      * Constructs a new CropController with a dependency on the use case interactor.
+     *
      * @param interactor The interactor that implements the CropInputBoundary
      *                   and will execute the crop logic.
      */
@@ -24,9 +25,10 @@ public class CropController {
 
     /**
      * Packages the crop parameters into a request model and executes the use case.
-     * @param x The x-coordinate of the top-left corner of the crop area.
-     * @param y the y-coordinate of the top-left corner of the crop area.
-     * @param width The width of the crop area.
+     *
+     * @param x      The x-coordinate of the top-left corner of the crop area.
+     * @param y      the y-coordinate of the top-left corner of the crop area.
+     * @param width  The width of the crop area.
      * @param height The height of the crop area.
      */
     public void execute(int x, int y, int width, int height) {

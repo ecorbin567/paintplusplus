@@ -1,13 +1,15 @@
 package view.midmenubar.eraserbuttongroup;
 
+import java.awt.Dimension;
+import java.awt.Image;
+import java.net.URL;
+import java.util.Objects;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 
 import entity.ToolEnum;
 import interface_adapter.canvas.CanvasController;
-
-import javax.swing.*;
-import java.awt.*;
-import java.net.URL;
-import java.util.Objects;
 
 public class EraseButton {
     private static final ToolEnum toolName = ToolEnum.ERASER;
@@ -30,7 +32,7 @@ public class EraseButton {
 
         button.addActionListener(event -> canvasController.handleTools(toolName));
 
-         button.addActionListener(e -> erasePopUp.getPopupMenu().show(button, button.getWidth(), button.getHeight()));
+        button.addActionListener(e -> erasePopUp.getPopupMenu().show(button, button.getWidth(), button.getHeight()));
     }
 
     public JButton getButton() {

@@ -1,9 +1,15 @@
 package use_case.mouseui;
 
-import entity.*;
-
-import java.awt.*;
+import java.awt.Color;
 import java.util.Stack;
+
+import entity.ActionHistory;
+import entity.CanvasState;
+import entity.Drawable;
+import entity.Eraser;
+import entity.Paintbrush;
+import entity.StrokeRecord;
+import entity.ToolEnum;
 
 /**
  * The MouseUi usecase interactor.
@@ -31,12 +37,12 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
 
     @Override
     public void mouseIsPressed(MouseUIInputData inputData) {
-        if (canvasState.getToolState() == ToolEnum.SELECT){
+        if (canvasState.getToolState() == ToolEnum.SELECT) {
             sendMouseOutputData();
             return;
         }
         ToolEnum toolState = canvasState.getToolState();
-        switch(toolState) {
+        switch (toolState) {
             case PENCIL, ERASER, CHANGECOLOR -> handleDrawingTool(toolState, inputData);
         }
         sendMouseOutputData();
@@ -44,12 +50,12 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
 
     @Override
     public void mouseIsDragged(MouseUIInputData inputData) {
-        if (canvasState.getToolState() == ToolEnum.SELECT){
+        if (canvasState.getToolState() == ToolEnum.SELECT) {
             sendMouseOutputData();
             return;
         }
         ToolEnum toolState = canvasState.getToolState();
-        if (toolState == ToolEnum.SELECT || toolState == ToolEnum.ERASER || toolState == ToolEnum.PENCIL){
+        if (toolState == ToolEnum.SELECT || toolState == ToolEnum.ERASER || toolState == ToolEnum.PENCIL) {
             mouseDragPencilEraser(inputData);
         }
         sendMouseOutputData();
@@ -64,10 +70,12 @@ public class MouseUIUseInteractor implements MouseUIUseInputBoundary {
             color = paintbrush.getColour();
             size = paintbrush.getWidth();
         }
-        else if (toolState == ToolEnum.ERASER) {
-            Eraser eraser = this.canvasState.getEraser();
-            color = Color.WHITE;
-            size = eraser.getWidth();
+        else {
+            if (toolState == ToolEnum.ERASER) {
+                Eraser eraser = this.canvasState.getEraser();
+                color = Color.WHITE;
+                size = eraser.getWidth();
+            }
         }
 
         StrokeRecord currentStroke = new StrokeRecord(color, size);

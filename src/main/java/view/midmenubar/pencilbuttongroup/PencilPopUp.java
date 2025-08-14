@@ -1,9 +1,12 @@
 package view.midmenubar.pencilbuttongroup;
 
+import javax.swing.JPopupMenu;
+import javax.swing.JSlider;
+import javax.swing.SwingConstants;
+import javax.swing.event.ChangeListener;
+
 import entity.ToolEnum;
 import interface_adapter.canvas.CanvasController;
-import javax.swing.*;
-import javax.swing.event.ChangeListener;
 
 public class PencilPopUp {
     private static final ToolEnum toolName = ToolEnum.PENCIL;
@@ -19,7 +22,7 @@ public class PencilPopUp {
         slider.setPaintTicks(true);
         slider.setPaintLabels(true);
 
-        ChangeListener cl = e ->{
+        ChangeListener cl = e -> {
             JSlider sliderValue = (JSlider) e.getSource();
             float value = sliderValue.getValue();
             canvasController.handleSlider(toolName, value);
@@ -29,7 +32,7 @@ public class PencilPopUp {
         popupMenu.add(slider);
     }
 
-    public JPopupMenu getPopupMenu(){
+    public JPopupMenu getPopupMenu() {
         return this.popupMenu;
     }
 }

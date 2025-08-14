@@ -20,6 +20,7 @@ public class LoginOutputData {
 
     /**
      * Get username.
+     *
      * @return Logged in user's username.
      */
     public String getUsername() {
@@ -28,6 +29,7 @@ public class LoginOutputData {
 
     /**
      * Serve the logged-in user's canvases.
+     *
      * @return all the canvases associated to this user
      */
     public List<BufferedImage> getUserCanvases() {

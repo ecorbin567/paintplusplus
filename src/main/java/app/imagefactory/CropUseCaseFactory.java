@@ -12,13 +12,14 @@ import use_case.image.crop.CropOutputBoundary;
  * This class contains the static factory function for creating the Crop Use Case.
  */
 public class CropUseCaseFactory {
-    private CropUseCaseFactory(){
-        //Unneeded
+    private CropUseCaseFactory() {
+        // Unneeded
     }
 
     /**
      * Factory function for creating the Crop Use Case.
-     * @param canvasState the CanvasState
+     *
+     * @param canvasState      the CanvasState
      * @param drawingViewModel the DrawingViewModel
      * @return the CropController created
      */

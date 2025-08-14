@@ -11,7 +11,8 @@ import use_case.topmenu.canvassize.SizeOutputBoundary;
 public class ResizeCanvasControllerFactory {
     /**
      * Factory function for creating the Resize Canvas Controller.
-     * @param canvasState the CanvasState
+     *
+     * @param canvasState      the CanvasState
      * @param drawingViewModel the DrawingViewModel
      * @return the ResizeCanvasController created
      */

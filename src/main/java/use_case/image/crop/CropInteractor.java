@@ -1,9 +1,10 @@
 package use_case.image.crop;
 
+import java.util.List;
+
 import entity.ActionHistory;
 import entity.CanvasState;
 import entity.Image;
-import java.util.List;
 
 /**
  * The Crop Interactor.
@@ -36,20 +37,22 @@ public class CropInteractor implements CropInputBoundary {
 
             presenter.present(new CropResponseModel(importedImages));
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             presenter.presentError("Crop failed: " + e.getMessage());
         }
     }
 
-    public static void updateCurrentImage(Image originalImage, Image newImage, ActionHistory actionHistory, CanvasState canvas) {
+    public static void updateCurrentImage(Image originalImage, Image newImage, ActionHistory actionHistory,
+                                          CanvasState canvas) {
         actionHistory.push(newImage);
 
         List<Image> importedImages = canvas.getImportedImages();
         int index = importedImages.indexOf(originalImage);
-        if(index != -1){
+        if (index != -1) {
             importedImages.set(index, newImage);
         }
-        else{
+        else {
             importedImages.add(newImage);
         }
 

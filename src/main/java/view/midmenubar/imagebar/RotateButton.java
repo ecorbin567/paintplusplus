@@ -1,11 +1,14 @@
 package view.midmenubar.imagebar;
 
-import interface_adapter.image.ImageFacade;
-import view.DrawingView;
-
-import javax.swing.*;
 import java.net.URL;
 import java.util.Objects;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+
+import interface_adapter.image.ImageFacade;
+import view.DrawingView;
 
 public class RotateButton {
 
@@ -32,7 +35,8 @@ public class RotateButton {
                     double degrees = Double.parseDouble(input);
                     controller.rotate(degrees);
                     drawingView.repaint();
-                } catch (NumberFormatException ex) {
+                }
+                catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null,
                             "Please enter a valid number.",
                             "Invalid Input",

@@ -9,7 +9,8 @@ import use_case.topmenu.save.SaveInteractor;
 public class SaveControllerFactory {
     /**
      * Factory function for creating the Save Controller.
-     * @param canvasState the CanvasState
+     *
+     * @param canvasState      the CanvasState
      * @param imageSaveGateway the SaveFileGateway
      * @return the SaveController created
      */

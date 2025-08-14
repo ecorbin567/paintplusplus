@@ -1,15 +1,15 @@
 package interface_adapter.canvas;
 
+import java.awt.Point;
+import java.awt.image.BufferedImage;
+
 import entity.ToolEnum;
+import use_case.mouseui.MouseUIInputData;
+import use_case.mouseui.MouseUIUseInputBoundary;
 import use_case.newselection.NewSelectionInputBoundary;
 import use_case.newselection.NewSelectionInputData;
 import use_case.tooluse.ToolUseInputBoundary;
 import use_case.tooluse.ToolUseInputData;
-import use_case.mouseui.MouseUIUseInputBoundary;
-import use_case.mouseui.MouseUIInputData;
-
-import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public class CanvasController {
     MouseUIUseInputBoundary mouseUIUseInputBoundary;
@@ -24,18 +24,18 @@ public class CanvasController {
         this.selectionInputBoundary = selectionInputBoundary;
     }
 
-    public void handleTools(ToolEnum tool){
+    public void handleTools(ToolEnum tool) {
         ToolUseInputData inputData = new ToolUseInputData(tool);
         toolUseInputBoundary.setTool(inputData);
     }
 
-    public void handleSlider(ToolEnum tool, float value){
+    public void handleSlider(ToolEnum tool, float value) {
         ToolUseInputData inputData = new ToolUseInputData(tool, value);
         toolUseInputBoundary.setTool(inputData);
         toolUseInputBoundary.setSize(inputData);
     }
 
-    public void handleMousePressed(Point point){
+    public void handleMousePressed(Point point) {
         selectionInputBoundary.execute(
                 new NewSelectionInputData(NewSelectionInputData.Action.START, point, null)
         );
@@ -44,7 +44,7 @@ public class CanvasController {
         mouseUIUseInputBoundary.mouseIsPressed(inputData);
     }
 
-    public void handleMouseDragged(Point point){
+    public void handleMouseDragged(Point point) {
         selectionInputBoundary.execute(
                 new NewSelectionInputData(NewSelectionInputData.Action.DRAG, point, null)
         );
@@ -53,7 +53,7 @@ public class CanvasController {
         mouseUIUseInputBoundary.mouseIsDragged(inputData);
     }
 
-    public void handleMouseReleased(Point point, BufferedImage image){
+    public void handleMouseReleased(Point point, BufferedImage image) {
         selectionInputBoundary.execute(
                 new NewSelectionInputData(NewSelectionInputData.Action.COMMIT, point, image)
         );
