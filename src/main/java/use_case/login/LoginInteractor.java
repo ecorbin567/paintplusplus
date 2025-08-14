@@ -3,7 +3,6 @@ package use_case.login;
 import entity.User;
 import use_case.newcanvas.NewCanvasUserDataAccessInterface;
 
-
 /**
  * The Login Interactor.
  */

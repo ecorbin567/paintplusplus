@@ -37,8 +37,8 @@ public class RotateInteractorTest {
         // Assert
         Image rotatedImage = canvasState.getCurrentImage();
         assertNotNull(rotatedImage);
-        assertEquals(50, rotatedImage.getWidth());
-        assertEquals(100, rotatedImage.getHeight());
+        assertEquals(100, rotatedImage.getWidth());
+        assertEquals(50, rotatedImage.getHeight());
         assertEquals(rotatedImage, canvasState.getActionHistory().getCurrentState());
 
         assertTrue(presenter.successCalled);

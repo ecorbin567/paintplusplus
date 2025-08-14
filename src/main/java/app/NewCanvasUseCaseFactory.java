@@ -19,7 +19,7 @@ public final class NewCanvasUseCaseFactory {
 
     /** Prevent instantiation. */
     private NewCanvasUseCaseFactory() {
-        //unneeded
+
     }
 
     /**

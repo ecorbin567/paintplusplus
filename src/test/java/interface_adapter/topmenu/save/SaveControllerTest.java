@@ -15,11 +15,7 @@ class SaveControllerTest {
 
     static class FakeSaveInteractor implements SaveInputBoundary {
         int saveCalls = 0;
-        int saveOnlineCalls = 0;
-
         SaveInputData lastInput;
-        String lastUsername;
-        BufferedImage lastOnlineImage;
 
         @Override
         public void save(SaveInputData inputData) {
@@ -38,25 +34,9 @@ class SaveControllerTest {
 
         controller.handleSaveButtonPress(image, file);
 
-        assertEquals(1, fake.saveCalls, "save() should be called exactly once");
-        assertNotNull(fake.lastInput, "save() should receive a non-null SaveInputData");
-        assertSame(image, fake.lastInput.image(), "Controller should pass the same BufferedImage");
-        assertEquals(file, fake.lastInput.file(), "Controller should pass the same File");
+        assertEquals(1, fake.saveCalls);
+        assertNotNull(fake.lastInput);
+        assertSame(image, fake.lastInput.image());
+        assertEquals(file, fake.lastInput.file());
     }
-
-    /*
-    @Test
-    void handleSaveOnlineButtonPress_delegatesToUseCaseWithSameUsernameAndImage() {
-        FakeSaveInteractor fake = new FakeSaveInteractor();
-        SaveController controller = new SaveController(fake);
-
-        String username = "alice";
-        BufferedImage image = new BufferedImage(2, 2, BufferedImage.TYPE_INT_ARGB);
-
-        controller.handleSaveOnlineButtonPress(image, username);
-
-        assertEquals(1, fake.saveOnlineCalls, "saveCanvasOnline() should be called exactly once");
-        assertEquals(username, fake.lastUsername, "Username should be forwarded unchanged");
-        assertSame(image, fake.lastOnlineImage, "Image should be forwarded unchanged");
-    }*/
 }
