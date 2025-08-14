@@ -18,6 +18,7 @@ public class NewCanvasController {
 
     /**
      * Executes the New Canvas Use Case.
+     *
      * @param username the username of the user logging in
      * @param password the password of the user logging in
      */
@@ -30,8 +31,9 @@ public class NewCanvasController {
 
     /**
      * Execute new canvas with import.
-     * @param username username
-     * @param password password
+     *
+     * @param username       username
+     * @param password       password
      * @param importedCanvas canvas to give
      */
     public void execute(String username, String password, BufferedImage importedCanvas) {

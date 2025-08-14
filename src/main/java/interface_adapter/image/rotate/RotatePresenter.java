@@ -1,9 +1,10 @@
 package interface_adapter.image.rotate;
 
+import javax.swing.JOptionPane;
+
 import interface_adapter.canvas.DrawingViewModel;
 import use_case.image.rotate.RotateOutputBoundary;
 import use_case.image.rotate.RotateResponseModel;
-import javax.swing.*;
 
 public class RotatePresenter implements RotateOutputBoundary {
     private final DrawingViewModel drawingViewModel;

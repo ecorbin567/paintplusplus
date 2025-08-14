@@ -1,10 +1,13 @@
 package entity;
 
-import java.awt.*;
-import java.util.*;
+import java.awt.Color;
+import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 
-/** One continuous stroke of a paintbrush or eraser. */
+/**
+ * One continuous stroke of a paintbrush or eraser.
+ */
 public class StrokeRecord implements Drawable {
     private final List<Point> pts = new ArrayList<>();
     private final Color colour;

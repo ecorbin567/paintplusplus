@@ -1,10 +1,10 @@
 package use_case.mouseui;
 
-import java.awt.*;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 /**
- *  Input data for the mouse ui use case.
+ * Input data for the mouse ui use case.
  */
 public class MouseUIInputData {
     private final Point point;
@@ -20,6 +20,11 @@ public class MouseUIInputData {
         this.image = image;
     }
 
-    public Point getPoint() { return point; }
-    public BufferedImage getImage() { return image; }
+    public Point getPoint() {
+        return point;
+    }
+
+    public BufferedImage getImage() {
+        return image;
+    }
 }

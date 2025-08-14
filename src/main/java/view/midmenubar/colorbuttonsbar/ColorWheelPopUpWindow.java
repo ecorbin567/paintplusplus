@@ -1,23 +1,28 @@
 package view.midmenubar.colorbuttonsbar;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Window;
 
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
 
-public class ColorWheelPopUpWindow extends JDialog{
+public class ColorWheelPopUpWindow extends JDialog {
 
     private final ColorWheelPanel wheel;
     private boolean confirmed = false;
 
-    public ColorWheelPopUpWindow(Window window){
+    public ColorWheelPopUpWindow(Window window) {
         super(window, "Choose new Color", ModalityType.APPLICATION_MODAL);
         setLayout(new BorderLayout(5, 5));
 
         wheel = new ColorWheelPanel(300);
         getContentPane().add(wheel, BorderLayout.CENTER);
         // button row
-        JButton ok = new JButton("OK");
-        JButton cancel = new JButton("Cancel");
+        final JButton ok = new JButton("OK");
+        final JButton cancel = new JButton("Cancel");
 
         ok.addActionListener(e -> {
             confirmed = true;
@@ -25,7 +30,7 @@ public class ColorWheelPopUpWindow extends JDialog{
         });
         cancel.addActionListener(e -> dispose());
 
-        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+        final JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 5));
         buttons.add(ok);
         buttons.add(cancel);
         add(buttons, BorderLayout.SOUTH);
@@ -34,11 +39,11 @@ public class ColorWheelPopUpWindow extends JDialog{
         setLocationRelativeTo(window);
     }
 
-    public boolean isConfirmed(){
+    public boolean isConfirmed() {
         return this.confirmed;
     }
 
-    public Color getSelectedColor(){
+    public Color getSelectedColor() {
         return wheel.getSelectedColor();
     }
 

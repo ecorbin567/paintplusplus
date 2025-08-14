@@ -6,18 +6,18 @@ import entity.Paintbrush;
 /**
  * The Change Color Interactor.
  */
-public class ChangeColorInteractor implements ChangeColorInputBoundary{
+public class ChangeColorInteractor implements ChangeColorInputBoundary {
 
     private final CanvasState canvasState;
     private final Paintbrush paintbrush;
 
-    public ChangeColorInteractor(CanvasState canvasState){
+    public ChangeColorInteractor(CanvasState canvasState) {
         this.canvasState = canvasState;
         this.paintbrush = canvasState.getPaintbrush();
     }
 
     @Override
-    public void changeColor(ChangeColorInputData input){
+    public void changeColor(ChangeColorInputData input) {
         // update the brush color
         paintbrush.setColour(input.getNewColor());
         // make presenter to give it to the UI
@@ -29,8 +29,8 @@ public class ChangeColorInteractor implements ChangeColorInputBoundary{
     }
 
     @Override
-    public void setButton(ChangeColorInputData inputData){
-        String buttonName = inputData.getButtonName();
+    public void setButton(ChangeColorInputData inputData) {
+        final String buttonName = inputData.getButtonName();
         this.canvasState.setButtonPressed(buttonName);
     }
 }

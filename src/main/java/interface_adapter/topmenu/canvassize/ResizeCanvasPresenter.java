@@ -13,7 +13,7 @@ public class ResizeCanvasPresenter implements SizeOutputBoundary {
 
     @Override
     public void setScale(SizeOutputData outputData) {
-        double scale = outputData.scale();
+        final double scale = outputData.scale();
         this.drawingViewModel.setScale(scale);
     }
 }

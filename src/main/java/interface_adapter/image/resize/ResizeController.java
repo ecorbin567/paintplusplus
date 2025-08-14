@@ -11,7 +11,7 @@ public class ResizeController {
     }
 
     public void execute(int newWidth, int newHeight) {
-        ResizeRequestModel request = new ResizeRequestModel(newWidth, newHeight);
+        final ResizeRequestModel request = new ResizeRequestModel(newWidth, newHeight);
         interactor.execute(request);
     }
 }

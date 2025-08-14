@@ -1,8 +1,8 @@
 package use_case.changecolor;
 
-import entity.ToolEnum;
+import java.awt.Color;
 
-import java.awt.*;
+import entity.ToolEnum;
 
 /**
  * The Input Data for the Change Color Use Case.
@@ -24,15 +24,15 @@ public class ChangeColorInputData {
         this.buttonName = null;
     }
 
-    public Color getNewColor(){
+    public Color getNewColor() {
         return newColor;
     }
 
-    public ToolEnum getToolName(){
+    public ToolEnum getToolName() {
         return toolName;
     }
 
-    public String getButtonName(){
+    public String getButtonName() {
         return buttonName;
     }
 }

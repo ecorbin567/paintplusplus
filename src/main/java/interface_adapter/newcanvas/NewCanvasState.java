@@ -38,6 +38,7 @@ public class NewCanvasState {
 
     /**
      * Add a canvas.
+     *
      * @param canvas to add
      */
     public void addCanvas(BufferedImage canvas) {

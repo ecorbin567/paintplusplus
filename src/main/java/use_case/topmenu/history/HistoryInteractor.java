@@ -1,13 +1,18 @@
 package use_case.topmenu.history;
 
-import entity.*;
-import entity.Image;
-
-import java.awt.*;
-import java.util.Stack;
+import java.awt.Rectangle;
 import java.util.List;
+import java.util.Stack;
 
-public class HistoryInteractor implements HistoryInputBoundary{
+import entity.ActionHistory;
+import entity.CanvasState;
+import entity.CutRecord;
+import entity.Drawable;
+import entity.Image;
+import entity.MoveRecord;
+import entity.PasteRecord;
+
+public class HistoryInteractor implements HistoryInputBoundary {
     HistoryOutputBoundary presenter;
     CanvasState canvasState;
     ActionHistory actionHistory;
@@ -20,8 +25,8 @@ public class HistoryInteractor implements HistoryInputBoundary{
 
     @Override
     public void undoDrawable() {
-        Drawable prevState = actionHistory.undo();
-        List<Image> importedImages = canvasState.getImportedImages();
+        final Drawable prevState = actionHistory.undo();
+        final List<Image> importedImages = canvasState.getImportedImages();
         importedImages.clear();
         rebuildStateFromHistory();
 
@@ -29,23 +34,24 @@ public class HistoryInteractor implements HistoryInputBoundary{
             importedImages.add(image);
             this.canvasState.setCurrentImage(image);
         }
-        boolean undoStackEmpty = !actionHistory.getUndoStack().isEmpty();
-        Stack<Drawable> undoStack = actionHistory.getUndoStack();
+        final boolean undoStackEmpty = !actionHistory.getUndoStack().isEmpty();
+        final Stack<Drawable> undoStack = actionHistory.getUndoStack();
 
-        HistoryOutputData outputData = new HistoryOutputData(undoStack, undoStackEmpty, prevState);
+        final HistoryOutputData outputData = new HistoryOutputData(undoStack, undoStackEmpty, prevState);
         presenter.setRepaintState(outputData);
         presenter.setDrawables(outputData);
         presenter.setCurrentDrawable(outputData);
 
     }
+
     @Override
     public void redoDrawable() {
-        Drawable nextState = actionHistory.redo();
+        final Drawable nextState = actionHistory.redo();
         if (nextState == null) {
             return;
         }
 
-        List<Image> importedImages = canvasState.getImportedImages();
+        final List<Image> importedImages = canvasState.getImportedImages();
         importedImages.clear();
         rebuildStateFromHistory();
 
@@ -54,10 +60,10 @@ public class HistoryInteractor implements HistoryInputBoundary{
             canvasState.setCurrentImage(image);
         }
 
-        boolean undoStackEmpty = !actionHistory.getUndoStack().isEmpty();
-        Stack<Drawable> undoStack = actionHistory.getUndoStack();
+        final boolean undoStackEmpty = !actionHistory.getUndoStack().isEmpty();
+        final Stack<Drawable> undoStack = actionHistory.getUndoStack();
 
-        HistoryOutputData outputData = new HistoryOutputData(undoStack, undoStackEmpty, nextState);
+        final HistoryOutputData outputData = new HistoryOutputData(undoStack, undoStackEmpty, nextState);
         presenter.setDrawables(outputData);
         presenter.setRepaintState(outputData);
         presenter.setCurrentDrawable(outputData);
@@ -68,10 +74,10 @@ public class HistoryInteractor implements HistoryInputBoundary{
         actionHistory.clearHistory();
     }
 
-    private void rebuildStateFromHistory(){
+    private void rebuildStateFromHistory() {
         canvasState.getCommitedSelections().clear();
         canvasState.getClearRegions().clear();
-        for (Drawable d: actionHistory.getUndoStack()){
+        for (Drawable d : actionHistory.getUndoStack()) {
             addFromDrawable(d);
         }
         addFromDrawable(actionHistory.getCurrentState());
@@ -82,13 +88,19 @@ public class HistoryInteractor implements HistoryInputBoundary{
         if (d instanceof PasteRecord pr) {
             this.canvasState.getCommitedSelections().add(
                     new CanvasState.Pair<>(pr.image, new Rectangle(pr.bounds)));
-        } else if (d instanceof CutRecord cr) {
-            this.canvasState.getClearRegions().add(new Rectangle(cr.bounds));
+        }
+        else {
+            if (d instanceof CutRecord cr) {
+                this.canvasState.getClearRegions().add(new Rectangle(cr.bounds));
 
-        } else if (d instanceof  MoveRecord mr){
-            this.canvasState.getClearRegions().add(new Rectangle(mr.from()));
-            this.canvasState.getCommitedSelections().add(
-                    new CanvasState.Pair<>(mr.image(), new Rectangle(mr.to())));
+            }
+            else {
+                if (d instanceof MoveRecord mr) {
+                    this.canvasState.getClearRegions().add(new Rectangle(mr.from()));
+                    this.canvasState.getCommitedSelections().add(
+                            new CanvasState.Pair<>(mr.image(), new Rectangle(mr.to())));
+                }
+            }
         }
     }
 }

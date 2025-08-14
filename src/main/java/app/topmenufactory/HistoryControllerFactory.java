@@ -8,10 +8,11 @@ import use_case.topmenu.history.HistoryInputBoundary;
 import use_case.topmenu.history.HistoryInteractor;
 import use_case.topmenu.history.HistoryOutputBoundary;
 
-public class HistoryControllerFactory {
+public final class HistoryControllerFactory {
     /**
      * Factory function for creating the History Controller.
-     * @param canvasState the CanvasState
+     *
+     * @param canvasState      the CanvasState
      * @param drawingViewModel the DrawingViewModel
      * @return the HistoryController created
      */

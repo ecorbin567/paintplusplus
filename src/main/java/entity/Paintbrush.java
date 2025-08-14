@@ -1,11 +1,11 @@
 package entity;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * A paintbrush.
  */
-public class Paintbrush implements Tool{
+public class Paintbrush implements Tool {
     private float width;
     private Color colour;
 

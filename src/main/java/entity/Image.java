@@ -20,6 +20,7 @@ public class Image implements Drawable, Cloneable {
 
     /**
      * Constructs an Image entity from a BufferedImage.
+     *
      * @param bufferedImage The BufferedImage to wrap in this entity.
      */
     public Image(BufferedImage bufferedImage) {
@@ -34,7 +35,8 @@ public class Image implements Drawable, Cloneable {
      * Sets new dimensions for rendering the image.
      * This method updates the width and height that will be used when the image
      * is drawn. It does not scale the underlying BufferedImage data.
-     * @param newWidth The new width for the image.
+     *
+     * @param newWidth  The new width for the image.
      * @param newHeight The new height for the image.
      */
     public void resize(int newWidth, int newHeight) {
@@ -45,6 +47,7 @@ public class Image implements Drawable, Cloneable {
     /**
      * Rotates the image by a specified number of degrees.
      * The rotation is cumulative.
+     *
      * @param degrees The number of degrees to add to the current rotation.
      */
     public void rotate(double degrees) {
@@ -55,9 +58,10 @@ public class Image implements Drawable, Cloneable {
      * Crops the underlying image to the specified rectangle.
      * This is an operation that replaces the internal BufferedImage with a
      * new, smaller sub-image. The width and height are also updated.
-     * @param cropX The x-coordinate of the top-left corner of the crop area.
-     * @param cropY The y-coordinate of the top-left corner of the crop area.
-     * @param cropWidth The width of the crop area.
+     *
+     * @param cropX      The x-coordinate of the top-left corner of the crop area.
+     * @param cropY      The y-coordinate of the top-left corner of the crop area.
+     * @param cropWidth  The width of the crop area.
      * @param cropHeight The height of the crop area.
      */
     public void crop(int cropX, int cropY, int cropWidth, int cropHeight) {
@@ -70,13 +74,14 @@ public class Image implements Drawable, Cloneable {
      * Draws the image on the screen.
      * This method handles applying the current rotation, position, and dimension
      * to render the image correctly.
+     *
      * @param g The Graphics2D to put the image on.
      */
     public void draw(Graphics2D g) {
-        Graphics2D g2d = (Graphics2D) g.create();
+        final Graphics2D g2d = (Graphics2D) g.create();
 
-        int centerX = x + width / 2;
-        int centerY = y + height / 2;
+        final int centerX = x + width / 2;
+        final int centerY = y + height / 2;
 
         g2d.rotate(Math.toRadians(rotation), centerX, centerY);
         g2d.drawImage(bufferedImage, x, y, width, height, null);
@@ -98,21 +103,22 @@ public class Image implements Drawable, Cloneable {
      * This is important for the "Undo" feature, so that changes to a copy
      * don't affect the original that is saved in the history.
      * All other properties are also copied.
+     *
      * @return A new Image instance that is a deep copy of this one.
      */
     @Override
     public Image clone() {
-        BufferedImage copy = new BufferedImage(
+        final BufferedImage copy = new BufferedImage(
                 bufferedImage.getWidth(),
                 bufferedImage.getHeight(),
                 bufferedImage.getType()
         );
 
-        Graphics2D g = copy.createGraphics();
+        final Graphics2D g = copy.createGraphics();
         g.drawImage(bufferedImage, 0, 0, null);
         g.dispose();
 
-        Image cloned = new Image(copy);
+        final Image cloned = new Image(copy);
         cloned.x = this.x;
         cloned.y = this.y;
         cloned.width = this.width;

@@ -1,15 +1,20 @@
 package view.midmenubar.colorbuttonsbar;
 
+import java.awt.Color;
+import java.awt.Image;
+import java.net.URL;
+import java.util.Objects;
+
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.JToggleButton;
+import javax.swing.SwingUtilities;
+
 import entity.ToolEnum;
 import interface_adapter.changecolor.ColorController;
 import view.midmenubar.SelectionToolButton;
 
-import javax.swing.*;
-import java.awt.*;
-import java.net.URL;
-import java.util.Objects;
-
-public class ColorWheelButton extends CircularButton{
+public class ColorWheelButton extends CircularButton {
     ImageIcon imageIcon;
     private static final ToolEnum toolName = ToolEnum.PENCIL;
 
@@ -18,7 +23,7 @@ public class ColorWheelButton extends CircularButton{
                             LowerColorChooserButton lowerColorChooserButton) {
         super(36);
 
-        URL url = Objects.requireNonNull(
+        final URL url = Objects.requireNonNull(
                 SelectionToolButton.class.getResource("/images/wheel.png"),
                 "Missing resource: /images/wheel.png"
         );
@@ -26,24 +31,24 @@ public class ColorWheelButton extends CircularButton{
         imageIcon = new ImageIcon(url);
 
 
-        Image image = imageIcon.getImage();
-        Image newImage = image.getScaledInstance(36, 36, Image.SCALE_SMOOTH);
+        final Image image = imageIcon.getImage();
+        final Image newImage = image.getScaledInstance(36, 36, Image.SCALE_SMOOTH);
 
         imageIcon = new ImageIcon(newImage);
         setIcon(imageIcon);
         this.addActionListener(e -> {
-            ColorWheelPopUpWindow popUpWIndow = new ColorWheelPopUpWindow(
+            final ColorWheelPopUpWindow popUpWIndow = new ColorWheelPopUpWindow(
                     SwingUtilities.getWindowAncestor(panel));
 
             popUpWIndow.setVisible(true);
 
             if (popUpWIndow.isConfirmed()) {
-                Color picked = popUpWIndow.getSelectedColor();
+                final Color picked = popUpWIndow.getSelectedColor();
                 colorController.handleColorChangeButton(toolName, picked);
                 if (upperColorChooserButton.isSelected()) {
                     upperColorChooserButton.setCurrentColor(picked);
                 }
-                else{
+                else {
                     lowerColorChooserButton.setCurrentColor(picked);
                 }
             }
@@ -51,8 +56,7 @@ public class ColorWheelButton extends CircularButton{
         });
     }
 
-
-    public JToggleButton getColorWheelButton(){
+    public JToggleButton getColorWheelButton() {
         return this;
     }
 }

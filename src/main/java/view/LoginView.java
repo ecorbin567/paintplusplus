@@ -36,7 +36,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
      * Creates the login view, wires listeners, and lays out components.
      *
      * @param loginViewModel the view model providing state and errors
-     * @param controller the controller that executes the login use case
+     * @param controller     the controller that executes the login use case
      */
     public LoginView(LoginViewModel loginViewModel, LoginController controller) {
         this.setPreferredSize(new Dimension(ViewConstants.FOUR_HUNDRED, ViewConstants.FOUR_HUNDRED));

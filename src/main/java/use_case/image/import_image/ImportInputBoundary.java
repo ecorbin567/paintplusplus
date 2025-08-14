@@ -7,6 +7,7 @@ public interface ImportInputBoundary {
 
     /**
      * Executes the import image use case.
+     *
      * @param request the import request.
      */
     void execute(ImportRequestModel request);

@@ -17,6 +17,7 @@ public class LocalImageLoader implements ImportGateway {
 
     /**
      * Loads an image from the specified file.
+     *
      * @param file the image file to be loaded from the local disk
      * @return an Image entity representing the loaded image
      * @throws IOException if an error occurs during the file reading process.

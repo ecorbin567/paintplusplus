@@ -1,12 +1,13 @@
 package view.midmenubar.colorbuttonsbar;
 
+import java.awt.Color;
+
+import javax.swing.JToggleButton;
+
 import entity.ToolEnum;
 import interface_adapter.changecolor.ColorController;
 
-import javax.swing.*;
-import java.awt.*;
-
-public class LowerColorChooserButton extends CircularButton{
+public class LowerColorChooserButton extends CircularButton {
 
     private Color lowerCurrentColor = Color.WHITE;
     private static final ToolEnum toolName = ToolEnum.PENCIL;
@@ -16,17 +17,17 @@ public class LowerColorChooserButton extends CircularButton{
         super(30);
 
         setBackground(lowerCurrentColor);
-        this.addActionListener(e->
-            colorController.handleColorChangeButton(toolName, lowerCurrentColor, BUTTON));
+        this.addActionListener(e ->
+                colorController.handleColorChangeButton(toolName, lowerCurrentColor, BUTTON));
 
     }
 
-    public void setCurrentColor(Color c){
+    public void setCurrentColor(Color c) {
         this.lowerCurrentColor = c;
         setBackground(c);
     }
 
-    public JToggleButton getButton(){
+    public JToggleButton getButton() {
         return this;
     }
 }

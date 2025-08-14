@@ -1,6 +1,6 @@
 package entity;
 
-import java.util.*;
+import java.util.Stack;
 
 /**
  * Stores all past actions in stacks of done and undone actions.
@@ -24,8 +24,10 @@ public class ActionHistory {
     }
 
     public Drawable undo() {
-        if (currentState == null) return null; // nothing to do
-        if (undoStack.isEmpty()){ // first action on canvas
+        if (currentState == null) {
+            return null; // nothing to do
+        }
+        if (undoStack.isEmpty()) { // first action on canvas
             redoStack.push(currentState); // save it for redo
             currentState = null;
             return null;
@@ -37,7 +39,9 @@ public class ActionHistory {
     }
 
     public Drawable redo() {
-        if (redoStack.isEmpty()) return null;
+        if (redoStack.isEmpty()) {
+            return null;
+        }
         if (currentState != null) { // might be null after the first redo
             undoStack.push(currentState);
         }

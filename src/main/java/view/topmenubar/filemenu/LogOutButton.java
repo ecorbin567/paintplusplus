@@ -1,10 +1,12 @@
 package view.topmenubar.filemenu;
 
-import view.topmenubar.MenuActionListener;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
+
+import view.topmenubar.MenuActionListener;
 
 public class LogOutButton {
     JMenuItem menuItem;
@@ -22,6 +24,7 @@ public class LogOutButton {
             }
         });
     }
+
     public JMenuItem getMenuItem() {
         return menuItem;
     }

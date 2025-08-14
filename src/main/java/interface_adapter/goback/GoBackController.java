@@ -16,6 +16,7 @@ public class GoBackController {
 
     /**
      * Executes the Go Back Use Case.
+     *
      * @param username the username of the user logging in
      * @param password the password of the user logging in
      */

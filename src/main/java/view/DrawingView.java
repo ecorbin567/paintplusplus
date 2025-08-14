@@ -1,16 +1,22 @@
 package view;
 
-import interface_adapter.newselection.SelectionViewModel;
-import interface_adapter.canvas.CanvasController;
-import interface_adapter.canvas.CanvasRenderer;
-import interface_adapter.canvas.DrawingViewModel;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+import interface_adapter.canvas.CanvasController;
+import interface_adapter.canvas.CanvasRenderer;
+import interface_adapter.canvas.DrawingViewModel;
+import interface_adapter.newselection.SelectionViewModel;
 
 public class DrawingView extends JPanel implements MouseListener, MouseMotionListener {
     private final DrawingViewModel viewModel;
@@ -20,15 +26,14 @@ public class DrawingView extends JPanel implements MouseListener, MouseMotionLis
     private final float[] antsDash = {4f, 4f}; // dash, gap in px scaled with the canvas
     private float antsPhase = 0f;
     private final javax.swing.Timer antsTimer = new javax.swing.Timer(60, e -> {
-        antsPhase = (antsPhase +1f) % (antsDash[0] + antsDash[1]);
+        antsPhase = (antsPhase + 1f) % (antsDash[0] + antsDash[1]);
         repaint();
     });
 
-
-    public DrawingView (CanvasController controller,
-                 CanvasRenderer canvasRenderer,
-                 SelectionViewModel selectionViewModel,
-                        DrawingViewModel drawingViewModel) {
+    public DrawingView(CanvasController controller,
+                       CanvasRenderer canvasRenderer,
+                       SelectionViewModel selectionViewModel,
+                       DrawingViewModel drawingViewModel) {
 
         this.controller = controller;
         this.renderer = canvasRenderer;
@@ -43,12 +48,12 @@ public class DrawingView extends JPanel implements MouseListener, MouseMotionLis
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g.create();
+        final Graphics2D g2 = (Graphics2D) g.create();
         renderer.resize(g2, viewModel);
         renderer.drawImage(g2, viewModel);
         renderer.renderDraw(g2, viewModel);
         renderer.layeringDraw(g2, viewModel);
-        renderer.moveSelectionWindow(g2, selectionViewModel); //draw the content
+        renderer.moveSelectionWindow(g2, selectionViewModel); // draw the content
         renderer.selectionDraw(g2, selectionViewModel); // draw the border on top
     }
 
@@ -86,16 +91,16 @@ public class DrawingView extends JPanel implements MouseListener, MouseMotionLis
         repaint();
     }
 
-    public void renderCanvasView(){
-        if (this.viewModel.getRepaintState()){
+    public void renderCanvasView() {
+        if (this.viewModel.getRepaintState()) {
             repaint();
         }
     }
 
     public BufferedImage getImage() {
         // try only base snapshot: no selection overlay, no more overlay
-        BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = image.createGraphics();
+        final BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+        final Graphics2D g2d = image.createGraphics();
         renderer.resize(g2d, viewModel);
         renderer.drawImage(g2d, viewModel); // background strokes
         renderer.renderDraw(g2d, viewModel); // commited strokes
@@ -109,14 +114,17 @@ public class DrawingView extends JPanel implements MouseListener, MouseMotionLis
     public void mouseEntered(MouseEvent e) {
         // We don't need these, but must include them
     }
+
     @Override
     public void mouseClicked(MouseEvent e) {
         // We don't need these, but must include them
     }
+
     @Override
     public void mouseMoved(MouseEvent e) {
         // We don't need these, but must include them
     }
+
     @Override
     public void mouseExited(MouseEvent e) {
         // We don't need these, but must include them
@@ -124,6 +132,7 @@ public class DrawingView extends JPanel implements MouseListener, MouseMotionLis
 
     /**
      * Get username of currently logged-in user
+     *
      * @return username as String
      */
     public String getUsername() {

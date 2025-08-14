@@ -1,11 +1,13 @@
 package view.topmenubar.filemenu;
 
+import java.awt.event.KeyEvent;
+
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+
 import interface_adapter.topmenu.TopMenuFacade;
 import view.DrawingView;
 import view.topmenubar.MenuActionListener;
-
-import javax.swing.*;
-import java.awt.event.KeyEvent;
 
 public class FileButton {
 
@@ -14,15 +16,15 @@ public class FileButton {
     private final LogOutButton logOutButton;
 
     public FileButton(DrawingView drawingView, TopMenuFacade controller) {
-        SaveAsButton saveAsButton = new SaveAsButton(drawingView, controller);
+        final SaveAsButton saveAsButton = new SaveAsButton(drawingView, controller);
         goBackButton = new GoBackButton();
         logOutButton = new LogOutButton();
-        SaveOnlineButton saveOnlineButton = new SaveOnlineButton(drawingView, controller);
+        final SaveOnlineButton saveOnlineButton = new SaveOnlineButton(drawingView, controller);
 
-        JMenuItem saveAsMenu = saveAsButton.getMenuItem();
-        JMenuItem goBackMenu = goBackButton.getMenuItem();
-        JMenuItem logOutMenu = logOutButton.getMenuItem();
-        JMenuItem saveOnlineMenu = saveOnlineButton.getMenuItem();
+        final JMenuItem saveAsMenu = saveAsButton.getMenuItem();
+        final JMenuItem goBackMenu = goBackButton.getMenuItem();
+        final JMenuItem logOutMenu = logOutButton.getMenuItem();
+        final JMenuItem saveOnlineMenu = saveOnlineButton.getMenuItem();
 
         menu = new JMenu("File");
 
@@ -34,7 +36,7 @@ public class FileButton {
         menu.setMnemonic(KeyEvent.VK_F);
     }
 
-    public JMenu getMenu(){
+    public JMenu getMenu() {
         return menu;
     }
 

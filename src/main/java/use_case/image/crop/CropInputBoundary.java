@@ -6,6 +6,7 @@ package use_case.image.crop;
 public interface CropInputBoundary {
     /**
      * Prepares the crop operation.
+     *
      * @param requestModel the crop request model input data.
      */
     void execute(CropRequestModel requestModel);

@@ -8,13 +8,15 @@ import use_case.image.rotate.RotateInputBoundary;
 import use_case.image.rotate.RotateInteractor;
 import use_case.image.rotate.RotateOutputBoundary;
 
-public class RotateUseCaseFactory {
-    private RotateUseCaseFactory(){
-        //Unneeded
+public final class RotateUseCaseFactory {
+    private RotateUseCaseFactory() {
+        // Unneeded
     }
+
     /**
      * Factory function for creating the Rotate Use Case.
-     * @param canvasState the CanvasState
+     *
+     * @param canvasState      the CanvasState
      * @param drawingViewModel the DrawingViewModel
      * @return the RotateController created
      */

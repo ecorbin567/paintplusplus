@@ -1,7 +1,15 @@
 package view.midmenubar.colorbuttonsbar;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.RenderingHints;
+
+import javax.swing.Icon;
+import javax.swing.JToggleButton;
 
 public class CircularButton extends JToggleButton {
 
@@ -19,7 +27,7 @@ public class CircularButton extends JToggleButton {
 
     @Override
     protected void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g.create();
+        final Graphics2D g2 = (Graphics2D) g.create();
 
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_OFF);
@@ -46,10 +54,10 @@ public class CircularButton extends JToggleButton {
             g2.drawOval(-3, -3, getWidth() + 6, getHeight() + 6);
         }
         // manually paint the icon
-        Icon icon = getIcon();
+        final Icon icon = getIcon();
         if (icon != null) {
-            int x = (getWidth() - icon.getIconWidth()) / 2;
-            int y = (getHeight() - icon.getIconHeight()) / 2;
+            final int x = (getWidth() - icon.getIconWidth()) / 2;
+            final int y = (getHeight() - icon.getIconHeight()) / 2;
             icon.paintIcon(this, g2, x, y);
         }
 
@@ -58,14 +66,15 @@ public class CircularButton extends JToggleButton {
 
     @Override
     public boolean contains(int x, int y) {
-        //true if only coordinates inside the drawn circle
-        int radius = getWidth() / 2;
-        int dx = x - radius;
-        int dy = y - radius;
+        // true if only coordinates inside the drawn circle
+        final int radius = getWidth() / 2;
+        final int dx = x - radius;
+        final int dy = y - radius;
         return dx * dx + dy * dy <= radius * radius;
     }
+
     @Override
-    public void update(Graphics g){
+    public void update(Graphics g) {
         paintComponent(g);
     }
 }

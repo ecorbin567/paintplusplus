@@ -1,16 +1,18 @@
 package view.topmenubar.filemenu;
 
-import interface_adapter.topmenu.TopMenuFacade;
-import view.DrawingView;
-
-import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class SaveAsButton{
-    private final JMenuItem menuItem;
+import javax.swing.JFileChooser;
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 
+import interface_adapter.topmenu.TopMenuFacade;
+import view.DrawingView;
+
+public class SaveAsButton {
+    private final JMenuItem menuItem;
 
     public SaveAsButton(DrawingView drawingView, TopMenuFacade controller) {
         menuItem = new JMenuItem("Save As");
@@ -18,12 +20,12 @@ public class SaveAsButton{
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
                 KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK));
         menuItem.setActionCommand("saveAs");
-        menuItem.addActionListener(e->{
-            BufferedImage image = drawingView.getImage();
-            JFileChooser fileChooser = new JFileChooser();
+        menuItem.addActionListener(e -> {
+            final BufferedImage image = drawingView.getImage();
+            final JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Save As");
             fileChooser.setSelectedFile(new File(System.getProperty("user.dir") + "/untitled.png"));
-            int result = fileChooser.showSaveDialog(null);
+            final int result = fileChooser.showSaveDialog(null);
 
             if (result == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
@@ -37,6 +39,7 @@ public class SaveAsButton{
             }
         });
     }
+
     public JMenuItem getMenuItem() {
         return menuItem;
     }

@@ -1,10 +1,14 @@
 package app;
 
-import java.awt.*;
+import java.awt.CardLayout;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.WindowConstants;
 
 import app.imagefactory.CropUseCaseFactory;
 import app.imagefactory.ImportUseCaseFactory;
@@ -20,7 +24,6 @@ import data_access.LocalImageLoader;
 import data_access.SupabaseAccountRepository;
 import data_access.SupabaseCanvasRepository;
 import entity.CanvasState;
-import interface_adapter.newselection.SelectionViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.canvas.CanvasController;
 import interface_adapter.canvas.CanvasRenderer;
@@ -28,14 +31,15 @@ import interface_adapter.canvas.CanvasViewModel;
 import interface_adapter.canvas.DrawingViewModel;
 import interface_adapter.changecolor.ColorController;
 import interface_adapter.goback.GoBackViewModel;
-import interface_adapter.login.LoginViewModel;
 import interface_adapter.image.ImageFacade;
 import interface_adapter.image.ImageFacadeImple;
 import interface_adapter.image.crop.CropController;
 import interface_adapter.image.import_image.ImportController;
 import interface_adapter.image.resize.ResizeController;
 import interface_adapter.image.rotate.RotateController;
+import interface_adapter.login.LoginViewModel;
 import interface_adapter.newcanvas.NewCanvasViewModel;
+import interface_adapter.newselection.SelectionViewModel;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.topmenu.TopMenuFacade;
 import interface_adapter.topmenu.TopMenuFacadeImpl;
@@ -43,12 +47,17 @@ import interface_adapter.topmenu.canvassize.ResizeCanvasController;
 import interface_adapter.topmenu.history.HistoryController;
 import interface_adapter.topmenu.save.SaveController;
 import interface_adapter.topmenu.saveonline.save.SaveOnlineController;
-import view.*;
+import view.CanvasView;
+import view.DrawingView;
+import view.LoginView;
+import view.MyCanvasesView;
+import view.SignupView;
+import view.ViewManager;
 
 /**
  * The main class for starting the program.
  */
-public class Main {
+public final class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
 
     /**
@@ -134,7 +143,7 @@ public class Main {
         final ColorController colorController = ColorUseCaseFactory.create(canvasState);
 
         final ImageFacade imageFacade = new ImageFacadeImple(resizeController, rotateController,
-                                                        importController, cropcontroller);
+                importController, cropcontroller);
 
         // Renderer
         final CanvasRenderer canvasRenderer = new CanvasRenderer();

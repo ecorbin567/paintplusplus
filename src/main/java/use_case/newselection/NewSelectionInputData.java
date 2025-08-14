@@ -1,6 +1,6 @@
 package use_case.newselection;
 
-import java.awt.*;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 /**

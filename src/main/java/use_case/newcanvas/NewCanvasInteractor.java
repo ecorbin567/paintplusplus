@@ -47,6 +47,7 @@ public class NewCanvasInteractor implements NewCanvasInputBoundary {
 
     /**
      * Alternative execution where a canvas is immediately imported.
+     *
      * @param newCanvasInputData input data
      */
     public void executeImportExistingCanvas(NewCanvasInputData newCanvasInputData) {

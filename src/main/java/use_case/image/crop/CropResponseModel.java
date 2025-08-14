@@ -1,7 +1,8 @@
 package use_case.image.crop;
 
-import entity.Image;
 import java.util.List;
+
+import entity.Image;
 
 /**
  * Represents the cropped image.

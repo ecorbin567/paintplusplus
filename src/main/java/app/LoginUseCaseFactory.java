@@ -19,7 +19,9 @@ import view.LoginView;
  */
 public final class LoginUseCaseFactory {
 
-    /** Prevent instantiation. */
+    /**
+     * Prevent instantiation.
+     */
     private LoginUseCaseFactory() {
 
     }
@@ -33,7 +35,7 @@ public final class LoginUseCaseFactory {
      * @param userDataAccessObject         the LoginUserDataAccessInterface to inject into the LoginView
      * @param newCanvasDataAccessInterface data access interface
      * @param drawingViewModel             drawing view model
-     * @param goBackViewModel               go back view model
+     * @param goBackViewModel              go back view model
      * @return the LoginView created for the provided input classes
      */
     public static LoginView create(

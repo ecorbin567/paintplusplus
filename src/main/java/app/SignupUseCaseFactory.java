@@ -18,16 +18,19 @@ import view.SignupView;
  */
 public final class SignupUseCaseFactory {
 
-    /** Prevent instantiation. */
+    /**
+     * Prevent instantiation.
+     */
     private SignupUseCaseFactory() {
 
     }
 
     /**
      * Factory function for creating the SignupView.
-     * @param viewManagerModel the ViewManagerModel to inject into the SignupView
-     * @param loginViewModel the LoginViewModel to inject into the SignupView
-     * @param signupViewModel the SignupViewModel to inject into the SignupView
+     *
+     * @param viewManagerModel     the ViewManagerModel to inject into the SignupView
+     * @param loginViewModel       the LoginViewModel to inject into the SignupView
+     * @param signupViewModel      the SignupViewModel to inject into the SignupView
      * @param userDataAccessObject the SignupUserDataAccessInterface to inject into the SignupView
      * @return the LoginView created for the provided input classes
      */

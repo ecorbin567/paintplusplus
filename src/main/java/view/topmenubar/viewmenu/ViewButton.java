@@ -1,15 +1,17 @@
 package view.topmenubar.viewmenu;
 
+import java.awt.event.KeyEvent;
+
+import javax.swing.JMenu;
+
 import interface_adapter.topmenu.TopMenuFacade;
 import view.DrawingView;
 
-import javax.swing.*;
-import java.awt.event.KeyEvent;
-
 public class ViewButton {
     private final JMenu menu;
+
     public ViewButton(DrawingView drawingView, TopMenuFacade controller) {
-        ResizeCanvasButton resizeButton = new ResizeCanvasButton(drawingView, controller);
+        final ResizeCanvasButton resizeButton = new ResizeCanvasButton(drawingView, controller);
         menu = new JMenu("View");
         menu.setMnemonic(KeyEvent.VK_V);
         menu.setActionCommand("view");

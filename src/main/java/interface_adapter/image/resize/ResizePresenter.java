@@ -1,9 +1,10 @@
 package interface_adapter.image.resize;
 
+import javax.swing.JOptionPane;
+
 import interface_adapter.canvas.DrawingViewModel;
 import use_case.image.resize.ResizeOutputBoundary;
 import use_case.image.resize.ResizeResponseModel;
-import javax.swing.*;
 
 public class ResizePresenter implements ResizeOutputBoundary {
     private final DrawingViewModel drawingViewModel;

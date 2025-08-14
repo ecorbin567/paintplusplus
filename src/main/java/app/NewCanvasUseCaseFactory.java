@@ -17,18 +17,21 @@ import view.MyCanvasesView;
  */
 public final class NewCanvasUseCaseFactory {
 
-    /** Prevent instantiation. */
+    /**
+     * Prevent instantiation.
+     */
     private NewCanvasUseCaseFactory() {
 
     }
 
     /**
      * Factory function for creating the NewCanvasView.
-     * @param viewManagerModel the ViewManagerModel to inject into the NewCanvasView
-     * @param newCanvasViewModel the NewCanvasViewModel to inject into the NewCanvasView
-     * @param canvasViewModel the CanvasViewModel to inject into the NewCanvasView
+     *
+     * @param viewManagerModel       the ViewManagerModel to inject into the NewCanvasView
+     * @param newCanvasViewModel     the NewCanvasViewModel to inject into the NewCanvasView
+     * @param canvasViewModel        the CanvasViewModel to inject into the NewCanvasView
      * @param canvasDataAccessObject the NewCanvasUserDataAccessInterface to inject into the NewCanvasView
-     * @param signupViewModel the SignupViewModel
+     * @param signupViewModel        the SignupViewModel
      * @return the NewCanvasView created for the provided input classes
      */
     public static MyCanvasesView create(

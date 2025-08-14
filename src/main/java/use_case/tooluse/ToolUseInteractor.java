@@ -12,7 +12,7 @@ public class ToolUseInteractor implements ToolUseInputBoundary {
 
     @Override
     public void setTool(ToolUseInputData inputData) {
-        ToolEnum toolName = inputData.getToolName();
+        final ToolEnum toolName = inputData.getToolName();
         switch (toolName) {
             case PENCIL, ERASER, SELECT -> this.canvasState.setToolState(toolName);
         }
@@ -20,14 +20,16 @@ public class ToolUseInteractor implements ToolUseInputBoundary {
 
     @Override
     public void setSize(ToolUseInputData inputData) {
-        Float size = inputData.getSize();
-        ToolEnum toolName = inputData.getToolName();
+        final Float size = inputData.getSize();
+        final ToolEnum toolName = inputData.getToolName();
         if (toolName == ToolEnum.PENCIL) {
             this.canvasState.setPaintBrushSize(size);
         }
 
-        else if (toolName == ToolEnum.ERASER) {
-            this.canvasState.setEraserSize(size);
+        else {
+            if (toolName == ToolEnum.ERASER) {
+                this.canvasState.setEraserSize(size);
+            }
         }
     }
 }

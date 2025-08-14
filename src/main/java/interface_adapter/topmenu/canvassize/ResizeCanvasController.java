@@ -4,15 +4,16 @@ import use_case.topmenu.canvassize.SizeInputBoundary;
 
 public class ResizeCanvasController {
     SizeInputBoundary interactor;
+
     public ResizeCanvasController(SizeInputBoundary interactor) {
         this.interactor = interactor;
     }
 
-    public void handleZoomInButtonPress(){
+    public void handleZoomInButtonPress() {
         interactor.zoomIn();
     }
 
-    public void handleZoomOutButtonPress(){
+    public void handleZoomOutButtonPress() {
         interactor.zoomOut();
     }
 }

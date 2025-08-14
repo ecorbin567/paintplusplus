@@ -13,7 +13,8 @@ public class SaveOnlineController {
 
     /**
      * Save online button press.
-     * @param image to save
+     *
+     * @param image    to save
      * @param username of user
      */
     public void handleSaveOnlineButtonPress(BufferedImage image, String username) {

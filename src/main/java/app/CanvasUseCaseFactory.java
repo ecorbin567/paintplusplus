@@ -24,7 +24,9 @@ import view.DrawingView;
  */
 public final class CanvasUseCaseFactory {
 
-    /** Prevent instantiation. */
+    /**
+     * Prevent instantiation.
+     */
     private CanvasUseCaseFactory() {
 
     }
@@ -32,17 +34,17 @@ public final class CanvasUseCaseFactory {
     /**
      * Factory function for creating the CanvasView.
      *
-     * @param viewManagerModel     the ViewManagerModel to inject into the CanvasView
-     * @param newCanvasViewModel      the NewCanvasViewModel to inject into the CanvasView
-     * @param canvasViewModel   the CanvasViewModel to inject into the CanvasView
-     * @param signupViewModel      the SignupViewModel to inject into the CanvasView
-     * @param goBackViewModel the GoBackViewModel to inject into the CanvasView
+     * @param viewManagerModel       the ViewManagerModel to inject into the CanvasView
+     * @param newCanvasViewModel     the NewCanvasViewModel to inject into the CanvasView
+     * @param canvasViewModel        the CanvasViewModel to inject into the CanvasView
+     * @param signupViewModel        the SignupViewModel to inject into the CanvasView
+     * @param goBackViewModel        the GoBackViewModel to inject into the CanvasView
      * @param canvasDataAccessObject the GoBackUserDataAccessInterface to inject into the CanvasView
-     * @param imageFacade the ImageFacade
-     * @param colorController the ColorController
-     * @param drawingView the DrawingView
-     * @param controller the CanvasController
-     * @param topMenuFacade the TopMenuFacade
+     * @param imageFacade            the ImageFacade
+     * @param colorController        the ColorController
+     * @param drawingView            the DrawingView
+     * @param controller             the CanvasController
+     * @param topMenuFacade          the TopMenuFacade
      * @return the CanvasView created for the provided input classes
      */
 
